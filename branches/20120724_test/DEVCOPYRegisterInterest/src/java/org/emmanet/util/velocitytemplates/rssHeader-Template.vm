@@ -1,0 +1,24 @@
+## rss header template used to create feed
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet title="XSL_formatting" type="text/xsl" href="/Information/News/rss/ebinews.xsl"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>  
+    <title>European Mutant Mouse Archive (EMMA) News</title>
+    <link>http://www.emmanet.org/news.php</link>
+    <description>EMMA News feed</description>
+    <language>en-gb</language>
+##TIME SET BY CONTROLLER
+    <lastBuildDate>${rssTimestamp}</lastBuildDate>
+    <image>
+      <title>EMMA News</title>
+##LOGO IMAGE SET FROM CONFIG
+      <url>${rssLogo}</url>
+      <link>http://www.ebi.ac.uk/Information/News/news.html</link>      
+    </image>
+<textinput>
+    <description>Search EMMA</description>
+    <title>Search</title>
+##SEARCH URL SET FROM CONFIG
+    <link>${searchURL}</link>
+    <name>keyword</name>
+</textinput>

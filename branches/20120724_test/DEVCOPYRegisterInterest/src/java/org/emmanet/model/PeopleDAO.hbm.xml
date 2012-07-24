@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.PeopleDAO" table="people">
+    <id column="id_per" name="id_per">
+      <generator class="native"/>
+    </id>
+    <many-to-one cascade="all" class="org.emmanet.model.LabsDAO" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" name="labsDAO" update="false"/>
+    <property column="surname" name="surname"/>
+    <property column="title" name="title"/>
+    <property column="firstname" name="firstname"/>
+    <property column="phone" name="phone"/>
+    <property column="fax" name="fax"/>
+    <property column="e_mail" name="email"/>
+    <property column="username" name="username"/>
+    <property column="last_change" name="last_change"/>
+    <property column="lab_id_labo" name="lab_id_labo"/>
+   <!-- <property column="ilar_code" name="ilar_code"/>-->
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,11 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageHeader.vm" )
+We are pleased to inform you that the recovery test we performed on your strain (${strainname}) was successful. The strain is now safely archived.
+
+At the present time your strain is covered by a 'grace period' and will not be accessible via the EMMA website. However, if you would like to make your strain available to the scientific community before the end of the 'grace period', please contact EMMA Project Coordination Office (info@emmanet.org).
+
+EMMA is continuously working to improve our services, to better meet your needs. We would therefore appreciate some feedback based on your experience. A short Report Form is attached. We would be grateful if you could complete and return it to info@emmanet.org.
+
+Thank you for supporting EMMA.
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageFooter.vm" )

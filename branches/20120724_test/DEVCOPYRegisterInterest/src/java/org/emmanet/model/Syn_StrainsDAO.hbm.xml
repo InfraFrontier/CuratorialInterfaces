@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.Syn_StrainsDAO" table="syn_strains">
+    <id column="id_syn" name="id_syn">
+      <generator class="native"/>
+    </id>
+    <property column="name" name="name"/>
+    <property column="last_change" name="last_change"/>
+    <property column="username" name="username"/>
+    <property column="str_id_str" name="str_id_str"/>
+  </class>
+</hibernate-mapping>

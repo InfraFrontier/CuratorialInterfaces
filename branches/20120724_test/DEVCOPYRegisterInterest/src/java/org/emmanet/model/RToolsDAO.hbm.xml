@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.RToolsDAO" table="rtools_strains">
+    <id column="str_id_str" name="str_id_str">
+      <generator class="native"/>
+      <!--  class="assigned" removed, neededto allow setting programmatically on rtools update page-->
+    </id>
+    <!-- previous version had just these 4 lines
+    <composite-id>        
+        <key-many-to-one class="org.emmanet.model.CVRtoolsDAO"  column="rtls_id"  lazy="false" name="cvrtoolsDAO" />
+        <key-many-to-one class="org.emmanet.model.StrainsDAO" column="str_id_str" lazy="false" name="strainsDAO" />
+    </composite-id>-->
+    <many-to-one cascade="all" class="org.emmanet.model.StrainsDAO" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" name="strainsDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.CVRtoolsDAO" column="rtls_id" insert="false" lazy="false" name="cvrtoolsDAO" not-found="ignore" update="false"/>
+    <property column="rtls_id" name="rtls_id"/>
+  </class>
+</hibernate-mapping>

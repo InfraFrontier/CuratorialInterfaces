@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.BackgroundDAO" table="backgrounds">
+    <id column="id_bg" name="id_bg">
+      <generator class="native"/>
+    </id>
+    <property column="name" name="name"/>
+    <property column="symbol" name="symbol"/>
+    <property column="inbred" name="inbred"/>
+    <property column="username" name="username"/>
+    <property column="species" name="species"/>
+    <property column="last_change" name="last_change"/>
+    <property column="notes" name="notes"/>
+    <property column="curated" name="curated"/>
+  </class>
+</hibernate-mapping>

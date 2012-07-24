@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.ArchiveDAO" table="archive">
+    <id column="id" name="id">
+      <generator class="native"/>
+    </id>
+    <!-- added this to have bidirectional 1:1 mapping but? if breaks things  
+        <one-to-one class="org.emmanet.model.StrainsDAO"  cascade="persist, merge" name="strainsDAO" 
+       property-ref="archiveDAO" />
+       _str removed line 15 and str_id_str from 14 foreign-key="id_str"
+       archive_id
+      change to one to one -->
+    <many-to-one cascade="all" class="org.emmanet.model.StrainsDAO" column="id" insert="false" lazy="false" name="strainsDAO" not-found="ignore" property-ref="archive_id" update="false"/>
+    <!-- <set lazy="false" name="wrDAO" table="web_requests">
+            <key  column="str_id_str" property-ref="str_id_str" update="false"/>
+            <one-to-many class="org.emmanet.model.WebRequestsDAO" not-found="ignore"/>
+        </set>-->
+    <!-- <one-to-one foreign-key="archive_id" cascade="all" name="strainsDAO" lazy="false" class="org.emmanet.model.StrainsDAO" />-->
+    <many-to-one cascade="persist, merge" class="org.emmanet.model.LabsDAO" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" name="labsDAO" outer-join="true" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.CVArchivingMethodDAO" column="id" insert="false" lazy="false" name="cvamDAO" not-found="ignore" update="false"/>
+    <property column="submitted" name="submitted"/>
+    <property column="evaluated" name="evaluated"/>
+    <property column="received" name="received"/>
+    <property column="wt_received" name="wt_received"/>
+    <property column="wt_rederiv_started" name="wt_rederiv_started"/>
+    <property column="freezing_started" name="freezing_started"/>
+    <property column="frozen_sanger_embryos_arrived" name="frozen_sanger_embryos_arrived"/>
+    <property column="archived" name="archived"/>
+    <property column="lab_id_labo" name="lab_id_labo"/>
+    <property column="notes" name="notes"/>
+    <property column="str_id_str" name="str_id_str"/>
+    <property column="breeding" name="breeding"/>
+    <property column="archiving_method_id" name="archiving_method_id"/>
+    <property column="males" name="males"/>
+    <property column="females" name="females"/>
+    <property column="male_bg_id" name="male_bg_id"/>
+    <property column="female_bg_id" name="female_bg_id"/>
+    <property column="embryo_state" name="embryo_state"/>
+  </class>
+</hibernate-mapping>

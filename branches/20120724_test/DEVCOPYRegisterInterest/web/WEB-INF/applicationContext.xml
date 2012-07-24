@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:security="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+    <bean id="velocityEngine" class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+        <property name="velocityProperties">
+            <props>
+                <prop key="resource.loader">class
+                </prop>
+                <prop key="class.resource.loader.class">
+                    org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <security:http auto-config='true'>
+        <security:intercept-url pattern="/interfaces/backgroundUpdateInterface.emma*" access="ROLE_SUPER,ROLE_CURATION" />
+        <security:intercept-url pattern="/interfaces/poUpdateInterface.emma*" access="ROLE_SUPER" />
+        <security:intercept-url pattern="/dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/wp4dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/EUCOMMdashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/newsitems.emma" access="ROLE_SUPER" />
+        <!--<security:intercept-url pattern="/**" access="ROLE_USER" />-->
+        <security:intercept-url pattern="/interfaces/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+    </security:http>
+    <security:authentication-provider>
+        <security:user-service>
+            <security:user name="ebi" password="hinxton" authorities="ROLE_USER, ROLE_SUPER" />
+            <security:user name="ki" password="stockholm" authorities="ROLE_USER" />
+            <security:user name="cnrs" password="orleans" authorities="ROLE_USER" />
+            <security:user name="mrc" password="harwell" authorities="ROLE_USER" />
+            <security:user name="cnr" password="monterotondo" authorities="ROLE_USER" />
+            <security:user name="fcg" password="oeiras" authorities="ROLE_USER" />
+            <security:user name="sang" password="hinxton" authorities="ROLE_USER" />
+            <security:user name="ics" password="strasbourg" authorities="ROLE_USER" />
+            <security:user name="bsrc" password="athens" authorities="ROLE_USER" />
+            <security:user name="cnb" password="madrid" authorities="ROLE_USER" />
+            <security:user name="hmgu" password="neuherberg" authorities="ROLE_USER" />
+            <security:user name="unioulu" password="oulu" authorities="ROLE_USER" />
+            <security:user name="img" password="prague" authorities="ROLE_USER" />
+            <security:user name="vetmeduni" password="vienna" authorities="ROLE_USER" />
+            
+            <security:user name="super" password="kryptonite" authorities="ROLE_SUPER" />
+            <security:user name="curator" password="hartondo" authorities="ROLE_CURATION" />
+        </security:user-service>
+    </security:authentication-provider>
+  <!--  <bean id="mailerTarget" class="org.emmanet.util.Mailer">
+        <property name="velocityEngine">
+            <ref bean="velocityEngine"/>
+        </property>
+    </bean>-->
+    <bean id="javaMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>localhost</value>
+        </property>
+    </bean>
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="host">
+            <value>localhost</value>
+        </property>
+    </bean>
+    <bean id="fileLocation" class="org.emmanet.jobs.BackgroundListJOB">
+        <property name="fileLocation">
+            <value>/tmp/</value>
+        </property>
+    </bean>
+    <bean id="simpleMailMessage" class="org.springframework.mail.SimpleMailMessage">
+        <property name="from">
+            <value>emma@emmanet.org</value>
+        </property>
+    </bean>
+
+    <bean name="smailerJob"
+          class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.emmanet.jobs.standAloneMailer"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="javaMailSender">
+                    <ref bean="javaMailSender"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean name="bgListJob"
+          class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.emmanet.jobs.BackgroundListJOB"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="fileLocation">
+                    <value>/nfs/panda/emma/tmp/</value><!-- /nfs/panda/emma-->
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    
+    <bean name="updateBibliosJob"
+          class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.emmanet.jobs.EmmaBiblioJOB"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="wsdlLocation">
+                    <value>http://www.ebi.ac.uk/webservices/citexplore/v1.0/service?wsdl</value>
+                </entry>
+                <entry key="mailSender">
+                    <ref bean="mailSender"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    
+    <bean name="rssFeedJob"
+          class="org.springframework.scheduling.quartz.JobDetailBean">
+        <property name="jobClass" value="org.emmanet.jobs.rssJOB"/>
+        <property name="jobDataAsMap">
+            <map>
+                <entry key="velocityEngine">
+                    <ref bean="velocityEngine"/>
+                </entry>
+                <entry key="searchURL">
+                    <value>http://www.emmanet.org/mutant_types.php?</value>
+                </entry>
+                <entry key="rssLogo">
+                    <value>http://www.emmanet.org/images/emma_logo2.gif?rss</value>
+                </entry>
+                <entry key="fileLocation">
+                    <value>/nfs/panda/emma/tmp/</value><!-- /nfs/panda/emma/external/htdocs/ TODO CHANGE TO LIVE LOCATION -->
+                </entry>
+                <entry key="filename">
+                    <value>emmafeed.xml</value>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    <bean id="smailerTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="smailerJob"/>
+        <property name="cronExpression" value="0 0 0 * * ?"/><!--//   5 0 0 23 2 ? 2012   // 5 0 0 18 9 ? 2009    0 0 0 * * ?   5 0 0 9 12 ? 2009  5 0 0 7 1 ? 2010-->
+    </bean>
+    <bean id="bglistTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="bgListJob"/>
+        <property name="cronExpression" value="0 30 5 * * ?"/><!--- 0 30 5 * * ? -->
+    </bean>
+    <bean id="rssTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="rssFeedJob"/>
+        <property name="cronExpression" value="0 0 21 * * ?"/>
+    </bean>
+    
+   <!--  TRIGGER -->
+
+    <bean id="updateBibliosTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+        <property name="jobDetail" ref="updateBibliosJob"/>
+        <property name="cronExpression" value="0 30 5 * * ?"/>
+    </bean>
+    
+    <!-- SCHEDULER -->
+    <bean class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <!--
+                <ref bean="smailerTrigger"/>
+                
+                -->
+                <ref bean="bglistTrigger"/>
+                <ref bean="rssTrigger"/>
+                <ref bean="updateBibliosTrigger"/>
+            </list>
+        </property>
+    </bean>
+</beans>

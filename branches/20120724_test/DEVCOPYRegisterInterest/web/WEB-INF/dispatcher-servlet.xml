@@ -1,0 +1,461 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-2.0.xsd">
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    <bean id="webRequests" class="org.emmanet.jobs.WebRequests" />
+    <bean id="webRequest" class="org.emmanet.jobs.WebRequests" />
+    
+    <!--Do not need a custom controller for success page see below -->
+    <bean id="urlFilenameController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
+    <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+    <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="mappings">
+            <props>
+                <prop key="/index.emma">indexController
+                </prop>
+                <!--<prop key="/requestForm.emma">RequestsController</prop>-->
+                <prop key="/requestFormView.emma">RequestFormController
+                </prop>
+                <!--Do not need a custom controller for success page see above -->
+                <prop key="/success.emma">urlFilenameController
+                </prop>
+                <prop key="/dashboard.emma">DashboardController
+                </prop>
+                <prop key="/EUCOMMdashboard.emma">DashboardController
+                </prop>
+                <prop key="/wp4dashboard.emma">wp4DashboardController
+                </prop>
+                <prop key="/JSON.emma">JSON
+                </prop>
+                <prop key="/staticJSON.emma">JSON
+                </prop>
+               <!--<prop key="/spreadsheets.emma">intwp4SpreadsheetController
+                </prop>-->
+                <prop key="/interfaces/index.emma">InterfacesFormController
+                </prop>
+                <prop key="/interfaces/strainsInterface.emma">strainInterfaceFormController
+                </prop>
+                <prop key="/interfaces/archiveListInterface.emma">archiveListController
+                </prop>
+                <prop key="/interfaces/polistInterface.emma">poListController
+                </prop>
+                <prop key="/interfaces/requestsInterface.emma">requestInterfaceFormController
+                </prop>
+                <prop key="/interfaces/requestsUpdateInterface.emma">requestsUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/strainDetails_inc.emma">strainInterfaceFormController
+                </prop>
+                <prop key="/interfaces/archiveUpdateInterface.emma">archiveUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/strainsUpdateInterface.emma">strainsUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/poUpdateInterface.emma">poUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/mutationUpdateInterface.emma">mutationsUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/peopleUpdateInterface.emma">peopleUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/rtoolsUpdateInterface.emma">rtoolsUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/bibliosUpdateInterface.emma">bibliosUpdateInterfaceFormController
+                </prop>
+                <prop key="/interfaces/bibliosListInterface.emma">bibliosListInterfaceController
+                </prop>
+                <prop key="/interfaces/cvavail_inc.emma">CvAvailController
+                </prop>
+                <prop key="/interfaces/cryopreservationUpdateInterface.emma">cryopreservationHistoryController
+                </prop>
+                 <prop key="/interfaces/backgroundUpdateInterface.emma">backgroundUpdateInterfaceFormController
+                </prop>
+                <prop key="newsitems.emma">rssNewsController
+                </prop>
+                <prop key="/ajaxReturn.emma">ajaxReturnController
+                </prop>
+                <prop key="/wp4Spreadsheet.emma">intwp4SpreadsheetController
+                </prop>
+                <!--<prop key="/submissionForm.emma">SubmissionFormController
+                </prop>-->
+                <prop key="/interfaces/reqFulfillment.emma">reqFulfillmentController
+                </prop>  
+                <prop key="/pdfView.emma">PdfViewController
+                </prop>
+               <prop key="/publicSubmission/submissionForm.emma">SubmissionFormController
+                </prop>
+                <!-- <prop key="/publicSubmission/submissionForm1.emma">SubmissionFormController
+                </prop>
+                <prop key="/publicSubmission/submissionForm2.emma">SubmissionFormController
+                </prop>-->
+<prop key="/publicSubmission/ajaxMutations.emma">SubmissionMutationsController
+                </prop>
+            </props>
+        </property>
+    </bean>
+    <bean id="viewNameTranslator" class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator" />
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    
+    <!-- Validators -->
+    <bean id="RequestFormValidator"
+          class="org.emmanet.controllers.RequestFormValidator" />
+    <bean id="RequestUpdateFormValidator"
+          class="org.emmanet.controllers.RequestUpdateFormValidator" />
+          
+    <bean id="SubmissionFormValidator" class="org.emmanet.controllers.SubmissionFormValidator" />
+          
+    <bean name="indexController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+        <!-- this will forward directly to view stored in /WEB-INF/jsp/index.jsp -->
+        <property name="viewName" value="index" />
+    </bean>
+    <bean name="PdfView" class="org.emmanet.controllers.PdfView" ></bean>
+    <bean name="PdfViewController" class="org.emmanet.controllers.PdfViewController" ></bean>
+    <bean name="RequestFormController" class="org.emmanet.controllers.RequestFormController">
+        <property name = "webRequest">
+            <ref bean="webRequest" />
+        </property>
+        <property name="commandClass">
+            <value>org.emmanet.model.WebRequestsDAO</value>
+        </property>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+        <property name="pathToXml">
+            <value>/home/phil/</value>
+        </property>
+        <property name="bcc">
+            <value>philw@ebi.ac.uk</value>
+        </property>
+        
+        <!--START VALIDATE/SUCCESS-->
+        <property name="successView">
+            <value>redirect:success.emma</value>
+        </property>
+        <property name="validator">
+            <ref bean="RequestFormValidator" />
+        </property>
+        <!--END VALIDATE/SUCCESS-->
+        <property name="formView">
+            <value>requestFormView</value>
+        </property>
+    </bean>
+    <bean name="DashboardController" class="org.emmanet.controllers.DashboardController">
+        <property name="successView">
+            <value>dashboard</value>
+        </property>
+        <property name="EUCOMMSuccessView">
+            <value>EUCOMMdashboard</value>
+        </property>
+        <property name="EUCOMMSheetView">
+            <value>redirect:spreadsheets.emma</value>
+        </property>
+        <property name = "webRequest">
+            <ref bean="webRequest" />
+        </property>
+        <property name = "chartImageUrl">
+            <value>http://www.emmanet.org/tmpimage/</value>
+        </property>
+    </bean>
+    <bean name="wp4DashboardController" class="org.emmanet.controllers.wp4DashboardController">
+        <property name="successView">
+            <value>wp4dashboard</value>
+        </property>
+    </bean>
+    <bean name="JSON" class="org.emmanet.controllers.JSON">
+       <!-- <property name="sheetSuccessView">
+            <value>JSON</value>
+        </property>-->
+    </bean>
+    <bean name="SpreadsheetController" class="org.emmanet.controllers.SpreadsheetController">
+        <property name = "webRequest">
+            <ref bean="webRequest" />
+        </property>
+    </bean>
+    <bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
+        <property name="basename">
+            <value>views</value>
+        </property>
+    </bean>
+    <bean name="rssNewsController" class="org.emmanet.controllers.rssNewsController">
+        <property name="successView">
+            <value>newsitems</value>
+        </property>
+        <property name = "fileName">
+            <value>rssItems</value>
+        </property>
+        <property name = "fileLocation">
+            <value>/nfs/panda/emma/tmp/</value><!-- /nfs/panda/emma -->
+        </property>
+    </bean>
+    <bean name="InterfacesFormController" class="org.emmanet.controllers.InterfacesFormController">
+        <property name="successView">
+            <value>/interfaces/index</value>
+        </property>
+        <property name="strainsSuccessView">
+            <value>/interfaces/strainsInterface</value>
+        </property>
+        <property name="requestsSuccessView">
+            <value>/interfaces/requestsInterface</value>
+        </property>
+    </bean>
+    <bean name="archiveListController" class="org.emmanet.controllers.archiveListController">
+        <property name="successView">
+            <value>/interfaces/archiveListInterface</value>
+        </property>
+    </bean>
+    <bean name="poListController" class="org.emmanet.controllers.poListController">
+        <property name="successView">
+            <value>/interfaces/polistInterface</value>
+        </property>
+    </bean>
+    <bean name="strainInterfaceFormController" class="org.emmanet.controllers.strainInterfaceFormController">
+        <property name="successView">
+            <value>/interfaces/strainsInterface</value>
+        </property>
+        <property name="pathToMTA">
+            <value>http://www.emmanet.org/mtas/</value>
+        </property>
+    </bean>
+    <bean name="requestInterfaceFormController" class="org.emmanet.controllers.requestInterfaceFormController">
+        <property name="successView">
+            <value>/interfaces/requestsInterface</value>
+        </property>
+    </bean>
+    <bean name="requestsUpdateInterfaceFormController" class="org.emmanet.controllers.requestsUpdateInterfaceFormController">
+        <property name="commandClass">
+            <value>org.emmanet.model.WebRequestsDAO</value>
+        </property>
+        <property name="successView">
+            <value>redirect:../success.emma</value>
+        </property>
+        <property name="subFile">
+            <value>http://www.emmanet.org/private/Recent/Requests/</value>
+        </property>
+        <property name="formView">
+            <value>/interfaces/requestsUpdateInterface</value>
+        </property>
+        <property name="validator">
+            <ref bean="RequestUpdateFormValidator" />
+        </property>
+        <property name="baseURL">
+            <value>http://www.emmanet.org/private/Archive/</value>
+        </property>
+        <property name="recentBaseURL">
+            <value>http://www.emmanet.org/private/Recent/PDF/Requests/</value>
+        </property>
+        <property name="serverPDFLocation">
+           <!-- <value> /nfs/panda/emma/Archive/</value>/data/emma/Archive/  
+           changed for dynamic pdf creation 04112011
+           -->
+            <value>/nfs/panda/emma/tmp/</value>
+        </property>
+        <property name="serverPDFRecentLocation">
+            <value>/nfs/panda/emma/Recent/PDF</value> <!--     -->
+        </property>
+        <property name="serverPDFLocationTail">
+            <value>/Requests/</value>
+        </property>
+        <property name="pathToMTA">
+            <value>/nfs/panda/emma/mtas/</value>
+        </property>
+        <property name="simpleMailMessage" ref="simpleMailMessage"/>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="templatePath" value="org/emmanet/util/velocitytemplates/" />
+        <property name="taOrRequestYesTemplate" value="taOrRequestYES-Template.vm" />
+        <property name="taOrRequestNoTemplate" value="taOrRequestNO-Template.vm" />
+        <property name="taOnlyNoTemplate" value="taOnlyNO-Template.vm" />
+        <property name="msgSubject" value="Your application for free of charge Transnational Access to the EMMA strain " /> <!-- Strain name and EMMA ID apended to subject line in controller -->
+        <property name="cc" value="info@emmanet.org" />
+        <property name="bcc" value="philw@ebi.ac.uk" />
+        <property name="sangerLineDistEmail" value="philw@ebi.ac.uk" />
+        <property name="fromAddress" value="emma@emmanet.org"/>
+    </bean>
+    <bean name="archiveUpdateInterfaceFormController" class="org.emmanet.controllers.archiveUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:archiveUpdateInterface.emma</value>
+        </property>
+        <property name="baseURL">
+            <value>http://www.emmanet.org/private/Archive/</value>
+        </property>
+        <property name="recentBaseURL">
+            <value>http://www.emmanet.org/private/Recent/PDF/Submissions/</value>
+        </property>
+        <property name="serverPDFLocation">
+            <value>/nfs/panda/emma/Archive/</value><!--/data/emma/Archive/-->
+        </property>
+        <property name="serverPDFRecentLocation">
+            <value>/nfs/panda/emma/Recent/PDF</value>
+        </property>
+        <property name="serverPDFLocationTail">
+            <value>/Submissions/</value>
+        </property>
+        <property name="mtaPath">
+            <value>http://www.emmanet.org/mtas/</value>
+        </property>
+        <property name="simpleMailMessage" ref="simpleMailMessage"/>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="templatePath" value="org/emmanet/util/velocitytemplates/" />
+        <property name="archArrvTemplate" value="archiveArrived-Template.vm" />
+        <property name="archFrzeTemplate" value="archiveFreezing-Template.vm" />
+        <property name="archCompTemplate" value="archiveComplete-Template.vm" />
+        <property name="archCompCTemplate" value="archiveCompleteC-Template.vm" />
+        <property name="msgSubject" value="Your submission to EMMA" />
+        <property name="cc" value="info@emmanet.org,webmaster@emmanet.org" />
+       <!-- replaced ,sabine.fessele@helmholtz-muenchen.de,Michael.hagn@helmholtz-muenchen.de with info@emmanet.org<property name="cc" value="phil.j.wilkinson@gmail.com,webmaster@emmanet.org" />-->
+        <property name="fileLocation">
+            <value>/nfs/panda/emma/tmp/</value>
+        </property>
+    </bean>
+    <bean name="strainsUpdateInterfaceFormController" class="org.emmanet.controllers.strainsUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../interfaces/strainsUpdateInterface.emma</value><!-- /interfaces/strainsUpdateInterface -->
+        </property>
+        <property name="mtaPath">
+            <value>http://www.emmanet.org/mtas/</value>
+        </property>
+        <property name="baseURL">
+            <value>http://www.emmanet.org/private/Archive/</value>
+        </property>
+        <property name="recentBaseURL">
+            <value>http://www.emmanet.org/private/Recent/PDF/Submissions/</value>
+        </property>
+        <property name="serverPDFLocation">
+            <value>/nfs/panda/emma/Archive/</value><!--/data/emma/Archive/   /home/phil/ -->
+        </property>
+        <property name="serverPDFRecentLocation">
+            <value>/nfs/panda/emma/Recent/PDF/</value>
+        </property>
+        <property name="serverPDFLocationTail">
+            <value>/Submissions/</value>
+        </property>
+        <property name="tmpDir">
+                    <!-- Location to save background list to for reading -->
+            <value>/nfs/panda/emma/tmp/</value>
+        </property>
+    </bean>
+    <bean name="poUpdateInterfaceFormController" class="org.emmanet.controllers.poUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../success.emma</value>
+        </property>
+    </bean>
+    <bean name="mutationsUpdateInterfaceFormController" class="org.emmanet.controllers.mutationsUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../success.emma</value>
+        </property>
+    </bean>
+    <bean name="peopleUpdateInterfaceFormController" class="org.emmanet.controllers.PeopleUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../success.emma</value>
+        </property>
+    </bean>
+    <bean name="rtoolsUpdateInterfaceFormController" class="org.emmanet.controllers.rtoolsUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../success.emma</value>
+        </property>
+    </bean>
+    <bean name="bibliosUpdateInterfaceFormController" class="org.emmanet.controllers.bibliosUpdateInterfaceFormController">
+        <property name="successView">
+            <value>redirect:../success.emma</value><!--redirect:../success.emma-->
+        </property>
+        <property name="listView">
+            <value>/interfaces/bibliosListInterface</value>
+        </property>
+        <property name="pubmedURL">
+            <value>http://www.ncbi.nlm.nih.gov/pubmed/</value>
+        </property>
+        <property name="pubmedURLTail">
+            <value>?dopt=Abstract</value>
+        </property>
+    </bean>
+    <bean name="bibliosListInterfaceController" class="org.emmanet.controllers.bibliosListInterfaceController">
+        <property name="listView">
+            <value>/interfaces/bibliosListInterface</value>
+        </property>
+    </bean>
+    <bean name="CvAvailController" class="org.emmanet.controllers.CvAvailController">
+        <property name="listView">
+            <value>/interfaces/cvavail_inc</value>
+        </property>
+        <property name="successView">
+            <value>redirect:../interfaces/cvavail_inc.emma</value>
+        </property>
+    </bean>
+    <bean name="cryopreservationHistoryController" class="org.emmanet.controllers.cryopreservationHistoryController">
+        <property name="successView">
+            <value>redirect:../interfaces/cryopreservationUpdateInterface.emma</value>
+        </property>
+        <property name="fileLocation">
+            <value>/nfs/panda/emma/tmp/</value>
+        </property>
+    </bean>
+    
+    <bean name="backgroundUpdateInterfaceFormController" class="org.emmanet.controllers.BackgroundUpdateInterfaceFormController">
+                <property name="successView">
+            <value>redirect:../interfaces/backgroundUpdateInterface.emma</value>
+        </property>
+    </bean>
+    <bean name="ajaxReturnController" class="org.emmanet.controllers.ajaxReturnController">
+    </bean>
+    <bean name="statsSpreadsheetController" class="org.emmanet.controllers.statsSpreadsheetController">
+    </bean>
+    <bean name="wp4SpreadsheetController" class="org.emmanet.controllers.wp4SpreadsheetController">
+    </bean>
+    <bean name="intwp4SpreadsheetController" class="org.emmanet.controllers.interstitialWp4SpreadsheetController">
+    </bean>
+ 
+    <bean name="reqFulfillmentController" class="org.emmanet.controllers.reqFulfillmentController">
+
+
+        <property name="simpleMailMessage" ref="simpleMailMessage"/>
+        <property name="mailSender" ref="mailSender"/>
+        <property name="javaMailSender" ref="javaMailSender"/>
+        <property name="velocityEngine" ref="velocityEngine"/>
+        <property name="templatePath" value="org/emmanet/util/velocitytemplates/" />
+        <property name="template" value="regInt-Template.vm" />
+
+        <!--<property name="msgSubject" value="Your application for free of charge Transnational Access to the EMMA strain " /> -->
+        <property name="cc" value="info@emmanet.org" />
+        <property name="bcc" value="philw@ebi.ac.uk" />
+        <property name="fromAddress" value="emma@emmanet.org"/>
+         
+    </bean>
+
+
+    <bean name="SubmissionFormController" class="org.emmanet.controllers.SubmissionFormController" >
+        <property name="pages">
+            <list>
+		<!-- follow sequence -->
+                <value>/publicSubmission/submissionForm</value>
+                <value>/publicSubmission/submissionForm1</value>
+                <value>/publicSubmission/submissionForm2</value>
+                <value>/publicSubmission/submissionForm3</value>
+                <value>/publicSubmission/submissionForm4</value>
+                <value>/publicSubmission/submissionForm5</value>
+                <value>/publicSubmission/submissionForm6</value>
+                <value>/publicSubmission/submissionForm7</value>
+                <value>/publicSubmission/submissionForm8</value>
+                <value>/publicSubmission/submissionForm9</value>
+                <value>/publicSubmission/submissionForm10</value>
+                <value>/publicSubmission/submissionForm11</value>
+            </list>
+        </property>
+        <property name="validator">
+		<!--<bean class="org.emmanet.controllers.SubmissionFormController" />-->
+            <ref bean="SubmissionFormValidator" />
+        </property>
+    </bean>
+<bean name="SubmissionMutationsController" class="org.emmanet.controllers.submissionMutationsController"> </bean>
+</beans>

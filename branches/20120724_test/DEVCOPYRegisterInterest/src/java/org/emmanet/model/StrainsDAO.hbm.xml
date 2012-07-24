@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.StrainsDAO" table="strains">
+    <id column="id_str" name="id_str">
+      <generator class="native"/>
+    </id>
+    <timestamp column="last_change" generated="always" name="last_change" source="db"/>
+    <many-to-one cascade="all" class="org.emmanet.model.PeopleDAO" column="per_id_per" foreign-key="id_per" insert="false" lazy="false" name="peopleDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.ArchiveDAO" column="archive_id" insert="false" lazy="false" name="archiveDAO" unique="true" update="false"/>
+    <!--<many-to-one cascade="all" class="org.emmanet.model.Syn_StrainsDAO" column="id_str" foreign-key="str_id_str" property-ref="str_id_str" insert="false" lazy="false" name="syn_strainsDAO" not-found="ignore" update="false"/>-->
+    <many-to-one cascade="all" class="org.emmanet.model.ResiduesDAO" column="res_id" foreign-key="str_id_str" insert="false" lazy="false" name="residuesDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.BackgroundDAO" column="bg_id_bg" insert="false" lazy="false" name="backgroundDAO" not-found="ignore" update="false"/>
+    <set lazy="false" name="sources_StrainsDAO" table="sources_strains">
+      <key column="str_id_str"/>
+      <one-to-many class="org.emmanet.model.Sources_StrainsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="rtoolsDAO" table="rtools_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.RToolsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="syn_strainsDAO" table="syn_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.Syn_StrainsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="projectsDAO" table="projects_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.ProjectsStrainsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="AvailabilitiesStrainsDAO" table="availabilities_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.AvailabilitiesStrainsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="mutationsStrainsDAO" table="mutations_strains">
+      <key column="str_id_str"/>
+      <one-to-many class="org.emmanet.model.MutationsStrainsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="wrDAO" table="web_requests">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.WebRequestsDAO" not-found="ignore"/>
+    </set>
+    <set lazy="false" name="categoriesStrainsDAO" table="categories_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.CategoriesStrainsDAO" not-found="ignore"/>
+    </set>
+    <!--    <set lazy="false" name="LaboratoriesStrainsDAO" table="laboratories_strains">
+      <key column="str_id_str" update="false"/>
+      <one-to-many class="org.emmanet.model.LaboratoriesStrainsDAO" not-found="ignore"/>
+    </set>-->
+    <!--<many-to-one cascade="all" class="org.emmanet.model.LaboratoriesStrainsDAO" column="id_str" foreign-key="str_id_str" insert="false" lazy="false" name="LaboratoriesStrainsDAO" not-found="ignore" update="false"/>-->
+    <property column="code_internal" name="code_internal"/>
+    <property column="name" name="name"/>
+    <property column="health_status" name="health_status"/>
+    <property column="generation" name="generation"/>
+    <property column="maintenance" name="maintenance"/>
+    <property column="charact_gen" name="charact_gen"/>
+    <property column="str_access" name="str_access"/>
+    <property column="username" name="username"/>
+    <!--  <property column="last_change" name="last_change"/> -->
+    <property column="pheno_text" name="pheno_text"/>
+    <property column="bg_id_bg" name="bg_id_bg"/>
+    <property column="per_id_per" name="per_id_per"/>
+    <property column="per_id_per_contact" name="per_id_per_contact"/>
+    <!--<property column="per_id_per_sub" name="per_id_per_sub"/>-->
+    <property column="emma_id" name="emma_id"/>
+    <property column="mgi_ref" name="mgi_ref"/>
+    <property column="str_type" name="str_type"/>
+    <property column="mta_file" name="mta_file"/>
+    <property column="gp_release" name="gp_release"/>
+    <property column="name_status" name="name_status"/>
+    <property column="date_published" name="date_published"/>
+    <property column="str_status" name="str_status"/>
+    <property column="res_id" name="res_id"/>
+    <property column="mutant_viable" name="mutant_viable"/>
+    <property column="mutant_fertile" name="mutant_fertile"/>
+    <property column="immunocompromised" name="immunocompromised"/>
+    <property column="human_model" name="human_model"/>
+    <property column="human_model_desc" name="human_model_desc"/>
+    <property column="require_homozygous" name="require_homozygous"/>
+    <property column="archive_id" name="archive_id"/>
+    <property column="available_to_order" name="available_to_order"/>
+    <property column="exclusive_owner" name="exclusive_owner"/>
+    <property column="ex_owner_description" name="ex_owner_description"/>
+    <property column="additional_owner" name="additional_owner"/>
+    <property column="reporting_count" name="reporting_count"/>
+  </class>
+</hibernate-mapping>

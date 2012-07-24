@@ -1,0 +1,5 @@
+## rss footer template used by job to create feed
+
+<atom:link href="http://www.ebi.ac.uk/Information/News/rss/ebinews.xml" rel="self" type="application/rss+xml" /> 
+  </channel>
+</rss>

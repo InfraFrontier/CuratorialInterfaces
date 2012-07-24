@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.SubmissionMutationsDAO" table="submission_mutations">
+    <id column="id" name="id">
+      <generator class="native"/>
+    </id>
+    <property column="id_sub" name="id_sub"/>
+    <property column="mutation_allele_mgi_symbol" name="mutation_allele_mgi_symbol"/>
+    <property column="mutation_chrom" name="mutation_chrom"/>
+    <property column="mutation_chrom_anomaly_name" name="mutation_chrom_anomaly_name"/>
+    <property column="mutation_chrom_anomaly_descr" name="mutation_chrom_anomaly_descr"/>
+    <property column="mutation_dominance_pattern" name="mutation_dominance_pattern"/>
+    <property column="mutation_es_cell_line" name="mutation_es_cell_line"/>
+    <property column="mutation_founder_line_number" name="mutation_founder_line_number"/>
+    <property column="mutation_gene_mgi_symbol" name="mutation_gene_mgi_symbol"/>
+    <property column="mutation_mutagen" name="mutation_mutagen"/>
+    <property column="mutation_original_backg" name="mutation_original_backg"/>
+    <property column="mutation_original_backg_text" name="mutation_original_backg_text"/>
+    <property column="mutation_plasmid" name="mutation_plasmid"/>
+    <property column="mutation_promoter" name="mutation_promoter"/>
+    <property column="mutation_subtype" name="mutation_subtype"/>
+    <property column="mutation_transgene_mgi_symbol" name="mutation_transgene_mgi_symbol"/>
+    <property column="mutation_type" name="mutation_type"/>
+  </class>
+</hibernate-mapping>

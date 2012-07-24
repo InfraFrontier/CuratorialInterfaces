@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.LabsDAO" table="laboratories">
+    <id column="id_labo" name="id_labo">
+      <generator class="native"/>
+    </id>
+    <property column="code" name="code"/>
+    <property column="dept" name="dept"/>
+    <property column="name" name="name"/>
+    <property column="town" name="town"/>
+    <property column="postcode" name="postcode"/>
+    <property column="country" name="country"/>
+    <property column="username" name="username"/>
+    <property column="last_change" name="last_change"/>
+    <property column="base_url" name="base_url"/>
+    <property column="province" name="province"/>
+    <property column="authority" name="authority"/>
+    <property column="country_code" name="country_code"/>
+    <property column="addr_line_1" name="addr_line_1"/>
+    <property column="addr_line_2" name="addr_line_2"/>
+  </class>
+</hibernate-mapping>

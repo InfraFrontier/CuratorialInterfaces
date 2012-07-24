@@ -1,0 +1,12 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/header.vm" )
+Dear EMMA customer#*${name}*#,
+
+We would like to confirm receipt of the Registration of Interest Form that you sent to EMMA for ${strainname} (${emmaid}).
+
+We will notify you by email as soon as the strain becomes available. You will then be able to place your strain request in time. 
+
+Should you have any questions, please do not hesitate to contact Sabine Fessele at the EMMA Project Coordination Office (sabine.fessele@helmholtz-muenchen.de).
+
+## Include footer template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/footer.vm" )

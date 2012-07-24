@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.WebRequestsDAO" table="web_requests">
+    <id column="id_req" name="id_req">
+      <generator class="native"/>
+    </id>
+    <property column="str_id_str" name="str_id_str"/>
+    <property column="lab_id_labo" name="lab_id_labo"/>
+    <property column="timestamp" name="timestamp"/>
+    <property column="roi_date" name="roi_date"/>
+    <property column="mta_arrived_date" name="mta_arrived_date"/>
+    <property column="all_paperwork_date" name="all_paperwork_date"/>
+    <property column="userstamp" name="userstamp"/>
+    <property column="strain_id" name="strain_id"/>
+    <property column="strain_name" name="strain_name"/>
+    <property column="common_name_s" name="common_name_s"/>
+    <property column="live_animals" name="live_animals"/>
+    <property column="frozen_emb" name="frozen_emb"/>
+    <property column="frozen_spe" name="frozen_spe"/>
+    <property column="sci_title" name="sci_title"/>
+    <property column="sci_firstname" name="sci_firstname"/>
+    <property column="sci_surname" name="sci_surname"/>
+    <property column="sci_e_mail" name="sci_e_mail"/>
+    <property column="sci_phone" name="sci_phone"/>
+    <property column="sci_fax" name="sci_fax"/>
+    <property column="con_title" name="con_title"/>
+    <property column="con_firstname" name="con_firstname"/>
+    <property column="con_surname" name="con_surname"/>
+    <property column="con_e_mail" name="con_e_mail"/>
+    <property column="con_phone" name="con_phone"/>
+    <property column="con_fax" name="con_fax"/>
+    <property column="con_institution" name="con_institution"/>
+    <property column="con_dept" name="con_dept"/>
+    <property column="con_addr_1" name="con_addr_1"/>
+    <property column="con_addr_2" name="con_addr_2"/>
+    <property column="con_province" name="con_province"/>
+    <property column="con_town" name="con_town"/>
+    <property column="con_postcode" name="con_postcode"/>
+    <property column="con_country" name="con_country"/>
+    <property column="con_ccode" name="con_ccode"/>
+    <property column="req_material" name="req_material"/>
+    <property column="req_material_state" name="req_material_state"/>
+    <property column="shipped" name="shipped"/>
+    <property column="notes" name="notes"/>
+    <property column="req_status" name="req_status"/>
+    <property column="cancelation_reason" name="cancelation_reason"/>
+    <property column="date_processed" name="date_processed"/>
+    <property column="register_interest" name="register_interest"/>
+    <!-- TA FIELDS-->
+    <property column="project_description" name="project_description"/>
+    <property column="application_type" name="application_type"/>
+    <property column="eligible_country" name="eligible_country"/>
+    <property column="ta_panel_sub_date" name="ta_panel_sub_date"/>
+    <property column="ta_panel_decision_date" name="ta_panel_decision_date"/>
+    <property column="ta_panel_decision" name="ta_panel_decision"/>
+    <!-- TA FIELDS-->
+    <!--- BILLING FIELDS -->
+    <property column="bil_title" name="bil_title"/>
+    <property column="bil_firstname" name="bil_firstname"/>
+    <property column="bil_surname" name="bil_surname"/>
+    <property column="bil_e_mail" name="bil_e_mail"/>
+    <property column="bil_phone" name="bil_phone"/>
+    <property column="bil_fax" name="bil_fax"/>
+    <property column="bil_institution" name="bil_institution"/>
+    <property column="bil_dept" name="bil_dept"/>
+    <property column="bil_addr_1" name="bil_addr_1"/>
+    <property column="bil_addr_2" name="bil_addr_2"/>
+    <property column="bil_province" name="bil_province"/>
+    <property column="bil_town" name="bil_town"/>
+    <property column="bil_postcode" name="bil_postcode"/>
+    <property column="bil_country" name="bil_country"/>
+    <property column="PO_ref" name="PO_ref"/>
+    <property column="bil_vat" name="bil_vat"/>
+    <property column="eucomm_funding" name="eucomm_funding"/>
+    <!--- BILLING FIELDS -->
+    <!--  <many-to-one  name="AvailabilitiesStrainsDAO" class="org.emmanet.model.AvailabilitiesStrainsDAO" column="str_id_str">
+            
+            </many-to-one>
+            insert="false"
+             update="false"
+     
+        <set lazy="false" name="projectsstrainsDAO" table="projects_strains">
+            <key  property-ref="str_id_str"/>
+            <one-to-many class="org.emmanet.model.ProjectsStrainsDAO" not-found="ignore" />
+        </set>-->
+    <set lazy="false" name="sourcesrequestsDAO" table="sources_requests">
+      <key column="req_id_req"/>
+      <one-to-many class="org.emmanet.model.Sources_RequestsDAO" not-found="ignore"/>
+    </set>
+    <!--   <many-to-one cascade="all" class="org.emmanet.model.Sources_RequestsDAO" column="id_req"  property-ref="req_id_req" insert="false" lazy="false" name="sourcesrequestsDAO" not-found="ignore" update="false"/>-->
+  </class>
+</hibernate-mapping>

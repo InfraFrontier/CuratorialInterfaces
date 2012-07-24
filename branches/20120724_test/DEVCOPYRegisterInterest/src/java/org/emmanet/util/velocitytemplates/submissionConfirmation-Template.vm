@@ -1,0 +1,12 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/header.vm" )
+Dear EMMA customer#*${name}*#,
+
+We would like to confirm receipt of the request form that you submitted to EMMA for ${strainname} (${emmaid}).
+
+You'll be contacted within one week by the EMMA partner responsible for distributing the strain you have requested. 
+
+Should you have any questions, please do not hesitate to contact Sabine Fessele at the EMMA Project Coordination Office (sabine.fessele@helmholtz-muenchen.de).
+
+## Include footer template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/footer.vm" )

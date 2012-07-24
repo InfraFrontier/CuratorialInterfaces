@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.GenesDAO" table="genes">
+    <id column="id_gene" name="id_gene">
+      <generator class="native"/>
+    </id>
+    <property column="name" name="name"/>
+    <property column="symbol" name="symbol"/>
+    <property column="chromosome" name="chromosome"/>
+    <property column="centimorgan" name="centimorgan"/>
+    <property column="cytoband" name="cytoband"/>
+    <property column="species" name="species"/>
+    <property column="mgi_ref" name="mgi_ref"/>
+    <property column="username" name="username"/>
+    <property column="last_change" name="last_change"/>
+    <property column="promoter" name="promoter"/>
+    <property column="founder_line_number" name="founder_line_number"/>
+    <property column="plasmid_construct" name="plasmid_construct"/>
+    <property column="ensembl_ref" name="ensembl_ref"/>
+  </class>
+</hibernate-mapping>

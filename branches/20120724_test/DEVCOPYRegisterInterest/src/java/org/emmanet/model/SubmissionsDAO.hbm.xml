@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.emmanet.model.SubmissionsDAO" table="submissions">
+        <id column="id_sub" name="id_sub">
+            <generator class="native"/>
+        </id>
+        <property column="timestamp" name="timestamp"/>
+        <property column="submitter_email" name="submitter_email"/>
+        <property column="submitter_title" name="submitter_title"/>
+        <property column="submitter_firstname" name="submitter_firstname"/>
+        <property column="submitter_lastname" name="submitter_lastname"/>
+        <property column="submitter_tel" name="submitter_tel"/>
+        <property column="submitter_fax" name="submitter_fax"/>
+        <property column="submitter_inst" name="submitter_inst"/>
+        <property column="submitter_dept" name="submitter_dept"/>
+        <property column="submitter_addr_1" name="submitter_addr_1"/>
+        <property column="submitter_addr_2" name="submitter_addr_2"/>
+        <property column="submitter_city" name="submitter_city"/>
+        <property column="submitter_county" name="submitter_county"/>
+        <property column="submitter_postcode" name="submitter_postcode"/>
+        <property column="submitter_country" name="submitter_country"/>
+        <property column="per_id_per_sub" name="per_id_per_sub"/>
+   
+        <property column="producer_email" name="producer_email"/>
+        <property column="producer_title" name="producer_title"/>
+        <property column="producer_firstname" name="producer_firstname"/>
+        <property column="producer_lastname" name="producer_lastname"/>
+        <property column="producer_tel" name="producer_tel"/>
+        <property column="producer_fax" name="producer_fax"/>
+        <property column="producer_inst" name="producer_inst"/>
+        <property column="producer_dept" name="producer_dept"/>
+        <property column="producer_addr_1" name="producer_addr_1"/>
+        <property column="producer_addr_2" name="producer_addr_2"/>
+        <property column="producer_city" name="producer_city"/>
+        <property column="producer_county" name="producer_county"/>
+        <property column="producer_postcode" name="producer_postcode"/>
+        <property column="producer_country" name="producer_country"/>
+        <property column="producer_ilar" name="producer_ilar"/>
+        <property column="per_id_per" name="per_id_per"/>
+   
+        <property column="shipper_email" name="shipper_email"/>
+        <property column="shipper_title" name="shipper_title"/>
+        <property column="shipper_firstname" name="shipper_firstname"/>
+        <property column="shipper_lastname" name="shipper_lastname"/>
+        <property column="shipper_tel" name="shipper_tel"/>
+        <property column="shipper_fax" name="shipper_fax"/>
+        <property column="shipper_inst" name="shipper_inst"/>
+        <property column="shipper_dept" name="shipper_dept"/>
+        <property column="shipper_addr_1" name="shipper_addr_1"/>
+        <property column="shipper_addr_2" name="shipper_addr_2"/>
+        <property column="shipper_city" name="shipper_city"/>
+        <property column="shipper_county" name="shipper_county"/>
+        <property column="shipper_postcode" name="shipper_postcode"/>
+        <property column="shipper_country" name="shipper_country"/>
+        <property column="per_id_per_contact" name="per_id_per_contact"/>  
+   
+        <property column="strain_name" name="strain_name"/>
+        <property column="genetic_descr" name="genetic_descr"/>
+        <property column="current_backg" name="current_backg"/>
+        <property column="current_backg_text" name="current_backg_text"/> 
+        <property column="backcrosses" name="backcrosses"/>
+        <property column="sibmatings" name="sibmatings"/>
+        <property column="breeding_history" name="breeding_history"/>
+        <property column="homozygous_phenotypic_descr" name="homozygous_phenotypic_descr"/>
+        <property column="heterozygous_phenotypic_descr" name="heterozygous_phenotypic_descr"/>
+   
+        <property column="mutation_original_backg" name="mutation_original_backg"/>
+   
+        <property column="published" name="published"/>
+        <property column="notes" name="notes"/>
+        <property column="reference_descr_text_0" name="reference_descr_text_0"/>
+        <property column="pubmed_id" name="pubmed_id"/>
+        <property column="title" name="title"/>
+        <property column="author1" name="author1"/>
+        <property column="journal" name="journal"/>
+        <property column="year" name="year"/>
+        <property column="volume" name="volume"/>
+        <property column="pages" name="pages"/>
+   
+
+        <property column="genotyping" name="genotyping"/>
+        <property column="genotyping_file" name="genotyping_file"/>
+        <property column="phenotyping" name="phenotyping"/> 
+        <property column="phenotyping_file" name="phenotyping_file"/>
+        <property column="othertyping" name="othertyping"/>
+        <property column="othertyping_file" name="othertyping_file"/>
+        <property column="homozygous_viable" name="homozygous_viable"/>
+        <property column="homozygous_fertile" name="homozygous_fertile"/>
+        <property column="heterozygous_fertile" name="heterozygous_fertile"/>
+        <property column="homozygous_matings_required" name="homozygous_matings_required"/>
+        <property column="homozygous_matings_required_text" name="homozygous_matings_required_text"/>
+
+
+        <property column="reproductive_maturity_age" name="reproductive_maturity_age"/>
+        <property column="reproductive_decline_age" name="reproductive_decline_age"/>
+        <property column="gestation_length" name="gestation_length"/> 
+        <property column="pups_at_birth" name="pups_at_birth"/>
+        <property column="pups_at_weaning" name="pups_at_weaning"/>
+        <property column="weaning_age" name="weaning_age"/>
+        <property column="litters_in_lifetime" name="litters_in_lifetime"/>
+        <property column="breeding_performance" name="breeding_performance"/>
+        <property column="husbandry_requirements" name="husbandry_requirements"/>
+        <property column="immunocompromised" name="immunocompromised"/>
+        <property column="sanitary_status" name="sanitary_status"/>
+        <property column="sanitary_status_file" name="sanitary_status_file"/>
+        <property column="welfare" name="welfare"/>
+
+        
+        <property column="human_condition" name="human_condition"/>
+        <property column="human_condition_omim" name="human_condition_omim"/> 
+        <property column="human_condition_text" name="human_condition_text"/>
+        <property column="human_condition_more" name="human_condition_more"/>
+        <property column="research_areas" name="research_areas"/>
+        <property column="research_areas_other_text" name="research_areas_other_text"/>
+        <property column="research_tools" name="research_tools"/>
+        
+        <property column="past_requests" name="past_requests"/>
+        <property column="deposited_elsewhere" name="deposited_elsewhere"/>
+        <property column="deposited_elsewhere_text" name="deposited_elsewhere_text"/> 
+        <property column="similar_strains" name="similar_strains"/>
+        <property column="ip_rights" name="ip_rights"/>
+        <property column="ip_rights_text" name="ip_rights_text"/>
+        <property column="exclusive_owner" name="exclusive_owner"/>
+        <property column="exclusive_owner_text" name="exclusive_owner_text"/>
+        <property column="owner_permission" name="owner_permission"/>
+        <property column="owner_permission_text" name="owner_permission_text"/>
+        <property column="delayed_release" name="delayed_release"/> 
+        <property column="delayed_release_text" name="delayed_release_text"/>
+        <property column="mice_avail_month" name="mice_avail_month"/>
+        <property column="mice_avail_year" name="mice_avail_year"/>
+        <property column="mice_avail_males" name="mice_avail_males"/>
+        <property column="mice_avail_females" name="mice_avail_females"/>
+        <property column="remedial_actions" name="remedial_actions"/>
+        <property column="additional_materials_file_1" name="additional_materials_file_1"/>
+        <property column="additional_materials_file_2" name="additional_materials_file_2"/> 
+        <property column="additional_materials_file_3" name="additional_materials_file_3"/>
+        <property column="additional_materials_file_4" name="additional_materials_file_4"/>
+        <property column="additional_materials_file_5" name="additional_materials_file_5"/>
+        
+        <property column="step" name="step"/>
+    </class>
+</hibernate-mapping>

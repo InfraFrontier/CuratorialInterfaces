@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.LaboratoriesStrainsDAO" table="laboratories_strains">
+    <!--<composite-id mapped="true">
+      <key-many-to-one class="org.emmanet.model.LabsDAO" column="lab_id_labo" lazy="false" name="labsDAO"/>
+      <key-many-to-one class="org.emmanet.model.StrainsDAO" column="str_id_str" lazy="false" name="strainsDAO"/>
+    </composite-id>-->
+    <id column="str_id_str" name="str_id_str">
+      <generator class="native"/>
+    </id>
+    <!--<property column="str_id_str" name="str_id_str"/>-->
+    <property column="lab_id_labo" name="lab_id_labo"/>
+  </class>
+</hibernate-mapping>

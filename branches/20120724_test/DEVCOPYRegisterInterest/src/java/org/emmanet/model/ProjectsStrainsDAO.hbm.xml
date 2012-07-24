@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.ProjectsStrainsDAO" table="projects_strains">
+    <id column="str_id_str" name="str_id_str">
+      <generator class="assigned"/>
+    </id>
+    <many-to-one cascade="all" class="org.emmanet.model.StrainsDAO" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" name="strainsDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.CVProjectsDAO" column="project_id" insert="false" lazy="false" name="cvProjectsDAO" not-found="ignore" update="false"/>
+    <property column="project_id" name="project_id"/>
+  </class>
+</hibernate-mapping>

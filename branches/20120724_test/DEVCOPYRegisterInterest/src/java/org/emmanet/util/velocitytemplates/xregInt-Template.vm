@@ -1,0 +1,12 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/header.vm" )
+Dear EMMA customer#*${name}*#,
+
+We would like to inform you that the strain ${strainname} (${emmaid}) is now available from the EMMA archive.
+
+To place your order please go to http://charlie.ibc.cnr.it:8080/RegisterInterest/requestFormView.emma?ID=${id} and complete the EMMA Mutant Request Form.
+
+Should you have any questions, please do not hesitate to contact Sabine Fessele at the EMMA Project Coordination Office (sabine.fessele@helmholtz-muenchen.de).
+
+## Include footer template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/footer.vm" )

@@ -1,0 +1,10 @@
+## Include header template common to all messages
+##http://www.emmanet.org/strainview.php?id_str=${strainid} removed 06102009 replaced by new link to strain view
+#parse( "org/emmanet/util/velocitytemplates/messageHeader.vm" )
+We are pleased to inform you that the recovery test we performed on your strain (${strainname}) was successful. The strain is now safely archived and is currently listed on the EMMA website http://www.emmanet.org/mutant_types.php?keyword=${emmaid}.
+
+EMMA is continuously working to improve our services, to better meet your needs. We would therefore appreciate some feedback based on your experience. A short Report Form is attached. We would be grateful if you could complete and return it to info@emmanet.org.
+
+Thank you for supporting EMMA.
+## Include footer template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageFooter.vm" )

@@ -1,0 +1,378 @@
+/* EMMA (European Mouse Mutant Archive) styles 
+*      used in:
+*           www.emmanet.org
+**/
+
+/* html attributes */
+body {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-size:0.7em;
+    color: #333;
+    margin:0;
+    line-height:1.5em;
+    background-color:#fff;
+}
+font.abrv {
+    font-family:Verdana, Arial, Helvetica, sans-serif;
+    font-style: italic;
+    font-size: smaller;
+}
+a:link {color: #0090D2;text-decoration: none;}
+a:visited {color: #0090D2;text-decoration: none;}
+a:hover, a:focus {color: #0090D2;text-decoration: underline;}
+a:active {color: #0090D2;}
+
+p {line-height:1.5em; text-align:justify;}
+
+h1 {font-size: 1.3em; font-weight: bold; color:#0090D2; margin:2px;}
+h2 {font-size: 1.1em; font-weight: bold; color: #0090D2; margin:2px;}
+h3 {font-size: 1em; font-weight: bold; color: #333;}
+hr {height: 1px; color:#0090D2;}
+
+/*th {border:0.1em solid #ccc;background-color:#f4f4f4;}
+td {border:0.1em solid #ccc; padding:2px;}
+*/
+th.top5 {background-color:#f4f4f4;border:0;padding:0px;spacing:0px;}
+td.top5 {padding:0px;border:0;}
+
+table.interface{ padding:2px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-color: #cccccc;
+    border-bottom-color: #cccccc;
+    border-left-color: #cccccc;
+    border-right-color: #cccccc;
+}
+td.sectHead{ 
+    background-color: #EEEEFF;
+    text-indent: 8px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #0066cc;
+    border-bottom-color: #0066cc;
+    border-left-color: #0066cc;
+    border-right-color: #0066cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: normal; text-indent: 8px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #0066cc;
+    border-bottom-color: #0066cc;
+    border-left-color: #0066cc;
+    border-right-color: #0066cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+}
+
+table.datagrid {
+    
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #919191;
+    border-bottom-color: #919191;
+    border-left-color: #919191;
+    border-right-color: #919191;
+    background-color: #F5F5F5;
+}
+table.datagrid th {
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #919191;
+    border-bottom-color: #919191;
+    border-left-color: #919191;
+    border-right-color: #919191;
+    background-color: #B0C4DE;
+    font-weight: bold;
+    color: #000000;
+}
+table.datagrid tr.oddRow { 
+    background-color:#EDEDED;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+}
+table.datagrid tr.evenRow {
+    background-color:#DEDEDE;
+    border-top-style: none;
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+}
+table.datagrid tr:hover{ 
+    background-color:#B0C4DE;
+    color: #000000;
+}
+table.datagrid td {
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #919191;
+    border-bottom-color: #919191;
+    border-left-color: #919191;
+    border-right-color: #919191;
+}
+
+td.boxout {
+    background-color:#EBEBEB; 
+}
+td.boxoutB {
+    background-color:#99CCFF; 
+}
+td.boxoutR {
+    background-color:#FF0000;
+}
+
+/* plain tags - default settings 
+SHOULD BE ONLY IN THE forms.css */
+.form { 
+    margin: 2%; }
+input { font-size: 1em; color: #333; background-color:#fff; border:1px solid #0090d2; }
+input.disabled {opacity:.30;filter: alpha(opacity=30); -moz-opacity: 0.3;  font-size: 1em; color: #333; background-color:#fff; border:1px solid #ff0000;}
+input.checkbox { font-size: 1em; color: #333; background-color:#fff; 
+    border-top-color: #cc0000;
+    border-bottom-color: #cc0000;
+    border-left-color: #cc0000;
+    border-right-color: #cc0000;
+}
+/* textareas are treated differently from other inputs - hence the necessity to 
+include font-family here ... let me (jitka.sengerova@gmail.com) know if/when you
+come up with better solution */
+textarea { font-family:Verdana, Arial, Helvetica, sans-serif; font-size: 1em; 
+    color: #333; padding: 0.2em; border:1px solid #0090d2; display: block; 
+    margin-bottom: 0.3em; }
+select   { font-size: 1em; color: #333; border:1px solid #0090d2; }
+
+/* classes */
+.list { list-style-image:url(images/button.gif);}
+.center { text-align: center; }
+.noborder { border: none; }
+
+/* division for the header */
+#container-header { width:100%; height:173px; margin:0;}
+
+.row-orange1 { height:13px; background-image:url(images/line1.gif); margin:0; background-repeat:repeat-x;}
+.row-orange2 { height:13px; background-image:url(images/line2.gif); margin:0; background-repeat:repeat-x;}
+
+#pic-start { background-image:url(images/header/picrow_start.jpg); background-repeat:repeat-x; height:150px;}
+#pic-about { background-image:url(images/header/straws_blue.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-partner { background-image:url(images/header/drop_green.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-mouse { background-image:url(images/header/mouse.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-contact { background-image:url(images/header/mice.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-sops { background-image:url(images/header/tubes_ice_yellow.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-faqs { background-image:url(images/header/blue_tubes_ice.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-links { background-image:url(images/header/gel.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-requests { background-image:url(images/header/straws_yellow.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+#pic-strains { background-image:url(images/header/mouse_green.jpg); background-repeat:repeat-x; height:150px; margin-left:0;}
+
+
+/* division containing navigation and content */
+#container-nav-main { margin-top:30px;}
+
+/* division containing navigation */
+#nav-container {width:200px; float:left; left:10px;}
+
+#nav-container ul {voice-family: "\"}\""; voice-family:inherit; margin-top:3px;}
+#nav-container ul li {list-style-type:square; color:#0090d2; padding:2px; margin-top:2px; margin-bottom:2px; font-weight:bold;}
+#nav-container ul li a:link {color:#666; text-decoration:none; font-weight:bold;}
+#nav-container ul li a:visited {color:#666; text-decoration:none; font-weight:bold;} 
+#nav-container ul li a:hover{font-weight:bold; color:#0090d2;}
+
+#nav-container ul li.active {list-style-type:square; color:#fc0; padding:2px; margin-top:2px; margin-bottom:2px; font-weight:bold;}
+#nav-container ul li.active a:link {color:#0090d2; text-decoration:none; font-weight:bold;}
+#nav-container ul li.active a:visited {color:#0090d2; text-decoration:none; font-weight:bold;} 
+#nav-container ul li.active a:hover{font-weight:bold; color:#0090d2;}
+
+#nav-container ul ul {font-weight:normal; padding-left:0; voice-family: "\"}\""; voice-family:inherit; margin-left:15px; margin-top:3px;}
+#nav-container ul ul li.sub a:link {color:#666; text-decoration:none; font-weight:normal;}
+#nav-container ul ul li.sub a:visited {color:#666; text-decoration:none; font-weight:normal;}
+#nav-container ul ul li.sub a:hover{color:#0090d2; font-weight:normal;}
+
+#nav-container ul ul li.sub-active {list-style-type:square; color:#fc0;}
+#nav-container ul ul li.sub-active a:link {color:#0090d2; text-decoration:none; font-weight:normal;}
+#nav-container ul ul li.sub-active a:visited {color:#0090d2; text-decoration:none; font-weight:normal;}
+#nav-container ul ul li.sub-active a:hover{color:#0090d2; font-weight:normal;}
+
+/* division containing content */
+#content {margin:0 20px 0 220px; border-left:1px dotted #0090D2; padding:10px;}
+
+/* layout top navigation */ 
+#navtop{ margin:20px 0 0 0; background-color:#fff; padding:0; height:25px;}
+#navtop ul { margin-left: 220px; padding: 0; list-style-type: none;}
+#navtop ul li { display: block; float: left; padding:1px;}
+#navtop ul li a { text-decoration: none; padding: 0 7px 0 7px; border-right: 1px solid #333; color: #333; text-align: center;}
+#navtop ul li a:hover {text-decoration: underline;}
+#navtop ul li.without-border { padding: 0 1px 0 7px; border-right: 0; color: #666; text-align: center; margin-top:-1px;}
+#navtop ul li a.without-border { padding: 0 1px 0 7px; border-right: 0; color: #666; text-align: center; margin-top:-1px;}
+
+
+/* layout footer*/
+#footer{ clear: both; margin:auto; height:60px; width:100%; text-align: center;}
+
+#navfooter{ clear:both; background-color:#fff; margin-left:220px; margin-top:10px; height: 30px; padding: 0; }
+#navfooter ul { padding: 0; list-style-type: none;}
+#navfooter ul li { display: block; float: left;}
+#navfooter ul li a { text-decoration: none; padding: 3px 9px 3px; border-right: 1px solid #666; color: #333; background-color: #fff; text-align: center; }
+#navfooter ul li a.no-border{ text-decoration: none; padding: 3px 1px 3px 8px; border-right: 0; color: #333; background-color: #fff; text-align: center; margin-top:-3px;}
+#navfooter ul li.no-border{ text-decoration: none; padding: 3px 1px 3px 8px; border-right: 0; color: #333; background-color: #fff; text-align: center; margin-top:-3px;}
+#navfooter ul li a:hover { text-decoration: underline;}
+
+
+
+/* used in the xsl sheets providing EMMA strain list */
+.emma_id  { width: 10% }
+.c_name   { width: 15% }
+.t_gene   { width: 30% }
+.m_type   { width: 10% }
+.s_name   { width: 27% }
+.order    { width: 8% }
+
+
+/* styles for the appearance of the SEARCH ENGINE form */
+/* still trying to figure out the way to center the table within the division
+using text-align: center;  as a style for table results in centered text inside
+using it in the division does not seem to have any effect
+*/
+#searchform { margin: 1em 7em; }
+#searchform form table { padding: .5em; border: 1px solid #666; 
+    font-size: 1.2em }
+#searchform form table tr td { border: none; }
+.bold { font-weight: bold; }
+.help { font-weight: bold; vertical-align: top; }
+
+#loginHeader{
+    width:100%; 
+    background-color: #EEEEFF;
+    text-indent: 8px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-left-style: solid;
+    border-right-style: solid;
+    border-top-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+    border-right-width: 1px;
+    border-top-color: #0066cc;
+    border-bottom-color: #0066cc;
+    border-left-color: #0066cc;
+    border-right-color: #0066cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-style: normal;
+    width: 99.8%;
+    vertical-align: top;
+    top: 3px;
+    position: absolute;
+    background-position: center;
+}
+
+p.searchHeader{
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: 900;
+    color: #CD0000;
+    font-style: normal;
+    width: 100%;
+    vertical-align: top;
+    top: 10px;
+    text-indent: 30px;
+    background-color: #FFFFFF;
+}
+
+h4.footer {
+    
+    background-color: #0090D2;
+    color: #ffffff;
+    font-weight: bold;
+    text-indent: 8px;
+}
+a:link.footer{ color: #FFFFFF;text-decoration: none;}
+a:visited.footer {color: #FFFFFF;text-decoration: none;}
+a:hover.footer  {color: #FFFFFF;text-decoration: underline;}
+a:focus.footer {color: #FFFFFF;text-decoration: underline;}
+a:active.footer{ color: #FFFFFF;
+}
+div.syndiv {
+    display:none; 
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    border-style: solid; 
+    background-color: #EEEEFF; 
+    padding: 5px;
+    border-top-width: 1px;
+    border-bottom-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 2px;
+    border-top-color: #0066cc;
+    border-bottom-color: #0066cc;
+    border-left-color: #0066cc;
+    border-right-color: #0066cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+
+div.helpdiv {
+    display:none; 
+    position:absolute;
+    top:-3px;
+    left:-3px;
+    border-style: solid; 
+    background-color: #FFFFCC; 
+    padding: 5px;
+    border-top-width: 1px;
+    border-bottom-width: 2px;
+    border-left-width: 1px;
+    border-right-width: 2px;
+    border-top-color: #3366cc;
+    border-bottom-color: #3366cc;
+    border-left-color: #3366cc;
+    border-right-color: #3366cc;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+}
+div.plain {
+    display:none; 
+}
+
+.senginelabel {
+    font-size: smaller; 
+    font-weight: bold;
+    border: none;
+}
+.sengine {
+    font-size: smaller;
+    border: none;
+}

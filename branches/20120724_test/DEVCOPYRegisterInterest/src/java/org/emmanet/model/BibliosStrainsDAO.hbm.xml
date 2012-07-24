@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.BibliosStrainsDAO" table="biblios_strains">
+    <!--      <composite-id name="bibStrainsPK" class="org.emmanet.model.BibliosStrainsDAO" >
+            <key-property name="bib_id_biblio" column="bib_id_biblio" />
+            <key-property name="str_id_str" column="str_id_str" />
+        </composite-id>  -->
+    <id column="bib_id_biblio" name="bib_id_biblio">
+      <generator class="assigned"/>
+      <!-- class="native" replaced by assigned to allow save when a new biblio is added via interface -->
+    </id>
+    <property column="str_id_str" name="str_id_str"/>
+    <!--  removed  insert="false" update="false"  from str_id_str to allow update for reason above -->
+    <many-to-one cascade="all" class="org.emmanet.model.BibliosDAO" column="bib_id_biblio" foreign-key="id_biblios" insert="false" lazy="false" name="bibliosDAO" not-found="ignore" unique="false" update="false"/>
+  </class>
+</hibernate-mapping>

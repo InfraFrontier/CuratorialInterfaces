@@ -1,0 +1,11 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/header.vm" )
+Dear EMMA customer#*${name}*#
+
+Your application for free of charge Transnational Access to the EMMA strain ${strainname} (${emmaid}) dated ${timestamp} has been rejected. Since you only applied for Transnational Access your request is hereby terminated.
+
+If you would like to order the strain for EMMAs standard distribution costs (please see http://www.emmanet.org/procedures/costs.php), please submit a standard request from the EMMA homepage.
+
+Should you have any questions, please do not hesitate to contact the EMMA Project Coordination Office (info@emmanet.org).
+## Include footer template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/footer.vm" )

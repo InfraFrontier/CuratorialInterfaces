@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.CategoriesStrainsDAO" table="categories_strains">
+    <id column="cat_id_cat" name="cat_id_cat">
+      <generator class="assigned"/>
+    </id>
+    <property column="str_id_str" name="str_id_str"/>
+    <many-to-one cascade="all" class="org.emmanet.model.CategoriesDAO" column="cat_id_cat" foreign-key="id_cat" insert="false" lazy="false" name="categoriesDAO" not-found="ignore" unique="false" update="false"/>
+  </class>
+</hibernate-mapping>

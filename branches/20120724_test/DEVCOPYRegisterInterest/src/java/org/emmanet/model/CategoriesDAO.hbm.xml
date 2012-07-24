@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="org.emmanet.model.CategoriesDAO" table="categories">
+        <id column="id_cat" name="id_cat">
+            <generator class="assigned"/>
+        </id>
+        <property column="last_change" name="last_change"/>
+        <property column="main_cat" name="main_cat"/>
+        <property column="sub_cat" name="sub_cat"/>
+        <property column="description" name="description"/>
+        <property column="username" name="username"/>
+    </class>
+</hibernate-mapping>

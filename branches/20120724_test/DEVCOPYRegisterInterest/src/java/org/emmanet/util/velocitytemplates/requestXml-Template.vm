@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<request>
+    <timestamp>TO_DATE('${timestamp}','YYMMDDHH24MISS')</timestamp>
+    <sci_title>${sci_title}</sci_title>
+    <sci_firstname>${sci_firstname}</sci_firstname>
+    <sci_surname>${sci_surname}</sci_surname>
+    <sci_e_mail>${sci_e_mail}</sci_e_mail>
+    <sci_phone>${sci_phone}</sci_phone>
+    <sci_fax>${sci_fax}</sci_fax>
+    <con_title>${con_title}</con_title>
+    <con_firstname>${con_firstname}</con_firstname>
+    <con_surname>${con_surname}</con_surname>
+    <con_e_mail>${con_e_mail}</con_e_mail>
+    <con_phone>${con_phone}</con_phone>
+    <con_fax>${con_fax}</con_fax>
+    <con_institution>${con_institution}</con_institution>
+    <con_dept>${con_dept}</con_dept>
+    <con_addr_1>${con_addr_1}</con_addr_1>
+    <con_addr_2>${con_addr_2}</con_addr_2>
+    <con_province>${con_province}</con_province>
+    <con_town>${con_town}</con_town>
+    <con_postcode>${con_postcode}</con_postcode>
+    <con_country>${con_country}</con_country>
+    <po_ref>${PO_ref}</po_ref>
+    <bil_title>${bil_title}</bil_title>
+    <bil_firstname>${bil_firstname}</bil_firstname>
+    <bil_surname>${bil_surname}</bil_surname>
+    <bil_e_mail>${bil_e_mail}</bil_e_mail>
+    <bil_phone>${bil_phone}</bil_phone>
+    <bil_fax>${bil_fax}</bil_fax>
+    <bil_institution>${bil_institution}</bil_institution>
+    <bil_dept>${bil_dept}</bil_dept>
+    <bil_addr_1>${bil_addr_1}</bil_addr_1>
+    <bil_addr_2>${bil_addr_2}</bil_addr_2>
+    <bil_province>${bil_province}</bil_province>
+    <bil_town>${bil_town}</bil_town>
+    <bil_postcode>${bil_postcode}</bil_postcode>
+    <bil_country>${bil_country}</bil_country>
+    <bil_vat>${bil_vat}</bil_vat>
+    <strain_id>${strain_id}</strain_id>
+    <strain_name>${strain_name}</strain_name>
+    <common_name_s>${common_name_s}</common_name_s>
+    <req_material>${req_material}</req_material>
+    <project_description>${ta_proj_desc}</project_description>
+    <application_type>${application_type}</application_type>
+    <eligible_country>${ta_eligible}</eligible_country>
+    <ta_panel_sub_date>${ta_panel_sub_date}</ta_panel_sub_date>
+    <ta_panel_decision_date>${ta_panel_decision_date}</ta_panel_decision_date>
+    <ta_panel_decision>${ta_panel_decision}</ta_panel_decision>
+</request>
+#* Quick and dirty xml template for submission requests
+ * mainly in use for register an interest requests
+*#

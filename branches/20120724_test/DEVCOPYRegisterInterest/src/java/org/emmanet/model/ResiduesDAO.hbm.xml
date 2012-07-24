@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.ResiduesDAO" table="residues">
+    <id column="id" name="id">
+      <generator class="native"/>
+    </id>
+    <property column="current_sanitary_status" name="current_sanitary_status"/>
+    <property column="animal_husbandry" name="animal_husbandry"/>
+    <property column="char_genotyping" name="char_genotyping"/>
+    <property column="char_phenotyping" name="char_phenotyping"/>
+    <property column="char_other" name="char_other"/>
+    <property column="omim_ids" name="omim_ids"/>
+    <property column="other_labos" name="other_labos"/>
+    <property column="ip_rights" name="ip_rights"/>
+    <property column="ipr_description" name="ipr_description"/>
+    <property column="crelox" name="crelox"/>
+    <property column="flp" name="flp"/>
+    <property column="tet" name="tet"/>
+    <property column="deposited_elsewhere" name="deposited_elsewhere"/>
+    <property column="when_how_many_females" name="when_how_many_females"/>
+    <property column="when_how_many_males" name="when_how_many_males"/>
+    <property column="when_how_many_month" name="when_how_many_month"/>
+    <property column="when_how_many_year" name="when_how_many_year"/>
+    <property column="when_mice_month" name="when_mice_month"/>
+    <property column="when_mice_year" name="when_mice_year"/>
+    <property column="number_of_requests" name="number_of_requests"/>
+    <property column="specific_info" name="specific_info"/>
+    <property column="accepted" name="accepted"/>
+    <property column="accepted_date" name="accepted_date"/>
+    <property column="delayed_description" name="delayed_description"/>
+    <property column="delayed_wanted" name="delayed_wanted"/>
+    <property column="delayed_release" name="delayed_release"/>
+  </class>
+</hibernate-mapping>

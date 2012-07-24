@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.MutationsDAO" table="mutations">
+    <id column="id" name="id">
+      <generator class="native"/>
+    </id>
+    <many-to-one cascade="all" class="org.emmanet.model.AllelesDAO" column="alls_id_allel" insert="false" lazy="false" name="allelesDAO" not-found="ignore" update="false"/>
+    <property column="alls_id_allel" name="alls_id_allel"/>
+    <property column="main_type" name="main_type"/>
+    <property column="sub_type" name="sub_type"/>
+    <property column="dominance" name="dominance"/>
+    <property column="tm_esline" name="tm_esline"/>
+    <property column="ch_ano_name" name="ch_ano_name"/>
+    <property column="ch_ano_desc" name="ch_ano_desc"/>
+    <property column="mu_cause" name="mu_cause"/>
+    <property column="bg_id_bg" name="bg_id_bg"/>
+    <many-to-one cascade="all" class="org.emmanet.model.BackgroundDAO" column="bg_id_bg" insert="false" lazy="false" name="backgroundDAO" not-found="ignore" update="false"/>
+  </class>
+</hibernate-mapping>

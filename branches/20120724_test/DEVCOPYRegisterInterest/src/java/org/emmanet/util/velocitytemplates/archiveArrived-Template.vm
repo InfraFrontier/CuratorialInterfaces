@@ -1,0 +1,5 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageHeader.vm" )
+We would like to confirm that EMMA has received your mice (${strainname}) and they arrived in good condition.
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageFooter.vm" )

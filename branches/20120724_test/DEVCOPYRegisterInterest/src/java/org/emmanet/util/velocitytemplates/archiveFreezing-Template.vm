@@ -1,0 +1,7 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageHeader.vm" )
+We would like to inform you that we are now ready to start cryopreserving your strain (${strainname}). The complete cryopreservation process will include a recovery test, plus genotyping/phenotyping the offspring.
+
+You will be notified again when your strain is fully archived.
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/messageFooter.vm" )

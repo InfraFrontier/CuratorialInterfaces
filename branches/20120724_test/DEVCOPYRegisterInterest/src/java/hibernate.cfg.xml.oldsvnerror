@@ -1,0 +1,528 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        
+        <!-- Database connection settings -->
+        <property name="connection.driver_class">com.mysql.jdbc.Driver
+        </property>
+        <!--<property name="connection.url">jdbc:mysql://localhost/emmastr_dev
+        </property>--><!--_dev _dev root/usual pw added for charlie -->
+        
+        <property name="connection.url">jdbc:mysql://localhost/emmastr
+        </property>
+        
+      <property name="connection.username">phil.1
+        </property>
+        <property name="connection.password">wilkinson
+        </property>
+        
+        <!-- Use the C3P0 connection pool provider -->
+        <property name="hibernate.c3p0.min_size">3
+        </property>
+        <property name="hibernate.c3p0.max_size">15
+        </property>
+        <property name="hibernate.c3p0.timeout">5000
+        </property>
+        <property name="hibernate.c3p0.max_statements">100
+        </property>
+        <property name="hibernate.c3p0.idle_test_period">1800
+        </property>
+        <property name="hibernate.c3p0.acquire_increment">2
+        </property>
+        <property name="hibernate.c3p0.maxIdleTime">1200
+        </property><!-- 20 minutes -->
+        <!-- Database connection recovery settings -->
+        <property name="hibernate.c3p0.acquireRetryAttempts">15
+        </property>
+        <property name="hibernate.c3p0.acquireRetryDelay">1500
+        </property>
+        <property name="hibernate.c3p0.breakAfterAcquireFailure">false
+        </property>
+
+<<<<<<< .mine
+        
+        <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect
+        </property>
+        
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread
+        </property>
+        
+        <!-- Disable the second-level cache  -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider
+        </property>
+        
+        <!-- Echo all executed SQL to stdout and format it nicely -->
+        <property name="show_sql">true
+        </property>
+        <property name="format_sql">true
+        </property>
+        
+        <!-- MAPPINGS -->
+        <mapping resource="org/emmanet/model/WebRequestsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/StrainsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/AvailabilitiesStrainsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/CVAvailabilitiesDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/LabsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/ArchiveDAO.hbm.xml"/>
+         <mapping resource="org/emmanet/model/Syn_StrainsDAO.hbm.xml"/>
+         <mapping resource="org/emmanet/model/Sources_StrainsDAO.hbm.xml"/>
+         <mapping resource="org/emmanet/model/PeopleDAO.hbm.xml"/>
+         
+                 <mapping resource="org/emmanet/model/RToolsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/MutationsStrainsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/MutationsDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/AllelesDAO.hbm.xml"/>
+        <mapping resource="org/emmanet/model/GenesDAO.hbm.xml"/>
+         
+    </session-factory>
+</hibernate-configuration>=======
+import java.util.*;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.emmanet.jobs.WebRequests;
+import org.emmanet.model.ArchiveManager;
+import org.emmanet.model.StrainsManager;
+import org.springframework.security.context.SecurityContextHolder;
+import org.springframework.security.userdetails.UserDetails;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.SimpleFormController;
+
+public class strainInterfaceFormController extends SimpleFormController {
+
+    private ModelAndView includeView;
+    private Map returnedOut;
+    public static final String MAP_KEY = "returnedOut";
+    private String pathToMTA;
+    Boolean strainIDexists;
+    Boolean archIDexists;
+    Boolean edit;
+    private StrainsManager sm;
+    private ArchiveManager ar;
+    private StrainsManager sr;
+    private WebRequests wr;
+
+    public strainInterfaceFormController() {
+        returnedOut = new HashMap();
+        strainIDexists = Boolean.valueOf(false);
+        archIDexists = Boolean.valueOf(false);
+        edit = Boolean.valueOf(false);
+        sm = new StrainsManager();
+        ar = new ArchiveManager();
+        sr = new StrainsManager();
+        wr = new WebRequests();
+    }
+
+    @Override
+    public ModelAndView handleRequest(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        System.out.println();
+        System.out.println();
+        System.out.println(getSuccessView());
+        System.out.println();
+        System.out.println();
+        setSuccessView("/interfaces/strainsInterface");
+        System.out.println();
+        System.out.println();
+        System.out.println(getSuccessView());
+        System.out.println();
+        System.out.println();
+        Object obj = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Object o = ((UserDetails) obj).getUsername();
+        String userName = o.toString();
+        returnedOut.put("UserName", userName);
+        Enumeration param = request.getParameterNames();
+        do {
+            if (!param.hasMoreElements()) {
+                break;
+            }
+            String paramName = (String) param.nextElement();
+            if (paramName.equals("strainID")) {
+                strainIDexists = Boolean.valueOf(true);
+            }
+            if (paramName.equals("archID")) {
+                archIDexists = Boolean.valueOf(true);
+            }
+            if (paramName.equals("Edit")) {
+                edit = Boolean.valueOf(true);
+            }
+        } while (true);
+        if (strainIDexists.booleanValue()) {
+            List strainDetails = sr.getStrain(request.getParameter("strainID"));
+            returnedOut.put("strain", strainDetails);
+            returnedOut.put("mtaPath", pathToMTA);
+            if (archIDexists.booleanValue() && edit.booleanValue()) {
+                List archDetails = sr.getArchCentre(Integer.parseInt(request.getParameter("archID")));
+                returnedOut.put("centre", archDetails);
+                strainIDexists = Boolean.valueOf(false);
+            }
+            setSuccessView("/interfaces/strainDetails_inc");
+            strainIDexists = Boolean.valueOf(false);
+            return new ModelAndView(getSuccessView(), "returnedOut", returnedOut);
+        }
+        String strainName = request.getParameter("strainName");
+        String strainNameText = request.getParameter("strainNameText");
+        String archCentres = request.getParameter("archCentres");
+        String emmaID = request.getParameter("emmaID");
+        String emmaIdText = request.getParameter("emmaIdText");
+        String strainAccess = request.getParameter("strainAccess");
+        String commonStrainName = request.getParameter("commonStrainName");
+        String status = request.getParameter("status");
+        String statusTypes[] = request.getParameterValues("status");
+        String commonStrainText = request.getParameter("commonStrainText");
+        String affectedGene = request.getParameter("affectedGene");
+        String affectedGeneText = request.getParameter("affectedGeneText");
+        String phenoDesc = request.getParameter("phenoDesc");
+        String funding = request.getParameter("funding");
+        String fundingSources[] = request.getParameterValues("funding");
+        String rTools = request.getParameter("rTools");
+        String mutantType = request.getParameter("mutantType");
+        String mutantSubType = request.getParameter("mutantSubType");
+        String conCountry = request.getParameter("conCountry");
+        String sciSurname = request.getParameter("sciSurname");
+        String conSurname = request.getParameter("conSurname");
+        String mgiId = request.getParameter("mgiId");
+        String orderAvail = request.getParameter("orderAvail");
+        String subDateAfter = request.getParameter("subDateAfter");
+        String subDatebefore = request.getParameter("subDatebefore");
+        String evalDateAfter = request.getParameter("evalDateAfter");
+        String evalDatebefore = request.getParameter("evalDatebefore");
+        String recDateAfter = request.getParameter("recDateAfter");
+        String recDatebefore = request.getParameter("recDatebefore");
+        String archstartDateAfter = request.getParameter("archstartDateAfter");
+        String archstartDatebefore = request.getParameter("archstartDatebefore");
+        String archDateAfter = request.getParameter("archDateAfter");
+        String archDatebefore = request.getParameter("archDatebefore");
+        String ss = request.getParameter("ss");
+        List results = null;
+        if (request.getParameter("listAll") != null) {
+            results = sm.getLiveStrainsByCentre(userName);
+            returnedOut.put("searchDescription", (new StringBuilder()).append("all strains assigned to user ").append(userName).toString());
+            returnedOut.put("results", results);
+            returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            return new ModelAndView(getSuccessView(), "returnedOut", returnedOut);
+        }
+        if (emmaIdText.length() != 0 || emmaID.length() != 0 || commonStrainName.length() != 0 || commonStrainText.length() != 0 || affectedGene.length() != 0 || affectedGeneText.length() != 0 || strainNameText.length() != 0 || strainName.length() != 0 || archCentres.length() != 0 || strainAccess.length() != 0 || status.length() != 0 || phenoDesc.length() != 0) {
+            if (strainName.length() != 0 || strainNameText.length() != 0) {
+                results = null;
+                if (strainName.length() != 0) {
+                    results = sm.getStrainsByName(strainName);
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("strain name equals ").append(strainName).toString());
+                } else {
+                    results = sm.getStrainsByName((new StringBuilder()).append("%").append(strainNameText).toString());
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("strain name contains ").append(strainNameText).toString());
+                }
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (affectedGene.length() != 0 || affectedGeneText.length() != 0) {
+                results = null;
+                if (affectedGene.length() != 0) {
+                    results = sm.getStrainsByGene(affectedGene);
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("affected gene equals ").append(affectedGene).toString());
+                } else {
+                    results = sm.getStrainsByGene((new StringBuilder()).append("%").append(affectedGeneText).toString());
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("affected gene contains ").append(affectedGeneText).toString());
+                }
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (commonStrainName.length() != 0 || commonStrainText.length() != 0) {
+                results = null;
+                List results2 = null;
+                if (commonStrainName.length() != 0) {
+                    results = sm.getStrainsByCommName(commonStrainName);
+                } else {
+                    results = sm.getStrainsByCommName((new StringBuilder()).append("%").append(commonStrainText).toString());
+                }
+                String selectSQL = "";
+                for (ListIterator it = results.listIterator(); it.hasNext();) {
+                    int index = it.nextIndex();
+                    Object element = it.next();
+                    if (index == 0) {
+                        selectSQL = (new StringBuilder()).append(selectSQL).append(element.toString()).toString();
+                    } else {
+                        selectSQL = (new StringBuilder()).append(selectSQL).append(" OR id_str = ").append(element.toString()).toString();
+                    }
+                }
+
+                if (results.size() != 0) {
+                    results2 = sm.getStrain(selectSQL);
+                    returnedOut.put("results", results2);
+                    returnedOut.put("searchSize", Integer.valueOf(results2.size()));
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("common strain name like ").append(commonStrainName).toString());
+                } else {
+                    returnedOut.put("searchSize", "0");
+                }
+            }
+            if (emmaID.length() != 0 || emmaIdText.length() != 0) {
+                results = null;
+                if (emmaID.length() != 0) {
+                    results = sm.getStrainsByEmmaID(emmaID);
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("EMMA ID equals ").append(emmaID).toString());
+                } else {
+                    results = sm.getStrainsByEmmaID((new StringBuilder()).append("%").append(emmaIdText).toString());
+                    returnedOut.put("searchDescription", (new StringBuilder()).append("EMMA ID contains ").append(emmaIdText).toString());
+                }
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (archCentres.length() != 0) {
+                results = null;
+                Integer archiveID = Integer.valueOf(Integer.parseInt(archCentres));
+                results = sm.getStrainsByArchCentre(archiveID.intValue());
+                returnedOut.put("searchDescription", (new StringBuilder()).append("Archive centre equals ").append(archCentres).toString());
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (strainAccess.length() != 0) {
+                results = null;
+                results = sm.getStrainsByAccessStatus(strainAccess);
+                returnedOut.put("searchDescription", (new StringBuilder()).append("strain access equals ").append(strainAccess).toString());
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (status.length() != 0) {
+                results = null;
+                String sql = "";
+                String searchText = "";
+                for (int loopIndex = 0; loopIndex < statusTypes.length; loopIndex++) {
+                    if (loopIndex == 0) {
+                        sql = (new StringBuilder()).append(sql).append("'").append(statusTypes[loopIndex]).append("'").toString();
+                        searchText = (new StringBuilder()).append(searchText).append(statusTypes[loopIndex]).toString();
+                    } else {
+                        sql = (new StringBuilder()).append(sql).append(" OR str_status = '").append(statusTypes[loopIndex]).append("'").toString();
+                        searchText = (new StringBuilder()).append(searchText).append(" or ").append(statusTypes[loopIndex]).toString();
+                    }
+                }
+                results = sm.getStrainsByStrainStatus(sql);
+                returnedOut.put("searchDescription", (new StringBuilder()).append("Strain status equals ").append(searchText).toString());
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+            if (phenoDesc.length() != 0) {
+                results = null;
+                results = sm.getStrainsByPhenoDesc(phenoDesc);
+                returnedOut.put("searchDescription", (new StringBuilder()).append("phenotype description like ").append(phenoDesc).toString());
+                returnedOut.put("results", results);
+                returnedOut.put("searchSize", Integer.valueOf(results.size()));
+            }
+        } else {
+            String searchDescription = "";
+            String joinClause = "";
+            String whereClause = "";
+            if (funding.length() != 0) {
+                String searchText = "";
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND (").toString();
+                }
+                joinClause = (new StringBuilder()).append(joinClause).append(" JOIN s.sources_StrainsDAO as source ").toString();
+                for (int i = 0; i < fundingSources.length; i++) {
+                    if (i == 0) {
+                        whereClause = (new StringBuilder()).append(whereClause).append(" source.sour_id = ").append(fundingSources[i]).toString();
+                        searchText = (new StringBuilder()).append(searchText).append(fundingSources[i]).toString();
+                    } else {
+                        whereClause = (new StringBuilder()).append(whereClause).append(" OR source.sour_id = ").append(fundingSources[i]).toString();
+                        searchText = (new StringBuilder()).append(searchText).append(" OR ").append(fundingSources[i]).toString();
+                    }
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(") ").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("funding source equals ").append(searchText).append(", ").toString();
+            }
+            if (rTools.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                joinClause = (new StringBuilder()).append(joinClause).append(" JOIN s.rtoolsDAO as rtool ").toString();
+                whereClause = (new StringBuilder()).append(whereClause).append(" rtool.rtls_id = ").append(rTools).toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("R Tools equal ").append(rTools).append(", ").toString();
+            }
+            if (mutantType.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                joinClause = (new StringBuilder()).append(joinClause).append(" JOIN s.mutationsStrainsDAO as ms ").toString();
+                whereClause = (new StringBuilder()).append(whereClause).append(" ms.mutationsDAO.main_type = '").append(mutantType).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Mutation main type equals ").append(mutantType).append(", ").toString();
+            }
+            if (mutantSubType.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                if (mutantType.length() == 0) {
+                    joinClause = (new StringBuilder()).append(joinClause).append(" JOIN s.mutationsStrainsDAO as ms ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" ms.mutationsDAO.sub_type = '").append(mutantSubType).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Mutation sub type equals ").append(mutantSubType).append(", ").toString();
+            }
+            if (conCountry.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.peopleDAO.labsDAO.country = '").append(conCountry).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Contact country equals ").append(conCountry).append(", ").toString();
+            }
+            if (sciSurname.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.peopleDAO.surname like '%").append(sciSurname).append("%'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Scientist surname equals ").append(sciSurname).append(", ").toString();
+            }
+            if (conSurname.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.peopleDAO.surname like '%").append(conSurname).append("%' AND s.per_id_per_contact=s.peopleDAO.id_per").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Contact surname equals ").append(conSurname).append(", ").toString();
+            }
+            if (orderAvail.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                if (orderAvail.equals("no")) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" (s.available_to_order = 'no' OR available_to_order IS NULL) ").toString();
+                } else {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" s.available_to_order = 'yes' ").toString();
+                }
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Available to order equals ").append(mutantSubType).append(", ").toString();
+            }
+            if (mgiId.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.mgi_ref like '%").append(mgiId).append("%'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("MGI ref contains ").append(mgiId).append(", ").toString();
+            }
+            /* Phil - Modified whereClauses as broken for range searches (too many ''AND's) 
+             * and also incorrect positioning of AND in quesry string 31/10/2008 
+             */
+            if (subDateAfter.length() != 0) {
+                System.out.println(subDateAfter);
+                if (!"".equals(whereClause)) {
+                    System.out.println(whereClause);
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                    System.out.println(whereClause);
+                }
+                System.out.println(whereClause);
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.submitted > '").append(subDateAfter).append("'").toString();
+                System.out.println(whereClause);
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Submitted after ").append(subDateAfter).append(", ").toString();
+            }
+            if (subDatebefore.length() != 0) {
+                if (!"".equals(whereClause)) {
+
+                    whereClause = (new StringBuilder()).append(whereClause).append("").toString();
+                }
+                // whereClause = (new StringBuilder()).append(whereClause).append(" AND s.archiveDAO.submitted < '").append(subDatebefore).append("'").toString();
+                if (subDateAfter.length() != 0) {
+                    //we have an range search therefore add 'AND' to the equation
+                    whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.submitted < '").append(subDatebefore).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Submitted before ").append(subDatebefore).append(", ").toString();
+            }
+            if (evalDateAfter.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    // whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.evaluated > '").append(evalDateAfter).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Evaluated after ").append(evalDateAfter).append(", ").toString();
+            }
+            if (evalDatebefore.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    if (evalDateAfter.length() != 0) {
+                        //we have an range search therefore add 'AND' to the equation
+                        whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                    }
+                // whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.evaluated < '").append(evalDatebefore).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Evaluated before ").append(evalDatebefore).append(", ").toString();
+            }
+            if (recDateAfter.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    //whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.received > '").append(recDateAfter).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("received after ").append(recDateAfter).append(", ").toString();
+            }
+            if (recDatebefore.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    if (recDateAfter.length() != 0) {
+                        //we have an range search therefore add 'AND' to the equation
+                        whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                    }
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.received < '").append(recDatebefore).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Received before ").append(recDatebefore).append(", ").toString();
+            }
+            if (archstartDateAfter.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    //whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.freezing_started > '").append(archstartDateAfter).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Freezing started after ").append(archstartDateAfter).append(", ").toString();
+            }
+            if (archstartDatebefore.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    if (archstartDateAfter.length() != 0) {
+                        //we have an range search therefore add 'AND' to the equation
+                        whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                    }
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.freezing_started < '").append(archstartDatebefore).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Freezing started before ").append(archstartDatebefore).append(", ").toString();
+            }
+            if (archDateAfter.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    // whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.archived > '").append(archDateAfter).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Archived after ").append(archDateAfter).append(", ").toString();
+            }
+            if (archDatebefore.length() != 0) {
+                if (!"".equals(whereClause)) {
+                    if (archDateAfter.length() != 0) {
+                        //we have an range search therefore add 'AND' to the equation
+                        whereClause = (new StringBuilder()).append(whereClause).append(" AND ").toString();
+                    }
+                }
+                whereClause = (new StringBuilder()).append(whereClause).append(" s.archiveDAO.archived < '").append(archDatebefore).append("'").toString();
+                searchDescription = (new StringBuilder()).append(searchDescription).append("Archived before ").append(archDatebefore).append(", ").toString();
+            }
+            String sql;
+            if (!"".equals(whereClause)) {
+                sql = (new StringBuilder()).append("SELECT s FROM StrainsDAO s ").append(joinClause).append(" WHERE ").append(whereClause).append(" ORDER BY emma_id").toString();
+            } else {
+                sql = "FROM StrainsDAO s ORDER BY emma_id";
+            }
+            results = null;
+            results = sm.getStrains(sql);
+            returnedOut.put("searchDescription", searchDescription);
+            returnedOut.put("results", results);
+            returnedOut.put("searchSize", Integer.valueOf(results.size()));
+        }
+        return new ModelAndView(getSuccessView(), "returnedOut", returnedOut);
+    }
+
+    public ModelAndView getIncludeView() {
+        return includeView;
+    }
+
+    public void setIncludeView(ModelAndView includeView) {
+        this.includeView = includeView;
+    }
+
+    public String getPathToMTA() {
+        return pathToMTA;
+    }
+
+    public void setPathToMTA(String pathToMTA) {
+        this.pathToMTA = pathToMTA;
+    }
+}>>>>>>> .r920

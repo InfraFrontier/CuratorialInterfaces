@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.Sources_RequestsDAO" table="sources_requests">
+    <id column="req_id_req" name="req_id_req">
+      <generator class="assigned"/>
+    </id>
+    <many-to-one cascade="all" class="org.emmanet.model.WebRequestsDAO" column="req_id_req" foreign-key="id_req" insert="false" lazy="false" name="webrequestsDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.CVSourcesDAO" column="sour_id" foreign-key="id" insert="false" lazy="false" name="cvsourcesDAO" not-found="ignore" update="false"/>
+    <property column="sour_id" name="sour_id"/>
+  </class>
+</hibernate-mapping>

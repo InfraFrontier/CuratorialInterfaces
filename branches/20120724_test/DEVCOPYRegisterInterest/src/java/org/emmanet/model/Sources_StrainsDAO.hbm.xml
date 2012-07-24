@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.Sources_StrainsDAO" table="sources_strains">
+    <id column="str_id_str" name="str_id_str">
+      <generator class="assigned"/>
+    </id>
+    <many-to-one cascade="all" class="org.emmanet.model.StrainsDAO" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" name="strainsDAO" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="org.emmanet.model.LabsDAO" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" name="labsDAO" not-found="ignore" update="false"/>
+    <!-- <many-to-one cascade="all" class="org.emmanet.model.CVSourcesDAO" column="sour_id" insert="false" lazy="false" name="cvsourcesDAO" not-found="ignore" update="false"/>-->
+    <property column="sour_id" name="sour_id"/>
+    <property column="lab_id_labo" name="lab_id_labo"/>
+  </class>
+</hibernate-mapping>

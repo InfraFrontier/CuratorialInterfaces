@@ -1,0 +1,57 @@
+## Include header template common to all messages
+#parse( "org/emmanet/util/velocitytemplates/header.vm" )
+Dear EMMA customer#*${name}*#
+
+Your application for free of charge Transnational Access to the EMMA strain ${strainname} (${emmaid}) dated ${timestamp} has been accepted. Your Request ID is $requestID.
+
+The access also includes the shipment cost in the case of access to frozen embryos. However, in the case of access to live mice, the shipment cost will have to be borne by your institute.
+
+According to the reporting instructions for Transnational Access we are required to report the birth year of users (refer to: http://cordis.europa.eu/fp7/capacities/research-infrastructures_en.html). Could you please provide your birth year by responding to info@emmanet.org.
+
+Should you have any questions, please do not hesitate to contact the EMMA Project Coordination Office (info@emmanet.org) or the archiving node you are already in contact with.
+#if ($rtoolsID == 9)
+#* 
+   * THIS IS A SANGER EUCOMM STRAIN
+   * PRINT APPROPRIATE DISCLAIMER
+*#
+#end
+
+#if($rtoolsID == 9 && $labID == 1961)
+Disclaimer
+
+Please note that for the mice supplied to the scientific community by WTSI:
+
+- The structure of the targeted mutation in the ES cells obtained from EUCOMM to generate these mutant mice is not verified by the WTSI MGP. It is recommended therefore that the recipient confirms the mutation structure.
+- The genetic background for the mice supplied may be mixed. The use of a pure genetic background is in progress for future lines.
+
+The current level of quality control (QC) performed before the mice are released is to:
+
+- Confirm the individual mouse genotype by short-range PCR (SR-PCR) and/or quantitative PCR (qPCR) by counting the copy number variation of the neo marker.
+- Confirm location of the targeted mutation by either long-range PCR (LR-PCR) or by the detection of homozygous mice by gene specific SR-PCR.
+#end
+#if($rtoolsID == 9 && $labID != 1961)
+#* 
+   * THIS IS NOT A SANGER EUCOMM STRAIN
+   * PRINT APPROPRIATE DISCLAIMER
+*#
+Disclaimer
+
+Please note that for EUCOMM mice supplied to the scientific community by EMMA:
+
+1) We cannot guarantee a null mutation for Knock-out first alleles (tm1a alleles, see http://www.knockoutmouse.org/about/targeting-strategies) as the critical exon has not been deleted.	
+2) That the structure of the targeted mutation in the ES cells obtained from EUCOMM to generate EUCOMM mice is not verified by EMMA. It is recommended that the recipient confirms the mutation structure.	
+3) No check for determining the copy number of the targeting construct in ES cells obtained from EUCOMM is done by EMMA.	
+4) The level of quality control before mice are released is to confirm the individual mouse genotype by short range PCR.	
+#end
+## MTAs and Statement blocked for MRC Harwell
+#if ($mtaFile != "" && $labID != 4) 
+Guidelines to process MTAs
+- MTA documents must only be signed by authorized individuals
+- Provide the request ID as a reference when sending signed MTAs
+- Service requests will not be processed until a fully executed MTA has been received by the EMMA partner distributing the strain
+#end
+Thank you for your interest in EMMA.
+
+Kind regards,
+EMMA - European Mouse Mutant Archive
+http://www.emmanet.org

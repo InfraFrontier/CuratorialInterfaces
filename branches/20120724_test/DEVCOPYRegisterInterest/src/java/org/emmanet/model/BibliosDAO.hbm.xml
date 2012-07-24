@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="org.emmanet.model.BibliosDAO" table="biblios">
+    <id column="id_biblio" name="id_biblio">
+      <generator class="native"/>
+    </id>
+    <property column="title" name="title"/>
+    <property column="author1" name="author1"/>
+    <property column="author2" name="author2"/>
+    <property column="year" name="year"/>
+    <property column="journal" name="journal"/>
+    <property column="username" name="username"/>
+    <property column="volume" name="volume"/>
+    <property column="pages" name="pages"/>
+    <property column="pubmed_id" name="pubmed_id" />
+    <property column="last_change" name="last_change"/>
+    <property column="notes" name="notes"/>
+    <property column="updated" name="updated"/>
+  </class>
+</hibernate-mapping>
