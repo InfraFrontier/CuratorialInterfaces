@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+/**
+ * Copyright © 2013 EMBL - European Bioinformatics Institute
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License.  
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+-->
+
+<!-- This page taken from: http://krams915.blogspot.co.uk/2010/12/spring-security-3-mvc-using-secured.html -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+                           http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                           http://www.springframework.org/schema/security 
+                           http://www.springframework.org/schema/security/spring-security-3.2.xsd">
+  
+    <!-- To allow standards-based @Secured annotation, enable secured-annotations
+    See Spring Security 3.1 Reference 2.4 Method Security 
+    - http://static.springsource.org/spring-security/site/docs/3.1.x/reference/ns-config.html#ns-protect-pointcut 
+    - http://static.springsource.org/spring-security/site/docs/3.1.x/reference/appendix-namespace.html#d0e8651
+    See Spring Security 3.1 Referecne 15.1.1 Common Built-In Expressions
+    - http://static.springsource.org/spring-security/site/docs/3.1.x/reference/el-access.html -->
+    <security:global-method-security secured-annotations="enabled" />
+  
+    <!-- This is where we configure Spring-Security  -->
+    <!--
+    <security:http auto-config="true" use-expressions="true" access-denied-page="/krams/auth/denied" >
+        <security:form-login
+            login-page="/krams/auth/login"
+            authentication-failure-url="/krams/auth/login?error=true"
+            default-target-url="/krams/main/common"/>
+        <security:logout
+            invalidate-session="true"
+            logout-success-url="/krams/auth/login"
+            logout-url="/krams/auth/logout"/>
+    </security:http>
+    -->
+  
+    <!-- Declare an authentication-manager to use a custom userDetailsService -->
+    <security:authentication-manager>
+        <security:authentication-provider user-service-ref="userDetailsService">
+       <!--     <security:password-encoder ref="passwordEncoder"/> -->
+        </security:authentication-provider>
+    </security:authentication-manager>
+  
+    <security:http auto-config='true'>
+        <security:intercept-url pattern="/interfaces/backgroundUpdateInterface.emma*" access="ROLE_SUPER,ROLE_CURATION" />
+        <security:intercept-url pattern="/interfaces/poUpdateInterface.emma*" access="ROLE_SUPER" />
+        <security:intercept-url pattern="/dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/wp4dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/EUCOMMdashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
+        <security:intercept-url pattern="/newsitems.emma" access="ROLE_SUPER" />
+        <security:intercept-url pattern="/interfaces/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+        <security:intercept-url pattern="/filestore/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+    </security:http>
+    
+    <!-- Use a Md5 encoder since the user's passwords are stored as Md5 in the database
+    <bean class="org.springframework.security.authentication.encoding.Md5PasswordEncoder" id="passwordEncoder"/>
+    -->
+  
+    <security:user-service id="userDetailsService">
+        <security:user name="ebi" password="hinxton" authorities="ROLE_USER, ROLE_SUPER" />
+        <security:user name="ki" password="stockholm" authorities="ROLE_USER" />
+        <security:user name="cnrs" password="orleans" authorities="ROLE_USER" />
+        <security:user name="mrc" password="harwell" authorities="ROLE_USER" />
+        <security:user name="cnr" password="monterotondo" authorities="ROLE_USER" />
+        <security:user name="fcg" password="oeiras" authorities="ROLE_USER" />
+        <security:user name="sang" password="hinxton" authorities="ROLE_USER" />
+        <security:user name="ics" password="strasbourg" authorities="ROLE_USER" />
+        <security:user name="bsrc" password="athens" authorities="ROLE_USER" />
+        <security:user name="cnb" password="madrid" authorities="ROLE_USER" />
+        <security:user name="hmgu" password="neuherberg" authorities="ROLE_USER" />
+        <security:user name="unioulu" password="oulu" authorities="ROLE_USER" />
+        <security:user name="img" password="prague" authorities="ROLE_USER" />
+        <security:user name="vetmeduni" password="vienna" authorities="ROLE_USER" />
+        <security:user name="super" password="kryptonite" authorities="ROLE_SUPER" />
+        <security:user name="curator" password="hartondo" authorities="ROLE_CURATION" />
+    </security:user-service>
+</beans>
