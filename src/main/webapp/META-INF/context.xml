@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context path="/apps/internal">
+  <ResourceLink global="jdbc/sourceEmma" name="jdbc/sourceEmma" type="javax.sql.DataSource"/>
+</Context>
