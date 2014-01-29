@@ -27,7 +27,7 @@ import uk.ac.ebi.emma.manager.GenesManager;
  * @author mrelac
  */
 @Controller
-@RequestMapping("/interfaces/geneManagementDetail")
+@RequestMapping("/geneManagementDetail")
 public class GeneManagementDetailController /*extends SimpleFormController implements Validator*/ {
     private final GenesManager genesManager = new GenesManager();
 
@@ -35,7 +35,7 @@ public class GeneManagementDetailController /*extends SimpleFormController imple
     public String showForm(Model model) {
         model.addAttribute("geneIdFilter", "");
         
-        return "interfaces/geneManagementDetail";
+        return "geneManagementDetail";
     }
     
     

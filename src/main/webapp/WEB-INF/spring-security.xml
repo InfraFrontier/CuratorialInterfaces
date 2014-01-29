@@ -58,14 +58,18 @@ and open the template in the editor.
     </security:authentication-manager>
   
     <security:http auto-config='true'>
+        <!--
         <security:intercept-url pattern="/interfaces/backgroundUpdateInterface.emma*" access="ROLE_SUPER,ROLE_CURATION" />
         <security:intercept-url pattern="/interfaces/poUpdateInterface.emma*" access="ROLE_SUPER" />
         <security:intercept-url pattern="/dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
         <security:intercept-url pattern="/wp4dashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
         <security:intercept-url pattern="/EUCOMMdashboard.emma*" access="ROLE_USER, ROLE_SUPER" />
         <security:intercept-url pattern="/newsitems.emma" access="ROLE_SUPER" />
-        <security:intercept-url pattern="/interfaces/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+        -->
+        <security:intercept-url pattern="/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+        <!--
         <security:intercept-url pattern="/filestore/**" access="ROLE_USER,ROLE_SUPER,ROLE_CURATION" />
+        -->
     </security:http>
     
     <!-- Use a Md5 encoder since the user's passwords are stored as Md5 in the database
