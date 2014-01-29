@@ -41,7 +41,7 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
  * @author mrelac 
  */
 @Controller
-@RequestMapping("/interfaces/geneManagementList")
+@RequestMapping("/geneManagementList")
 public class GeneManagementListController {
     private final GenesManager genesManager = new GenesManager();
     private Map<String, List<String>> options = null;
