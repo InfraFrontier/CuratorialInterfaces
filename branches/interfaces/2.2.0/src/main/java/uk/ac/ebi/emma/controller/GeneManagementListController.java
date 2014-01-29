@@ -17,13 +17,17 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.util.Filter;
 //import org.emmanet.model.GenesDAO;
 //import org.emmanet.model.GenesManager;
 //import org.emmanet.util.Filter;
@@ -34,18 +38,51 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 */
 /**
  *
- * @author mrelac
+ * @author mrelac 
  */
 @Controller
+@RequestMapping("/interfaces/geneManagementList")
 public class GeneManagementListController {
     private final GenesManager genesManager = new GenesManager();
+    private Map<String, List<String>> options = null;
     
-    @RequestMapping(value="/genemanagement/search", method=RequestMethod.GET)
-    public @ModelAttribute("genes") Collection<Gene> search() {
-        List<Gene> genes = genesManager.getGenes();
+//    @RequestMapping(method=RequestMethod.GET)
+//    public String showForm(Model model) {
+//        model.addAttribute("geneIdFilter", "");
+//        
+//        return "interfaces/geneManagementList";
+////        return model;
+////        return "ALIVE!";
+//    }
     
-        return genes;
+    
+    
+//    @RequestMapping(value="/search", method=RequestMethod.GET)
+//    public @ModelAttribute("genes") Collection<Gene> search() {
+//        List<Gene> genes = genesManager.getGenes();
+//    
+//        return genes;
+//    }
+    
+    @RequestMapping(method=RequestMethod.GET)
+    public @ModelAttribute("filter") Object showForm() {
+        options = new HashMap();
+        options.put("geneIds", genesManager.getGeneIds());
+        options.put("geneNames", genesManager.getNames());
+        options.put("geneSymbols", genesManager.getSymbols());
+        options.put("chromosomes", genesManager.getChromosomes());
+        options.put("mgiReferences", genesManager.getMGIReferences());
+        
+        Map<String, Object> map = new HashMap<>();
+        map.put("filter",  new Filter());
+        map.put("options", options);
+        
+        return new Filter();
     }
+
+
+
+
     
 //    @RequestMapping(value="/getGeneList", method=RequestMethod.GET)
 //    public String getGeneList(ModelMap model) {
@@ -139,22 +176,22 @@ public class GeneManagementListController {
     // PRIVATE METHODS
     
     
-    private void initialize() {
+//    private void initialize() {
 //        options = new HashMap();
 //        options.put("geneIds", genesManager.getGeneIds());
 //        options.put("geneNames", genesManager.getNames());
 //        options.put("geneSymbols", genesManager.getSymbols());
 //        options.put("chromosomes", genesManager.getChromosomes());
 //        options.put("mgiReferences", genesManager.getMGIReferences());
-    }
+//    }
 
     
     // GETTERS AND SETTERS
 
     
-//    public Map getOptions() {
-//        return options;
-//    }
+    public Map getOptions() {
+        return options;
+    }
 
 
 }

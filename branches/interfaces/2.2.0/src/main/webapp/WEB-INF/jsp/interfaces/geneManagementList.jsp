@@ -1,4 +1,4 @@
-<%-- 
+<%--
     Document   : geneManagementList
     Created on : Nov 18, 2013, 6:19:43 PM
     Author     : mrelac
@@ -17,7 +17,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="../css/jquery-ui.1.10.3.min.css" />
+        <link rel="stylesheet" href="css/jquery-ui.1.10.3.min.css" />
         <script src="../js/jquery-1.10.2.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="../js/jquery-ui.1.10.3.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="../js/json2.js" type="text/javascript" charset="UTF-8"></script>
@@ -108,13 +108,16 @@
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
         
         <br />
-
+        
+        <!--
         <form action="geneManagementDetail.emma">
             <input type="hidden" name="action" value="newGene" />
             <input type="submit" value="New" style="margin-left: 430px; margin-bottom: 5px" formaction="geneManagementDetail.emma" />
+            <input type="submit" value="New" style="margin-left: 430px; margin-bottom: 5px" />
         </form>
-                                                    
-        <form:form commandName="filter" method="get">
+        -->
+                                            
+        <form:form modelAttribute="filter" method="get"   >
             
             <br />
             
@@ -151,7 +154,7 @@
                 </tbody>
             </table>
         </form:form>
-            
+        <%--
         <div id="divResults">
         <br />
         
@@ -280,5 +283,6 @@
                 </c:forEach>
             </table>
         </div>
+        --%>
     </body>
 </html>

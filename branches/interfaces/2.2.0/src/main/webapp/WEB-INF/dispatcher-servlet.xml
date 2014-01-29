@@ -14,6 +14,21 @@
        http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
     
+    <context:annotation-config />
+    <mvc:annotation-driven />
+
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     
     <!--
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -24,23 +39,24 @@
         </property>
     </bean>
 -->
+<!--
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
-    
+    -->
     <!--
     <bean id="webRequests" class="org.emmanet.jobs.WebRequests" />
     <bean id="webRequest" class="org.emmanet.jobs.WebRequests" />
     -->
-    
+    <!--
     <bean id="handlerMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
-    
+    -->
     <!-- Do not need a custom controller for success page see below -->
+    <!--
     <bean id="urlFilenameController" class="org.springframework.web.servlet.mvc.UrlFilenameViewController"/>
     <bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
     <bean id="urlMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
         <property name="mappings">
             <props>
                 <prop key="/index.emma">indexController</prop>
-<!--
                 <prop key="/RegisterInterest/requestFormView.emma">RequestFormController</prop>
                 <prop key="/success.emma">urlFilenameController</prop>
                 <prop key="/publicSubmission/success.emma">urlFilenameController</prop>
@@ -87,15 +103,19 @@
                 <prop key="/interfaces/geneManagementDetail.emma">geneManagementDetailController</prop>
                 <prop key="/interfaces/alleleManagementList.emma">alleleManagementListController</prop> 
                 <prop key="/interfaces/alleleManagementDetail.emma">alleleManagementLController</prop>
-                -->
                 <prop key="/interfaces/geneManagementList.emma">geneManagementListController</prop>
             </props>
         </property>
     </bean>
+    -->
+    <!--
     <bean name="indexController" class="org.springframework.web.servlet.mvc.ParameterizableViewController">
+    -->
         <!-- this will forward directly to view stored in /WEB-INF/jsp/index.jsp -->
+        <!--
         <property name="viewName" value="index" />
     </bean>
+    -->
     
     <!--
     <bean id="viewNameTranslator" class="org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator" />
@@ -104,12 +124,14 @@
         <property name="suffix" value=".jsp" />
     </bean>
 -->
+
+<!--
     <bean id="viewResolver" class="org.springframework.web.servlet.view.UrlBasedViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/" />
         <property name="suffix" value=".jsp" />
     </bean>
-    
+    -->
     <!-- Validators -->
     <!--
     <bean id="RequestFormValidator"
@@ -581,8 +603,6 @@
     </bean>
 -->
 
-    <bean name="geneManagementListController" class="uk.ac.ebi.emma.controller.GeneManagementListController" />
-
 <!--
     <bean name="geneManagementDetailController" class="org.emmanet.controllers.GeneManagementDetailController">
         <property name="successView">
@@ -612,11 +632,15 @@
         
     </bean>
 -->
+<!--
+    <bean name="geneManagementListController" class="uk.ac.ebi.emma.controller.GeneManagementListController" />
+-->
 
-
+<!--
     <bean class="org.springframework.web.servlet.view.ResourceBundleViewResolver">
         <property name="basename">
             <value>views</value>
         </property>
     </bean>
+    -->
 </beans>
