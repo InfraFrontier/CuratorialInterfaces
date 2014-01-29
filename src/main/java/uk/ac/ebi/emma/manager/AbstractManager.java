@@ -35,7 +35,7 @@ public abstract class AbstractManager {
    
    public AbstractManager() {
        sessionFactory = HibernateUtil.getSessionFactory();
-       logger.info("Instantiating new AbstractManager for " + this.getClass() + ". sessionFactory is " + sessionFactory.toString());
+       logger.debug("Instantiating new AbstractManager for " + this.getClass() + ". sessionFactory is " + sessionFactory.toString());
    }
     protected Session getCurrentSession(){
         return sessionFactory.getCurrentSession();

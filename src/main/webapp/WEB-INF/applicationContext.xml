@@ -15,9 +15,12 @@
                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
 
     
+    <context:component-scan base-package="uk.ac.ebi.emma" />
+    <!--
     <context:component-scan base-package="uk.ac.ebi.emma.controller">
         <context:include-filter type="regex" expression=".*" />
     </context:component-scan>
+    -->
     <!--
     <bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
@@ -32,6 +35,7 @@
     <!--
     <import resource="datasources-config.xml" />
     -->
+    <mvc:annotation-driven />
     <context:annotation-config />
 
     <!-- IMPORT THE dataSource, HIBERNATE, TRANSACTION, and TRANSLATION configurations -->

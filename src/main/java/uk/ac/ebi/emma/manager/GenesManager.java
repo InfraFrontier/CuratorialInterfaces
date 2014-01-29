@@ -76,6 +76,7 @@ public class GenesManager  extends AbstractManager {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String currentTimestamp = dateFormat.format(new Date());
         gene.setLast_change(currentTimestamp);
+        // FIXME FIXME FIXME ***************** USE USER LOGIN NAME ***************  FIXME FIXME FIXME
         gene.setUsername("EMMA");
         try {
             getCurrentSession().beginTransaction();
