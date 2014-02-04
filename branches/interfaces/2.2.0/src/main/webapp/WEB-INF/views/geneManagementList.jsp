@@ -139,6 +139,14 @@
                 }); 
             }
             
+            function lookupMGI(id) {
+                window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
+            }
+            
+            function lookupEnsembl(id) {
+                window.open("http://www.ensembl.org/Mus_musculus/geneview?gene=" + id, "EnsemblWindow");
+            }
+            
             function populateGeneIds(urlRoot) {
                 jQuery.ajax({
                     url: urlRoot + "/getGeneIds"
@@ -341,8 +349,16 @@
                         <td style="border: 1px solid black" valign="top">${gene.chromosome}</td>
                         <td style="border: 1px solid black" valign="top">${gene.species}</td>
                         <td style="border: 1px solid black" valign="top">${gene.centimorgan}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.mgi_ref}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.ensembl_ref}</td>
+                        <td style="border: 1px solid black" valign="top">
+                            <a href="javascript:lookupMGI('${gene.mgi_ref}');">
+                                ${gene.mgi_ref}
+                            </a>
+                        </td>
+                        <td style="border: 1px solid black" valign="top">
+                            <a href="javascript:lookupEnsembl('${gene.ensembl_ref}');">
+                                ${gene.ensembl_ref}
+                            </a>
+                        </td>
                         <td style="border: 1px solid black" valign="top">${gene.promoter}</td>
                         <td style="border: 1px solid black" valign="top">${gene.founder_line_number}</td>
                         <td style="border: 1px solid black" valign="top">${gene.plasmid_construct}</td>
