@@ -16,26 +16,19 @@
 
 package uk.ac.ebi.emma.controller;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.Filter;
-//import org.emmanet.model.GenesDAO;
-//import org.emmanet.model.GenesManager;
-//import org.emmanet.util.Filter;
-/*
-import org.springframework.validation.BindException;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.SimpleFormController;
-*/
+
 /**
  *
  * @author mrelac 
@@ -43,46 +36,170 @@ import org.springframework.web.servlet.mvc.SimpleFormController;
 @Controller
 @RequestMapping("/geneManagementList")
 public class GeneManagementListController {
-    private final GenesManager genesManager = new GenesManager();
-    private Map<String, List<String>> options = null;
-    
-//    @RequestMapping(method=RequestMethod.GET)
-//    public String showForm(Model model) {
-//        model.addAttribute("geneIdFilter", "");
-//        
-//        return "interfaces/geneManagementList";
-////        return model;
-////        return "ALIVE!";
-//    }
-    
-    
-    
-//    @RequestMapping(value="/search", method=RequestMethod.GET)
-//    public @ModelAttribute("genes") Collection<Gene> search() {
-//        List<Gene> genes = genesManager.getGenes();
-//    
-//        return genes;
-//    }
+    @Autowired
+    private GenesManager genesManager;
     
     @RequestMapping(method=RequestMethod.GET)
-    public @ModelAttribute("filter") Object showForm() {
-        options = new HashMap();
-        options.put("geneIds", genesManager.getGeneIds());
-        options.put("geneNames", genesManager.getNames());
-        options.put("geneSymbols", genesManager.getSymbols());
-        options.put("chromosomes", genesManager.getChromosomes());
-        options.put("mgiReferences", genesManager.getMGIReferences());
-        
-        Map<String, Object> map = new HashMap<>();
-        map.put("filter",  new Filter());
-        map.put("options", options);
-        
+    public @ModelAttribute("filter") Filter showForm(
+            Model model)
+    {
+        model.addAttribute("showResultsForm", false);
         return new Filter();
     }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all gene ids suitable for autocomplete
+     * sourcing.
+     * 
+     * @@return a [distinct], unfiltered list of all gene ids suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getGeneIds"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getGeneIds() {
+        return genesManager.getGeneIds();
+    }
+    
+    /**
+     * Returns a distinct filtered list of gene names suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene names filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getGeneNames"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getGeneNames(@RequestParam String filterTerm) {
+        return genesManager.getNames(filterTerm);
+    }
+    
+    /**
+     * Returns a distinct filtered list of gene symbols suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene ids filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getGeneSymbols"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getGeneSymbols(@RequestParam String filterTerm) {
+        return genesManager.getSymbols(filterTerm);
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all chromosomes suitable for autocomplete
+     * sourcing.
+     * 
+     * @return a [distinct], unfiltered list of all chromosomes suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getChromosomes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getChromosomes() {
+        return genesManager.getChromosomes();
+    }
+    
+    /**
+     * Returns a distinct filtered list of MGI references suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct MGI references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getMGIReferences"
+                  , method = RequestMethod.GET
+    )
+    @ResponseBody
+    public List<String> getMGIReferences(@RequestParam String filterTerm) {
+        return genesManager.getMGIReferences(filterTerm);
+    }
+    
+    /**
+     * 'Go' button implementation
+     * 
+     * @param filter the search criteria
+     * @param model the results
+     * @return the results model
+     */
+    @RequestMapping(value="/applyFilter", method=RequestMethod.GET)
+    public String search(
+            @ModelAttribute("filter") Filter filter
+          , Model model)
+    {
+        List<Gene> filteredGenesList = genesManager.getFilteredGenesList(filter);
+        model.addAttribute("filteredGenesList", filteredGenesList);
+        model.addAttribute("showResultsForm", true);
+        model.addAttribute("resultsCount", filteredGenesList.size());
+    
+        return "geneManagementList";
+    }
+    
+    
+    
+    
 
+    
+    
+    
 
+    
+////////    @RequestMapping(method=RequestMethod.GET)
+////////    public @ModelAttribute("filter") Filter showForm(
+//////////              @RequestParam(value="geneIds", required=false) List<String> geneIds
+//////////            , @RequestParam(value="geneNames", required=false) List<String> geneNames
+//////////            , @RequestParam(value="geneSymbols", required=false) List<String> geneSymbols
+//////////            , @RequestParam(value="chromosomes", required=false) List<String> chromosomes
+//////////            , @RequestParam(value="mgiReferences", required=false) List<String> mgiReferences
+////////              @RequestParam(value="hidShowResultsForm", required=false) String hidShowResultsForm
+//////////            , @RequestParam(value="options", required=false) Map<String, List<String>> options
+////////    ) {
+//////////        options = new HashMap();
+//////////        options.put("geneIds", genesManager.getGeneIds());
+//////////        options.put("geneNames", genesManager.getNames());
+//////////        options.put("geneSymbols", genesManager.getSymbols());
+//////////        options.put("chromosomes", genesManager.getChromosomes());
+//////////        options.put("mgiReferences", genesManager.getMGIReferences());
+////////        
+////////        
+//////////        geneIds = genesManager.getGeneIds();
+//////////        geneNames = genesManager.getNames();
+//////////        geneSymbols = genesManager.getSymbols();
+//////////        chromosomes = genesManager.getChromosomes();
+//////////        mgiReferences = genesManager.getMGIReferences();
+////////        hidShowResultsForm = "0";
+////////        
+////////        
+////////        
+//////////        Map<String, Object> map = new HashMap<>();
+//////////        map.put("filter",  new Filter());
+//////////        map.put("options", options);
+////////        
+////////        return new Filter();
+////////    }
+    
+//    @RequestMapping(value="/applyFilter", method=RequestMethod.GET)
+//    public void applyFilter(
+//              @RequestParam(value="filter", required=true) Filter filter
+//            , @RequestParam(value="filteredGenesDAOList", required=false) List<Gene> filteredGenesList
+//            , @RequestParam(value="hidShowResultsForm", required=false) String hidShowResultsForm
+//            , @RequestParam(value="resultsCount", required=false) int resultsCount
+//    ) {
+//        filteredGenesList = genesManager.getFilteredGenesList(filter);
+//        hidShowResultsForm = "1";                                               // Show results div now.
+//        resultsCount = filteredGenesList.size();
+//    }
 
+    
 
+    
+    
     
 //    @RequestMapping(value="/getGeneList", method=RequestMethod.GET)
 //    public String getGeneList(ModelMap model) {
@@ -96,16 +213,7 @@ public class GeneManagementListController {
 //    }
     
     
-    
-    
-//    private Map<String, List<String>> options = null;
-//    private final GenesManager genesManager = new GenesManager();
-    
-//	public GeneManagementListController(){
-//            setCommandClass(Filter.class);
-//            setCommandName("filter");
-//	}
-    
+
     /**
      * Initialize the form backing object.
      * 
@@ -189,9 +297,9 @@ public class GeneManagementListController {
     // GETTERS AND SETTERS
 
     
-    public Map getOptions() {
-        return options;
-    }
+//    public Map getOptions() {
+//        return options;
+//    }
 
 
 }

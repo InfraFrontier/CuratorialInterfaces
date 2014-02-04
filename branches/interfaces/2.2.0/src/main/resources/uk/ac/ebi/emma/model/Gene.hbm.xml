@@ -11,6 +11,12 @@
         </key>
         <one-to-many class="GeneSynonym" />
     </set>
+    <set name="alleles" table="alleles" lazy="false" cascade="none" order-by="id_allel">
+        <key>
+            <column name="gen_id_gene" />
+        </key>
+        <one-to-many class="Allele" />
+    </set>
     <property column="name" name="name"/>
     <property column="symbol" name="symbol"/>
     <property column="chromosome" name="chromosome"/>

@@ -30,7 +30,13 @@
         </property>
     </bean>
     -->
+    
+    <!--
     <import resource="spring-security.xml"/>
+    -->
+    
+    
+    
     
     <!--
     <import resource="datasources-config.xml" />

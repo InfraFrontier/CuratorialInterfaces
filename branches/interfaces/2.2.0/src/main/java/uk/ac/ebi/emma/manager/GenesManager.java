@@ -16,6 +16,7 @@
 package uk.ac.ebi.emma.manager;
 
 import com.google.gson.Gson;
+import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,21 +31,19 @@ import org.hibernate.Session;
 // DECIDE ON A JSON TECHNOLOGY. Gson? json-simple?
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.stereotype.Component;
 import uk.ac.ebi.emma.entity.Allele;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
 
-
-
-
 /**
  *
  * @author phil, mrelac
  */
-public class GenesManager  extends AbstractManager {
-//    protected static Logger logger = Logger.getLogger(GenesManager.class);
+@Component
+public class GenesManager extends AbstractManager {
 
     /**
      * Returns the full list of genes from persistent storage.
@@ -65,7 +64,7 @@ public class GenesManager  extends AbstractManager {
         
         return genesList;
     }
-    
+
     /**
      * Saves the given <code>Gene</code> gene
      * @param gene the <code>Gene</code> to be saved
@@ -111,32 +110,34 @@ public class GenesManager  extends AbstractManager {
      *         autocomplete sourcing.
      */
     public List<String> getGeneIds() {
-        List<Gene> genesDAOList = getGenes();
+        List<Gene> genesList = getGenes();
         List<String> targetList = new ArrayList();
         
-        if (genesDAOList != null) {
-            for (Gene genesDAO : genesDAOList) {
-                String sId_gene = Integer.toString(genesDAO.getId_gene());
-                targetList.add(Utils.wrap(sId_gene, "\""));
+        if (genesList != null) {
+            for (Gene gene : genesList) {
+                String sId_gene = Integer.toString(gene.getId_gene());
+                targetList.add(sId_gene);
             }
         }
         
         logger.debug("targetList count = " + targetList.size());
         return targetList;
     }
-    
+
     /**
-     * Returns a <code>List&lt;String&gt;</code> of distinct gene names suitable for
-     * autocomplete sourcing.
-     * @return a <code>List&lt;String&gt;</code> of distinct gene names suitable for
-     *         autocomplete sourcing.
+     * Returns a distinct filtered list of gene names suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene names filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
      */
-    public List<String> getNames() {
+    public List<String> getNames(String filterTerm) {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT name FROM genes").list();
+            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT name FROM genes WHERE name LIKE ?").setParameter(0, "%" + filterTerm + "%").list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -147,25 +148,27 @@ public class GenesManager  extends AbstractManager {
             Iterator iterator = sourceList.iterator();
             while (iterator.hasNext()) {
                 String name = (String)iterator.next();
-                targetList.add(Utils.wrap(name, "\""));
+                targetList.add(name);
             }
         }
             
         return targetList;
     }
-    
+
     /**
-     * Returns a <code>List&lt;String&gt;</code> of distinct gene symbols suitable
-     * for autocomplete sourcing.
-     * @return a <code>List&lt;String&gt;</code> of distinct gene symbols suitable
-     *         for autocomplete sourcing.
+     * Returns a distinct filtered list of gene names suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene symbols filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
      */
-    public List<String> getSymbols() {
+    public List<String> getSymbols(String filterTerm) {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT symbol FROM genes").list();
+            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT symbol FROM genes WHERE symbol LIKE ?").setParameter(0, "%" + filterTerm + "%").list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -176,7 +179,7 @@ public class GenesManager  extends AbstractManager {
             Iterator iterator = sourceList.iterator();
             while (iterator.hasNext()) {
                 String symbol = (String)iterator.next();
-                targetList.add(Utils.wrap(symbol, "\""));
+                targetList.add(symbol);
             }
         }
             
@@ -194,7 +197,7 @@ public class GenesManager  extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT chromosome FROM genes ORDER BY CAST(chromosome AS unsigned) ASC").list();
+            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT chromosome FROM genes WHERE chromosome IS NOT NULL ORDER BY CAST(chromosome AS unsigned) ASC").list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -205,25 +208,27 @@ public class GenesManager  extends AbstractManager {
             Iterator iterator = sourceList.iterator();
             while (iterator.hasNext()) {
                 String chromosome = (String)iterator.next();
-                targetList.add(Utils.wrap(chromosome, "\""));
+                targetList.add(chromosome);
             }
         }
             
         return targetList;
     }
-    
+
     /**
-     * Returns a <code>List&lt;String&gt;</code> of distinct MGI references suitable
-     * for autocomplete sourcing.
-     * @return a <code>List&lt;String&gt;</code> of distinct MGI references suitable
-     *         for autocomplete sourcing.
+     * Returns a distinct filtered list of gene mgi references suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene mgi references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
      */
-    public List<String> getMGIReferences() {
+    public List<String> getMGIReferences(String filterTerm) {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT mgi_ref FROM genes ORDER BY CAST(mgi_ref AS unsigned) ASC").list();
+            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT mgi_ref FROM genes WHERE mgi_ref LIKE ? ORDER BY CAST(mgi_ref AS unsigned) ASC").setParameter(0, "%" + filterTerm + "%").list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -233,8 +238,8 @@ public class GenesManager  extends AbstractManager {
         if (sourceList != null) {
             Iterator iterator = sourceList.iterator();
             while (iterator.hasNext()) {
-                String mgiRef = (String)iterator.next();
-                targetList.add(Utils.wrap(mgiRef, "\""));
+                String mgiReference = (String)iterator.next();
+                targetList.add(mgiReference);
             }
         }
             
@@ -247,10 +252,10 @@ public class GenesManager  extends AbstractManager {
      * @return the <code>Gene</code> object matching <code>id_gene</code>.
      */
     public Gene getGene(int id_gene) {
-        Gene genesDAO = null;
+        Gene gene = null;
         try {
             getCurrentSession().beginTransaction();
-            genesDAO = (Gene)getCurrentSession().createQuery("FROM Gene g WHERE id_gene = ?")
+            gene = (Gene)getCurrentSession().createQuery("FROM Gene g WHERE id_gene = ?")
                     .setParameter(0, id_gene)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
@@ -258,7 +263,7 @@ public class GenesManager  extends AbstractManager {
             getCurrentSession().getTransaction().rollback();
         }
         
-        return remapNulls(genesDAO);
+        return remapNulls(gene);
     }
     
     /**
@@ -268,15 +273,15 @@ public class GenesManager  extends AbstractManager {
      * if found; null otherwise.
      */
     public Gene getGene(String name) {
-        List<Gene> genesDAOList = null;
-        Gene genesDAO = null;
+        List<Gene> genesList = null;
+        Gene gene = null;
         
         if ((name == null) || (name.trim().isEmpty()))
-            return genesDAO;
+            return gene;
         
         try {
             getCurrentSession().beginTransaction();
-            genesDAOList = getCurrentSession().createQuery("FROM Gene g WHERE name = ?")
+            genesList = getCurrentSession().createQuery("FROM Gene g WHERE name = ?")
                     .setParameter(0, name)
                     .list();
             getCurrentSession().getTransaction().commit();
@@ -284,11 +289,11 @@ public class GenesManager  extends AbstractManager {
             getCurrentSession().getTransaction().rollback();
         }
         
-        if ((genesDAOList != null) && ( ! genesDAOList.isEmpty())) {
-            genesDAO = remapNulls(genesDAOList.get(0));
+        if ((genesList != null) && ( ! genesList.isEmpty())) {
+            gene = remapNulls(genesList.get(0));
         }
         
-        return genesDAO;
+        return gene;
     }
     
     /**
@@ -364,44 +369,127 @@ public class GenesManager  extends AbstractManager {
             
         return targetList;
     }
+    
+    
+    
+//    public List<Gene> getFilteredGenesList(Filter filter) {
+//        String chromosomeWhere = "";
+//        String geneIdWhere = "";
+//        String geneNameWhere = "";
+//        String geneSymbolWhere = "";
+//        String mgiReferenceWhere = "";
+//        List<Gene> targetList = new ArrayList();
+//        int geneId = -1;
+//        
+//        String queryString = "SELECT g.*, (SELECT count(gen_id_gene) FROM alleles a WHERE a.gen_id_gene = g.id_gene) AS boundAllelesCount FROM genes g\nWHERE (1 = 1)";
+//        if ((filter.getChromosome() != null) && ( ! filter.getChromosome().isEmpty())) {
+//            chromosomeWhere = "  AND (chromosome = :chromosome)\n";
+//            queryString += chromosomeWhere;
+//        }
+//        Integer iGeneId = Utils.tryParseInt(filter.getGeneId());
+//        if ((iGeneId != null) && (iGeneId.intValue() > 0)) {
+//            geneId = iGeneId.intValue();
+//            geneIdWhere = "  AND (id_gene = :id_gene)\n";
+//            queryString += geneIdWhere;
+//        }
+//        if ((filter.getGeneName() != null) && ( ! filter.getGeneName().isEmpty())) {
+//            geneNameWhere = "  AND (name LIKE :name)\n";
+//            queryString += geneNameWhere;
+//        }
+//        if ((filter.getGeneSymbol() != null) && ( ! filter.getGeneSymbol().isEmpty())) {
+//            geneSymbolWhere = "  AND (symbol LIKE :symbol)\n";
+//            queryString += geneSymbolWhere;
+//        }
+//        if ((filter.getMgiReference()!= null) && ( ! filter.getMgiReference().isEmpty())) {
+//            mgiReferenceWhere = "  AND (mgi_ref LIKE :mgi_ref)\n";
+//            queryString += mgiReferenceWhere;
+//        }
+//        queryString += "ORDER BY name\n";
+//        
+//        try {
+//            getCurrentSession().beginTransaction();
+//            SQLQuery query = getCurrentSession().createSQLQuery(queryString).addScalar("boundAllelesCount");
+//            if ( ! chromosomeWhere.isEmpty())
+//                query.setParameter("chromosome", filter.getChromosome());
+//            if ( ! geneIdWhere.isEmpty())
+//                query.setParameter("id_gene", geneId);
+//            if ( ! geneNameWhere.isEmpty())
+//                query.setParameter("name", "%" + filter.getGeneName() + "%");
+//            if ( ! geneSymbolWhere.isEmpty())
+//                query.setParameter("symbol", "%" + filter.getGeneSymbol() + "%");
+//            if ( ! mgiReferenceWhere.isEmpty())
+//                query.setParameter("mgi_ref", "%" + filter.getMgiReference() + "%");
+//                
+//
+////           List<Gene> genesList = query.list();
+////           for (Gene gene : genesList) {
+////               int x = gene.getBoundAllelesCount();
+////               targetList.add(gene);
+////           }
+//           
+//            List l = query.addEntity(Gene.class).list();
+//            for (int i = 0; i < l.size(); i++) {
+//                Object[] element = (Object[])l.get(i);
+//               BigInteger bi = (BigInteger)element[0];
+//               Gene gene = (Gene)element[1];
+//               gene.setBoundAllelesCount(bi.intValue());
+//               targetList.add(gene);
+//            }
+//            
+//            
+////            for (Object o : l) {
+////                Object[] oa = (Object[0])o;
+////                
+////            }
+////            
+////            
+////            targetList = query.addEntity(Gene.class).list();
+//            getCurrentSession().getTransaction().commit();
+//        } catch (HibernateException e) {
+//            getCurrentSession().getTransaction().rollback();
+//            throw e;
+//        }
+//        
+//        return targetList;
+//    }
 
     /**
      * Transforms a <code>List&lt;Gene&gt;</code> to a JSON string.
-     * @param genesDAOList the list to be transformed
+     * @param genesList the list to be transformed
      * @return the transformed JSON string
      */
-    public static String toJSON(List<Gene> genesDAOList) {
+    public static String toJSON(List<Gene> genesList) {
         JSONArray jsonList = new JSONArray();
-        for (Gene gene : genesDAOList) {
-            JSONObject jsonGeneDAO = new JSONObject();
-            jsonGeneDAO.put("centimorgan",         gene.getCentimorgan() == null ? "" : gene.getCentimorgan());
-            jsonGeneDAO.put("chromosome",          gene.getChromosome() == null ? "" : gene.getChromosome());
-            jsonGeneDAO.put("cytoband",            gene.getCytoband() == null ? "" : gene.getCytoband());
-            jsonGeneDAO.put("ensembl_ref",         gene.getEnsembl_ref() == null ? "" : gene.getEnsembl_ref());
-            jsonGeneDAO.put("founder_line_number", gene.getFounder_line_number() == null ? "" : gene.getFounder_line_number());
-            jsonGeneDAO.put("id_gene",             Integer.toString(gene.getId_gene()));
-            jsonGeneDAO.put("mgi_ref",             gene.getMgi_ref() == null ? "" : gene.getMgi_ref());
-            jsonGeneDAO.put("name",                gene.getName() == null ? "" : gene.getName());
-            jsonGeneDAO.put("plasmid_construct",   gene.getPlasmid_construct() == null ? "" : gene.getPlasmid_construct());
-            jsonGeneDAO.put("promoter",            gene.getPromoter()== null ? "" : gene.getPromoter());
-            jsonGeneDAO.put("species",             gene.getSpecies() == null ? "" : gene.getSpecies());
-            jsonGeneDAO.put("symbol",              gene.getSymbol() == null ? "" : gene.getSymbol());
+        for (Gene gene : genesList) {
+            JSONObject jsonGene = new JSONObject();
+            jsonGene.put("centimorgan",         gene.getCentimorgan() == null ? "" : gene.getCentimorgan());
+            jsonGene.put("chromosome",          gene.getChromosome() == null ? "" : gene.getChromosome());
+            jsonGene.put("cytoband",            gene.getCytoband() == null ? "" : gene.getCytoband());
+            jsonGene.put("ensembl_ref",         gene.getEnsembl_ref() == null ? "" : gene.getEnsembl_ref());
+            jsonGene.put("founder_line_number", gene.getFounder_line_number() == null ? "" : gene.getFounder_line_number());
+            jsonGene.put("id_gene",             Integer.toString(gene.getId_gene()));
+            jsonGene.put("mgi_ref",             gene.getMgi_ref() == null ? "" : gene.getMgi_ref());
+            jsonGene.put("name",                gene.getName() == null ? "" : gene.getName());
+            jsonGene.put("plasmid_construct",   gene.getPlasmid_construct() == null ? "" : gene.getPlasmid_construct());
+            jsonGene.put("promoter",            gene.getPromoter()== null ? "" : gene.getPromoter());
+            jsonGene.put("species",             gene.getSpecies() == null ? "" : gene.getSpecies());
+            jsonGene.put("symbol",              gene.getSymbol() == null ? "" : gene.getSymbol());
             
             if ((gene.getSynonyms() != null) && (gene.getSynonyms().size() > 0)) {
                 JSONArray synonyms = new JSONArray();
                 Iterator<GeneSynonym> iterator = gene.getSynonyms().iterator();
                 while (iterator.hasNext()) {
-                    GeneSynonym syn_genesDAO = iterator.next();
+                    GeneSynonym geneSynonym = iterator.next();
                     JSONObject synonym = new JSONObject();
-                    synonym.put("id_syn", Integer.toString(syn_genesDAO.getId_syn()));
-                    synonym.put("name",   syn_genesDAO.getName());
-                    synonym.put("symbol", syn_genesDAO.getSymbol());
+                    synonym.put("id_syn", Integer.toString(geneSynonym.getId_syn()));
+                    synonym.put("name",   geneSynonym.getName());
+                    synonym.put("symbol", geneSynonym.getSymbol());
                     synonyms.add(synonym);
                 }
-                jsonGeneDAO.put("synonyms", synonyms);
+                jsonGene.put("synonyms", synonyms);
             }
             
-            jsonList.add(jsonGeneDAO);
+            jsonList.add(jsonGene);
         }
         
 
@@ -414,9 +502,9 @@ public class GenesManager  extends AbstractManager {
         return jsonList.toString();
     }
     
-    public static String toJson(Gene genesDAO) {
-        return new Gson().toJson(genesDAO);
-    }
+//    public static String toJSON(Gene gene) {
+//        return new Gson().toJson(gene);
+//    }
     
     /**
      * Returns a <code>List&lt;Allele&gt;</code> of allele records matching
@@ -426,38 +514,38 @@ public class GenesManager  extends AbstractManager {
      * <code>id_gene</code>.
      */
     public List<Allele> getBoundAlleles(int id_gene) {
-        List<Allele> allelesDAOList = null;
+        List<Allele> allelesList = null;
         try {
             getCurrentSession().beginTransaction();
             // NOTE: Allele's id_gene parameter is defined as a STRING! It would be
             // more appropriate to change it to an int, but might well break existing code.
-            allelesDAOList = getCurrentSession().createQuery(
+            allelesList = getCurrentSession().createQuery(
                     "FROM Allele WHERE gen_id_gene = ?").setParameter(0, Integer.toString(id_gene)).list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
         }
 
-        return allelesDAOList;
+        return allelesList;
     }
     
     /**
      * Finds the <code>GeneSynonym</code> identified by <code>
-     * id_syn_genesTarget</code> by searching the genesDAO's <code>GeneSynonym
+     * id_syn_genesTarget</code> by searching the gene's <code>GeneSynonym
      * </code> collection. Returns the object if found; null otherwise.
-     * @param genesDAO the <code>Gene</code>containing the <code>GeneSynonym
+     * @param gene gene <code>Gene</code>containing the <code>GeneSynonym
      * </code> collection
      * @param id_syn the id_syn to match
      * @return The object if found; null otherwise.
      */
-    public static GeneSynonym findSyn_genesDAO(Gene genesDAO, int id_syn) {
-        if (genesDAO.getSynonyms() == null)
+    public static GeneSynonym findGeneSynonym(Gene gene, int id_syn) {
+        if (gene.getSynonyms() == null)
             return null;
-        Iterator<GeneSynonym> syn_genesIterator = genesDAO.getSynonyms().iterator();
-        while (syn_genesIterator.hasNext()) {
-            GeneSynonym itSyn_genesDAO = syn_genesIterator.next();
-            if (itSyn_genesDAO.getId_syn() == id_syn) {
-                return itSyn_genesDAO;
+        Iterator<GeneSynonym> geneSynonymIterator = gene.getSynonyms().iterator();
+        while (geneSynonymIterator.hasNext()) {
+            GeneSynonym geneSynonym = geneSynonymIterator.next();
+            if (geneSynonym.getId_syn() == id_syn) {
+                return geneSynonym;
             }
         }
         
@@ -471,19 +559,19 @@ public class GenesManager  extends AbstractManager {
      */
     public GeneSynonym addSynonym(Gene gene) {
         synchronized(gene) {
-            Set<GeneSynonym> syn_genesDAOSet = gene.getSynonyms();
-            if (syn_genesDAOSet == null) {
-                syn_genesDAOSet = new LinkedHashSet();
-                gene.setSynonyms(syn_genesDAOSet);
+            Set<GeneSynonym> geneSynonymSet = gene.getSynonyms();
+            if (geneSynonymSet == null) {
+                geneSynonymSet = new LinkedHashSet();
+                gene.setSynonyms(geneSynonymSet);
             }
-            GeneSynonym syn_genesDAO = new GeneSynonym();
-            syn_genesDAO.setLast_change(new Date());
-            syn_genesDAO.setUsername("EMMA");
-            syn_genesDAO.setGene(gene);
-            gene.getSynonyms().add(syn_genesDAO);
+            GeneSynonym geneSynonym = new GeneSynonym();
+            geneSynonym.setLast_change(new Date());
+            geneSynonym.setUsername("EMMA");
+            geneSynonym.setGene(gene);
+            gene.getSynonyms().add(geneSynonym);
             save(gene);
             
-            return syn_genesDAO;
+            return geneSynonym;
         }
     }
     
@@ -498,13 +586,13 @@ public class GenesManager  extends AbstractManager {
             return;
         
         synchronized(gene) {
-            GeneSynonym syn_genesDAO = findSyn_genesDAO(gene, id_syn);
-            if (syn_genesDAO != null) {
-                gene.getSynonyms().remove(syn_genesDAO);
+            GeneSynonym geneSynonym = findGeneSynonym(gene, id_syn);
+            if (geneSynonym != null) {
+                gene.getSynonyms().remove(geneSynonym);
                 
                 try {
                     getCurrentSession().beginTransaction();
-                    getCurrentSession().delete(syn_genesDAO);
+                    getCurrentSession().delete(geneSynonym);
                     getCurrentSession().getTransaction().commit();
                 } catch (HibernateException e) {
                     getCurrentSession().getTransaction().rollback();
@@ -519,41 +607,41 @@ public class GenesManager  extends AbstractManager {
 
     /**
      * Remaps null fields to empty strings suitable for use in the client.
-     * @param genesDAO the instance to remap
+     * @param gene the instance to remap
      * @return the same instance, with nulls remapped to empty strings.
      */
-    private Gene remapNulls(Gene genesDAO) {
+    private Gene remapNulls(Gene gene) {
         // Re-map null fields to empty strings.
-        if (genesDAO != null) {
-            if (genesDAO.getCentimorgan() == null)
-                genesDAO.setCentimorgan("");
-            if (genesDAO.getChromosome()== null)
-                genesDAO.setChromosome("");
-            if (genesDAO.getCytoband()== null)
-                genesDAO.setCytoband("");
-            if (genesDAO.getEnsembl_ref()== null)
-                genesDAO.setEnsembl_ref("");
-            if (genesDAO.getFounder_line_number()== null)
-                genesDAO.setFounder_line_number("");
-            if (genesDAO.getLast_change()== null)
-                genesDAO.setLast_change("");
-            if (genesDAO.getMgi_ref()== null)
-                genesDAO.setMgi_ref("");
-            if (genesDAO.getName() == null)
-                genesDAO.setName("");
-            if (genesDAO.getPlasmid_construct()== null)
-                genesDAO.setPlasmid_construct("");
-            if (genesDAO.getPromoter()== null)
-                genesDAO.setPromoter("");
-            if (genesDAO.getSpecies()== null)
-                genesDAO.setSpecies("");
-            if (genesDAO.getSymbol() == null)
-                genesDAO.setSymbol("");
-            if (genesDAO.getUsername()== null)
-                genesDAO.setUsername("");
+        if (gene != null) {
+            if (gene.getCentimorgan() == null)
+                gene.setCentimorgan("");
+            if (gene.getChromosome()== null)
+                gene.setChromosome("");
+            if (gene.getCytoband()== null)
+                gene.setCytoband("");
+            if (gene.getEnsembl_ref()== null)
+                gene.setEnsembl_ref("");
+            if (gene.getFounder_line_number()== null)
+                gene.setFounder_line_number("");
+            if (gene.getLast_change()== null)
+                gene.setLast_change("");
+            if (gene.getMgi_ref()== null)
+                gene.setMgi_ref("");
+            if (gene.getName() == null)
+                gene.setName("");
+            if (gene.getPlasmid_construct()== null)
+                gene.setPlasmid_construct("");
+            if (gene.getPromoter()== null)
+                gene.setPromoter("");
+            if (gene.getSpecies()== null)
+                gene.setSpecies("");
+            if (gene.getSymbol() == null)
+                gene.setSymbol("");
+            if (gene.getUsername()== null)
+                gene.setUsername("");
         }
         
-        return genesDAO;
+        return gene;
     }
     
     

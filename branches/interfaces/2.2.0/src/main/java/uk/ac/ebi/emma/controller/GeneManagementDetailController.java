@@ -16,6 +16,7 @@
 
 package uk.ac.ebi.emma.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,8 @@ import uk.ac.ebi.emma.manager.GenesManager;
 @Controller
 @RequestMapping("/geneManagementDetail")
 public class GeneManagementDetailController /*extends SimpleFormController implements Validator*/ {
-    private final GenesManager genesManager = new GenesManager();
+    @Autowired
+    private GenesManager genesManager;
 
     @RequestMapping(method=RequestMethod.GET)
     public String showForm(Model model) {
