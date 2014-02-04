@@ -18,9 +18,7 @@
         </init-param>
     </filter>
     
-    
-    
-    
+    <!-- SPRING SECURITY -->
     <!--
     <filter>
         <filter-name>springSecurityFilterChain</filter-name>
@@ -32,8 +30,6 @@
     </filter-mapping>
 -->
     
-    
-    
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
@@ -43,7 +39,6 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
     
-    
     <servlet>
         <servlet-name>emma-dispatcher</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -51,45 +46,15 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/mvc-config.xml</param-value> 
         </init-param>
-        
-        <!--
-        <init-param>
-            <param-name>com.sun.jersey.config.property.packages</param-name>
-            <param-value>uk.ac.ebi.emma</param-value>
-        </init-param>
-        <init-param>
-            <param-name>com.sun.jersey.api.json.POJOMappingFeature</param-name>
-            <param-value>true</param-value>
-        </init-param>
-        -->
         <load-on-startup>1</load-on-startup>
     </servlet>
-    <!--
-    <servlet-mapping>
-        <servlet-name>emma-dispatcher</servlet-name>
-        <url-pattern>*.emma</url-pattern>
-    </servlet-mapping>
-    -->
-    
-    
-    <!--
-    <servlet-mapping>
-        <servlet-name>emma-dispatcher</servlet-name>
-        <url-pattern>*.emma</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>emma-dispatcher</servlet-name>
-        <url-pattern>/interfaces/*</url-pattern>
-    </servlet-mapping>
-    -->
-    
 
     <servlet-mapping>
         <servlet-name>emma-dispatcher</servlet-name>
         <url-pattern>/interfaces/*</url-pattern>
     </servlet-mapping>
     
-    --
+    
     <!--
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>
@@ -114,12 +79,7 @@
             30
         </session-timeout>
     </session-config>
-    
-    <!-- Default with new project:
-    <welcome-file-list>
-        <welcome-file>redirect.jsp</welcome-file>
-    </welcome-file-list>
-    -->
+
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
