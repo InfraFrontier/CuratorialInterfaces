@@ -5,6 +5,8 @@
 
 package uk.ac.ebi.emma.entity;
 
+import uk.ac.ebi.emma.manager.GenesManager;
+
 /**
  *
  * @author phil
@@ -101,6 +103,11 @@ public class Allele {
     public void setMutation(Mutation mutation) {
         this.mutation = mutation;
     }
+
+//    @Override
+//    public String toString() {
+//        return AllelesManager.toJSON(this);
+//    }
 
     
 }

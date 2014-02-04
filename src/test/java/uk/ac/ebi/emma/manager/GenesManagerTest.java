@@ -257,15 +257,15 @@ public class GenesManagerTest {
 //    }
 //
 //    /**
-//     * Test of findSyn_genesDAO method, of class GenesManager.
+//     * Test of findGeneSynonym method, of class GenesManager.
 //     */
 //    @Test
 //    public void testFindSyn_genesDAO() {
-//        System.out.println("findSyn_genesDAO");
+//        System.out.println("findGeneSynonym");
 //        Gene genesDAO = null;
 //        int id_syn = 0;
 //        GeneSynonym expResult = null;
-//        GeneSynonym result = GenesManager.findSyn_genesDAO(genesDAO, id_syn);
+//        GeneSynonym result = GenesManager.findGeneSynonym(genesDAO, id_syn);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");

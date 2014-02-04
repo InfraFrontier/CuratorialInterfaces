@@ -50,9 +50,6 @@
     <mapping resource="org/emmanet/model/MutationsStrainsDAO.hbm.xml"/>
     <mapping resource="org/emmanet/model/MutationsDAO.hbm.xml"/>
     <mapping resource="org/emmanet/model/AllelesDAO.hbm.xml"/>
-    -->
-    <mapping resource="uk/ac/ebi/emma/model/Gene.hbm.xml" />
-    <!--
     <mapping resource="org/emmanet/model/BibliosStrainsDAO.hbm.xml"/>
     <mapping resource="org/emmanet/model/BibliosDAO.hbm.xml"/>
     <mapping resource="org/emmanet/model/ResiduesDAO.hbm.xml"/>
@@ -73,6 +70,12 @@
     <mapping resource="org/emmanet/model/MgiAlleleDAO.hbm.xml"/>
     <mapping resource="org/emmanet/model/MgiMarkerDAO.hbm.xml"/>
     -->
+
+    <mapping resource="uk/ac/ebi/emma/model/Allele.hbm.xml" />
+    <mapping resource="uk/ac/ebi/emma/model/Background.hbm.xml" />
+    <mapping resource="uk/ac/ebi/emma/model/Gene.hbm.xml" />
     <mapping resource="uk/ac/ebi/emma/model/GeneSynonym.hbm.xml" />
+    <mapping resource="uk/ac/ebi/emma/model/Mutation.hbm.xml" />
+    
   </session-factory>
 </hibernate-configuration>

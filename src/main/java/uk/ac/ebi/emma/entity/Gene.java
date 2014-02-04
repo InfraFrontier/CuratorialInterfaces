@@ -42,6 +42,8 @@ public class Gene {
     private String plasmid_construct;
     private String ensembl_ref;
     private Set<GeneSynonym> synonyms;
+    private Set<Allele> alleles;
+    private int boundAllelesCount;          // Transient.
 
     public int getId_gene() {
         return id_gene;
@@ -163,14 +165,34 @@ public class Gene {
         this.synonyms = synonyms;
     }
 
+    public Set<Allele> getAlleles() {
+        return alleles;
+    }
+
+    public void setAlleles(Set<Allele> alleles) {
+        this.alleles = alleles;
+    }
+
+    /*
     @Transient
     public List<Allele> getBoundAlleles() {
         return new GenesManager().getBoundAlleles(id_gene);
     }
 
-    @Override
-    public String toString() {
-        return GenesManager.toJson(this);
+    @Transient
+    public int getBoundAllelesCount() {
+        return boundAllelesCount;
     }
+
+    @Transient
+    public void setBoundAllelesCount(int boundAllelesCount) {
+        this.boundAllelesCount = boundAllelesCount;
+    }
+    */
+
+//    @Override
+//    public String toString() {
+//        return GenesManager.toJSON(this);
+//    }
     
 }

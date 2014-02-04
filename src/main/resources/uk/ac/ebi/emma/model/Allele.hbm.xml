@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+  <class name="Allele" table="alleles">
+    <id column="id_allel" name="id_allel">
+      <generator class="native"/>
+    </id>
+    <many-to-one cascade="all" class="Mutation" column="id_allel" foreign-key="alls_id_allel" insert="false" lazy="false" name="mutation" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="Gene" column="gen_id_gene" foreign-key="id_gene" insert="false" lazy="false" name="gene" not-found="ignore" update="false"/>
+    <property column="name" name="name"/>
+    <property column="alls_form" name="alls_form"/>
+    <property column="mgi_ref" name="mgi_ref"/>
+    <property column="username" name="username"/>
+    <property column="last_change" name="last_change"/>
+    <property column="gen_id_gene" name="gen_id_gene"/>
+  </class>
+</hibernate-mapping>
