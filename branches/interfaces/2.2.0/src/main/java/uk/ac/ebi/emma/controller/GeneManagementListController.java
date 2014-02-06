@@ -126,7 +126,7 @@ public class GeneManagementListController {
      * 
      * @param filter the search criteria
      * @param model the results
-     * @return the results model
+     * @return the view to show
      */
     @RequestMapping(value="/applyFilter", method=RequestMethod.GET)
     public String search(

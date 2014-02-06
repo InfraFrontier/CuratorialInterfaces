@@ -20,11 +20,11 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-        <link rel="stylesheet" href="../css/jquery-ui.css" />
-        <script src="../js/jquery-1.11.0.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="../js/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="../js/json2.js" type="text/javascript" charset="UTF-8"></script>
-        <script src="../js/utils.js" type="text/javascript" charset="UTF-8"></script>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css" />
+        <script src="${pageContext.request.contextPath}/js/jquery-1.11.0.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/js/json2.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript" charset="UTF-8"></script>
         <style>
             .error {
                     color: #ff0000;
@@ -37,12 +37,52 @@
                     padding: 8px;
                     margin: 16px;
             }
+            
+            .buttonAlignment {
+                text-align: right;
+            }
         </style>
         
         <script>
             
             $(document).ready(function() {
+                setSynonymHeadings();
             });
+            
+            function newSynonym() {
+                $('#tabSynonyms').append('<tr>'
+                                       +   '<td>'
+                                       +      '<input type="hidden" name="hidSeedValues" value="seedValue" />'
+                                       +      '<input alt="Delete Synonym" type="image" height="15" width="15" title="Delete Synonym" onclick="deleteSynonym(this);" src="${pageContext.request.contextPath}/images/delete.jpg" />'
+                                       +   '</td>'
+                                       +   '<td>'
+                                       +      '<input type="text" name="synonymIds" readonly="readonly" />'
+                                       +   '</td>'
+                                       +   '<td>'
+                                       +      '<input type="text" name="synonymNames" />'
+                                       +   '</td>'
+                                       +   '<td>'
+                                       +      '<input type="text" name="synonymSymbols" />'
+                                       +   '</td>'
+                                       + '</tr>');
+                setSynonymHeadings();
+                return false;
+            }
+
+            function setSynonymHeadings() {
+                var displayFormat = ($('#tabSynonyms > tbody > tr').length > 0 ? 'table-row' : 'none');
+                $('#trSynonymHeadings').css('display', displayFormat);
+            }
+            
+            function lookupMGI() {
+                var id = $('#mgiReference').val();
+                window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
+            }
+            
+            function lookupEnsembl() {
+                var id = $('#ensemblReference').val();
+                window.open("http://www.ensembl.org/Mus_musculus/geneview?gene=" + id, "EnsemblWindow");
+            }
 
         </script>
         <title>Gene Management - add/edit</title>
@@ -53,144 +93,189 @@
         
         <br />
         <br />
-<%--
-        <form:form commandName="gene" method="post">
-                <table style="border: 1px solid black">
-                    <tr>
-                        <td><label id="labGeneId">Gene ID:</label></td>
-                        <td style="border: 0"><form:input id="geneId" tabindex="0" path="id_gene" readonly="true"></form:input></td>
-                        <td><form:label for="mgiReference" path="mgi_ref">MGI reference:</form:label></td>
-                        <td>
-                            <form:input id="mgiReference" tabindex="6" path="mgi_ref" />
-                            <br />
-                            <form:errors path="mgi_ref" cssClass="error" />
-                        </td>
-                        <td rowspan="5">
-                            <table style="border: 1px solid black">
-                                <tr style="border: 1px solid black">
-                                    <td>Synonyms:</td>
-                                    <td colspan="3" align="right"><input type="submit" value="New" formaction="geneManagementDetail.emma?id=${gene.id_gene}&amp;action=newSynonym" /></td>
-                                </tr>
-                                <tr>
-                                    <th>Actions</th>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Symbol</th>
-                                </tr>
-                                <c:forEach var="synonym" items="${gene.synonyms}" varStatus="status">
-                                    <tr>
-                                        <td>
-                                            <form:form commandName="command" method="post">
-                                                <input type="hidden" name="id" value="${gene.id_gene}" />
-                                                <input type="hidden" name="id_syn" value="${synonym.id_syn}" />
-                                                <input type="hidden" name="action" value="deleteSynonym" />
-                                                <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete Synonym ${synonym.id_syn}"
-                                                       src="../images/delete.jpg" formaction="geneManagementDetail.emma" />
-                                            </form:form>
-                                        </td>
-                                        <td>
-                                            <c:set var="nameIndex" value="${status.index + 12}" />
-                                            <spring:bind path="gene.synonyms[${status.index}].id_syn" >
-                                                <form:input id="${status.expression}" tabindex="${nameIndex + 1}" path="${status.expression}" readonly="true" />
+
+        <form>
+            <table style="border: none">
+                <tr>
+                    <td>
+                        <div class="buttonAlignment">
+                            <input type="submit" value="Save"
+                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save" formmethod="POST" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table style="border: 1px solid black">
+                            <tr>
+                                <td>
+                                    <table style="border: none">
+                                        <tr>
+                                            <%-- GENE ID --%>
+                                            <td><label id="labGeneId">Gene ID:</label></td>
+                                            <td style="border: 0"><input name="geneId" value="${gene.id_gene == 0 ? '' : gene.id_gene}" readonly="readonly" /></td>
+                                            
+                                            <%-- GENE NAME --%>
+                                            <td><label for="geneName">Gene name:</label></td>
+                                            <td>
+                                                <textarea id="geneName" name="geneName">${gene.name}</textarea>
                                                 <br />
-                                                <form:errors path="${status.expression}" cssClass="error" />
-                                            </spring:bind>
-                                        </td>
-                                        <td>
-                                            <c:set var="nameIndex" value="${status.index + 12}" />
-                                            <spring:bind path="gene.synonyms[${status.index}].name" >
-                                                <form:input id="${status.expression}" tabindex="${nameIndex + 1}" path="${status.expression}" />
+                                                <form:errors path="name" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- GENE SYMBOL --%>
+                                            <td><label for="geneSymbol">Gene symbol:</label></td>
+                                            <td>
+                                                <textarea id="geneSymbol" name="geneSymbol">${gene.symbol}</textarea>
                                                 <br />
-                                                <form:errors path="${status.expression}" cssClass="error" />
-                                            </spring:bind>
-                                        </td>
-                                        <td>
-                                            <spring:bind path="gene.synonyms[${status.index}].symbol" >
-                                                <form:input id="${status.expression}" tabindex="${nameIndex + 1}" path="${status.expression}" />
+                                                <form:errors path="symbol" cssClass="error" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <%-- SPECIES --%>
+                                            <td><label for="species">Species:</label></td>
+                                            <td>
+                                                <input id="species" name="species" value="${gene.species}" />
                                                 <br />
-                                                <form:errors path="${status.expression}" cssClass="error" />
-                                            </spring:bind>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </table>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:label for="geneName" path="name">Gene Name:</form:label></td>
-                        <td>
-                            <form:input id="geneName" tabindex="1" path="name" />
-                            <br />
-                            <form:errors path="name" cssClass="error" />
-                        </td>
-                        <td><form:label for="ensemblReference" path="ensembl_ref">Ensembl reference:</form:label></td>
-                        <td>
-                            <form:input id="ensemblReference" tabindex="7" path="ensembl_ref" />
-                            <br />
-                            <form:errors path="ensembl_ref" cssClass="error" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:label for="geneSymbol" path="symbol">Gene Symbol:</form:label></td>
-                        <td>
-                            <form:input id="geneSymbol" tabindex="2" path="symbol" />
-                            <br />
-                            <form:errors path="symbol" cssClass="error" />
-                        </td>
-                        <td><form:label for="promoter" path="promoter">Promoter:</form:label></td>
-                        <td>
-                            <form:input id="promoter" tabindex="8" path="promoter" />
-                            <br />
-                            <form:errors path="promoter" cssClass="error" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:label for="chromosome" path="chromosome">Chromosome:</form:label></td>
-                        <td>
-                            <form:input id="chromosome" tabindex="3" path="chromosome" />
-                            <br />
-                            <form:errors path="chromosome" cssClass="error" />
-                        </td>
-                        <td><form:label for="founderLineNumber" path="founder_line_number">Founder line number:</form:label></td>
-                        <td colspan="2">
-                            <form:input id="founderLineNumber" tabindex="9" path="founder_line_number" />
-                            <br />
-                            <form:errors path="founder_line_number" cssClass="error" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:label for="species" path="species">Species:</form:label></td>
-                        <td>
-                            <form:input id="species" tabindex="4" path="species" />
-                            <br />
-                            <form:errors path="species" cssClass="error" />
-                        </td>
-                        <td><form:label for="plasmidConstruct" path="plasmid_construct">Plasmid Construct:</form:label></td>
-                        <td colspan="2">
-                            <form:input id="plasmidConstruct" tabindex="10" path="plasmid_construct" />
-                            <br />
-                            <form:errors path="plasmid_construct" cssClass="error" />
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><form:label for="centimorgan" path="centimorgan">Centimorgan:</form:label></td>
-                        <td>
-                            <form:input id="centimorgan" tabindex="5" path="centimorgan" />
-                            <br />
-                            <form:errors path="centimorgan" cssClass="error" />
-                        </td>
-                        <td><form:label for="cytoband" path="cytoband">Cytoband:</form:label></td>
-                        <td colspan="2">
-                            <form:input id="cytoband" tabindex="11" path="cytoband" />
-                            <br />
-                            <form:errors path="cytoband" cssClass="error" />
-                        </td>
-                    </tr >
-                    <tr>
-                        <td colspan="4" align="right"><input type="submit" value="Save" formaction="geneManagementDetail.emma?id=${gene.id_gene}&amp;action=save" /></td>
-                    </tr>
-                </table>
-        </form:form>
---%>
+                                                <form:errors path="species" cssClass="error" />
+                                            </td>
+
+                                            <%-- PLASMID CONSTRUCT --%>
+                                            <td><label for="plasmidConstruct">Plasmid construct:</label></td>
+                                            <td>
+                                                <input id="plasmidConstruct" name="plasmidConstruct" value="${gene.plasmid_construct}" />
+                                                <br />
+                                                <form:errors path="plasmidConstruct" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- PROMOTER --%>
+                                            <td><label for="promoter">Promoter:</label></td>
+                                            <td>
+                                                <input id="promoter" name="promoter" value="${gene.promoter}" />
+                                                <br />
+                                                <form:errors path="promoter" cssClass="error" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <%-- CHROMOSOOME --%>
+                                            <td><label for="chromosome">Chromosome:</label></td>
+                                            <td>
+                                                <input id="chromosome" name="chromosome" value="${gene.chromosome}" maxlength="2" />
+                                                <br />
+                                                <form:errors path="chromosome" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- CENTIMORGAN --%>
+                                            <td><label for="centimorgan">Centimorgan:</label></td>
+                                            <td>
+                                                <input id="centimorgan" name="centimorgan" value="${gene.centimorgan}" />
+                                                <br />
+                                                <form:errors path="centimorgan" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- CYTOBAND --%>
+                                            <td><label for="cytoband">Cytoband:</label></td>
+                                            <td>
+                                                <input id="cytoband" name="cytoband" value="${gene.cytoband}" />
+                                                <br />
+                                                <form:errors path="cytoband" cssClass="error" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <%-- FOUNDER LINE NUMBER --%>
+                                            <td><label for="founderLineNumber">Founder line number:</label></td>
+                                            <td>
+                                                <input id="founderLineNumber" name="founderLineNumber" value="${gene.founder_line_number}" />
+                                                <br />
+                                                <form:errors path="founderLineNumber" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- MGI REFERENCE --%>
+                                            <td>
+                                                <label for="mgiReference">
+                                                    <a href="javascript:lookupMGI();">
+                                                        MGI reference:
+                                                    </a>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="mgiReference" name="mgiReference" value="${gene.mgi_ref}" />
+                                                <br />
+                                                <form:errors path="mgi_ref" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- ENSEMBL REFERENCE --%>
+                                            <td>
+                                                <label for="ensemblReference">
+                                                    <a href="javascript:lookupEnsembl();">
+                                                        Ensembl reference:
+                                                    </a>
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <input id="ensemblReference" name="ensemblReference" value="${gene.ensembl_ref}" />
+                                                <br />
+                                                <form:errors path="ensembl_ref" cssClass="error" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            <tr><td><hr /></td></tr>
+                            <tr>
+                                <td>
+                                    <table id="tabSynonyms" style="border: none">
+                                        <thead style="border: 1px solid black">
+                                            <tr>
+                                                <td>Synonyms:</td>
+                                                <td colspan="3" align="right">
+                                                    <input type="submit" value="New" title="Add new synonym" onclick="newSynonym();return false;" />
+                                                </td>
+                                            </tr>
+                                            <tr id="trSynonymHeadings">
+                                                <th>Actions</th>
+                                                <th>Id</th>
+                                                <th>Name</th>
+                                                <th>Symbol</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <c:forEach var="synonym" items="${gene.synonyms}" varStatus="status">
+                                                <tr>
+                                                    <td>
+                                                        <input type="hidden" name="hidSeedValues" value="seedValue" />
+                                                        <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete synonym ${synonym.id_syn}"
+                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
+                                                               onclick="deleteSynonym(this); return false;"/>
+                                                    </td>
+                                                    <td>
+                                                        <input name="synonymIds" readonly="readonly" value="${synonym.id_syn}" />
+                                                    </td>
+                                                    <td>
+                                                        <input name="synonymNames" value="${synonym.name}" />
+                                                    </td>
+                                                    <td>
+                                                        <input name="synonymSymbols" value="${synonym.symbol}" />
+                                                    </td>
+                                                </tr>
+                                            </c:forEach>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="buttonAlignment">
+                            <input type="submit" value="Save" formmethod="POST"
+                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save"
+                                   />
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </body>
 </html>
