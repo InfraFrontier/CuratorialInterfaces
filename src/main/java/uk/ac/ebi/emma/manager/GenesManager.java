@@ -369,89 +369,6 @@ public class GenesManager extends AbstractManager {
             
         return targetList;
     }
-    
-    
-    
-//    public List<Gene> getFilteredGenesList(Filter filter) {
-//        String chromosomeWhere = "";
-//        String geneIdWhere = "";
-//        String geneNameWhere = "";
-//        String geneSymbolWhere = "";
-//        String mgiReferenceWhere = "";
-//        List<Gene> targetList = new ArrayList();
-//        int geneId = -1;
-//        
-//        String queryString = "SELECT g.*, (SELECT count(gen_id_gene) FROM alleles a WHERE a.gen_id_gene = g.id_gene) AS boundAllelesCount FROM genes g\nWHERE (1 = 1)";
-//        if ((filter.getChromosome() != null) && ( ! filter.getChromosome().isEmpty())) {
-//            chromosomeWhere = "  AND (chromosome = :chromosome)\n";
-//            queryString += chromosomeWhere;
-//        }
-//        Integer iGeneId = Utils.tryParseInt(filter.getGeneId());
-//        if ((iGeneId != null) && (iGeneId.intValue() > 0)) {
-//            geneId = iGeneId.intValue();
-//            geneIdWhere = "  AND (id_gene = :id_gene)\n";
-//            queryString += geneIdWhere;
-//        }
-//        if ((filter.getGeneName() != null) && ( ! filter.getGeneName().isEmpty())) {
-//            geneNameWhere = "  AND (name LIKE :name)\n";
-//            queryString += geneNameWhere;
-//        }
-//        if ((filter.getGeneSymbol() != null) && ( ! filter.getGeneSymbol().isEmpty())) {
-//            geneSymbolWhere = "  AND (symbol LIKE :symbol)\n";
-//            queryString += geneSymbolWhere;
-//        }
-//        if ((filter.getMgiReference()!= null) && ( ! filter.getMgiReference().isEmpty())) {
-//            mgiReferenceWhere = "  AND (mgi_ref LIKE :mgi_ref)\n";
-//            queryString += mgiReferenceWhere;
-//        }
-//        queryString += "ORDER BY name\n";
-//        
-//        try {
-//            getCurrentSession().beginTransaction();
-//            SQLQuery query = getCurrentSession().createSQLQuery(queryString).addScalar("boundAllelesCount");
-//            if ( ! chromosomeWhere.isEmpty())
-//                query.setParameter("chromosome", filter.getChromosome());
-//            if ( ! geneIdWhere.isEmpty())
-//                query.setParameter("id_gene", geneId);
-//            if ( ! geneNameWhere.isEmpty())
-//                query.setParameter("name", "%" + filter.getGeneName() + "%");
-//            if ( ! geneSymbolWhere.isEmpty())
-//                query.setParameter("symbol", "%" + filter.getGeneSymbol() + "%");
-//            if ( ! mgiReferenceWhere.isEmpty())
-//                query.setParameter("mgi_ref", "%" + filter.getMgiReference() + "%");
-//                
-//
-////           List<Gene> genesList = query.list();
-////           for (Gene gene : genesList) {
-////               int x = gene.getBoundAllelesCount();
-////               targetList.add(gene);
-////           }
-//           
-//            List l = query.addEntity(Gene.class).list();
-//            for (int i = 0; i < l.size(); i++) {
-//                Object[] element = (Object[])l.get(i);
-//               BigInteger bi = (BigInteger)element[0];
-//               Gene gene = (Gene)element[1];
-//               gene.setBoundAllelesCount(bi.intValue());
-//               targetList.add(gene);
-//            }
-//            
-//            
-////            for (Object o : l) {
-////                Object[] oa = (Object[0])o;
-////                
-////            }
-////            
-////            
-////            targetList = query.addEntity(Gene.class).list();
-//            getCurrentSession().getTransaction().commit();
-//        } catch (HibernateException e) {
-//            getCurrentSession().getTransaction().rollback();
-//            throw e;
-//        }
-//        
-//        return targetList;
-//    }
 
     /**
      * Transforms a <code>List&lt;Gene&gt;</code> to a JSON string.
@@ -559,11 +476,12 @@ public class GenesManager extends AbstractManager {
      */
     public GeneSynonym addSynonym(Gene gene) {
         synchronized(gene) {
+            /*
             Set<GeneSynonym> geneSynonymSet = gene.getSynonyms();
             if (geneSynonymSet == null) {
                 geneSynonymSet = new LinkedHashSet();
                 gene.setSynonyms(geneSynonymSet);
-            }
+            }*/
             GeneSynonym geneSynonym = new GeneSynonym();
             geneSynonym.setLast_change(new Date());
             geneSynonym.setUsername("EMMA");

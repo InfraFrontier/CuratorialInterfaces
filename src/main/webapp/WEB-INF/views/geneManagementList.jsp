@@ -179,13 +179,12 @@
         
         <br />
         
-        <!--
-        <form action="geneManagementDetail.emma">
-            <input type="hidden" name="action" value="newGene" />
-            <input type="submit" value="New" style="margin-left: 430px; margin-bottom: 5px" formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail" />
-            <input type="submit" value="New" style="margin-left: 430px; margin-bottom: 5px" />
+        <form>
+            <input type="hidden" name="id_gene" value="0" />
+            <input type="submit" value="New" style="margin-left: 430px; margin-bottom: 5px"
+                   formmethod="get"
+                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/editGene" />
         </form>
-        -->
                                             
         <form:form modelAttribute="filter" method="get"   >
             
@@ -198,7 +197,6 @@
                 <tfoot>
                     <tr>
                         <td colspan="4">
-                         <!--   <input type="hidden" name="action" value="applyFilter" />-->
                             <input type="submit" id="applyFilter" value="Go" formaction="${pageContext.request.contextPath}/interfaces/geneManagementList/applyFilter?filter=${filter}" onclick="showResults();" />
                         </td>
                     </tr>
@@ -262,7 +260,7 @@
                             <th>Species</th>
                             <th>Centimorgan</th>
                             <th>MGI Reference</th>
-                            <th>ensembl Reference</th>
+                            <th>Ensembl Reference</th>
                             <th>Promoter</th>
                             <th>Founder Line Number</th>
                             <th>Plasmid Construct</th>
@@ -273,22 +271,21 @@
                 <c:forEach var="gene" items="${filteredGenesList}" varStatus="status">
                     <tr>
                         <td style="border: 1px solid black">
-                            <input type="hidden" id="alleleCount" name="alleleCount" />
+                            
+                            
+                            <%-- DELETE ME --%>
+                  <%--          <input type="hidden" id="alleleCount" name="alleleCount" /> --%>
+                            
+                            
                             
                             <table>
                                 <tr>
                                     <td>
-                                        <form:form commandName="filter" method="post">
-                                            <form:hidden path="geneName" />
-                                            <form:hidden path="geneId" />
-                                            <form:hidden path="chromosome" />
-                                            <form:hidden path="geneSymbol" />
-                                            <form:hidden path="mgiReference" />
-                                            <input type="hidden" name="id" value="${gene.id_gene}" />
-                                            <input type="hidden" name="action" value="editGene" />
+                                        <form method="get" action="${pageContext.request.contextPath}/interfaces/geneManagementDetail/editGene">
+                                            <input type="hidden" name="id_gene" value="${gene.id_gene}" />
                                             <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
-                                               src="${pageContext.request.contextPath}/images/edit.jpg" formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail" />
-                                        </form:form>
+                                                   src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                        </form>
                                     </td>
                                     
                                     <c:set var="boundAlleles" value="${gene.alleles}" />
@@ -315,7 +312,7 @@
                                         <c:when test="${boundAllelesCount > 0}">
                                             <td>
                                                 <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
-                                                       src="${pageContext.request.contextPath}/images/delete.jpg" formaction="${pageContext.request.contextPath}/interfaces/geneManagementList?id=${gene.id_gene}&amp;action=deleteGene"
+                                                       src="${pageContext.request.contextPath}/images/delete.jpg" formaction="${pageContext.request.contextPath}/interfaces/geneManagementList?id_gene=${gene.id_gene}&amp;action=deleteGene"
                                                        title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
                                                        class="ui-state-disabled" />
                                             </td>
@@ -328,8 +325,10 @@
                                                     <form:hidden path="chromosome" />
                                                     <form:hidden path="geneSymbol" />
                                                     <form:hidden path="mgiReference" />
+                                                    <%--
                                                     <input type="hidden" name="id" value="${gene.id_gene}" />
                                                     <input type="hidden" name="action" value="deleteGene" />
+                                                    --%>
                                                     <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ${gene.id_gene}"
                                                            src="${pageContext.request.contextPath}/images/delete.jpg" formaction="${pageContext.request.contextPath}/interfaces/geneManagementList" />
                                                 </form:form>
