@@ -72,11 +72,12 @@ public class GenesManager extends AbstractManager {
     public void save(Gene gene) {
         Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
         gene.setCentimorgan(centimorgan == null ? null : centimorgan.toString());   // Centimorgans are numeric, nullable in the database, so re-map any non-numeric values to null.
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String currentTimestamp = dateFormat.format(new Date());
-        gene.setLast_change(currentTimestamp);
-        // FIXME FIXME FIXME ***************** USE USER LOGIN NAME ***************  FIXME FIXME FIXME
-        gene.setUsername("EMMA");
+    
+//************ FIXME FIXME FIXME *************/
+//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+   //     String currentTimestamp = dateFormat.format(new Date());
+     //   gene.setLast_change(currentTimestamp);
+        gene.setUsername(username);
         try {
             getCurrentSession().beginTransaction();
             getCurrentSession().saveOrUpdate(gene);
@@ -484,7 +485,7 @@ public class GenesManager extends AbstractManager {
             }*/
             GeneSynonym geneSynonym = new GeneSynonym();
             geneSynonym.setLast_change(new Date());
-            geneSynonym.setUsername("EMMA");
+            geneSynonym.setUsername(username);
             geneSynonym.setGene(gene);
             gene.getSynonyms().add(geneSynonym);
             save(gene);
@@ -541,8 +542,8 @@ public class GenesManager extends AbstractManager {
                 gene.setEnsembl_ref("");
             if (gene.getFounder_line_number()== null)
                 gene.setFounder_line_number("");
-            if (gene.getLast_change()== null)
-                gene.setLast_change("");
+//            if (gene.getLast_change()== null)
+//                gene.setLast_change("");
             if (gene.getMgi_ref()== null)
                 gene.setMgi_ref("");
             if (gene.getName() == null)

@@ -25,7 +25,7 @@
     <property column="species" name="species"/>
     <property column="mgi_ref" name="mgi_ref"/>
     <property column="username" name="username"/>
-    <property column="last_change" name="last_change"/>
+    <property column="last_change" name="last_change" type="timestamp" generated="always" />
     <property column="promoter" name="promoter"/>
     <property column="founder_line_number" name="founder_line_number"/>
     <property column="plasmid_construct" name="plasmid_construct"/>

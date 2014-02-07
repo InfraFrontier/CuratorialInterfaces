@@ -21,6 +21,7 @@ import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -58,10 +59,12 @@ public class GeneManagementDetailController implements Validator {
             @RequestParam(value="id_gene", required=false) int id_gene
           , Model model)
     {
+        String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         Gene gene = genesManager.getGene(id_gene);
         if (gene == null)
             gene = new Gene();
         model.addAttribute("gene", gene);
+        model.addAttribute("loggedInUser", loggedInUser);
     
         return "geneManagementDetail";
     }    
@@ -81,6 +84,7 @@ public class GeneManagementDetailController implements Validator {
      * @param plasmidConstruct
      * @param centimorgan
      * @param cytoband
+     * @param synonymUsernames The logged-in user's name for each synonym.
      * @param hidSeedValues
      * @param synonymIds
      * @param synonymNames
@@ -103,6 +107,7 @@ public class GeneManagementDetailController implements Validator {
           , @RequestParam(value = "cytoband") String cytoband
             
           , @RequestParam(value = "hidSeedValues", required=false) String[] hidSeedValues
+          , @RequestParam(value = "synonymUsernames", required=false) String[] synonymUsernames
           , @RequestParam(value = "synonymIds", required=false) String[] synonymIds
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
           , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols) 
@@ -161,8 +166,15 @@ public class GeneManagementDetailController implements Validator {
                 try {
                     symbol = synonymSymbols[i];
                 } catch (ArrayIndexOutOfBoundsException e) { }
+                
+                String username = null;
+                try {
+                    username = synonymUsernames[i];
+                } catch (ArrayIndexOutOfBoundsException e) { }
+                
                 geneSynonym.setSymbol(symbol);
                 geneSynonymSet.add(geneSynonym);
+                geneSynonym.setUsername(username);
             }
             gene.setSynonyms(geneSynonymSet);
         }

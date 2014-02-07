@@ -83,6 +83,10 @@ public class AllelesManager extends AbstractManager {
      
     
     public void save(Allele aDAO) {
+        /************** FIXME FIXME FIXME WHERE IS USERNAME AND TIMESTAMP? *******************/
+        /************** FIXME FIXME FIXME WHERE IS USERNAME AND TIMESTAMP? *******************/
+        /************** FIXME FIXME FIXME WHERE IS USERNAME AND TIMESTAMP? *******************/
+        /************** FIXME FIXME FIXME WHERE IS USERNAME AND TIMESTAMP? *******************/
         Session session = getCurrentSession();
         session.beginTransaction();
 
