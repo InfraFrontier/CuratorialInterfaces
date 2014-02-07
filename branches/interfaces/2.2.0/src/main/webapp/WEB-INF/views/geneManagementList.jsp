@@ -343,25 +343,25 @@
                             </table>
                         </td>
                         <td style="border: 1px solid black" valign="top">${gene.id_gene}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.name}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.symbol}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.chromosome}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.species}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.centimorgan}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.name)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.symbol)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.chromosome)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.species)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.centimorgan)}</td>
                         <td style="border: 1px solid black" valign="top">
-                            <a href="javascript:lookupMGI('${gene.mgi_ref}');">
-                                ${gene.mgi_ref}
+                            <a href="javascript:lookupMGI('${fn:escapeXml(gene.mgi_ref)}');">
+                                ${fn:escapeXml(gene.mgi_ref)}
                             </a>
                         </td>
                         <td style="border: 1px solid black" valign="top">
-                            <a href="javascript:lookupEnsembl('${gene.ensembl_ref}');">
-                                ${gene.ensembl_ref}
+                            <a href="javascript:lookupEnsembl('${fn:escapeXml(gene.ensembl_ref)}');">
+                                ${fn:escapeXml(gene.ensembl_ref)}
                             </a>
                         </td>
-                        <td style="border: 1px solid black" valign="top">${gene.promoter}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.founder_line_number}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.plasmid_construct}</td>
-                        <td style="border: 1px solid black" valign="top">${gene.cytoband}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.promoter)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.founder_line_number)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.plasmid_construct)}</td>
+                        <td style="border: 1px solid black" valign="top">${fn:escapeXml(gene.cytoband)}</td>
                     </tr>
                 </c:forEach>
             </table>
