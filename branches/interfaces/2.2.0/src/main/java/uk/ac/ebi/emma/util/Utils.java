@@ -280,10 +280,6 @@ public class Utils {
         return wrapper + s + wrapper;
     }
     
-    public static HashMap<String, Integer> getMaxColumnLengths(String table) {
-        return Utils.getMaxColumnLengths(table);
-    }
-    
     /**
      * Given an object instance, a tablename to which the fields in the object are bound,
      * and a <code>org.springframework.validation.Errors.Errors</code> object,
@@ -297,7 +293,7 @@ public class Utils {
      * errors .
      */
     public static void validateMaxFieldLengths(Object instance, String tablename, Errors errors) {
-        HashMap columnLengthsHash = getMaxColumnLengths(tablename);
+        HashMap columnLengthsHash = DBUtils.getMaxColumnLengths(tablename);
         Field[] fields = instance.getClass().getDeclaredFields();
         for (Field field : fields) {
             if (field.getType().equals(String.class)) {
@@ -309,9 +305,9 @@ public class Utils {
                         if (columnLengthsHash.containsKey(field.getName())) {
                             int maxColumnLength = (int)columnLengthsHash.get(field.getName());
                             if (value.length() > maxColumnLength) {
-                                String errMsg = "Expected at most " + maxColumnLength + " characters but found " + value.length() + " characters.";
+                                String errMsg = "Expected at most " + maxColumnLength + " character(s) but found " + value.length() + " characters.";
                                 errors.rejectValue(field.getName(), null, errMsg);
-                                String logMsg = tablename + "." + field.getName() + ": expected at most " + maxColumnLength + " characters but found " + value.length() + " characters.";
+                                String logMsg = tablename + "." + field.getName() + ": expected at most " + maxColumnLength + " character(s) but found " + value.length() + " characters.";
                                 logger.warn(logMsg);
                             }
                         }

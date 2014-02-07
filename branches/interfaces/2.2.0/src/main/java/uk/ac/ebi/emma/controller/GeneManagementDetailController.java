@@ -16,6 +16,7 @@
 
 package uk.ac.ebi.emma.controller;
 
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -27,9 +28,11 @@ import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.util.DBUtils;
 import uk.ac.ebi.emma.util.Utils;
 
 /**
@@ -63,6 +66,27 @@ public class GeneManagementDetailController implements Validator {
         return "geneManagementDetail";
     }    
 
+    /**
+     * Save the form data.
+     * 
+     * @param geneId
+     * @param mgiReference
+     * @param geneName
+     * @param ensemblReference
+     * @param geneSymbol
+     * @param promoter
+     * @param chromosome
+     * @param founderLineNumber
+     * @param species
+     * @param plasmidConstruct
+     * @param centimorgan
+     * @param cytoband
+     * @param hidSeedValues
+     * @param synonymIds
+     * @param synonymNames
+     * @param synonymSymbols
+     * @return redirected view to same gene detail data.
+     */
     @RequestMapping(value="save", method=RequestMethod.POST)
     public String save(
             @RequestParam(value = "geneId") String geneId
@@ -81,8 +105,7 @@ public class GeneManagementDetailController implements Validator {
           , @RequestParam(value = "hidSeedValues", required=false) String[] hidSeedValues
           , @RequestParam(value = "synonymIds", required=false) String[] synonymIds
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
-          , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols
-          , Model model) 
+          , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols) 
     {
         Gene gene = null;
         Integer id_gene = Utils.tryParseInt(geneId);
@@ -195,11 +218,25 @@ public class GeneManagementDetailController implements Validator {
             }
         }
     }
-//    
-//    // PRIVATE METHODS
-//    
-//    
-//    // GETTERS AND SETTERS
+    
+    /**
+     * Return hashmap of maximum database column lengths of <code>String</code>
+     * data. Used to dynamically set maxlength of client input HTML controls.
+     * @param tablename Database table name of maximum string lengths to return
+     * @return a hashmap of maximum database column lengths of <code>String</code>
+     * data.
+     */
+    @RequestMapping(value="getFieldLengths")
+    @ResponseBody
+    public HashMap<String, Integer> getFieldLengths(String tablename) {
+        return DBUtils.getMaxColumnLengths(tablename);
+    }
+    
+    
+    // PRIVATE METHODS
+    
+    
+    // GETTERS AND SETTERS
     
 
 }
