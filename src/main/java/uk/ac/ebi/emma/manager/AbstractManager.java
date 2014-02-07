@@ -23,6 +23,7 @@ package uk.ac.ebi.emma.manager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import uk.ac.ebi.emma.util.HibernateUtil;
 
 /**
@@ -30,14 +31,19 @@ import uk.ac.ebi.emma.util.HibernateUtil;
  * @author mrelac
  */
 public abstract class AbstractManager {
-   protected final Logger logger = Logger.getLogger(this.getClass());
-   protected SessionFactory sessionFactory;
-   
-   public AbstractManager() {
-       sessionFactory = HibernateUtil.getSessionFactory();
-       logger.debug("Instantiating new AbstractManager for " + this.getClass() + ". sessionFactory is " + sessionFactory.toString());
-   }
+    protected final Logger logger = Logger.getLogger(this.getClass());
+    protected SessionFactory sessionFactory;
+    protected String username = null;
+
+    public AbstractManager() {
+        sessionFactory = HibernateUtil.getSessionFactory();
+        logger.debug("Instantiating new AbstractManager for " + this.getClass() + ". sessionFactory is " + sessionFactory.toString());
+    }
+    
     protected Session getCurrentSession(){
+        if (username == null)
+            username = SecurityContextHolder.getContext().getAuthentication().getName();
+        
         return sessionFactory.getCurrentSession();
     }
 

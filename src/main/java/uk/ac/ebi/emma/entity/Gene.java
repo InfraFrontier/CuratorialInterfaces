@@ -16,10 +16,8 @@
 
 package uk.ac.ebi.emma.entity;
 
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Set;
-import javax.persistence.Transient;
-import uk.ac.ebi.emma.manager.GenesManager;
 
 /**
  *
@@ -36,14 +34,14 @@ public class Gene {
     private String species;
     private String mgi_ref;
     private String username;
-    private String last_change;
+    private Timestamp last_change;
     private String promoter;
     private String founder_line_number;
     private String plasmid_construct;
     private String ensembl_ref;
     private Set<GeneSynonym> synonyms;
     private Set<Allele> alleles;
-    private int boundAllelesCount;          // Transient.
+//    private int boundAllelesCount;          // Transient.
 
     public int getId_gene() {
         return id_gene;
@@ -117,14 +115,6 @@ public class Gene {
         this.username = username;
     }
 
-    public String getLast_change() {
-        return last_change;
-    }
-
-    public void setLast_change(String last_change) {
-        this.last_change = last_change;
-    }
-
     public String getPromoter() {
         return promoter;
     }
@@ -194,5 +184,13 @@ public class Gene {
 //    public String toString() {
 //        return GenesManager.toJSON(this);
 //    }
+
+    public Timestamp getLast_change() {
+        return last_change;
+    }
+
+    public void setLast_change(Timestamp last_change) {
+        this.last_change = last_change;
+    }
     
 }

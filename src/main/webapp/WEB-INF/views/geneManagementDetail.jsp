@@ -55,6 +55,7 @@
                 $('#tabSynonyms').append('<tr>'
                                        +   '<td>'
                                        +      '<input type="hidden" name="hidSeedValues" value="seedValue" />'
+                                       +      '<input type="hidden" class="clsUsername" name="synonymUsernames" value="${loggedInUser}" />'
                                        +      '<input alt="Delete Synonym" type="image" height="15" width="15" title="Delete Synonym" onclick="deleteSynonym(this);" src="${pageContext.request.contextPath}/images/delete.jpg" />'
                                        +   '</td>'
                                        +   '<td>'
@@ -135,13 +136,25 @@
                     }
                 });
             }
+            
+            function dataChanged(inputControl) {
+                var tr = $(inputControl).parent().parent();
+                var theUsername = $(tr).find('.clsUsername');
+                $(theUsername).val('${loggedInUser}');
+                
+                return false;
+            }
 
         </script>
         <title>Gene Management - add/edit</title>
     </head>
     <body>
         <h2>Gene Management - add/edit</h2>
-        <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
+        <%--
+            This gets the logged-in user but is deprecated. Left here for handy syntax cheat sheet.
+            <sec:authentication property='principal.username' var="loggedInUser" />
+        --%>
+        <span id="loginHeader">Logged in as user "${loggedInUser}"</span>
         
         <br />
         <br />
@@ -296,6 +309,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" name="hidSeedValues" value="seedValue" />
+                                                        <input type="hidden" name="synonymUsernames" class="clsUsername" value="${synonym.username}" />
                                                         <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete synonym ${synonym.id_syn}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteSynonym(this); return false;"/>
@@ -304,10 +318,10 @@
                                                         <input name="synonymIds" readonly="readonly" value="${synonym.id_syn}" />
                                                     </td>
                                                     <td>
-                                                        <input name="synonymNames" class="synonymName" value="${synonym.name}" />
+                                                        <input name="synonymNames" class="synonymName" value="${synonym.name}" onchange="dataChanged(this);" />
                                                     </td>
                                                     <td>
-                                                        <input name="synonymSymbols" class="synonymSymbol" value="${synonym.symbol}" />
+                                                        <input name="synonymSymbols" class="synonymSymbol" value="${synonym.symbol}" onchange="dataChanged(this);" />
                                                     </td>
                                                 </tr>
                                             </c:forEach>
