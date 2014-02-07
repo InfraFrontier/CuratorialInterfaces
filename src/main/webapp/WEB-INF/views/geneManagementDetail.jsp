@@ -44,9 +44,11 @@
         </style>
         
         <script>
+            var urlRoot = "${pageContext.request.contextPath}/interfaces/geneManagementDetail";
             
             $(document).ready(function() {
                 setSynonymHeadings();
+                setMaxlengths();
             });
             
             function newSynonym() {
@@ -59,16 +61,24 @@
                                        +      '<input type="text" name="synonymIds" readonly="readonly" />'
                                        +   '</td>'
                                        +   '<td>'
-                                       +      '<input type="text" name="synonymNames" />'
+                                       +      '<input type="text" name="synonymNames" class="synonymName" />'
                                        +   '</td>'
                                        +   '<td>'
-                                       +      '<input type="text" name="synonymSymbols" />'
+                                       +      '<input type="text" name="synonymSymbols" class="synonymSymbol" />'
                                        +   '</td>'
                                        + '</tr>');
                 setSynonymHeadings();
+                setMaxGeneSynonymLengths();
                 return false;
             }
+            
+            function deleteSynonym(deleteIcon) {
+                $(deleteIcon).parent().parent().remove();
+                setSynonymHeadings();
 
+                return false;
+            }
+            
             function setSynonymHeadings() {
                 var displayFormat = ($('#tabSynonyms > tbody > tr').length > 0 ? 'table-row' : 'none');
                 $('#trSynonymHeadings').css('display', displayFormat);
@@ -82,6 +92,48 @@
             function lookupEnsembl() {
                 var id = $('#ensemblReference').val();
                 window.open("http://www.ensembl.org/Mus_musculus/geneview?gene=" + id, "EnsemblWindow");
+            }
+            
+            function setMaxlengths() {
+                setMaxGeneLengths();
+                setMaxGeneSynonymLengths();
+            }
+            
+            function setMaxGeneLengths() {
+                // Set genes table field lengths.
+                $.ajax({
+                    url: urlRoot + "/getFieldLengths"
+                  , async: false
+                  , data: { tablename: 'genes' }
+                  , dataType: "json"
+                  , success: function( data ) {
+                      var x = data['chromosome'];
+                      $('#chromosome').attr("maxLength", data['chromosome']);
+                      $('#cytoband').attr("maxLength", data['cytoband']);
+                      $('#ensemblReference').attr("maxLength", data['ensembl_ref']);
+                      $('#founderLineNumber').attr("maxLength", data['founder_line_number']);
+                      $('#mgiReference').attr("maxLength", data['mgi_ref']);
+                      $('#geneName').attr("maxLength", data['name']);
+                      $('#plasmidConstruct').attr("maxLength", data['plasmid_construct']);
+                      $('#promoter').attr("maxLength", data['promoter']);
+                      $('#species').attr("maxLength", data['species']);
+                      $('#geneSymbol').attr("maxLength", data['symbol']);
+                    }
+                });
+            }
+                
+            function setMaxGeneSynonymLengths() {
+                // Set syn_genes table field lengths.
+                $.ajax({
+                    url: urlRoot + "/getFieldLengths"
+                  , async: false
+                  , data: { tablename: 'syn_genes' }
+                  , dataType: "json"
+                  , success: function( data ) {
+                      $('.synonymName').attr("maxLength", data['name']);
+                      $('.synonymSymbol').attr("maxLength", data['symbol']);
+                    }
+                });
             }
 
         </script>
@@ -160,7 +212,7 @@
                                             <%-- CHROMOSOOME --%>
                                             <td><label for="chromosome">Chromosome:</label></td>
                                             <td>
-                                                <input id="chromosome" name="chromosome" value="${gene.chromosome}" maxlength="2" />
+                                                <input id="chromosome" name="chromosome" value="${gene.chromosome}" />
                                                 <br />
                                                 <form:errors path="chromosome" cssClass="error" />
                                             </td>
@@ -252,10 +304,10 @@
                                                         <input name="synonymIds" readonly="readonly" value="${synonym.id_syn}" />
                                                     </td>
                                                     <td>
-                                                        <input name="synonymNames" value="${synonym.name}" />
+                                                        <input name="synonymNames" class="synonymName" value="${synonym.name}" />
                                                     </td>
                                                     <td>
-                                                        <input name="synonymSymbols" value="${synonym.symbol}" />
+                                                        <input name="synonymSymbols" class="synonymSymbol" value="${synonym.symbol}" />
                                                     </td>
                                                 </tr>
                                             </c:forEach>
