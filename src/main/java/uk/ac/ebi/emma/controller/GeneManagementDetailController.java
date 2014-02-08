@@ -84,7 +84,7 @@ public class GeneManagementDetailController implements Validator {
      * @param plasmidConstruct
      * @param centimorgan
      * @param cytoband
-     * @param synonymUsernames The logged-in user's name for each synonym.
+     * @param synonymsAreDirty true for each dirty synonym; false for each clean (unmodified) one
      * @param hidSeedValues
      * @param synonymIds
      * @param synonymNames
@@ -107,7 +107,7 @@ public class GeneManagementDetailController implements Validator {
           , @RequestParam(value = "cytoband") String cytoband
             
           , @RequestParam(value = "hidSeedValues", required=false) String[] hidSeedValues
-          , @RequestParam(value = "synonymUsernames", required=false) String[] synonymUsernames
+          , @RequestParam(value = "synonymsAreDirty", required=false) String[] synonymsAreDirty
           , @RequestParam(value = "synonymIds", required=false) String[] synonymIds
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
           , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols) 
@@ -166,15 +166,15 @@ public class GeneManagementDetailController implements Validator {
                 try {
                     symbol = synonymSymbols[i];
                 } catch (ArrayIndexOutOfBoundsException e) { }
-                
-                String username = null;
-                try {
-                    username = synonymUsernames[i];
-                } catch (ArrayIndexOutOfBoundsException e) { }
-                
                 geneSynonym.setSymbol(symbol);
+                
+                boolean isDirty = false;
+                try {
+                    isDirty = synonymsAreDirty[i].compareToIgnoreCase("true") == 0;
+                } catch (ArrayIndexOutOfBoundsException e) { }
+                geneSynonym.setIsDirty(isDirty);
+                
                 geneSynonymSet.add(geneSynonym);
-                geneSynonym.setUsername(username);
             }
             gene.setSynonyms(geneSynonymSet);
         }

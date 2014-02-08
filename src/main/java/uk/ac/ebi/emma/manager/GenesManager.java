@@ -15,13 +15,9 @@
  */
 package uk.ac.ebi.emma.manager;
 
-import com.google.gson.Gson;
-import java.math.BigInteger;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import org.hibernate.HibernateException;
@@ -66,17 +62,32 @@ public class GenesManager extends AbstractManager {
     }
 
     /**
-     * Saves the given <code>Gene</code> gene
-     * @param gene the <code>Gene</code> to be saved
+     * Saves the given <code>Gene</code> instance
+     * @param gene the <code>Gene</code> instance p0to be saved
      */
     public void save(Gene gene) {
         Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
         gene.setCentimorgan(centimorgan == null ? null : centimorgan.toString());   // Centimorgans are numeric, nullable in the database, so re-map any non-numeric values to null.
     
-//************ FIXME FIXME FIXME *************/
-//    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-   //     String currentTimestamp = dateFormat.format(new Date());
-     //   gene.setLast_change(currentTimestamp);
+        // 08-Feb-14 (mrelac) After spending a day trying unsuccessfully to get
+        // hibernate 4.3.1 to generate timestamps, I am abandoning that approach
+        // and instead have added an 'isDirty' Transient property to Gene and
+        // SynonymGene that will indicate when to set the last_modified timestamp.
+        // It's a bit of overhead, but Hibernate has proven it is unreliable for
+        // automatic timestamp insertion.
+        
+        // Set the timestamp and username for every dirty GeneSynonym.
+        Date now = new Date();
+        Set<GeneSynonym> synonyms = gene.getSynonyms();
+        if ((synonyms != null) && ( ! synonyms.isEmpty())) {
+            for (GeneSynonym synonym : synonyms) {
+                if (synonym.isIsDirty()) {
+                    synonym.setUsername(username);
+                    synonym.setLast_change(now);
+                }
+            }
+        }
+        gene.setLast_change(new Date());
         gene.setUsername(username);
         try {
             getCurrentSession().beginTransaction();
@@ -477,17 +488,12 @@ public class GenesManager extends AbstractManager {
      */
     public GeneSynonym addSynonym(Gene gene) {
         synchronized(gene) {
-            /*
-            Set<GeneSynonym> geneSynonymSet = gene.getSynonyms();
-            if (geneSynonymSet == null) {
-                geneSynonymSet = new LinkedHashSet();
-                gene.setSynonyms(geneSynonymSet);
-            }*/
             GeneSynonym geneSynonym = new GeneSynonym();
             geneSynonym.setLast_change(new Date());
             geneSynonym.setUsername(username);
             geneSynonym.setGene(gene);
             gene.getSynonyms().add(geneSynonym);
+            geneSynonym.setIsDirty(true);
             save(gene);
             
             return geneSynonym;
@@ -542,8 +548,6 @@ public class GenesManager extends AbstractManager {
                 gene.setEnsembl_ref("");
             if (gene.getFounder_line_number()== null)
                 gene.setFounder_line_number("");
-//            if (gene.getLast_change()== null)
-//                gene.setLast_change("");
             if (gene.getMgi_ref()== null)
                 gene.setMgi_ref("");
             if (gene.getName() == null)

@@ -55,7 +55,7 @@
                 $('#tabSynonyms').append('<tr>'
                                        +   '<td>'
                                        +      '<input type="hidden" name="hidSeedValues" value="seedValue" />'
-                                       +      '<input type="hidden" class="clsUsername" name="synonymUsernames" value="${loggedInUser}" />'
+                                       +      '<input type="hidden" name="synonymsAreDirty" class="clsIsDirty" value="true" />'
                                        +      '<input alt="Delete Synonym" type="image" height="15" width="15" title="Delete Synonym" onclick="deleteSynonym(this);" src="${pageContext.request.contextPath}/images/delete.jpg" />'
                                        +   '</td>'
                                        +   '<td>'
@@ -139,8 +139,8 @@
             
             function dataChanged(inputControl) {
                 var tr = $(inputControl).parent().parent();
-                var theUsername = $(tr).find('.clsUsername');
-                $(theUsername).val('${loggedInUser}');
+                var isDirty = $(tr).find('.clsIsDirty');
+                $(isDirty).val('true');
                 
                 return false;
             }
@@ -309,7 +309,7 @@
                                                 <tr>
                                                     <td>
                                                         <input type="hidden" name="hidSeedValues" value="seedValue" />
-                                                        <input type="hidden" name="synonymUsernames" class="clsUsername" value="${synonym.username}" />
+                                                        <input type="hidden" name="synonymsAreDirty" class="clsIsDirty" value="false" />
                                                         <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete synonym ${synonym.id_syn}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteSynonym(this); return false;"/>

@@ -16,14 +16,16 @@
 
 package uk.ac.ebi.emma.entity;
 
-import java.sql.Timestamp;
+import java.io.Serializable;
+import java.util.Date;
 import java.util.Set;
+import javax.persistence.Transient;
 
 /**
  *
  * @author phil
  */
-public class Gene {
+public class Gene implements Serializable {
     
     private int id_gene;
     private String name;
@@ -34,14 +36,14 @@ public class Gene {
     private String species;
     private String mgi_ref;
     private String username;
-    private Timestamp last_change;
+    private Date last_change;
     private String promoter;
     private String founder_line_number;
     private String plasmid_construct;
     private String ensembl_ref;
     private Set<GeneSynonym> synonyms;
     private Set<Allele> alleles;
-//    private int boundAllelesCount;          // Transient.
+    private boolean isDirty = false;
 
     public int getId_gene() {
         return id_gene;
@@ -163,34 +165,23 @@ public class Gene {
         this.alleles = alleles;
     }
 
-    /*
-    @Transient
-    public List<Allele> getBoundAlleles() {
-        return new GenesManager().getBoundAlleles(id_gene);
-    }
-
-    @Transient
-    public int getBoundAllelesCount() {
-        return boundAllelesCount;
-    }
-
-    @Transient
-    public void setBoundAllelesCount(int boundAllelesCount) {
-        this.boundAllelesCount = boundAllelesCount;
-    }
-    */
-
-//    @Override
-//    public String toString() {
-//        return GenesManager.toJSON(this);
-//    }
-
-    public Timestamp getLast_change() {
+    public Date getLast_change() {
         return last_change;
     }
 
-    public void setLast_change(Timestamp last_change) {
+    public void setLast_change(Date last_change) {
         this.last_change = last_change;
     }
+
+    @Transient
+    public boolean isIsDirty() {
+        return isDirty;
+    }
+
+    @Transient
+    public void setIsDirty(boolean isDirty) {
+        this.isDirty = isDirty;
+    }
+
     
 }
