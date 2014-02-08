@@ -16,6 +16,7 @@
 package uk.ac.ebi.emma.entity;
 
 import java.util.Date;
+import javax.persistence.Transient;
 import org.hibernate.SessionFactory;
 
 /**
@@ -31,6 +32,7 @@ public class GeneSynonym {
     private String username;
     private Date last_change;
     private Gene gene;
+    private boolean isDirty;
 
     public SessionFactory getSessionFactory() {
         return sessionFactory;
@@ -86,6 +88,16 @@ public class GeneSynonym {
 
     public void setGene(Gene gene) {
         this.gene = gene;
+    }
+
+    @Transient
+    public boolean isIsDirty() {
+        return isDirty;
+    }
+
+    @Transient
+    public void setIsDirty(boolean isDirty) {
+        this.isDirty = isDirty;
     }
 
 
