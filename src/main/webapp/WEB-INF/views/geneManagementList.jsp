@@ -172,10 +172,6 @@
                         });
             }
 
-            function showResults() {
-                $('#divResults').css('display', 'block');
-            }
-
             function deleteGene(id, deleteIcon) {
                 $.ajax({
                     url: urlRoot + "/deleteGene"
@@ -249,8 +245,7 @@
                         <td colspan="4">
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
-                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementList/go?filter=${filter}"
-                                   onload="showResults();"/>
+                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementList/go?filter=${filter}"/>
                         </td>
                     </tr>
                 </tfoot>
