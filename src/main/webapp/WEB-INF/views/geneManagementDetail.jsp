@@ -108,7 +108,6 @@
                   , data: { tablename: 'genes' }
                   , dataType: "json"
                   , success: function( data ) {
-                      var x = data['chromosome'];
                       $('#chromosome').attr("maxLength", data['chromosome']);
                       $('#cytoband').attr("maxLength", data['cytoband']);
                       $('#ensemblReference').attr("maxLength", data['ensembl_ref']);
@@ -155,17 +154,21 @@
             <sec:authentication property='principal.username' var="loggedInUser" />
         --%>
         <span id="loginHeader">Logged in as user "${loggedInUser}"</span>
-        
-        <br />
+
         <br />
 
         <form>
+            <input type="hidden" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
+            <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" name="filterChromosome" value="${filter.chromosome}" />
+            <input type="hidden" name="filterMGIReference" value="${filter.mgiReference}" />
             <table style="border: none">
                 <tr>
                     <td>
                         <div class="buttonAlignment">
                             <input type="submit" value="Save"
-                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save" formmethod="POST" />
+                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save?filter=${filter}" formmethod="POST" />
                         </div>
                     </td>
                 </tr>

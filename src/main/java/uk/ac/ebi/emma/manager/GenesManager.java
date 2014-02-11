@@ -101,18 +101,26 @@ public class GenesManager extends AbstractManager {
     
     /**
      * Deletes the named <code>Gene</code> object.
-     * @param gDAO the <code>Gene</code> object to be deleted
+     * @param gene the <code>Gene</code> object to be deleted
      */
-    public void delete(Gene gDAO) {
+    public void delete(Gene gene) {
         try {
             getCurrentSession().beginTransaction();
-            getCurrentSession().delete(gDAO);
+            getCurrentSession().delete(gene);
             getCurrentSession().getTransaction().commit();
 
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
             throw e;
         }
+    }
+    
+    /**
+     * Deletes the <code>Gene</code> object identified by <b>id</b>.
+     * @param id the <code>Gene</code> primary key of object to be deleted
+     */
+    public void delete(int id) {
+        delete(getGene(id));
     }
 
     /**
