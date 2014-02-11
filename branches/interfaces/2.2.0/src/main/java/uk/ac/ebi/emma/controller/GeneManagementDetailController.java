@@ -34,6 +34,7 @@ import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.DBUtils;
+import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
 
 /**
@@ -46,29 +47,91 @@ public class GeneManagementDetailController implements Validator {
     @Autowired
     private GenesManager genesManager;
 
+    
     /**
      * 'Edit Gene' icon implementation
      * 
      * @param id_gene the gene ID being edited (a value of 0 indicates a new
      *                gene is to be added).
+     * @param geneId the Gene Id part of the filter
+     * @param geneName the Gene name part of the filter
+     * @param geneSymbol the Gene symbol part of the filter
+     * @param chromosome the chromosome part of the filter
+     * @param mgiReference the MGI reference part of the filter
      * @param model the model
      * @return the view to show
      */
     @RequestMapping(value="/editGene", method=RequestMethod.GET)
     public String editGene(
-            @RequestParam(value="id_gene", required=false) int id_gene
+            @RequestParam(value="id_gene", required=false) Integer id_gene
+            
+          , @RequestParam(value="geneId", required=false) String geneId
+          , @RequestParam(value="geneName", required=false) String geneName
+          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
+          , @RequestParam(value="chromosome", required=false) String chromosome
+          , @RequestParam(value="mgiReference", required=false) String mgiReference
+            
           , Model model)
     {
+        // Save the filter info, to be resored when save() is called.
+        Filter filter = new Filter();
+        filter.setGeneId(geneId != null ? geneId : "");
+        filter.setGeneName(geneName != null ? geneName : "");
+        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
+        filter.setChromosome(chromosome != null ? chromosome : "");
+        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        model.addAttribute(filter);
+        
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("loggedInUser", loggedInUser);
+        
         Gene gene = genesManager.getGene(id_gene);
         if (gene == null)
             gene = new Gene();
         model.addAttribute("gene", gene);
-        model.addAttribute("loggedInUser", loggedInUser);
     
         return "geneManagementDetail";
-    }    
-
+    }
+    
+    /**
+     * 'New Gene' icon implementation
+     * 
+     * @param geneId the Gene Id part of the filter
+     * @param geneName the Gene name part of the filter
+     * @param geneSymbol the Gene symbol part of the filter
+     * @param chromosome the chromosome part of the filter
+     * @param mgiReference the MGI reference part of the filter
+     * @param model the model
+     * @return the view to show
+     */
+    @RequestMapping(value="/newGene", method=RequestMethod.GET)
+    public String newGene(
+            @RequestParam(value="geneId", required=false) String geneId
+          , @RequestParam(value="geneName", required=false) String geneName
+          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
+          , @RequestParam(value="chromosome", required=false) String chromosome
+          , @RequestParam(value="mgiReference", required=false) String mgiReference
+            
+          , Model model)
+    {
+        // Save the filter info, to be resored when save() is called.
+        Filter filter = new Filter();
+        filter.setGeneId(geneId != null ? geneId : "");
+        filter.setGeneName(geneName != null ? geneName : "");
+        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
+        filter.setChromosome(chromosome != null ? chromosome : "");
+        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        model.addAttribute(filter);
+        
+        String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("loggedInUser", loggedInUser);
+        
+        Gene gene = new Gene();
+        model.addAttribute("gene", gene);
+    
+        return "geneManagementDetail";
+    }
+    
     /**
      * Save the form data.
      * 
@@ -89,6 +152,12 @@ public class GeneManagementDetailController implements Validator {
      * @param synonymIds
      * @param synonymNames
      * @param synonymSymbols
+     * @param filterGeneId
+     * @param filterGeneName
+     * @param filterGeneSymbol
+     * @param filterChromosome
+     * @param filterMGIReference
+     * @param model the filter data, saved above in editGene().
      * @return redirected view to same gene detail data.
      */
     @RequestMapping(value="save", method=RequestMethod.POST)
@@ -110,7 +179,15 @@ public class GeneManagementDetailController implements Validator {
           , @RequestParam(value = "synonymsAreDirty", required=false) String[] synonymsAreDirty
           , @RequestParam(value = "synonymIds", required=false) String[] synonymIds
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
-          , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols) 
+          , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols
+            
+          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
+          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
+          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
+            
+          , Model model) 
     {
         Gene gene = null;
         Integer id_gene = Utils.tryParseInt(geneId);
@@ -181,7 +258,12 @@ public class GeneManagementDetailController implements Validator {
         
         genesManager.save(gene);
         
-        return "redirect:/interfaces/geneManagementDetail/editGene?id_gene=" + gene.getId_gene();
+        return "redirect:/interfaces/geneManagementList/go"
+                + "?geneId=" + filterGeneId
+                + "&geneName=" + filterGeneName
+                + "&geneSymbol=" + filterGeneSymbol
+                + "&chromosome=" + filterChromosome
+                + "&mgiReference=" + filterMGIReference;
     }
 
     /**
