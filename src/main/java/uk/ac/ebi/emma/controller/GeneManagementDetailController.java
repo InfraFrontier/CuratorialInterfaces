@@ -47,9 +47,8 @@ public class GeneManagementDetailController implements Validator {
     @Autowired
     private GenesManager genesManager;
 
-    
     /**
-     * 'Edit Gene' icon implementation
+     * 'Edit/New Gene' icon implementation
      * 
      * @param id_gene the gene ID being edited (a value of 0 indicates a new
      *                gene is to be added).
@@ -94,45 +93,6 @@ public class GeneManagementDetailController implements Validator {
     }
     
     /**
-     * 'New Gene' icon implementation
-     * 
-     * @param geneId the Gene Id part of the filter
-     * @param geneName the Gene name part of the filter
-     * @param geneSymbol the Gene symbol part of the filter
-     * @param chromosome the chromosome part of the filter
-     * @param mgiReference the MGI reference part of the filter
-     * @param model the model
-     * @return the view to show
-     */
-    @RequestMapping(value="/newGene", method=RequestMethod.GET)
-    public String newGene(
-            @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
-            
-          , Model model)
-    {
-        // Save the filter info, to be resored when save() is called.
-        Filter filter = new Filter();
-        filter.setGeneId(geneId != null ? geneId : "");
-        filter.setGeneName(geneName != null ? geneName : "");
-        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
-        filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setMgiReference(mgiReference != null ? mgiReference : "");
-        model.addAttribute(filter);
-        
-        String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
-        model.addAttribute("loggedInUser", loggedInUser);
-        
-        Gene gene = new Gene();
-        model.addAttribute("gene", gene);
-    
-        return "geneManagementDetail";
-    }
-    
-    /**
      * Save the form data.
      * 
      * @param geneId
@@ -160,7 +120,7 @@ public class GeneManagementDetailController implements Validator {
      * @param model the filter data, saved above in editGene().
      * @return redirected view to same gene detail data.
      */
-    @RequestMapping(value="save", method=RequestMethod.POST)
+    @RequestMapping(value="/save", method=RequestMethod.POST)
     public String save(
             @RequestParam(value = "geneId") String geneId
           , @RequestParam(value = "mgiReference") String mgiReference
@@ -258,7 +218,7 @@ public class GeneManagementDetailController implements Validator {
         
         genesManager.save(gene);
         
-        return "redirect:/interfaces/geneManagementList/go"
+        return "redirect:/curation/geneManagementList/go"
                 + "?geneId=" + filterGeneId
                 + "&geneName=" + filterGeneName
                 + "&geneSymbol=" + filterGeneSymbol

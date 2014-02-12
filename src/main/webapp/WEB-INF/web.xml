@@ -51,7 +51,7 @@
 
     <servlet-mapping>
         <servlet-name>emma-dispatcher</servlet-name>
-        <url-pattern>/interfaces/*</url-pattern>
+        <url-pattern>/curation/*</url-pattern>
     </servlet-mapping>
     
     
