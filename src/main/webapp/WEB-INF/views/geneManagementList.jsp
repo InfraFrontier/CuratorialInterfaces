@@ -156,20 +156,18 @@
                 jQuery.ajax({
                     url: urlRoot + "/getGeneIds"
                     , async: false
-                })
-                        .done(function(data) {
-                            geneIds = data.slice(0);
-                        });
+                }).done(function(data) {
+                    geneIds = data.slice(0);
+                });
             }
 
             function populateChromosomes(urlRoot) {
                 jQuery.ajax({
                     url: urlRoot + "/getChromosomes"
                     , async: false
-                })
-                        .done(function(data) {
-                            chromosomes = data.slice(0);
-                        });
+                }).done(function(data) {
+                    chromosomes = data.slice(0);
+                });
             }
 
             function deleteGene(id, deleteIcon) {

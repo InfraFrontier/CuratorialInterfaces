@@ -20,6 +20,9 @@ import javax.mail.Address;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import org.apache.log4j.Logger;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PropertiesLoaderUtils;
 import org.springframework.validation.Errors;
 
 /**
@@ -40,29 +43,60 @@ public class Utils {
      * @return the property value, if found; null otherwise
      */
     public static String getProperty(String propertiesFile, String property) {
-        String retVal = null;
-        FileInputStream stream = null;
+        Properties properties = getProperties(propertiesFile);
+        if (properties == null) {
+            return null;
+        } else {
+            return properties.getProperty(property);
+        }
+    }
+
+    /**
+     * Given a property filename, this method returns the properties.
+     * <b>propertiesFile</b> is relative to the classloader's working
+     * directory and typically is not an absolute path (e.g. no leading slash).
+     * If <b>properitesFile</b> is not found, a null <code>Properties</code>
+     * object is returned.
+     * 
+     * @param propertiesFile the name of the properties file
+     * @return the properties, if found; null otherwise
+     */
+    public static Properties getProperties(String propertiesFile) {
+        FileInputStream stream;
         Properties properties = new Properties();
         
         try {
             stream = new FileInputStream(propertiesFile);
             properties.load(stream);
-            retVal = properties.getProperty(property);
+            stream.close();
         }
         catch (IOException e) {
-            return retVal;
+            return null;
         }
-        finally {
-            if (stream != null) {
-                try {
-                    stream.close();
-                }
-                catch (IOException ioe) { }
-            }
-        }
-        
-        return retVal;
+
+        return properties;
     }
+    
+    /**
+     * Given a property filename, this method searches for the file on the classpath
+     * and, if found, loads and returns the properties. Typically, <b>propertiesFile</b>
+     * will begin with a forward slash (e.g. "/hibernate.properties").
+     * If <b>properitesFile</b> is not found, a null <code>Properties</code>
+     * object is returned.
+     * 
+     * @param propertiesFile the name of the properties file
+     * @return the properties, if found; null otherwise
+     */
+    public static Properties getPropertiesFromClasspath(String propertiesFile) {
+        Properties properties = null;
+        Resource resource = new ClassPathResource(propertiesFile);
+        try {
+            properties = PropertiesLoaderUtils.loadProperties(resource);
+        } catch (IOException e) { }
+
+        return properties;
+    }
+    
     
     /**
      * Given a property filename, a property name, and a delimiter, this method

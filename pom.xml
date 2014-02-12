@@ -522,5 +522,26 @@
             </plugin>
         </plugins>
     </build>
-
+    
+    <profiles>
+        <profile>
+            <id>localhost</id>
+            <properties>
+                <DATAFILES>/nfs/panda/emma/</DATAFILES>
+                <SERVERLOCATION>/localhost/</SERVERLOCATION>
+                <BASEURL>http://localhost:8080/</BASEURL>
+                <GOOGLEANAL>UA-40422777-1</GOOGLEANAL>
+            </properties>
+        </profile>
+        
+        <profile>
+            <id>development</id>
+            <properties>
+                <DATAFILES>/nfs/web-hx/mouseinformatics/emma/</DATAFILES>
+                <SERVERLOCATION>/dev/</SERVERLOCATION>
+                <BASEURL>https://dev.infrafrontier.eu/</BASEURL>
+                <GOOGLEANAL>UA-40422777-1</GOOGLEANAL>
+            </properties>
+        </profile>
+    </profiles>
 </project>
