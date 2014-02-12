@@ -23,6 +23,8 @@ package uk.ac.ebi.emma.manager;
 import org.apache.log4j.Logger;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import uk.ac.ebi.emma.util.HibernateUtil;
 
@@ -41,8 +43,18 @@ public abstract class AbstractManager {
     }
     
     protected Session getCurrentSession(){
-        if (username == null)
-            username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if (username == null) {
+            SecurityContext securityContext = SecurityContextHolder.getContext();
+            if (securityContext == null)
+                throw new RuntimeException("AbstractManager.getCurrentSession(): securityContext is null.");
+            Authentication authentication = securityContext.getAuthentication();
+            if (authentication == null)
+                throw new RuntimeException("AbstractManager.getCurrentSession(): authentication is null.");
+            String name = authentication.getName();
+            if (name == null)
+                throw new RuntimeException("AbstractManager.getCurrentSession(): name is null.");
+            username = name;
+        }
         
         return sessionFactory.getCurrentSession();
     }

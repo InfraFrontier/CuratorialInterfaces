@@ -42,6 +42,7 @@ public class HibernateUtil {
     protected static final Logger logger = Logger.getLogger(HibernateUtil.class);
     private static SessionFactory sessionFactory = null;
     private static Properties hibernateProperties = null;
+    private static final String HIBERNATE_PROPERTIES_FILENAME = "/hibernate.properties";
 
     public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
@@ -78,10 +79,7 @@ public class HibernateUtil {
     private static void initializeSessionFactory() {        
         Configuration configuration = new Configuration();
         if (hibernateProperties == null) {
-            Resource resource = new ClassPathResource("/hibernate.properties");
-            try {
-                hibernateProperties = PropertiesLoaderUtils.loadProperties(resource);
-            } catch (IOException e) { }
+            hibernateProperties = Utils.getPropertiesFromClasspath(HIBERNATE_PROPERTIES_FILENAME);
         }
         
         if (hibernateProperties != null)
