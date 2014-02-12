@@ -44,7 +44,7 @@
         </style>
         
         <script>
-            var urlRoot = "${pageContext.request.contextPath}/interfaces/geneManagementDetail";
+            var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementDetail";
             
             $(document).ready(function() {
                 setSynonymHeadings();
@@ -168,7 +168,7 @@
                     <td>
                         <div class="buttonAlignment">
                             <input type="submit" value="Save"
-                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save?filter=${filter}" formmethod="POST" />
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save?filter=${filter}" formmethod="POST" />
                         </div>
                     </td>
                 </tr>
@@ -339,7 +339,7 @@
                     <td>
                         <div class="buttonAlignment">
                             <input type="submit" value="Save" formmethod="POST"
-                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/save"
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
                                    />
                         </div>
                     </td>

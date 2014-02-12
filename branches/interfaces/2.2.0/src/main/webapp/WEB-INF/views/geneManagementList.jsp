@@ -35,7 +35,7 @@
         </style>
 
         <script>
-            var urlRoot = "${pageContext.request.contextPath}/interfaces/geneManagementList";
+            var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             var geneIds = null;
             var chromosomes = null;
 
@@ -79,7 +79,7 @@
             }
 
             function populateFilterAutocompletes() {
-                var urlRoot = "${pageContext.request.contextPath}/interfaces/geneManagementList";
+                var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
 
                 if (geneIds === null)
                     populateGeneIds(urlRoot);
@@ -228,12 +228,20 @@
 
         <br />
         
-        <form:form modelAttribute="filter" method="get"   >
+        <form method="get">
             <%-- NEW GENE --%>
+            <input type="hidden" name="id_gene" value="0" />
+            <input type="hidden" name="geneId" value="${filter.geneId}" />
+            <input type="hidden" name="geneName" value="${filter.geneName}" />
+            <input type="hidden" name="geneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" name="chromosome" value="${filter.chromosome}" />
+            <input type="hidden" name="mgiReference" value="${filter.mgiReference}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
-                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/newGene?filter=${filter}" />
-
+                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene" />
+        </form>
+        
+        <form:form modelAttribute="filter" method="get">
             <table id="tabFilter" style="border: 1px solid black">
                 <thead>
                     <tr><th colspan="4" style="text-align: left">Filter</th></tr>
@@ -243,7 +251,7 @@
                         <td colspan="4">
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
-                                   formaction="${pageContext.request.contextPath}/interfaces/geneManagementList/go?filter=${filter}"/>
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"/>
                         </td>
                     </tr>
                 </tfoot>
@@ -267,144 +275,151 @@
                     </tr>
                 </tbody>
             </table>
-
-            <div id="divResults">
-                <br />
-
-                <hr />
-
-                <label id="labResultsCount">
-                    <c:choose>
-                        <c:when test="${resultsCount > 1}">
-                            ${resultsCount} results found.
-                        </c:when>
-                        <c:when test="${resultsCount > 0}">
-                            1 result found.
-                        </c:when>
-                        <c:when test="${resultsCount == 0}">
-                            No results found.
-                        </c:when>
-                        <c:otherwise>
-
-                        </c:otherwise>
-                    </c:choose>
-                </label>
-
-                <br />
-                <br />
-
-                <table id="tabResults" style="border: 1px solid black">
-                    <thead>
-                        <c:choose>
-                            <c:when test="${fn:length(filteredGenesList) > 0}">
-                                <tr style="border: 1px solid black">
-                                    <th>Actions</th>
-                                    <th>Gene ID</th>
-                                    <th>Gene Name</th>
-                                    <th>Gene Symbol</th>
-                                    <th>Chromosome</th>
-                                    <th>Species</th>
-                                    <th>Centimorgan</th>
-                                    <th>MGI Reference</th>
-                                    <th>Ensembl Reference</th>
-                                    <th>Promoter</th>
-                                    <th>Founder Line Number</th>
-                                    <th>Plasmid Construct</th>
-                                    <th>Cytoband</th>
-                                </tr>
-                            </c:when>
-                        </c:choose>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="gene" items="${filteredGenesList}" varStatus="status">
-                            <tr>
-                                <td style="border: 1px solid black">
-                                    <table>
-                                        <thead></thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <%-- EDIT GENE --%>
-                                                    <form method="get">
-                                                        <input type="hidden" name="id_gene" value="${gene.id_gene}" />
-                                                        <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
-                                                               src="${pageContext.request.contextPath}/images/edit.jpg"
-                                                               formaction="${pageContext.request.contextPath}/interfaces/geneManagementDetail/editGene?filter=${filter}" />
-                                                    </form>
-                                                </td>
-
-                                                <c:set var="boundAlleles" value="${gene.alleles}" />
-                                                <c:set var="boundAllelesCount" value="${fn:length(boundAlleles)}" />
-
-                                                <c:set var="boundAlleleIds" value="" />
-                                                <c:forEach var="allele" items="${boundAlleles}" varStatus="status">
-                                                    <c:if test="${status.index == 0}">
-                                                        <c:set var="boundAlleleIds" value="${allele.id_allel}" scope="page" />
-                                                    </c:if>
-                                                    <c:if test="${status.index > 0}">
-                                                        <c:set var="boundAlleleIds" value="${boundAlleleIds}, ${allele.id_allel}" />
-                                                    </c:if>
-                                                </c:forEach>
-                                                <c:choose>
-                                                    <c:when test="${boundAllelesCount == 1}">
-                                                        <td>
-                                                            <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
-                                                                   src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                                   title="Cannot delete gene ${gene.id_gene} as it is bound to allele ID ${boundAlleleIds}."
-                                                                   class="ui-state-disabled" />
-                                                        </td>
-                                                    </c:when>
-                                                    <c:when test="${boundAllelesCount > 0}">
-                                                        <td>
-                                                            <%-- DELETE GENE --%>
-                                                            <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
-                                                                   src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                                   title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
-                                                                   class="ui-state-disabled" />
-                                                        </td>
-                                                    </c:when>
-                                                    <c:otherwise>
-                                                        <td>
-                                                            <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ${gene.id_gene}"
-                                                                   src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                                   onclick="deleteGene(${gene.id_gene}, this)"
-                                                                   formmethod="POST" />
-                                                        </td>
-                                                    </c:otherwise>
-                                                </c:choose>
-                                                <td>
-                                                    <input alt="Edit Bound Allele(s)" type="image" height="15" width="15" title="Edit bound allele(s) ${boundAlleleIds}"
-                                                           src="${pageContext.request.contextPath}/images/edit.jpg" />
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </td>
-                                <td style="border: 1px solid black">${gene.id_gene}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.symbol)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.chromosome)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.species)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.centimorgan)}</td>
-                                <td style="border: 1px solid black">
-                                    <a href="javascript:lookupMGI('${fn:escapeXml(gene.mgi_ref)}');">
-                                        ${fn:escapeXml(gene.mgi_ref)}
-                                    </a>
-                                </td>
-                                <td style="border: 1px solid black">
-                                    <a href="javascript:lookupEnsembl('${fn:escapeXml(gene.ensembl_ref)}');">
-                                        ${fn:escapeXml(gene.ensembl_ref)}
-                                    </a>
-                                </td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.promoter)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.founder_line_number)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.plasmid_construct)}</td>
-                                <td style="border: 1px solid black">${fn:escapeXml(gene.cytoband)}</td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
-            </div>
         </form:form>
+
+        <%-- RESULTS GRID --%>
+        <div id="divResults">
+            <br />
+
+            <hr />
+
+            <label id="labResultsCount">
+                <c:choose>
+                    <c:when test="${resultsCount > 1}">
+                        ${resultsCount} results found.
+                    </c:when>
+                    <c:when test="${resultsCount > 0}">
+                        1 result found.
+                    </c:when>
+                    <c:when test="${resultsCount == 0}">
+                        No results found.
+                    </c:when>
+                    <c:otherwise>
+
+                    </c:otherwise>
+                </c:choose>
+            </label>
+
+            <br />
+            <br />
+
+            <table id="tabResults" style="border: 1px solid black">
+                <thead>
+                    <c:choose>
+                        <c:when test="${fn:length(filteredGenesList) > 0}">
+                            <tr style="border: 1px solid black">
+                                <th>Actions</th>
+                                <th>Gene ID</th>
+                                <th>Gene Name</th>
+                                <th>Gene Symbol</th>
+                                <th>Chromosome</th>
+                                <th>Species</th>
+                                <th>Centimorgan</th>
+                                <th>MGI Reference</th>
+                                <th>Ensembl Reference</th>
+                                <th>Promoter</th>
+                                <th>Founder Line Number</th>
+                                <th>Plasmid Construct</th>
+                                <th>Cytoband</th>
+                            </tr>
+                        </c:when>
+                    </c:choose>
+                </thead>
+                <tbody>
+                    <c:forEach var="gene" items="${filteredGenesList}" varStatus="status">
+                        <tr>
+                            <td style="border: 1px solid black">
+                                <table>
+                                    <thead></thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <%-- EDIT GENE --%>
+                                                <form method="get" action="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene">
+                                                    <input type="hidden" name="id_gene" value="${gene.id_gene}" />
+                                                    <input type="hidden" name="geneId" value="${filter.geneId}" />
+                                                    <input type="hidden" name="geneName" value="${filter.geneName}" />
+                                                    <input type="hidden" name="geneSymbol" value="${filter.geneSymbol}" />
+                                                    <input type="hidden" name="chromosome" value="${filter.chromosome}" />
+                                                    <input type="hidden" name="mgiReference" value="${filter.mgiReference}" />
+                                                    <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
+                                                           src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                                </form>
+                                            </td>
+
+                                            <c:set var="boundAlleles" value="${gene.alleles}" />
+                                            <c:set var="boundAllelesCount" value="${fn:length(boundAlleles)}" />
+
+                                            <c:set var="boundAlleleIds" value="" />
+                                            <c:forEach var="allele" items="${boundAlleles}" varStatus="status">
+                                                <c:if test="${status.index == 0}">
+                                                    <c:set var="boundAlleleIds" value="${allele.id_allel}" scope="page" />
+                                                </c:if>
+                                                <c:if test="${status.index > 0}">
+                                                    <c:set var="boundAlleleIds" value="${boundAlleleIds}, ${allele.id_allel}" />
+                                                </c:if>
+                                            </c:forEach>
+                                            <c:choose>
+                                                <c:when test="${boundAllelesCount == 1}">
+                                                    <td>
+                                                        <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
+                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
+                                                               title="Cannot delete gene ${gene.id_gene} as it is bound to allele ID ${boundAlleleIds}."
+                                                               class="ui-state-disabled" />
+                                                    </td>
+                                                </c:when>
+                                                <c:when test="${boundAllelesCount > 0}">
+                                                    <td>
+                                                        <%-- DELETE GENE --%>
+                                                        <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
+                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
+                                                               title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
+                                                               class="ui-state-disabled" />
+                                                    </td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td>
+                                                        <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ${gene.id_gene}"
+                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
+                                                               onclick="deleteGene(${gene.id_gene}, this)"
+                                                               formmethod="POST" />
+                                                    </td>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <td>
+                                                <form>
+                                                <input alt="Edit Bound Allele(s)" type="image" height="15" width="15" title="Edit bound allele(s) ${boundAlleleIds}"
+                                                       src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="border: 1px solid black">${gene.id_gene}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.symbol)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.chromosome)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.species)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.centimorgan)}</td>
+                            <td style="border: 1px solid black">
+                                <a href="javascript:lookupMGI('${fn:escapeXml(gene.mgi_ref)}');">
+                                    ${fn:escapeXml(gene.mgi_ref)}
+                                </a>
+                            </td>
+                            <td style="border: 1px solid black">
+                                <a href="javascript:lookupEnsembl('${fn:escapeXml(gene.ensembl_ref)}');">
+                                    ${fn:escapeXml(gene.ensembl_ref)}
+                                </a>
+                            </td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.promoter)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.founder_line_number)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.plasmid_construct)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(gene.cytoband)}</td>
+                        </tr>
+                    </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

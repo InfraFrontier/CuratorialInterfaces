@@ -9,6 +9,6 @@
     </head>
 
     <body>
-        <a href="interfaces/geneManagementList/showFilter?geneName=MRELAC4">Gene Management</a>
+        <a href="curation/geneManagementList/showFilter?geneName=MRELAC4">Gene Management</a>
     </body>
 </html>
