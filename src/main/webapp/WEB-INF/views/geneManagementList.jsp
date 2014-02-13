@@ -25,8 +25,9 @@
 
         <style type="text/css">
             .error {
-                font-family: Arial; font-size: 14px; margin-left: 30px; color: red;
+                    color: #ff0000;
             }
+
             .errorBorder {
                 border-collapse: separate;
                 border-spacing: 2px;
@@ -54,24 +55,30 @@
                 });
 
                 // Remove filter validation message (jira bug EMMA-545)
-                clearFilterErrors();
+                clearErrors();
 
             });
 
-            function clearFilterErrors() {
-                $('#tabFilter tbody .filterErrorTr0').remove();
-                $('#geneId').removeClass('errorBorder');
+            function clearErrors() {
+     //           $('#tabFilter tbody .filterErrorTr0').remove();
+                $('.error').remove();
+                $('#go').attr("disabled", false);
             }
 
             function validate() {
-                // Remove any filter validation messages.
-                clearFilterErrors();
+                // Remove any error validation messages.
+                clearErrors();
 
-                var filterIdValue = $('#geneId').val();
-                var geneError = ((filterIdValue !== '') && (!isInteger(filterIdValue)));
-                if (geneError) {
-                    $('#tabFilter tbody tr:eq(0)').after('<tr class="filterErrorTr0"><td colspan="4" style="color: red">Please enter an integer.</td></tr>');
-                    $('#geneId').addClass('errorBorder');
+                var filterGeneIdValue = $('#geneId').val();
+                var error = ((filterGeneIdValue !== '') && ( ! isInteger(filterGeneIdValue)));
+                if (error) {
+     //               $('#tabFilter tbody tr:eq(0)').after('<tr class="filterErrorTr0"><td colspan="4" style="color: red">Please enter an integer.</td></tr>');
+     //               $('#geneId').addClass('error');
+
+                    var errMsg = '<br class="error" /><span id="centimorgan.errors" class="error">Please enter an integer.</span>';
+                    $('#geneId').parent().append(errMsg);
+                    $('#go').attr("disabled", true);
+
                     return false;
                 }
 
@@ -190,6 +197,8 @@
             }
 
             function updateFilter(inputObj) {
+                if ( ! validate())
+                    return false;
                 var jqObj = $(inputObj);
                 var id = $(jqObj).attr('id');
                 var value = $(jqObj).val();
@@ -198,23 +207,23 @@
 
                 switch (id) {
                     case 'geneId':
-                        $('#filterGeneId').val(value);
+                        $('input[id^="filterGeneId"]').val(value);
                         break;
 
                     case 'geneName':
-                        $('#filterGeneName').val(value);
+                        $('input[id^="filterGeneName"]').val(value);
                         break;
 
                     case 'geneSymbol':
-                        $('#filterGeneSymbol').val(value);
+                        $('input[id^="filterGeneSymbol"]').val(value);
                         break;
 
                     case 'chromosome':
-                        $('#filterChromosome').val(value);
+                        $('input[id^="filterChromosome"]').val(value);
                         break;
 
                     case 'mgiReference':
-                        $('#filterMGIReference').val(value);
+                        $('input[id^="filterMGIReference"]').val(value);
                         break;
                 }
             }
@@ -228,18 +237,19 @@
 
         <br />
         
-        <form method="get">
+        <form:form method="get" modelAttribute="filter">
             <%-- NEW GENE --%>
             <input type="hidden" name="id_gene" value="0" />
-            <input type="hidden" name="geneId" value="${filter.geneId}" />
-            <input type="hidden" name="geneName" value="${filter.geneName}" />
-            <input type="hidden" name="geneSymbol" value="${filter.geneSymbol}" />
-            <input type="hidden" name="chromosome" value="${filter.chromosome}" />
-            <input type="hidden" name="mgiReference" value="${filter.mgiReference}" />
+            
+            <input type="hidden" id="filterGeneIdNew" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" id="filterGeneNameNew" name="filterGeneName" value="${filter.geneName}" />
+            <input type="hidden" id="filterGeneSymbolNew" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" id="filterChromosomeNew" name="filterChromosome" value="${filter.chromosome}" />
+            <input type="hidden" id="filterMGIReferenceNew" name="filterMGIReference" value="${filter.mgiReference}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene" />
-        </form>
+        </form:form>
         
         <form:form modelAttribute="filter" method="get">
             <table id="tabFilter" style="border: 1px solid black">
@@ -258,7 +268,9 @@
                 <tbody>
                     <tr>
                         <td><form:label path="geneId">Gene Id:</form:label></td>
-                        <td><form:input id="geneId" path="geneId" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="geneId" path="geneId" onkeyup="updateFilter(this);" />
+                        </td>
+                        
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
                         <td><form:input id="chromosome" path="chromosome" onchange="updateFilter(this);" /></td>
                     </tr>
@@ -337,11 +349,12 @@
                                                 <%-- EDIT GENE --%>
                                                 <form method="get" action="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene">
                                                     <input type="hidden" name="id_gene" value="${gene.id_gene}" />
-                                                    <input type="hidden" name="geneId" value="${filter.geneId}" />
-                                                    <input type="hidden" name="geneName" value="${filter.geneName}" />
-                                                    <input type="hidden" name="geneSymbol" value="${filter.geneSymbol}" />
-                                                    <input type="hidden" name="chromosome" value="${filter.chromosome}" />
-                                                    <input type="hidden" name="mgiReference" value="${filter.mgiReference}" />
+
+                                                    <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
+                                                    <input type="hidden" id="filterGeneNameEdit" name="filterGeneName" value="${filter.geneName}" />
+                                                    <input type="hidden" id="filterGeneSymbolEdit" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+                                                    <input type="hidden" id="filterChromosomeEdit" name="filterChromosome" value="${filter.chromosome}" />
+                                                    <input type="hidden" id="filterMGIReferenceEdit" name="filterMGIReference" value="${filter.mgiReference}" />
                                                     <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
                                                            src="${pageContext.request.contextPath}/images/edit.jpg" />
                                                 </form>

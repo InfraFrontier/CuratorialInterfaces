@@ -17,15 +17,14 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
-import org.springframework.validation.Validator;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +34,7 @@ import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.DBUtils;
 import uk.ac.ebi.emma.util.Filter;
-import uk.ac.ebi.emma.util.Utils;
+import uk.ac.ebi.emma.validator.GeneValidator;
 
 /**
  *
@@ -43,20 +42,23 @@ import uk.ac.ebi.emma.util.Utils;
  */
 @Controller
 @RequestMapping("/geneManagementDetail")
-public class GeneManagementDetailController implements Validator {
+public class GeneManagementDetailController {
     @Autowired
     private GenesManager genesManager;
+    
+    @Autowired
+    private GeneValidator validator;
 
     /**
      * 'Edit/New Gene' icon implementation
      * 
      * @param id_gene the gene ID being edited (a value of 0 indicates a new
      *                gene is to be added).
-     * @param geneId the Gene Id part of the filter
-     * @param geneName the Gene name part of the filter
-     * @param geneSymbol the Gene symbol part of the filter
-     * @param chromosome the chromosome part of the filter
-     * @param mgiReference the MGI reference part of the filter
+     * @param filterGeneId the Gene Id part of the filter
+     * @param filterGeneName the Gene name part of the filter
+     * @param filterGeneSymbol the Gene symbol part of the filter
+     * @param filterChromosome the chromosome part of the filter
+     * @param filterMGIReference the MGI reference part of the filter
      * @param model the model
      * @return the view to show
      */
@@ -64,21 +66,16 @@ public class GeneManagementDetailController implements Validator {
     public String editGene(
             @RequestParam(value="id_gene", required=false) Integer id_gene
             
-          , @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
+          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
+          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
+          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
             
           , Model model)
     {
-        // Save the filter info, to be resored when save() is called.
-        Filter filter = new Filter();
-        filter.setGeneId(geneId != null ? geneId : "");
-        filter.setGeneName(geneName != null ? geneName : "");
-        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
-        filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        // Save the filter info and add to model.
+        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -95,18 +92,9 @@ public class GeneManagementDetailController implements Validator {
     /**
      * Save the form data.
      * 
-     * @param geneId
-     * @param mgiReference
-     * @param geneName
-     * @param ensemblReference
-     * @param geneSymbol
-     * @param promoter
-     * @param chromosome
-     * @param founderLineNumber
-     * @param species
-     * @param plasmidConstruct
-     * @param centimorgan
-     * @param cytoband
+     * @param gene the Gene instance
+     * @param bindingResult the Errors binding result object
+     * @param id_gene the actual gene primary key (for some reason gene.id_gene is 0, even for a valid gene instance).
      * @param synonymsAreDirty true for each dirty synonym; false for each clean (unmodified) one
      * @param hidSeedValues
      * @param synonymIds
@@ -122,18 +110,9 @@ public class GeneManagementDetailController implements Validator {
      */
     @RequestMapping(value="/save", method=RequestMethod.POST)
     public String save(
-            @RequestParam(value = "geneId") String geneId
-          , @RequestParam(value = "mgiReference") String mgiReference
-          , @RequestParam(value = "geneName") String geneName
-          , @RequestParam(value = "ensemblReference") String ensemblReference
-          , @RequestParam(value = "geneSymbol") String geneSymbol
-          , @RequestParam(value = "promoter") String promoter
-          , @RequestParam(value = "chromosome") String chromosome
-          , @RequestParam(value = "founderLineNumber") String founderLineNumber
-          , @RequestParam(value = "species") String species
-          , @RequestParam(value = "plasmidConstruct") String plasmidConstruct
-          , @RequestParam(value = "centimorgan") String centimorgan
-          , @RequestParam(value = "cytoband") String cytoband
+            @Valid Gene gene, BindingResult bindingResult
+          
+          , @RequestParam(value="id_gene") int id_gene
             
           , @RequestParam(value = "hidSeedValues", required=false) String[] hidSeedValues
           , @RequestParam(value = "synonymsAreDirty", required=false) String[] synonymsAreDirty
@@ -149,23 +128,15 @@ public class GeneManagementDetailController implements Validator {
             
           , Model model) 
     {
-        Gene gene = null;
-        Integer id_gene = Utils.tryParseInt(geneId);
-        if (id_gene != null)
-            gene = genesManager.getGene(id_gene);
-        if (gene == null)
-            gene = new Gene();
-        gene.setMgi_ref(mgiReference);
-        gene.setName(geneName);
-        gene.setEnsembl_ref(ensemblReference);
-        gene.setSymbol(geneSymbol);
-        gene.setPromoter(promoter);
-        gene.setChromosome(chromosome);
-        gene.setFounder_line_number(founderLineNumber);
-        gene.setSpecies(species);
-        gene.setPlasmid_construct(plasmidConstruct);
-        gene.setCentimorgan(centimorgan);
-        gene.setCytoband(cytoband);
+        // Since gene.id_gene is not bound (because we don't want a '0' to show in the Gene Id field),
+        // we require the id_gene to be passed in. Plug it into the gene object.
+        gene.setId_gene(id_gene);
+        
+        // re-attach any synonyms. The Gene object passed in does not contain the synonym objects.
+        if (gene.getId_gene() > 0) {
+            Gene dbGene = genesManager.getGene(gene.getId_gene());
+            gene.setSynonyms(dbGene.getSynonyms());
+        }
         
         // Spring does not reliably pass all tabular data (read: empty fields),
         // nor does it guarantee that all synonym array lengths (id, name, symbol)
@@ -209,11 +180,24 @@ public class GeneManagementDetailController implements Validator {
                 try {
                     isDirty = synonymsAreDirty[i].compareToIgnoreCase("true") == 0;
                 } catch (ArrayIndexOutOfBoundsException e) { }
-                geneSynonym.setIsDirty(isDirty);
                 
+                geneSynonym.setIsDirty(isDirty);
                 geneSynonymSet.add(geneSynonym);
             }
+            
             gene.setSynonyms(geneSynonymSet);
+        }
+        
+        validator.validate(gene, bindingResult);
+        if (bindingResult.hasErrors()) {
+            // Add the filter and the logged in user to the model.
+            Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference);
+            model.addAttribute(filter);
+            
+            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+            model.addAttribute("loggedInUser", loggedInUser);
+            
+            return "geneManagementDetail";
         }
         
         genesManager.save(gene);
@@ -224,53 +208,6 @@ public class GeneManagementDetailController implements Validator {
                 + "&geneSymbol=" + filterGeneSymbol
                 + "&chromosome=" + filterChromosome
                 + "&mgiReference=" + filterMGIReference;
-    }
-
-    /**
-     * Required for Validator implementation.
-     * @param clazz caller's class
-     * @return true if caller's class is supported; false otherwise.
-     */
-    @Override
-    public boolean supports(Class clazz) {
-            return GeneSynonym.class.isAssignableFrom(clazz);
-    }
-
-    /**
-     * Required for Validator implementation.
-     * @param target target object to be validated
-     * @param errors errors object
-     */
-    @Override
-    public void validate(Object target, Errors errors) {
-        Gene gene = (Gene)target;
-        
-        // Centimorgan, if supplied, must be an integer.
-        if ((gene.getCentimorgan() != null) && ( ! gene.getCentimorgan().isEmpty())) {
-            Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
-            if (centimorgan == null) {
-                errors.rejectValue("centimorgan", null, "Please enter an integer.");
-            }
-        }
-        if ((gene.getName() != null) && (gene.getName().trim().length() == 0)) {
-            errors.rejectValue("name", null, "Please provide a name for the gene.");
-        }
-        
-        Utils.validateMaxFieldLengths(gene, "genes", errors);                   // Validate 'gene' max String lengths
-        
-        // Validate that Syn_GenesDAO String data doesn't exceed maximum varchar lengths.
-        if (gene.getSynonyms() != null) {                                       // Validate each 'synGenes' instance's max String lengths
-            Set<GeneSynonym> geneSynonyms = gene.getSynonyms();
-            Iterator<GeneSynonym> synGenesIterator = geneSynonyms.iterator();
-            int i = 0;
-            while (synGenesIterator.hasNext()) {
-                GeneSynonym geneSynonym = (GeneSynonym)synGenesIterator.next();
-                errors.pushNestedPath("synonyms[" + Integer.toString(i) + "]");
-                Utils.validateMaxFieldLengths(geneSynonym, "syn_genes", errors);
-                errors.popNestedPath();
-                i++;
-            }
-        }
     }
     
     /**
@@ -288,6 +225,18 @@ public class GeneManagementDetailController implements Validator {
     
     
     // PRIVATE METHODS
+    
+    
+    private Filter buildFilter(String geneId, String geneName, String geneSymbol, String chromosome, String mgiReference) {
+        Filter filter = new Filter();
+        filter.setGeneId(geneId != null ? geneId : "");
+        filter.setGeneName(geneName != null ? geneName : "");
+        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
+        filter.setChromosome(chromosome != null ? chromosome : "");
+        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        
+        return filter;
+    }
     
     
     // GETTERS AND SETTERS
