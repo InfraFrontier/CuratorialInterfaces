@@ -5,10 +5,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Welcome to the Curation Management interface</title>
+        <title>Curation Management</title>
     </head>
 
     <body>
-        <a href="curation/geneManagementList/showFilter?geneName=MRELAC4">Gene Management</a>
+        <a href="curation/geneManagementList/showFilter">Gene Management</a>
     </body>
 </html>
