@@ -13,10 +13,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%--
-<c:set var="filteredGenesDAOList" value='${filteredGenesDAOList}'></c:set>
-<c:set var="filteredGenesDAOListSize" value = '${filteredGenesDAOListSize}'></c:set>
---%>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
@@ -49,6 +45,7 @@
             $(document).ready(function() {
                 setSynonymHeadings();
                 setMaxlengths();
+                clearErrors();
             });
             
             function newSynonym() {
@@ -143,8 +140,28 @@
                 
                 return false;
             }
+            
+            function validate() {
+                // Remove any filter validation messages.
+                clearErrors();
 
+                var filterIdValue = $('#centimorgan').val();
+                var notAnInteger = ((filterIdValue !== '') && (!isInteger(filterIdValue)));
+                if (notAnInteger) {
+                    var errMsg = '<span id="centimorgan.errors" class="error">Please enter an integer.</span>';
+                    $('#centimorgan').parent().append(errMsg);
+                    return false;
+                }
+
+                return true;
+            }
+            
+            function clearErrors() {
+                $('.error').remove();
+            }
+            
         </script>
+        
         <title>Gene Management - add/edit</title>
     </head>
     <body>
@@ -158,6 +175,8 @@
         <br />
 
         <form>
+            <input type="hidden" name="id_gene" value="${gene.id_gene}" />
+            
             <input type="hidden" name="filterGeneId" value="${filter.geneId}" />
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
@@ -168,7 +187,9 @@
                     <td>
                         <div class="buttonAlignment">
                             <input type="submit" value="Save"
-                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save?filter=${filter}" formmethod="POST" />
+                                   formmethod="POST"
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
+                                   onclick="clearErrors();" />
                         </div>
                     </td>
                 </tr>
@@ -184,106 +205,106 @@
                                             <td style="border: 0"><input name="geneId" value="${gene.id_gene == 0 ? '' : gene.id_gene}" readonly="readonly" /></td>
                                             
                                             <%-- GENE NAME --%>
-                                            <td><label for="geneName">Gene name:</label></td>
+                                            <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>
                                             <td>
-                                                <textarea id="geneName" name="geneName">${gene.name}</textarea>
+                                                <form:textarea id="geneName" name="geneName" path="gene.name" value="${gene.name}" />
                                                 <br />
-                                                <form:errors path="name" cssClass="error" />
+                                                <form:errors path="gene.name" cssClass="error" />
                                             </td>
                                             
                                             <%-- GENE SYMBOL --%>
-                                            <td><label for="geneSymbol">Gene symbol:</label></td>
+                                            <td><form:label for="geneSymbol" path="gene.symbol">Gene symbol:</form:label></td>
                                             <td>
-                                                <textarea id="geneSymbol" name="geneSymbol">${gene.symbol}</textarea>
+                                                <form:textarea id="geneSymbol" name="geneSymbol" path="gene.symbol" value="${gene.symbol}" />
                                                 <br />
-                                                <form:errors path="symbol" cssClass="error" />
+                                                <form:errors path="gene.symbol" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <%-- SPECIES --%>
-                                            <td><label for="species">Species:</label></td>
+                                            <td><form:label for="species" path="gene.species">Species:</form:label></td>
                                             <td>
-                                                <input id="species" name="species" value="${gene.species}" />
+                                                <form:input id="species" name="species" path="gene.species" value="${gene.species}" />
                                                 <br />
-                                                <form:errors path="species" cssClass="error" />
+                                                <form:errors path="gene.species" cssClass="error" />
                                             </td>
 
                                             <%-- PLASMID CONSTRUCT --%>
-                                            <td><label for="plasmidConstruct">Plasmid construct:</label></td>
+                                            <td><form:label for="plasmidConstruct" path="gene.plasmid_construct">Plasmid construct:</form:label></td>
                                             <td>
-                                                <input id="plasmidConstruct" name="plasmidConstruct" value="${gene.plasmid_construct}" />
+                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmid_construct" value="${gene.plasmid_construct}" />
                                                 <br />
-                                                <form:errors path="plasmidConstruct" cssClass="error" />
+                                                <form:errors path="gene.plasmid_construct" cssClass="error" />
                                             </td>
                                             
                                             <%-- PROMOTER --%>
-                                            <td><label for="promoter">Promoter:</label></td>
+                                            <td><form:label for="promoter" path="gene.promoter">Promoter:</form:label></td>
                                             <td>
-                                                <input id="promoter" name="promoter" value="${gene.promoter}" />
+                                                <form:input id="promoter" name="promoter" path="gene.promoter" value="${gene.promoter}" />
                                                 <br />
-                                                <form:errors path="promoter" cssClass="error" />
+                                                <form:errors path="gene.promoter" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <%-- CHROMOSOOME --%>
-                                            <td><label for="chromosome">Chromosome:</label></td>
+                                            <td><form:label for="chromosome" path="gene.chromosome">Chromosome:</form:label></td>
                                             <td>
-                                                <input id="chromosome" name="chromosome" value="${gene.chromosome}" />
+                                                <form:input id="chromosome" name="chromosome" path="gene.chromosome" value="${gene.chromosome}" />
                                                 <br />
-                                                <form:errors path="chromosome" cssClass="error" />
+                                                <form:errors path="gene.chromosome" cssClass="error" />
                                             </td>
                                             
                                             <%-- CENTIMORGAN --%>
-                                            <td><label for="centimorgan">Centimorgan:</label></td>
+                                            <td><form:label for="centimorgan" path="gene.centimorgan">Centimorgan:</form:label></td>
                                             <td>
-                                                <input id="centimorgan" name="centimorgan" value="${gene.centimorgan}" />
+                                                <form:input id="centimorgan" name="centimorgan" path="gene.centimorgan" value="${gene.centimorgan}" onblur="validate();" />
                                                 <br />
-                                                <form:errors path="centimorgan" cssClass="error" />
+                                                <form:errors path="gene.centimorgan" cssClass="error" />
                                             </td>
                                             
                                             <%-- CYTOBAND --%>
-                                            <td><label for="cytoband">Cytoband:</label></td>
+                                            <td><form:label for="cytoband" path="gene.cytoband">Cytoband:</form:label></td>
                                             <td>
-                                                <input id="cytoband" name="cytoband" value="${gene.cytoband}" />
+                                                <form:input id="cytoband" name="cytoband" path="gene.cytoband" value="${gene.cytoband}" />
                                                 <br />
-                                                <form:errors path="cytoband" cssClass="error" />
+                                                <form:errors path="gene.cytoband" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr>
                                             <%-- FOUNDER LINE NUMBER --%>
-                                            <td><label for="founderLineNumber">Founder line number:</label></td>
+                                            <td><form:label for="founderLineNumber" path="gene.founder_line_number">Founder line number:</form:label></td>
                                             <td>
-                                                <input id="founderLineNumber" name="founderLineNumber" value="${gene.founder_line_number}" />
+                                                <form:input id="founderLineNumber" name="founderLineNumber" path="gene.founder_line_number" value="${gene.founder_line_number}" />
                                                 <br />
-                                                <form:errors path="founderLineNumber" cssClass="error" />
+                                                <form:errors path="gene.founder_line_number" cssClass="error" />
                                             </td>
                                             
                                             <%-- MGI REFERENCE --%>
                                             <td>
-                                                <label for="mgiReference">
+                                                <form:label for="mgiReference" path="gene.mgi_ref">
                                                     <a href="javascript:lookupMGI();">
                                                         MGI reference:
                                                     </a>
-                                                </label>
+                                                </form:label>
                                             </td>
                                             <td>
-                                                <input id="mgiReference" name="mgiReference" value="${gene.mgi_ref}" />
+                                                <form:input id="mgiReference" name="mgi_ref" path="gene.mgi_ref" value="${gene.mgi_ref}" />
                                                 <br />
-                                                <form:errors path="mgi_ref" cssClass="error" />
+                                                <form:errors path="gene.mgi_ref" cssClass="error" />
                                             </td>
                                             
                                             <%-- ENSEMBL REFERENCE --%>
                                             <td>
-                                                <label for="ensemblReference">
+                                                <form:label for="ensemblReference" path="gene.ensembl_ref">
                                                     <a href="javascript:lookupEnsembl();">
                                                         Ensembl reference:
                                                     </a>
-                                                </label>
+                                                </form:label>
                                             </td>
                                             <td>
-                                                <input id="ensemblReference" name="ensemblReference" value="${gene.ensembl_ref}" />
+                                                <form:input id="ensemblReference" name="ensemblReference" path="gene.ensembl_ref" value="${gene.ensembl_ref}" />
                                                 <br />
-                                                <form:errors path="ensembl_ref" cssClass="error" />
+                                                <form:errors path="gene.ensembl_ref" cssClass="error" />
                                             </td>
                                         </tr>
                                     </table>
@@ -338,9 +359,10 @@
                 <tr>
                     <td>
                         <div class="buttonAlignment">
-                            <input type="submit" value="Save" formmethod="POST"
+                            <input type="submit" value="Save"
+                                   formmethod="POST"
                                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
-                                   />
+                                   onclick="clearErrors();" />
                         </div>
                     </td>
                 </tr>
