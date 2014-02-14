@@ -415,9 +415,23 @@
                                 </table>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound allele(s) ${boundAlleleIds}">
-                                    ${boundAlleleIds}
-                                </a>
+                                <c:choose>
+                                    <c:when test="${boundAllelesCount eq 0}">
+                                        <a href="alleleManagementList" title="Edit alleles">
+                                            <i>None</i>
+                                        </a>
+                                    </c:when>
+                                    <c:when test="${boundAllelesCount eq 1}">
+                                        <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound allele ${boundAlleleIds}">
+                                            ${boundAlleleIds}
+                                        </a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound alleles ${boundAlleleIds}">
+                                            ${boundAlleleIds}
+                                        </a>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
                             <td style="border: 1px solid black">${gene.id_gene}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
