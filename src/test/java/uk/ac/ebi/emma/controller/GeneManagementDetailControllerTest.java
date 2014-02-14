@@ -114,24 +114,24 @@ public class GeneManagementDetailControllerTest {
         String tablename = "genes";
         GeneManagementDetailController instance = new GeneManagementDetailController();
         HashMap<String, Integer> result = instance.getFieldLengths(tablename);
-        assertEquals(300, (int)result.get("name"));
-        assertEquals(100, (int)result.get("symbol"));
-        assertEquals(2, (int)result.get("chromosome"));
-        assertEquals(15, (int)result.get("cytoband"));
-        assertEquals(20, (int)result.get("species"));
-        assertEquals(20, (int)result.get("mgi_ref"));
-        assertEquals(20, (int)result.get("username"));
-        assertEquals(150, (int)result.get("promoter"));
-        assertEquals(150, (int)result.get("founder_line_number"));
-        assertEquals(150, (int)result.get("plasmid_construct"));
-        assertEquals(18, (int)result.get("ensembl_ref"));
+        assertEquals("gene.name: ", 300, (int)result.get("name"));
+        assertEquals("gene.symbol: ", 100, (int)result.get("symbol"));
+        assertEquals("gene.chromosome: ", 2, (int)result.get("chromosome"));
+        assertEquals("gene.cytoband: ", 15, (int)result.get("cytoband"));
+        assertEquals("gene.species: ", 20, (int)result.get("species"));
+        assertEquals("gene.mgi_ref: ", 20, (int)result.get("mgi_ref"));
+        assertEquals("gene.username: ", 20, (int)result.get("username"));
+        assertEquals("gene.promoter: ", 150, (int)result.get("promoter"));
+        assertEquals("gene.founder_line_number: ", 150, (int)result.get("founder_line_number"));
+        assertEquals("gene.plasmid_construct: ", 150, (int)result.get("plasmid_construct"));
+        assertEquals("gene.ensembl_ref: ", 18, (int)result.get("ensembl_ref"));
 
         System.out.println("getFieldLengths - syn_genes");
         tablename = "syn_genes";
         result = instance.getFieldLengths(tablename);
-        assertEquals(255, (int)result.get("name"));
-        assertEquals(255, (int)result.get("symbol"));
-        assertEquals(255, (int)result.get("username"));
+        assertEquals("syn_genes.name: ", 255, (int)result.get("name"));
+        assertEquals("syn_genes.symbol: ", 255, (int)result.get("symbol"));
+        assertEquals("syn_genes.username: ", 255, (int)result.get("username"));
     }
     
 }
