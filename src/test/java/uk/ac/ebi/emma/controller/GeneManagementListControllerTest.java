@@ -147,7 +147,7 @@ public class GeneManagementListControllerTest {
 
         // Check showResultsForm.
         boolean showResultsForm = (boolean)modelMap.get("showResultsForm");
-        assertTrue(showResultsForm);
+        assertFalse(showResultsForm);
     }
 
     /**
