@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  /**
- * Copyright © 2013 EMBL - European Bioinformatics Institute
+ * Copyright © 2013, 2014 EMBL - European Bioinformatics Institute
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License.  
@@ -17,8 +17,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-
 
 package uk.ac.ebi.emma.util;
 
@@ -49,7 +47,7 @@ public class DBUtils {
         
         if (table == null)
             return maxColumnLengthsHash;
-        
+
         Session session = sessionFactory.getCurrentSession();
         List maxColumnLengthsList = null;
         try {
@@ -57,8 +55,10 @@ public class DBUtils {
             String query = 
                     "SELECT COLUMN_NAME, CHARACTER_MAXIMUM_LENGTH\n"
                   + "FROM information_schema.COLUMNS\n"
-                  + "WHERE TABLE_NAME = ?";
-            maxColumnLengthsList = session.createSQLQuery(query).setParameter(0, table).list();
+                  + "WHERE TABLE_SCHEMA = (SELECT DATABASE()) AND TABLE_NAME = ?";
+            maxColumnLengthsList = session.createSQLQuery(query)
+                    .setParameter(0, table)
+                    .list();
             session.getTransaction().commit();
         } catch (HibernateException e) {
             session.getTransaction().rollback();
