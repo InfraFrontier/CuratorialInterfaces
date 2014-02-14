@@ -25,6 +25,9 @@
             .error {
                     color: #ff0000;
             }
+            .clientError {
+                    color: #ff0000;
+            }
 
             .errorblock {
                     color: #000;
@@ -148,8 +151,9 @@
                 var filterIdValue = $('#centimorgan').val();
                 var notAnInteger = ((filterIdValue !== '') && (!isInteger(filterIdValue)));
                 if (notAnInteger) {
-                    var errMsg = '<span id="centimorgan.errors" class="error">Please enter an integer.</span>';
+                    var errMsg = '<span id="centimorgan.errors" class="clientError">Please enter an integer.</span>';
                     $('#centimorgan').parent().append(errMsg);
+                    $('.saveButton').attr("disabled", true);
                     return false;
                 }
 
@@ -157,7 +161,8 @@
             }
             
             function clearErrors() {
-                $('.error').remove();
+                $('.clientError').remove();
+                $('.saveButton').attr("disabled", false);
             }
             
         </script>
@@ -186,7 +191,7 @@
                 <tr>
                     <td>
                         <div class="buttonAlignment">
-                            <input type="submit" value="Save"
+                            <input type="submit" value="Save" class="saveButton"
                                    formmethod="POST"
                                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
                                    onclick="clearErrors();" />
@@ -207,7 +212,7 @@
                                             <%-- GENE NAME --%>
                                             <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>
                                             <td>
-                                                <form:textarea id="geneName" name="geneName" path="gene.name" value="${gene.name}" />
+                                                <form:input id="geneName" name="geneName" path="gene.name" value="${gene.name}" />
                                                 <br />
                                                 <form:errors path="gene.name" cssClass="error" />
                                             </td>
@@ -257,7 +262,7 @@
                                             <%-- CENTIMORGAN --%>
                                             <td><form:label for="centimorgan" path="gene.centimorgan">Centimorgan:</form:label></td>
                                             <td>
-                                                <form:input id="centimorgan" name="centimorgan" path="gene.centimorgan" value="${gene.centimorgan}" onblur="validate();" />
+                                                <form:input id="centimorgan" name="centimorgan" path="gene.centimorgan" value="${gene.centimorgan}" onkeyup="validate();" />
                                                 <br />
                                                 <form:errors path="gene.centimorgan" cssClass="error" />
                                             </td>
@@ -359,7 +364,7 @@
                 <tr>
                     <td>
                         <div class="buttonAlignment">
-                            <input type="submit" value="Save"
+                            <input type="submit" value="Save" class="saveButton"
                                    formmethod="POST"
                                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
                                    onclick="clearErrors();" />
