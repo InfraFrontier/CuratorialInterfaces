@@ -129,9 +129,9 @@ public class GeneManagementDetailControllerTest {
         System.out.println("getFieldLengths - syn_genes");
         tablename = "syn_genes";
         result = instance.getFieldLengths(tablename);
-        assertEquals("syn_genes.name: ", 255, (int)result.get("name"));
-        assertEquals("syn_genes.symbol: ", 255, (int)result.get("symbol"));
-        assertEquals("syn_genes.username: ", 255, (int)result.get("username"));
+        assertEquals("syn_genes.name: ", 50, (int)result.get("name"));
+        assertEquals("syn_genes.symbol: ", 50, (int)result.get("symbol"));
+        assertEquals("syn_genes.username: ", 20, (int)result.get("username"));
     }
     
 }
