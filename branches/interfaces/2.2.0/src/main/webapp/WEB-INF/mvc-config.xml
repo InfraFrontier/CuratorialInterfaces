@@ -40,7 +40,7 @@ and open the template in the editor.
     <mvc:resources mapping="/documentation/**" location="/resources/documentation/" />
     -->
 
-    <context:component-scan base-package="uk.ac.ebi.emma.controller" />
+    <context:component-scan base-package="uk.ac.ebi.emma" />
 
     <!-- <mvc:annotation-driven/> use this if you don't need extra converters -->
     <mvc:annotation-driven>

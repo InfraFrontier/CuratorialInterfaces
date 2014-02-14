@@ -27,6 +27,9 @@
             .error {
                     color: #ff0000;
             }
+            .clientError {
+                    color: #ff0000;
+            }
 
             .errorBorder {
                 border-collapse: separate;
@@ -61,7 +64,7 @@
 
             function clearErrors() {
      //           $('#tabFilter tbody .filterErrorTr0').remove();
-                $('.error').remove();
+                $('.clientError').remove();
                 $('#go').attr("disabled", false);
             }
 
@@ -75,7 +78,7 @@
      //               $('#tabFilter tbody tr:eq(0)').after('<tr class="filterErrorTr0"><td colspan="4" style="color: red">Please enter an integer.</td></tr>');
      //               $('#geneId').addClass('error');
 
-                    var errMsg = '<br class="error" /><span id="centimorgan.errors" class="error">Please enter an integer.</span>';
+                    var errMsg = '<br class="error" /><span id="centimorgan.errors" class="clientError">Please enter an integer.</span>';
                     $('#geneId').parent().append(errMsg);
                     $('#go').attr("disabled", true);
 
