@@ -46,12 +46,7 @@
             $(document).ready(function() {
 
                 populateFilterAutocompletes();
-                var resultsFormDisplayAttribute;
-                if (${ (not empty showResultsForm) && showResultsForm})
-                    resultsFormDisplayAttribute = 'block';
-                else
-                    resultsFormDisplayAttribute = 'none';
-                $('#divResults').css('display', resultsFormDisplayAttribute)
+                setResultsControls();
                 
                 $('#go').click(function() {
                     return validate();
@@ -152,6 +147,33 @@
                     },
                     minLength: 1
                 });
+            }            
+            function setResultsControls() {
+                var resultsFormDisplayAttribute;
+                if (${ (not empty showResultsForm) && showResultsForm}) {
+                    resultsFormDisplayAttribute = 'block';
+                    // Set the results message and show/hide tabResults as appropriate.
+                    var numResultRows = $('#tabResults > tbody > tr').length;
+                    switch (numResultRows) {
+                        case 0:
+                            $('#labResults').text('No results found.');
+                            $('#tabResults').css('display', 'none');
+                            break;
+                            
+                        case 1:
+                            $('#labResults').text('1 result found.');
+                            $('#tabResults').css('display', 'block');
+                            break;
+                            
+                        default:
+                            $('#labResults').text(numResultRows + ' results found.');
+                            $('#tabResults').css('display', 'block');
+                            break;
+                    }
+                }
+                else
+                    resultsFormDisplayAttribute = 'none';
+                $('#divResults').css('display', resultsFormDisplayAttribute);
             }
 
             function lookupMGI(id) {
@@ -298,27 +320,12 @@
 
             <hr />
 
-            <label id="labResultsCount">
-                <c:choose>
-                    <c:when test="${resultsCount > 1}">
-                        ${resultsCount} results found.
-                    </c:when>
-                    <c:when test="${resultsCount > 0}">
-                        1 result found.
-                    </c:when>
-                    <c:when test="${resultsCount == 0}">
-                        No results found.
-                    </c:when>
-                    <c:otherwise>
-
-                    </c:otherwise>
-                </c:choose>
-            </label>
+            <label id="labResults"></label>
 
             <br />
             <br />
 
-            <table id="tabResults" style="border: 1px solid black">
+            <table id="tabResults" style="border: 1px solid black; display: none">
                 <thead>
                     <c:choose>
                         <c:when test="${fn:length(filteredGenesList) > 0}">
