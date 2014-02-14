@@ -35,7 +35,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PropertiesLoaderUtils;
 import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.util.HibernateUtil;
+import uk.ac.ebi.emma.util.HibernateUtils;
 
 /**
  *
@@ -64,12 +64,12 @@ public class SpringHibernateConfigurationTest {
     }
 
     /**
-     * Test of getSessionFactory method, of class HibernateUtil.
+     * Test of getSessionFactory method, of class HibernateUtils.
      */
     @Test
     public void testGetSessionFactoryUsingDefaultProperties() {
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
-        SessionFactory sessionFactory1 = HibernateUtil.getSessionFactory();
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+        SessionFactory sessionFactory1 = HibernateUtils.getSessionFactory();
         assertEquals(sessionFactory, sessionFactory1);
         Session session = sessionFactory.getCurrentSession();
         assertNotNull(session);
@@ -88,7 +88,7 @@ public class SpringHibernateConfigurationTest {
     }
 
     /**
-     * Test of getSessionFactory method, of class HibernateUtil.
+     * Test of getSessionFactory method, of class HibernateUtils.
      */
     @Test
     public void testGetSessionFactoryUsingCustomProperties() {
@@ -99,8 +99,8 @@ public class SpringHibernateConfigurationTest {
         } catch (IOException e) {
             fail("Unable to load hibernate.test.properties file.");
         }
-        HibernateUtil.setHibernateProperties(hibernateProperties);
-        SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+        HibernateUtils.setHibernateProperties(hibernateProperties);
+        SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
         Session session = sessionFactory.getCurrentSession();
         assertNotNull(session);
         session = sessionFactory.getCurrentSession();

@@ -18,7 +18,6 @@ package uk.ac.ebi.emma.controller;
 
 import java.util.List;
 import org.json.simple.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,8 +38,7 @@ import uk.ac.ebi.emma.util.Filter;
 @Controller
 @RequestMapping("/geneManagementList")
 public class GeneManagementListController {
-    @Autowired
-    private GenesManager genesManager;
+    private GenesManager genesManager = new GenesManager();
     
     /**
      * 'Go' button implementation

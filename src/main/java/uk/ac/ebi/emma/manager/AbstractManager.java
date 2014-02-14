@@ -26,7 +26,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import uk.ac.ebi.emma.util.HibernateUtil;
+import uk.ac.ebi.emma.util.HibernateUtils;
 
 /**
  *
@@ -38,7 +38,7 @@ public abstract class AbstractManager {
     protected String username = null;
 
     public AbstractManager() {
-        sessionFactory = HibernateUtil.getSessionFactory();
+        sessionFactory = HibernateUtils.getSessionFactory();
         logger.debug("Instantiating new AbstractManager for " + this.getClass() + ". sessionFactory is " + sessionFactory.toString());
     }
     
