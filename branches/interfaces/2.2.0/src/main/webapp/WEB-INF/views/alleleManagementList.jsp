@@ -39,10 +39,10 @@
         </style>
 
         <script>
-            var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
+            var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
             var geneIds = null;
             var chromosomes = null;
-
+/*
             $(document).ready(function() {
 
                 populateFilterAutocompletes();
@@ -252,12 +252,12 @@
                         break;
                 }
             }
-
+*/
         </script>
-        <title>Gene Management - list</title>
+        <title>Allele Management - list</title>
     </head>
     <body>
-        <h2>Gene Management - list</h2>
+        <h2>Allele Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
 
         <br />
@@ -286,11 +286,15 @@
                         <td colspan="4">
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
-                                   formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"/>
+                                   <%--
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"
+                                   --%>
+                                   />
                         </td>
                     </tr>
                 </tfoot>
                 <tbody>
+                    <%--
                     <tr>
                         <td><form:label path="geneId">Gene Id:</form:label></td>
                         <td><form:input id="geneId" path="geneId" onkeyup="updateFilter(this);" />
@@ -310,12 +314,14 @@
                         <td><form:input id="geneSymbol" path="geneSymbol" onchange="updateFilter(this);" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
+                    --%>
                 </tbody>
             </table>
         </form:form>
 
         <%-- RESULTS GRID --%>
         <div id="divResults">
+<%--
             <br />
 
             <hr />
@@ -357,7 +363,9 @@
                                     <tbody>
                                         <tr>
                                             <td>
+==%>
                                                 <%-- EDIT GENE --%>
+<%--
                                                 <form method="get" action="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene">
                                                     <input type="hidden" name="id_gene" value="${gene.id_gene}" />
 
@@ -394,7 +402,9 @@
                                                 </c:when>
                                                 <c:when test="${boundAllelesCount > 0}">
                                                     <td>
+--%>
                                                         <%-- DELETE GENE --%>
+<%--
                                                         <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
@@ -410,14 +420,15 @@
                                                     </td>
                                                 </c:otherwise>
                                             </c:choose>
+                                                    
+                                            <td>
+                                                    <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound allele(s) ${boundAlleleIds}">
+                                                        ${boundAlleleIds}"
+                                                    </a>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </td>
-                            <td style="border: 1px solid black">
-                                <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound allele(s) ${boundAlleleIds}">
-                                    ${boundAlleleIds}
-                                </a>
                             </td>
                             <td style="border: 1px solid black">${gene.id_gene}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
@@ -443,6 +454,7 @@
                     </c:forEach>
                 </tbody>
             </table>
+--%>
         </div>
     </body>
 </html>
