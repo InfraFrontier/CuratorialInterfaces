@@ -37,7 +37,7 @@ import org.hibernate.SessionFactory;
  */
 public class DBUtils {
     protected static Logger logger = Logger.getLogger(DBUtils.class);
-    static SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    static SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
 
     /**
      * Returns the full list of genes from persistent storage.

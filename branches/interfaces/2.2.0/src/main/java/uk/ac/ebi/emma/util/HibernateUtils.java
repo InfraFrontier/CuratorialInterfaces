@@ -38,8 +38,8 @@ import org.springframework.core.io.support.PropertiesLoaderUtils;
  *
  * @author mrelac
  */
-public class HibernateUtil {
-    protected static final Logger logger = Logger.getLogger(HibernateUtil.class);
+public class HibernateUtils {
+    protected static final Logger logger = Logger.getLogger(HibernateUtils.class);
     private static SessionFactory sessionFactory = null;
     private static Properties hibernateProperties = null;
     private static final String HIBERNATE_PROPERTIES_FILENAME = "/hibernate.properties";
@@ -60,7 +60,7 @@ public class HibernateUtil {
     }
 
     public static void setHibernateProperties(Properties hibernateProperties) {
-        HibernateUtil.hibernateProperties = hibernateProperties;
+        HibernateUtils.hibernateProperties = hibernateProperties;
         initializeSessionFactory();
     }
     
