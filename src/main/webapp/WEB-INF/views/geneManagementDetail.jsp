@@ -212,7 +212,7 @@
                                             <%-- GENE NAME --%>
                                             <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>
                                             <td>
-                                                <form:input id="geneName" name="geneName" path="gene.name" value="${gene.name}" />
+                                                <form:textarea id="geneName" name="geneName" path="gene.name" value="${gene.name}" />
                                                 <br />
                                                 <form:errors path="gene.name" cssClass="error" />
                                             </td>
