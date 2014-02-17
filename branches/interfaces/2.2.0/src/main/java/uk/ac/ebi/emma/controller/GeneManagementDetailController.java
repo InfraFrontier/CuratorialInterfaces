@@ -44,7 +44,7 @@ import uk.ac.ebi.emma.validator.GeneValidator;
 @RequestMapping("/geneManagementDetail")
 public class GeneManagementDetailController {
     @Autowired
-    private GenesManager genesManager;
+    private GenesManager genesManager = new GenesManager();
     
     @Autowired
     private GeneValidator validator;
