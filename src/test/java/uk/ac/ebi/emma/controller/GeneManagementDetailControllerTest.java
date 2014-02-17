@@ -21,15 +21,19 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.HashMap;
+import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.support.BindingAwareModelMap;
 import uk.ac.ebi.emma.entity.Gene;
+import uk.ac.ebi.emma.util.Filter;
 
 /**
  *
@@ -42,6 +46,7 @@ public class GeneManagementDetailControllerTest {
     
     @BeforeClass
     public static void setUpClass() {
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken("test", ""));
     }
     
     @AfterClass
@@ -56,27 +61,57 @@ public class GeneManagementDetailControllerTest {
     public void tearDown() {
     }
 
-//    /**
-//     * Test of editGene method, of class GeneManagementDetailController.
-//     */
-//    @Test
-//    public void testEditGene() {
-//        System.out.println("editGene");
-//        Integer id_gene = null;
-//        String filterGeneId = "";
-//        String filterGeneName = "";
-//        String filterGeneSymbol = "";
-//        String filterChromosome = "";
-//        String filterMGIReference = "";
-//        Model model = null;
-//        GeneManagementDetailController instance = new GeneManagementDetailController();
-//        String expResult = "";
-//        String result = instance.editGene(id_gene, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
-//        assertEquals(expResult, result);
-//        // TODO review the generated test code and remove the default call to fail.
-//        fail("The test case is a prototype.");
-//    }
-//
+    /**
+     * Test of editGene method, of class GeneManagementDetailController.
+     */
+    @Test
+    public void testEditGene() {
+        System.out.println("editGene");
+        int id_gene = 0;
+        String filterGeneId = "0";
+        String filterGeneName = "test gene name";
+        String filterGeneSymbol = "test gene symbol";
+        String filterChromosome = "test chromosome";
+        String filterMGIReference = "test mgi reference";
+        Model model = new BindingAwareModelMap();
+        
+        GeneManagementDetailController instance = new GeneManagementDetailController();
+        String expResult = "geneManagementDetail";
+        String result = instance.editGene(id_gene, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+        assertEquals(expResult, result);                                        // Verify function return.
+        
+        Map modelMap = model.asMap();
+        // Check filter.
+        Filter filter = (Filter)modelMap.get("filter");
+        assertEquals(filterGeneId, filter.getGeneId());
+        assertEquals(filterGeneName, filter.getGeneName());
+        assertEquals(filterGeneSymbol, filter.getGeneSymbol());
+        assertEquals(filterChromosome, filter.getChromosome());
+        assertEquals(filterMGIReference, filter.getMgiReference());
+        
+        Gene gene = (Gene)modelMap.get("gene");
+        // The gene's components are null, so there is no more checking that can be done.
+    }
+
+    /**
+     * Test of showList method, of class GeneManagementDetailController.
+     */
+    @Test
+    public void testShowList() {
+        System.out.println("showList");
+        String filterGeneId = "0";
+        String filterGeneName = "test gene name";
+        String filterGeneSymbol = "test gene symbol";
+        String filterChromosome = "test chromosome";
+        String filterMGIReference = "test mgi reference";
+        Model model = new BindingAwareModelMap();
+        
+        GeneManagementDetailController instance = new GeneManagementDetailController();
+        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&mgiReference=test mgi reference";
+        String result = instance.showList(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+        assertEquals(expResult, result);                                        // Verify function return.
+    }
+
 //    /**
 //     * Test of save method, of class GeneManagementDetailController.
 //     */
