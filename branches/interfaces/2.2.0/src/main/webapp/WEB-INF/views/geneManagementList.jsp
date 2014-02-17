@@ -18,8 +18,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.dataTables.css" />
         <script src="${pageContext.request.contextPath}/js/jquery-1.11.0.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.dataTables.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/json2.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript" charset="UTF-8"></script>
 
@@ -53,7 +55,8 @@
 
                 // Remove filter validation message (jira bug EMMA-545)
                 clearErrors();
-
+                
+                $('#tabResults').dataTable();
             });
 
             function clearErrors() {
@@ -150,7 +153,8 @@
                     },
                     minLength: 1
                 });
-            }            
+            }
+            
             function setResultsControls() {
                 var resultsFormDisplayAttribute;
                 if (${ (not empty showResultsForm) && showResultsForm}) {
@@ -213,8 +217,8 @@
                     , data: {'id_gene': id}
                     , success: function(data) {
                         if (data.status === 'ok') {
-                            var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent();
-                            tr.remove();                                        // Remove the gene from the grid.
+                            var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent()[0];
+                            $('#tabResults').dataTable().fnDeleteRow(tr);       // Remove the gene from the grid.
                         } else {
                             alert(data.message);
                         }
@@ -262,8 +266,6 @@
     <body>
         <h2>Gene Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
-
-        <br />
         
         <form:form method="get" modelAttribute="filter">
             <%-- NEW GENE --%>
@@ -320,13 +322,12 @@
         <%-- RESULTS GRID --%>
         <div id="divResults">
             <br />
-
+<%--
             <hr />
 
             <label id="labResults"></label>
+--%>
 
-            <br />
-            <br />
 
             <table id="tabResults" style="border: 1px solid black; display: none">
                 <thead>
