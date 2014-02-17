@@ -38,7 +38,7 @@ import uk.ac.ebi.emma.util.Filter;
 @Controller
 @RequestMapping("/geneManagementList")
 public class GeneManagementListController {
-    private GenesManager genesManager = new GenesManager();
+    private final GenesManager genesManager = new GenesManager();
     
     /**
      * 'Go' button implementation

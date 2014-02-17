@@ -44,7 +44,6 @@
             var chromosomes = null;
 
             $(document).ready(function() {
-
                 populateFilterAutocompletes();
                 setResultsControls();
                 
@@ -85,13 +84,17 @@
 
             function populateFilterAutocompletes() {
                 var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
+                
 
+            // This slows down the page very noticably. Since its contribution to the user experience is minimal, let's try leaving it out for now.
+            /*
                 if (geneIds === null)
                     populateGeneIds(urlRoot);
                 $("#geneId").autocomplete({
                     source: geneIds,
                     minLength: 1
                 });
+                */
 
                 $("#geneName").autocomplete({
                     source: function(request, response) {
@@ -125,8 +128,8 @@
                     minLength: 1
                 });
 
-                if (chromosomes === null)
-                    populateChromosomes(urlRoot);
+                populateChromosomes(urlRoot);
+                
                 $("#chromosome").autocomplete({
                     source: chromosomes,
                     minLength: 1
@@ -187,7 +190,7 @@
             function populateGeneIds(urlRoot) {
                 jQuery.ajax({
                     url: urlRoot + "/getGeneIds"
-                    , async: false
+                  , async: false
                 }).done(function(data) {
                     geneIds = data.slice(0);
                 });
@@ -196,7 +199,7 @@
             function populateChromosomes(urlRoot) {
                 jQuery.ajax({
                     url: urlRoot + "/getChromosomes"
-                    , async: false
+                  , async: false
                 }).done(function(data) {
                     chromosomes = data.slice(0);
                 });

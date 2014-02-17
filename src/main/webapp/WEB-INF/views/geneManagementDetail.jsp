@@ -165,6 +165,15 @@
                 $('.saveButton').attr("disabled", false);
             }
             
+            function clearInputs() {
+                $('#tabGeneDetail :input').val('');
+                $('#tabSynonyms > tbody').remove();
+                clearErrors();
+                setSynonymHeadings();
+                
+                return false;
+            }
+            
         </script>
         
         <title>Gene Management - add/edit</title>
@@ -190,20 +199,10 @@
             <table style="border: none">
                 <tr>
                     <td>
-                        <div class="buttonAlignment">
-                            <input type="submit" value="Save" class="saveButton"
-                                   formmethod="POST"
-                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
-                                   onclick="clearErrors();" />
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         <table style="border: 1px solid black">
                             <tr>
                                 <td>
-                                    <table style="border: none">
+                                    <table id="tabGeneDetail" style="border: none">
                                         <tr>
                                             <%-- GENE ID --%>
                                             <td><label id="labGeneId">Gene ID:</label></td>
@@ -223,31 +222,6 @@
                                                 <form:textarea id="geneSymbol" name="geneSymbol" path="gene.symbol" value="${gene.symbol}" />
                                                 <br />
                                                 <form:errors path="gene.symbol" cssClass="error" />
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <%-- SPECIES --%>
-                                            <td><form:label for="species" path="gene.species">Species:</form:label></td>
-                                            <td>
-                                                <form:input id="species" name="species" path="gene.species" value="${gene.species}" />
-                                                <br />
-                                                <form:errors path="gene.species" cssClass="error" />
-                                            </td>
-
-                                            <%-- PLASMID CONSTRUCT --%>
-                                            <td><form:label for="plasmidConstruct" path="gene.plasmid_construct">Plasmid construct:</form:label></td>
-                                            <td>
-                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmid_construct" value="${gene.plasmid_construct}" />
-                                                <br />
-                                                <form:errors path="gene.plasmid_construct" cssClass="error" />
-                                            </td>
-                                            
-                                            <%-- PROMOTER --%>
-                                            <td><form:label for="promoter" path="gene.promoter">Promoter:</form:label></td>
-                                            <td>
-                                                <form:input id="promoter" name="promoter" path="gene.promoter" value="${gene.promoter}" />
-                                                <br />
-                                                <form:errors path="gene.promoter" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -276,12 +250,38 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <%-- PLASMID CONSTRUCT --%>
+                                            <td><form:label for="plasmidConstruct" path="gene.plasmid_construct">Plasmid construct:</form:label></td>
+                                            <td>
+                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmid_construct" value="${gene.plasmid_construct}" />
+                                                <br />
+                                                <form:errors path="gene.plasmid_construct" cssClass="error" />
+                                            </td>
+                                            
+                                            <%-- PROMOTER --%>
+                                            <td><form:label for="promoter" path="gene.promoter">Promoter:</form:label></td>
+                                            <td>
+                                                <form:input id="promoter" name="promoter" path="gene.promoter" value="${gene.promoter}" />
+                                                <br />
+                                                <form:errors path="gene.promoter" cssClass="error" />
+                                            </td>
+                                            
                                             <%-- FOUNDER LINE NUMBER --%>
                                             <td><form:label for="founderLineNumber" path="gene.founder_line_number">Founder line number:</form:label></td>
                                             <td>
                                                 <form:input id="founderLineNumber" name="founderLineNumber" path="gene.founder_line_number" value="${gene.founder_line_number}" />
                                                 <br />
                                                 <form:errors path="gene.founder_line_number" cssClass="error" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            
+                                            <%-- SPECIES --%>
+                                            <td><form:label for="species" path="gene.species">Species:</form:label></td>
+                                            <td>
+                                                <form:input id="species" name="species" path="gene.species" value="${gene.species}" />
+                                                <br />
+                                                <form:errors path="gene.species" cssClass="error" />
                                             </td>
                                             
                                             <%-- MGI REFERENCE --%>
@@ -362,13 +362,34 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>
-                        <div class="buttonAlignment">
-                            <input type="submit" value="Save" class="saveButton"
-                                   formmethod="POST"
-                                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
-                                   onclick="clearErrors();" />
-                        </div>
+                    <td style="float: right">
+                        <table>
+                            <tr>
+                                <td>
+                                    <div class="buttonAlignment">
+                                        <input type="submit" value="Back"
+                                               formmethod="GET"
+                                               formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/showList" />
+                                    </div>
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                                <td>
+                                    <div class="buttonAlignment">
+                                        <input type="button" value="Clear"
+                                               onclick="clearInputs();" />
+                                    </div>
+                                </td>
+                                <td>&nbsp;&nbsp;&nbsp;</td>
+                                <td>
+                                    <div class="buttonAlignment">
+                                        <input type="submit" value="Save" class="saveButton"
+                                               formmethod="POST"
+                                               formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/save"
+                                               onclick="clearErrors();" />
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                     </td>
                 </tr>
             </table>
