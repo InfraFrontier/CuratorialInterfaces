@@ -75,7 +75,7 @@
      //               $('#tabFilter tbody tr:eq(0)').after('<tr class="filterErrorTr0"><td colspan="4" style="color: red">Please enter an integer.</td></tr>');
      //               $('#geneId').addClass('error');
 
-                    var errMsg = '<br class="error" /><span id="centimorgan.errors" class="clientError">Please enter an integer.</span>';
+                    var errMsg = '<br class="clientError" /><span class="clientError">Please enter an integer.</span>';
                     $('#geneId').parent().append(errMsg);
                     $('#go').attr("disabled", true);
 
@@ -259,6 +259,12 @@
                         break;
                 }
             }
+            
+            function clearFilter() {
+                $('.filterComponent').val('');
+                clearErrors();
+                return false;
+            }
 
         </script>
         <title>Gene Management - list</title>
@@ -288,7 +294,10 @@
                 </thead>
                 <tfoot>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="4" style="text-align: right">
+                            <%-- CLEAR FILTER --%>
+                            <input type="button" value="Clear Filter" onclick="clearFilter();"/>
+                            &nbsp;&nbsp;&nbsp;
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
                                    formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"/>
@@ -298,21 +307,20 @@
                 <tbody>
                     <tr>
                         <td><form:label path="geneId">Gene Id:</form:label></td>
-                        <td><form:input id="geneId" path="geneId" onkeyup="updateFilter(this);" />
-                        </td>
+                        <td><form:input id="geneId" class="filterComponent" path="geneId" onkeyup="updateFilter(this);" /></td>
                         
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
-                        <td><form:input id="chromosome" path="chromosome" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="chromosome" class="filterComponent" path="chromosome" onchange="updateFilter(this);" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="geneName" path="geneName" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="geneName" class="filterComponent" path="geneName" onchange="updateFilter(this);" /></td>
                         <td><form:label path="mgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="mgiReference" path="mgiReference" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="mgiReference" class="filterComponent" path="mgiReference" onchange="updateFilter(this);" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="geneSymbol" path="geneSymbol" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="geneSymbol" class="filterComponent" path="geneSymbol" onchange="updateFilter(this);" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
@@ -321,13 +329,12 @@
 
         <%-- RESULTS GRID --%>
         <div id="divResults">
+            
+            <%-- # RECORDS LABEL --%>
             <br />
-<%--
-            <hr />
-
             <label id="labResults"></label>
---%>
-
+            <br />
+            <br />
 
             <table id="tabResults" style="border: 1px solid black; display: none">
                 <thead>
