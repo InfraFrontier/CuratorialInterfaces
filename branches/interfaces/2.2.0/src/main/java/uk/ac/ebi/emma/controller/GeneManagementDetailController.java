@@ -210,6 +210,35 @@ public class GeneManagementDetailController {
                 + "&mgiReference=" + filterMGIReference;
     }
     
+        /**
+     * Show the list form with saved filter values.
+     * 
+     * @param filterGeneId
+     * @param filterGeneName
+     * @param filterGeneSymbol
+     * @param filterChromosome
+     * @param filterMGIReference
+     * @param model the filter data, saved above in editGene().
+     * @return redirected view to same gene detail data.
+     */
+    @RequestMapping(value="/showList", method=RequestMethod.GET)
+    public String showList(
+            @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
+          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
+          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
+            
+          , Model model) 
+    {
+        return "redirect:/curation/geneManagementList/go"
+                + "?geneId=" + filterGeneId
+                + "&geneName=" + filterGeneName
+                + "&geneSymbol=" + filterGeneSymbol
+                + "&chromosome=" + filterChromosome
+                + "&mgiReference=" + filterMGIReference;
+    }
+    
     /**
      * Return hashmap of maximum database column lengths of <code>String</code>
      * data. Used to dynamically set maxlength of client input HTML controls.
