@@ -15,24 +15,26 @@ import org.apache.http.client.utils.URIBuilder;
  * @author mrelac
  */
 public class Filter {
-    private String geneId;
+    private String geneId;          // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String geneName;
     private String geneSymbol;
     private String chromosome;
-    private String mgiReference;
-    private String alleleId;
+    private String geneMgiReference;
+    private String alleleId;       // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String alleleName;
     private String alleleSymbol;
+    private String alleleMgiReference;
     
     public Filter() {
         this.geneId = "";
         this.geneName = "";
         this.geneSymbol = "";
         this.chromosome = "";
-        this.mgiReference = "";
+        this.geneMgiReference = "";
         this.alleleId = "";
         this.alleleName = "";
         this.alleleSymbol = "";
+        this.alleleMgiReference = "";
     }
     
     /**
@@ -45,10 +47,11 @@ public class Filter {
         this.geneName = request.getParameter("geneName") == null ? "" : request.getParameter("geneName");
         this.geneSymbol = request.getParameter("geneSymbol") == null ? "" : request.getParameter("geneSymbol");
         this.geneId = request.getParameter("geneId") == null ? "" : request.getParameter("geneId");
-        this.mgiReference = request.getParameter("mgiReference") == null ? "" : request.getParameter("mgiReference");
+        this.geneMgiReference = request.getParameter("geneMgiReference") == null ? "" : request.getParameter("geneMgiReference");
         this.alleleName = request.getParameter("alleleName") == null ? "" : request.getParameter("alleleName");
         this.alleleSymbol = request.getParameter("alleleSymbol") == null ? "" : request.getParameter("alleleSymbol");
         this.alleleId = request.getParameter("alleleId") == null ? "" : request.getParameter("alleleId");
+        this.alleleMgiReference = request.getParameter("alleleMgiReference") == null ? "" : request.getParameter("alleleMgiReference");
     }
 
     public String getGeneId() {
@@ -83,12 +86,12 @@ public class Filter {
         this.chromosome = chromosome;
     }
 
-    public String getMgiReference() {
-        return mgiReference;
+    public String getGeneMgiReference() {
+        return geneMgiReference;
     }
 
-    public void setMgiReference(String mgiReference) {
-        this.mgiReference = mgiReference;
+    public void setGeneMgiReference(String geneMgiReference) {
+        this.geneMgiReference = geneMgiReference;
     }
 
     public String getAlleleId() {
@@ -114,6 +117,14 @@ public class Filter {
     public void setAlleleSymbol(String alleleSymbol) {
         this.alleleSymbol = alleleSymbol;
     }
+
+    public String getAlleleMgiReference() {
+        return alleleMgiReference;
+    }
+
+    public void setAlleleMgiReference(String alleleMgiReference) {
+        this.alleleMgiReference = alleleMgiReference;
+    }
     
     /**
      * Generates a query string for use in an HTTP GET request from this <code>Filter
@@ -132,8 +143,8 @@ public class Filter {
             builder.addParameter("geneSymbol", geneSymbol);
         if ( ! chromosome.isEmpty())
             builder.addParameter("chromosome", chromosome);
-        if ( ! mgiReference.isEmpty())
-            builder.addParameter("mgiReference", mgiReference);
+        if ( ! geneMgiReference.isEmpty())
+            builder.addParameter("mgiReference", geneMgiReference);
         if ( ! alleleId.isEmpty())
             builder.addParameter("alleleId", alleleId);
         if ( ! alleleName.isEmpty())

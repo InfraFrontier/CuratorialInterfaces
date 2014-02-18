@@ -207,7 +207,7 @@ public class GeneManagementDetailController {
                 + "&geneName=" + filterGeneName
                 + "&geneSymbol=" + filterGeneSymbol
                 + "&chromosome=" + filterChromosome
-                + "&mgiReference=" + filterMGIReference;
+                + "&geneMgiReference=" + filterMGIReference;
     }
     
         /**
@@ -236,7 +236,7 @@ public class GeneManagementDetailController {
                 + "&geneName=" + filterGeneName
                 + "&geneSymbol=" + filterGeneSymbol
                 + "&chromosome=" + filterChromosome
-                + "&mgiReference=" + filterMGIReference;
+                + "&geneMgiReference=" + filterMGIReference;
     }
     
     /**
@@ -262,7 +262,7 @@ public class GeneManagementDetailController {
         filter.setGeneName(geneName != null ? geneName : "");
         filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
         filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        filter.setGeneMgiReference(mgiReference != null ? mgiReference : "");
         
         return filter;
     }

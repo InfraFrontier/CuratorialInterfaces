@@ -87,7 +87,7 @@ public class GeneManagementDetailControllerTest {
         assertEquals(filterGeneName, filter.getGeneName());
         assertEquals(filterGeneSymbol, filter.getGeneSymbol());
         assertEquals(filterChromosome, filter.getChromosome());
-        assertEquals(filterMGIReference, filter.getMgiReference());
+        assertEquals(filterMGIReference, filter.getGeneMgiReference());
         
         Gene gene = (Gene)modelMap.get("gene");
         // The gene's components are null, so there is no more checking that can be done.
@@ -107,7 +107,7 @@ public class GeneManagementDetailControllerTest {
         Model model = new BindingAwareModelMap();
         
         GeneManagementDetailController instance = new GeneManagementDetailController();
-        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&mgiReference=test mgi reference";
+        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&geneMgiReference=test mgi reference";
         String result = instance.showList(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
         assertEquals(expResult, result);                                        // Verify function return.
     }

@@ -89,7 +89,7 @@ public class GeneManagementListControllerTest {
         assertEquals(geneName, filter.getGeneName());
         assertEquals(geneSymbol, filter.getGeneSymbol());
         assertEquals(chromosome, filter.getChromosome());
-        assertEquals(mgiReference, filter.getMgiReference());
+        assertEquals(mgiReference, filter.getGeneMgiReference());
         
         // Check filteredGenesList.
         List<Gene> filteredGenesList = (List<Gene>)modelMap.get("filteredGenesList");
@@ -143,7 +143,7 @@ public class GeneManagementListControllerTest {
         assertEquals(geneName, filter.getGeneName());
         assertEquals(geneSymbol, filter.getGeneSymbol());
         assertEquals(chromosome, filter.getChromosome());
-        assertEquals(mgiReference, filter.getMgiReference());
+        assertEquals(mgiReference, filter.getGeneMgiReference());
 
         // Check showResultsForm.
         boolean showResultsForm = (boolean)modelMap.get("showResultsForm");

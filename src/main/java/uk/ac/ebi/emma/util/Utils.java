@@ -352,4 +352,61 @@ public class Utils {
             }
         }
     }
+    
+    /**
+     * Given a comma-separated string of values, returns a string containing
+     * all of the values, with whitespace removed (using trim()). If <b>intArray
+     * </b> is null or empty, an empty string is returned. If <b>intArray</b>
+     * contains only a single int, that value, less whitespace, is returned.
+     * 
+     * @param intArray string of comma-separated values to clean (trim)
+     * @return   a string containing all of the values, with whitespace removed
+     * (using trim()).
+     */
+    public static String cleanIntArray(String intArray) {
+        if (intArray == null)
+            return "";
+        
+        String retVal = "";
+        String[] sA = intArray.split(",");
+        if (sA.length == 0)
+            return intArray.trim();
+        
+        for (String s : sA) {
+            if ( ! retVal.isEmpty())
+                retVal += ",";
+            retVal += s.trim();
+        }
+        
+        return retVal;
+    }
+    
+    /**
+     * Given a string containing 1 integer, or 2 or more comma-separated integers
+     * (with optional trailing whitespace after each number), returns true if
+     * all of the comma-separated values are integers; false if any of them is 
+     * not, or if the string is null or empty.
+     * 
+     * @param intArray string of comma-separated integers to validate
+     * @return true if all of the comma-separated values are integers; false if
+     * any of them is  not, or if the string is null or empty.
+     */
+    public static boolean isValidIntArray(String intArray) {
+        if (intArray == null)
+            return false;
+        
+        boolean valueFound = false;
+
+        String[] sA = intArray.split(",");
+        for (String s : sA) {
+            try {
+                Integer.parseInt(s);
+                valueFound = true;
+            } catch (NumberFormatException nfe) {
+                return false;
+            }
+        }
+        
+        return (valueFound);
+    }
 }
