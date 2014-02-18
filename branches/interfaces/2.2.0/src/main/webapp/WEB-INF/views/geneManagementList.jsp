@@ -369,7 +369,7 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT GENE --%>
-                                                <form method="get" action="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene">
+                                                <form method="get" target="geneEditTarget" action="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene">
                                                     <input type="hidden" name="id_gene" value="${gene.id_gene}" />
 
                                                     <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
@@ -405,7 +405,6 @@
                                                 </c:when>
                                                 <c:when test="${boundAllelesCount > 0}">
                                                     <td>
-                                                        <%-- DELETE GENE --%>
                                                         <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
@@ -414,6 +413,7 @@
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>
+                                                        <%-- DELETE GENE --%>
                                                         <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ${gene.id_gene}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteGene(${gene.id_gene}, this)"
@@ -426,23 +426,25 @@
                                 </table>
                             </td>
                             <td style="border: 1px solid black">
-                                <c:choose>
-                                    <c:when test="${boundAllelesCount eq 0}">
-                                        <a href="alleleManagementList" title="Edit alleles">
-                                            <i>None</i>
-                                        </a>
-                                    </c:when>
-                                    <c:when test="${boundAllelesCount eq 1}">
-                                        <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound allele ${boundAlleleIds}">
-                                            ${boundAlleleIds}
-                                        </a>
-                                    </c:when>
-                                    <c:otherwise>
-                                        <a href="alleleManagementList?alleleIds=${boundAlleleIds}" title="Edit bound alleles ${boundAlleleIds}">
-                                            ${boundAlleleIds}
-                                        </a>
-                                    </c:otherwise>
-                                </c:choose>
+                                <form>
+                                    <c:choose>
+                                        <c:when test="${boundAllelesCount eq 0}">
+                                            <a href="alleleManagementList" target="alleleEditTarget" title="Edit alleles">
+                                                <i>None</i>
+                                            </a>
+                                        </c:when>
+                                        <c:when test="${boundAllelesCount eq 1}">
+                                            <a href="alleleManagementList?alleleIds=${boundAlleleIds}" target="alleleEditTarget" title="Edit bound allele ${boundAlleleIds}">
+                                                ${boundAlleleIds}
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="alleleManagementList?alleleIds=${boundAlleleIds}" target="alleleEditTarget" title="Edit bound alleles ${boundAlleleIds}">
+                                                ${boundAlleleIds}
+                                            </a>
+                                        </c:otherwise>
+                                    </c:choose>
+                                </form>
                             </td>
                             <td style="border: 1px solid black">${gene.id_gene}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
