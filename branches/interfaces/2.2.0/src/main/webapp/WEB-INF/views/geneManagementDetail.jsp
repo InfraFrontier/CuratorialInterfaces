@@ -195,7 +195,7 @@
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <input type="hidden" name="filterChromosome" value="${filter.chromosome}" />
-            <input type="hidden" name="filterMGIReference" value="${filter.mgiReference}" />
+            <input type="hidden" name="filterMGIReference" value="${filter.geneMgiReference}" />
             <table style="border: none">
                 <tr>
                     <td>

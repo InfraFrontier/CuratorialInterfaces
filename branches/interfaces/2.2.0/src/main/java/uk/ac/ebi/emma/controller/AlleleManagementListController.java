@@ -27,8 +27,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.entity.Allele;
+import uk.ac.ebi.emma.manager.AllelesManager;
 import uk.ac.ebi.emma.util.Filter;
 
 /**
@@ -38,61 +38,68 @@ import uk.ac.ebi.emma.util.Filter;
 @Controller
 @RequestMapping("/alleleManagementList")
 public class AlleleManagementListController {
-    private GenesManager genesManager = new GenesManager();
+    private final AllelesManager allelesManager = new AllelesManager();
+//    private final GenesManager genesManager = new GenesManager();
     
     /**
      * 'Go' button implementation
      * 
+     * @param alleleId the allele id search criterion (may be empty)
+     * @param alleleName the allele name search criterion (may be empty)
+     * @param alleleSymbol the allele symbol search criterion (may be empty)
      * @param geneId the gene id search criterion (may be empty)
      * @param geneName the gene name search criterion (may be empty)
      * @param geneSymbol the gene symbol search criterion (may be empty)
-     * @param chromosome the chromosome search criterion (may be empty)
-     * @param mgiReference the MGI reference search criterion (may be empty)
+     * @param alleleMgiReference the allele MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="geneId", required=false) String geneId
+            @RequestParam(value="alleleId", required=false) String alleleId
+          , @RequestParam(value="alleleName", required=false) String alleleName
+          , @RequestParam(value="alleleSymbol", required=false) String alleleSymbol
+          , @RequestParam(value="alleleMgiReference", required=false) String alleleMgiReference
+          , @RequestParam(value="geneId", required=false) String geneId
           , @RequestParam(value="geneName", required=false) String geneName
           , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
           , Model model)
     {
         Filter filter = new Filter();
+        filter.setAlleleId(alleleId != null ? alleleId : "");
+        filter.setAlleleName(alleleName != null ? alleleName : "");
+        filter.setAlleleSymbol(alleleSymbol != null ? alleleSymbol : "");
         filter.setGeneId(geneId != null ? geneId : "");
         filter.setGeneName(geneName != null ? geneName : "");
         filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
-        filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        filter.setAlleleMgiReference(alleleMgiReference != null ? alleleMgiReference : "");
         model.addAttribute("filter", filter);
-        List<Gene> filteredGenesList = genesManager.getFilteredGenesList(filter);
-        model.addAttribute("filteredGenesList", filteredGenesList);
+        List<Allele> filteredAllelesList = allelesManager.getFilteredAllelesList(filter);
+        model.addAttribute("filteredAllelesList", filteredAllelesList);
         model.addAttribute("showResultsForm", true);
-        model.addAttribute("resultsCount", filteredGenesList.size());
+        model.addAttribute("resultsCount", filteredAllelesList.size());
     
         return "alleleManagementList";
     }
     
     /**
-     * Deletes the gene identified by <b>id</b>. This method is configured as
+     * Deletes the allele identified by <b>id</b>. This method is configured as
      * a GET because it is intended to be called as an ajax call. Using GET
      * avoids re-posting problems with the back button. NOTE: It is the caller's
      * responsibility to insure there are no foreign key constraints.
      * 
-     * @param id_gene primary key of the gene to be deleted
+     * @param id_allele primary key of the allele to be deleted
      * @return a JSON string containing 'status' [ok or fail], and a message [
      * empty string if status is ok; error message otherwise]
      */
-    @RequestMapping(value = "/deleteGene"
+    @RequestMapping(value = "/deleteAllele"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> deleteGene(@RequestParam int id_gene) {
+    public ResponseEntity<String> deleteAllele(@RequestParam int id_allele) {
         String status, message;
         
         try {
-            genesManager.delete(id_gene);
+            allelesManager.delete(id_allele);
             status = "ok";
             message = "";
         } catch (Exception e) {
@@ -111,30 +118,36 @@ public class AlleleManagementListController {
     
     /**
      * Displays the form with no results grid.
+     * @param alleleId the allele id search criterion (may be empty)
+     * @param alleleName the allele name search criterion (may be empty)
+     * @param alleleSymbol the allele symbol search criterion (may be empty)
+     * @param alleleMgiReference the allele MGI reference search criterion (may be empty)
      * @param geneId the gene id search criterion (may be empty)
      * @param geneName the gene name search criterion (may be empty)
      * @param geneSymbol the gene symbol search criterion (may be empty)
-     * @param chromosome the chromosome search criterion (may be empty)
-     * @param mgiReference the MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="geneId", required=false) String geneId
+            @RequestParam(value="alleleId", required=false) String alleleId
+          , @RequestParam(value="alleleName", required=false) String alleleName
+          , @RequestParam(value="alleleSymbol", required=false) String alleleSymbol
+          , @RequestParam(value="alleleMgiReference", required=false) String alleleMgiReference
+          , @RequestParam(value="geneId", required=false) String geneId
           , @RequestParam(value="geneName", required=false) String geneName
           , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
             
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setGeneId((geneId != null ? geneId : ""));
-        filter.setGeneName((geneName != null ? geneName : ""));
-        filter.setGeneSymbol((geneSymbol != null ? geneSymbol : ""));
-        filter.setChromosome((chromosome != null ? chromosome : ""));
-        filter.setMgiReference((mgiReference != null ? mgiReference : ""));
+        filter.setAlleleId((alleleId != null ? alleleId : ""));
+        filter.setAlleleName((alleleName != null ? alleleName : ""));
+        filter.setAlleleSymbol((alleleSymbol != null ? alleleSymbol : ""));
+        filter.setAlleleId((geneId != null ? geneId : ""));
+        filter.setAlleleName((geneName != null ? geneName : ""));
+        filter.setAlleleSymbol((geneSymbol != null ? geneSymbol : ""));
+        filter.setAlleleMgiReference((alleleMgiReference != null ? alleleMgiReference : ""));
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);
@@ -147,77 +160,33 @@ public class AlleleManagementListController {
 
     
     /**
-     * Returns a [distinct], unfiltered list of all chromosomes suitable for autocomplete
+     * Returns a distinct filtered list of allele names suitable for autocomplete
      * sourcing.
      * 
-     * @return a [distinct], unfiltered list of all chromosomes suitable for autocomplete
-     * sourcing.
-     * */
-    @RequestMapping(value = "/getChromosomes"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public List<String> getChromosomes() {
-        return genesManager.getChromosomes();
-    }
-    
-    /**
-     * Returns a [distinct], unfiltered list of all gene ids suitable for autocomplete
-     * sourcing.
-     * 
-     * @@return a [distinct], unfiltered list of all gene ids suitable for autocomplete
-     * sourcing.
-     * */
-    @RequestMapping(value = "/getGeneIds"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public List<String> getGeneIds() {
-        return genesManager.getGeneIds();
-    }
-
-    /**
-     * Returns a distinct filtered list of gene names suitable for autocomplete
-     * sourcing.
-     * 
-     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
-     * @@return a <code>List&lt;String&gt;</code> of distinct gene names filtered
+     * @param filterTerm the filter term for the allele symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct allele names filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
      * */
-    @RequestMapping(value = "/getGeneNames"
+    @RequestMapping(value = "/getAlleleNames"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getGeneNames(@RequestParam String filterTerm) {
-        return genesManager.getNames(filterTerm);
+    public List<String> getAlleleNames(@RequestParam String filterTerm) {
+        return allelesManager.getNames(filterTerm);
     }    
     
     /**
-     * Returns a distinct filtered list of gene symbols suitable for autocomplete
+     * Returns a distinct filtered list of allele symbols suitable for autocomplete
      * sourcing.
      * 
-     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
-     * @@return a <code>List&lt;String&gt;</code> of distinct gene ids filtered
+     * @param filterTerm the filter term for the allele symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct allele ids filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
      * */
-    @RequestMapping(value = "/getGeneSymbols"
+    @RequestMapping(value = "/getAlleleSymbols"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public List<String> getGeneSymbols(@RequestParam String filterTerm) {
-        return genesManager.getSymbols(filterTerm);
-    }
-
-    /**
-     * Returns a distinct filtered list of MGI references suitable for autocomplete
-     * sourcing.
-     * 
-     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
-     * @@return a <code>List&lt;String&gt;</code> of distinct MGI references filtered
-     * by <code>filterTerm</code> suitable for autocomplete sourcing.
-     * */
-    @RequestMapping(value = "/getMGIReferences"
-                  , method = RequestMethod.GET
-    )
-    @ResponseBody
-    public List<String> getMGIReferences(@RequestParam String filterTerm) {
-        return genesManager.getMGIReferences(filterTerm);
+    public List<String> getAlleleSymbols(@RequestParam String filterTerm) {
+        return allelesManager.getSymbols(filterTerm);
     }
 
     

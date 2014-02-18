@@ -47,7 +47,7 @@ public class GeneManagementListController {
      * @param geneName the gene name search criterion (may be empty)
      * @param geneSymbol the gene symbol search criterion (may be empty)
      * @param chromosome the chromosome search criterion (may be empty)
-     * @param mgiReference the MGI reference search criterion (may be empty)
+     * @param geneMgiReference the MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
@@ -57,7 +57,7 @@ public class GeneManagementListController {
           , @RequestParam(value="geneName", required=false) String geneName
           , @RequestParam(value="geneSymbol", required=false) String geneSymbol
           , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
+          , @RequestParam(value="geneMgiReference", required=false) String geneMgiReference
           , Model model)
     {
         Filter filter = new Filter();
@@ -65,7 +65,7 @@ public class GeneManagementListController {
         filter.setGeneName(geneName != null ? geneName : "");
         filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
         filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setMgiReference(mgiReference != null ? mgiReference : "");
+        filter.setGeneMgiReference(geneMgiReference != null ? geneMgiReference : "");
         model.addAttribute("filter", filter);
         List<Gene> filteredGenesList = genesManager.getFilteredGenesList(filter);
         model.addAttribute("filteredGenesList", filteredGenesList);
@@ -115,7 +115,7 @@ public class GeneManagementListController {
      * @param geneName the gene name search criterion (may be empty)
      * @param geneSymbol the gene symbol search criterion (may be empty)
      * @param chromosome the chromosome search criterion (may be empty)
-     * @param mgiReference the MGI reference search criterion (may be empty)
+     * @param geneMgiReference the MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
@@ -125,7 +125,7 @@ public class GeneManagementListController {
           , @RequestParam(value="geneName", required=false) String geneName
           , @RequestParam(value="geneSymbol", required=false) String geneSymbol
           , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="mgiReference", required=false) String mgiReference
+          , @RequestParam(value="geneMgiReference", required=false) String geneMgiReference
             
           , Model model)
     {
@@ -134,7 +134,7 @@ public class GeneManagementListController {
         filter.setGeneName((geneName != null ? geneName : ""));
         filter.setGeneSymbol((geneSymbol != null ? geneSymbol : ""));
         filter.setChromosome((chromosome != null ? chromosome : ""));
-        filter.setMgiReference((mgiReference != null ? mgiReference : ""));
+        filter.setGeneMgiReference((geneMgiReference != null ? geneMgiReference : ""));
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);

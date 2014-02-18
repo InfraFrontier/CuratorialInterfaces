@@ -5,7 +5,7 @@
 
 package uk.ac.ebi.emma.entity;
 
-import uk.ac.ebi.emma.manager.GenesManager;
+import java.util.Date;
 
 /**
  *
@@ -13,23 +13,23 @@ import uk.ac.ebi.emma.manager.GenesManager;
  */
 public class Allele {
     
-    private int id_allel;
+    private int id_allele;
     private String name;
-    private String alls_form;
+    private String symbol;
     private String mgi_ref;
     private String username;
-    private String last_change;
-    private String gen_id_gene;
+    private Date last_change;
+    private int gen_id_gene;
     private String strainID;
     private Gene gene;
     private Mutation mutation;
 
-    public int getId_allel() {
-        return id_allel;
+    public int getId_allele() {
+        return id_allele;
     }
 
-    public void setId_allel(int id_allel) {
-        this.id_allel = id_allel;
+    public void setId_allele(int id_allele) {
+        this.id_allele = id_allele;
     }
 
     public String getName() {
@@ -40,12 +40,12 @@ public class Allele {
         this.name = name;
     }
 
-    public String getAlls_form() {
-        return alls_form;
+    public String getSymbol() {
+        return symbol;
     }
 
-    public void setAlls_form(String alls_form) {
-        this.alls_form = alls_form;
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public String getMgi_ref() {
@@ -64,19 +64,19 @@ public class Allele {
         this.username = username;
     }
 
-    public String getLast_change() {
+    public Date getLast_change() {
         return last_change;
     }
 
-    public void setLast_change(String last_change) {
+    public void setLast_change(Date last_change) {
         this.last_change = last_change;
     }
 
-    public String getGen_id_gene() {
+    public int getGen_id_gene() {
         return gen_id_gene;
     }
 
-    public void setGen_id_gene(String gen_id_gene) {
+    public void setGen_id_gene(int gen_id_gene) {
         this.gen_id_gene = gen_id_gene;
     }
 

@@ -176,10 +176,10 @@ public class GenesManager extends AbstractManager {
     }
 
     /**
-     * Returns a distinct filtered list of gene names suitable for autocomplete
+     * Returns a distinct filtered list of gene symbols suitable for autocomplete
      * sourcing.
      * 
-     * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
+     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
      * @@return a <code>List&lt;String&gt;</code> of distinct gene symbols filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
      */
@@ -360,7 +360,7 @@ public class GenesManager extends AbstractManager {
             geneSymbolWhere = "  AND (symbol LIKE :symbol)\n";
             queryString += geneSymbolWhere;
         }
-        if ((filter.getMgiReference()!= null) && ( ! filter.getMgiReference().isEmpty())) {
+        if ((filter.getGeneMgiReference()!= null) && ( ! filter.getGeneMgiReference().isEmpty())) {
             mgiReferenceWhere = "  AND (mgi_ref LIKE :mgi_ref)\n";
             queryString += mgiReferenceWhere;
         }
@@ -378,7 +378,7 @@ public class GenesManager extends AbstractManager {
             if ( ! geneSymbolWhere.isEmpty())
                 query.setParameter("symbol", "%" + filter.getGeneSymbol() + "%");
             if ( ! mgiReferenceWhere.isEmpty())
-                query.setParameter("mgi_ref", "%" + filter.getMgiReference() + "%");
+                query.setParameter("mgi_ref", "%" + filter.getGeneMgiReference() + "%");
                 
             targetList = query.addEntity(Gene.class).list();
             getCurrentSession().getTransaction().commit();

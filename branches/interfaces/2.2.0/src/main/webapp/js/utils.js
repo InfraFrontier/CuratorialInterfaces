@@ -33,4 +33,32 @@ function isInteger(value) {
     return intRegex.test(value);
 }
 
+/**
+ * Given a string containing 1 integer, or 2 or more comma-separated integers
+ * (with optional trailing whitespace after each number), returns true if
+ * all of the comma-separated values are integers; false if any of them is 
+ * not, or if the string is null or empty.
+ * 
+ * @param {string} intArray the array of comma-separated integers to test
+ * @returns {Boolean} true if all of the comma-separated values are integers;
+ *  false if any of them is  not, or if the string is null or empty.
+ */
+function isIntegerArray(intArray) {
+    if (intArray === null)
+        return false;
+    
+    var valueFound = false;
+    
+    var sA = intArray.split(",");
+    var i;
+    for (i = 0; i < sA.length; i++) {
+        var s = sA[i];
+        if ( ! isInteger(s.trim()))
+            return false;
+        valueFound = true;
+    }
+    
+    return valueFound;
+}
+
 

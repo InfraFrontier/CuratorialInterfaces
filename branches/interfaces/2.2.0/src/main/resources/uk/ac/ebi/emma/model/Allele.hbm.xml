@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Corrected database column misspelling of id_allel to id_allele and unclear 'alls_form' to the more descriptive 'symbol' similar to the 'genes' table. -->
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
   <class name="Allele" table="alleles">
-    <id column="id_allel" name="id_allel">
+    <id column="id_allel" name="id_allele">
       <generator class="native"/>
     </id>
     <many-to-one cascade="all" class="Mutation" column="id_allel" foreign-key="alls_id_allel" insert="false" lazy="false" name="mutation" not-found="ignore" update="false"/>
     <many-to-one cascade="all" class="Gene" column="gen_id_gene" foreign-key="id_gene" insert="false" lazy="false" name="gene" not-found="ignore" update="false"/>
     <property column="name" name="name"/>
-    <property column="alls_form" name="alls_form"/>
+    <property column="alls_form" name="symbol"/>
     <property column="mgi_ref" name="mgi_ref"/>
     <property column="username" name="username"/>
     <property column="last_change" name="last_change"/>

@@ -281,7 +281,7 @@
             <input type="hidden" id="filterGeneNameNew" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" id="filterGeneSymbolNew" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <input type="hidden" id="filterChromosomeNew" name="filterChromosome" value="${filter.chromosome}" />
-            <input type="hidden" id="filterMGIReferenceNew" name="filterMGIReference" value="${filter.mgiReference}" />
+            <input type="hidden" id="filterMGIReferenceNew" name="filterMGIReference" value="${filter.geneMgiReference}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/editGene" />
@@ -315,8 +315,8 @@
                     <tr>
                         <td><form:label path="geneName">Gene name:</form:label></td>
                         <td><form:input id="geneName" class="filterComponent" path="geneName" onchange="updateFilter(this);" /></td>
-                        <td><form:label path="mgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="mgiReference" class="filterComponent" path="mgiReference" onchange="updateFilter(this);" /></td>
+                        <td><form:label path="geneMgiReference">MGI reference:</form:label></td>
+                        <td><form:input id="mgiReference" class="filterComponent" path="geneMgiReference" onchange="updateFilter(this);" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
@@ -342,7 +342,7 @@
                         <c:when test="${fn:length(filteredGenesList) > 0}">
                             <tr style="border: 1px solid black">
                                 <th>Actions</th>
-                                <th>Bound Alleles </th>
+                                <th>Bound Alleles</th>
                                 <th>Gene ID</th>
                                 <th>Gene Name</th>
                                 <th>Gene Symbol</th>
@@ -376,7 +376,7 @@
                                                     <input type="hidden" id="filterGeneNameEdit" name="filterGeneName" value="${filter.geneName}" />
                                                     <input type="hidden" id="filterGeneSymbolEdit" name="filterGeneSymbol" value="${filter.geneSymbol}" />
                                                     <input type="hidden" id="filterChromosomeEdit" name="filterChromosome" value="${filter.chromosome}" />
-                                                    <input type="hidden" id="filterMGIReferenceEdit" name="filterMGIReference" value="${filter.mgiReference}" />
+                                                    <input type="hidden" id="filterMGIReferenceEdit" name="filterMGIReference" value="${filter.geneMgiReference}" />
                                                     <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
                                                            src="${pageContext.request.contextPath}/images/edit.jpg" />
                                                 </form>
