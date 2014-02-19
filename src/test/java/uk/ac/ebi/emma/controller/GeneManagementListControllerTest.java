@@ -211,21 +211,21 @@ public class GeneManagementListControllerTest {
     }
     
     /**
-     * Test of getMGIReferences method, of class GeneManagementListController.
+     * Test of getMgiReferences method, of class GeneManagementListController.
      */
     @Test
-    public void testGetMGIReferences() {
-        System.out.println("getMGIReferences - filterTerm: no match expect NULL");
+    public void testGetGeneMgiReferences() {
+        System.out.println("getGeneMgiReferences - filterTerm: no match expect NULL");
         String filterTerm = "A very unlikely term for a match.";
         GeneManagementListController instance = new GeneManagementListController();
         List<String> expResult = new ArrayList();
-        List<String> result = instance.getMGIReferences(filterTerm);
+        List<String> result = instance.getMgiReferences(filterTerm);
         assertEquals(expResult, result);
         
-        System.out.println("getMGIReferences - filterTerm: '1' - expect some results.");
+        System.out.println("getGeneMgiReferences - filterTerm: '1' - expect some results.");
         filterTerm = "1";
         instance = new GeneManagementListController();
-        result = instance.getMGIReferences(filterTerm);
+        result = instance.getMgiReferences(filterTerm);
         assert(result.size() > 0);
     }
     

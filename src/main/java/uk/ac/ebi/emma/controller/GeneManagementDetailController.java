@@ -16,23 +16,22 @@
 
 package uk.ac.ebi.emma.controller;
 
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.manager.GenesManager;
-import uk.ac.ebi.emma.util.DBUtils;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.validator.GeneValidator;
 
@@ -44,7 +43,7 @@ import uk.ac.ebi.emma.validator.GeneValidator;
 @RequestMapping("/geneManagementDetail")
 public class GeneManagementDetailController {
     @Autowired
-    private GenesManager genesManager = new GenesManager();
+    private final GenesManager genesManager = new GenesManager();
     
     @Autowired
     private GeneValidator validator;
@@ -58,24 +57,24 @@ public class GeneManagementDetailController {
      * @param filterGeneName the Gene name part of the filter
      * @param filterGeneSymbol the Gene symbol part of the filter
      * @param filterChromosome the chromosome part of the filter
-     * @param filterMGIReference the MGI reference part of the filter
+     * @param filterGeneMgiReference the MGI reference part of the filter
      * @param model the model
      * @return the view to show
      */
-    @RequestMapping(value="/editGene", method=RequestMethod.GET)
-    public String editGene(
-            @RequestParam(value="id_gene", required=false) Integer id_gene
+    @RequestMapping(value="/edit", method=RequestMethod.GET)
+    public String edit(
+            @RequestParam(value="id_gene") Integer id_gene
             
-          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
-          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
-          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
-          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
-          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
+          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneName") String filterGeneName
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterChromosome") String filterChromosome
+          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
             
           , Model model)
     {
         // Save the filter info and add to model.
-        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference);
+        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -93,7 +92,7 @@ public class GeneManagementDetailController {
      * Save the form data.
      * 
      * @param gene the Gene instance
-     * @param bindingResult the Errors binding result object
+     * @param errors the Errors binding result object
      * @param id_gene the actual gene primary key (for some reason gene.id_gene is 0, even for a valid gene instance).
      * @param synonymsAreDirty true for each dirty synonym; false for each clean (unmodified) one
      * @param hidSeedValues
@@ -104,13 +103,14 @@ public class GeneManagementDetailController {
      * @param filterGeneName
      * @param filterGeneSymbol
      * @param filterChromosome
-     * @param filterMGIReference
-     * @param model the filter data, saved above in editGene().
+     * @param filterGeneMgiReference
+     * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
     @RequestMapping(value="/save", method=RequestMethod.POST)
+    @Qualifier("uk.ac.ebi.emma.controller.GeneManagementDetailController")
     public String save(
-            @Valid Gene gene, BindingResult bindingResult
+            @Valid Gene gene, Errors errors
           
           , @RequestParam(value="id_gene") int id_gene
             
@@ -120,11 +120,11 @@ public class GeneManagementDetailController {
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
           , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols
             
-          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
-          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
-          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
-          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
-          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
+          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneName") String filterGeneName
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterChromosome") String filterChromosome
+          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
             
           , Model model) 
     {
@@ -137,6 +137,12 @@ public class GeneManagementDetailController {
             Gene dbGene = genesManager.getGene(gene.getId_gene());
             gene.setSynonyms(dbGene.getSynonyms());
         }
+     
+        // Load up the model in case we have to redisplay the detail form.
+        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
+        model.addAttribute(filter);
+        String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
+        model.addAttribute("loggedInUser", loggedInUser);
         
         // Spring does not reliably pass all tabular data (read: empty fields),
         // nor does it guarantee that all synonym array lengths (id, name, symbol)
@@ -188,26 +194,23 @@ public class GeneManagementDetailController {
             gene.setSynonyms(geneSynonymSet);
         }
         
-        validator.validate(gene, bindingResult);
-        if (bindingResult.hasErrors()) {
-            // Add the filter and the logged in user to the model.
-            Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference);
-            model.addAttribute(filter);
-            
-            String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
-            model.addAttribute("loggedInUser", loggedInUser);
-            
+        validator.validate(gene, errors);
+        if (errors.hasErrors()) {
             return "geneManagementDetail";
         }
         
-        genesManager.save(gene);
-        
+        try {
+            genesManager.save(gene);
+        } catch (PersistFailedException pfe) {
+            errors.reject(null, pfe.getLocalizedMessage());
+        }
+            
         return "redirect:/curation/geneManagementList/go"
                 + "?geneId=" + filterGeneId
                 + "&geneName=" + filterGeneName
                 + "&geneSymbol=" + filterGeneSymbol
                 + "&chromosome=" + filterChromosome
-                + "&geneMgiReference=" + filterMGIReference;
+                + "&geneMgiReference=" + filterGeneMgiReference;
     }
     
         /**
@@ -217,17 +220,17 @@ public class GeneManagementDetailController {
      * @param filterGeneName
      * @param filterGeneSymbol
      * @param filterChromosome
-     * @param filterMGIReference
-     * @param model the filter data, saved above in editGene().
+     * @param filterGeneMgiReference
+     * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
     @RequestMapping(value="/showList", method=RequestMethod.GET)
     public String showList(
-            @RequestParam(value="filterGeneId", required=false) String filterGeneId
-          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
-          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
-          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
-          , @RequestParam(value="filterMGIReference", required=false) String filterMGIReference
+            @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneName") String filterGeneName
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterChromosome") String filterChromosome
+          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
             
           , Model model) 
     {
@@ -236,20 +239,7 @@ public class GeneManagementDetailController {
                 + "&geneName=" + filterGeneName
                 + "&geneSymbol=" + filterGeneSymbol
                 + "&chromosome=" + filterChromosome
-                + "&geneMgiReference=" + filterMGIReference;
-    }
-    
-    /**
-     * Return hashmap of maximum database column lengths of <code>String</code>
-     * data. Used to dynamically set maxlength of client input HTML controls.
-     * @param tablename Database table name of maximum string lengths to return
-     * @return a hashmap of maximum database column lengths of <code>String</code>
-     * data.
-     */
-    @RequestMapping(value="getFieldLengths")
-    @ResponseBody
-    public HashMap<String, Integer> getFieldLengths(String tablename) {
-        return DBUtils.getMaxColumnLengths(tablename);
+                + "&geneMgiReference=" + filterGeneMgiReference;
     }
     
     

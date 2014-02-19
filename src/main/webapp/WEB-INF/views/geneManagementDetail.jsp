@@ -4,14 +4,15 @@
     Author     : mrelac
 --%>
 <!DOCTYPE html>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt"    uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="fn"     uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec"    uri="http://www.springframework.org/security/tags" %>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <html>
     <head>
@@ -43,6 +44,7 @@
         </style>
         
         <script>
+            var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
             var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementDetail";
             
             $(document).ready(function() {
@@ -85,7 +87,7 @@
                 $('#trSynonymHeadings').css('display', displayFormat);
             }
             
-            function lookupMGI() {
+            function lookupMgi() {
                 var id = $('#mgiReference').val();
                 window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
             }
@@ -103,7 +105,7 @@
             function setMaxGeneLengths() {
                 // Set genes table field lengths.
                 $.ajax({
-                    url: urlRoot + "/getFieldLengths"
+                    url: urlUtilRoot + "/getFieldLengths"
                   , async: false
                   , data: { tablename: 'genes' }
                   , dataType: "json"
@@ -125,7 +127,7 @@
             function setMaxGeneSynonymLengths() {
                 // Set syn_genes table field lengths.
                 $.ajax({
-                    url: urlRoot + "/getFieldLengths"
+                    url: urlUtilRoot + "/getFieldLengths"
                   , async: false
                   , data: { tablename: 'syn_genes' }
                   , dataType: "json"
@@ -195,7 +197,7 @@
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <input type="hidden" name="filterChromosome" value="${filter.chromosome}" />
-            <input type="hidden" name="filterMGIReference" value="${filter.geneMgiReference}" />
+            <input type="hidden" name="filterGeneMgiReference" value="${filter.geneMgiReference}" />
             <table style="border: none">
                 <tr>
                     <td>
@@ -287,7 +289,7 @@
                                             <%-- MGI REFERENCE --%>
                                             <td>
                                                 <form:label for="mgiReference" path="gene.mgi_ref">
-                                                    <a href="javascript:lookupMGI();">
+                                                    <a href="javascript:lookupMgi();">
                                                         MGI reference:
                                                     </a>
                                                 </form:label>
@@ -392,6 +394,7 @@
                         </table>
                     </td>
                 </tr>
+                <tr><td><form:errors path="gene.*" cssClass="error" /></td></tr>
             </table>
         </form>
     </body>

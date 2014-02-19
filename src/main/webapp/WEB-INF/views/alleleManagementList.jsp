@@ -56,6 +56,12 @@
 
                 clearErrors();
                 
+                $('.filterComponent').each(function (index, element) {
+                    $(element).on('keyup blur', function(event) {
+                        updateFilter(element);
+                    });
+                });
+                
                 $('#tabResults').dataTable();
             });
 
@@ -159,7 +165,7 @@
                 $("#mgiReference").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: geneUrlRoot + "/getMGIReferences",
+                            url: urlRoot + "/getMgiReferences",
                             dataType: "json",
                             data: {filterTerm: request.term},
                             success: function(data) {
@@ -201,7 +207,7 @@
                 $('#divResults').css('display', resultsFormDisplayAttribute);
             }
 
-            function lookupMGI(id) {
+            function lookupMgi(id) {
                 window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
             }
 
@@ -260,7 +266,7 @@
                         break;
 
                     case 'mgiReference':
-                        $('input[id^="filterMGIReference"]').val(value);
+                        $('input[id^="filterAlleleMgiReference"]').val(value);
                         break;
                 }
             }
@@ -285,11 +291,13 @@
             <input type="hidden" id="filterAlleleIdNew" name="filterAlleleId" value="${filter.alleleId}" />
             <input type="hidden" id="filterAlleleNameNew" name="filterAlleleName" value="${filter.alleleName}" />
             <input type="hidden" id="filterAlleleSymbolNew" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
-            <input type="hidden" id="filterChromosomeNew" name="filterChromosome" value="${filter.chromosome}" />
-            <input type="hidden" id="filterMGIReferenceNew" name="filterMGIReference" value="${filter.alleleMgiReference}" />
+            <input type="hidden" id="filterAlleleMgiReferenceNew" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
+            <input type="hidden" id="filterGeneIdNew" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" id="filterGeneNameNew" name="filterGeneName" value="${filter.geneName}" />
+            <input type="hidden" id="filterGeneSymbolNew" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/editAllele" />
+                   formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit" />
         </form:form>
         
         <form:form modelAttribute="filter" method="get">
@@ -312,28 +320,28 @@
                 <tbody>
                     <tr>
                         <td><form:label path="alleleId">Allele Id:</form:label></td>
-                        <td><form:input id="alleleId" class="filterComponent" path="alleleId" onkeyup="updateFilter(this);" /></td>
+                        <td><form:input id="alleleId" class="filterComponent" path="alleleId" /></td>
                         
                         <td><form:label path="geneId">Gene Id:</form:label></td>
-                        <td><form:input id="geneId" class="filterComponent" path="geneId" onkeyup="updateFilter(this);" /></td>
+                        <td><form:input id="geneId" class="filterComponent" path="geneId" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleName">Allele name:</form:label></td>
-                        <td><form:input id="alleleName" class="filterComponent" path="alleleName" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="alleleName" class="filterComponent" path="alleleName" /></td>
                         
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="geneName" class="filterComponent" path="geneName" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="geneName" class="filterComponent" path="geneName" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleSymbol">Allele symbol:</form:label></td>
-                        <td><form:input id="alleleSymbol" class="filterComponent" path="alleleSymbol" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="alleleSymbol" class="filterComponent" path="alleleSymbol" /></td>
                         
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="geneSymbol" class="filterComponent" path="geneSymbol" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="geneSymbol" class="filterComponent" path="geneSymbol" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleMgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="mgiReference" class="filterComponent" path="alleleMgiReference" onchange="updateFilter(this);" /></td>
+                        <td><form:input id="mgiReference" class="filterComponent" path="alleleMgiReference" /></td>
                         <td colspan="2"></td>
                     </tr>
                 </tbody>
@@ -358,10 +366,10 @@
                                 <th>Allele ID</th>
                                 <th>Allele Name</th>
                                 <th>Allele Symbol</th>
+                                <th>MGI Reference</th>
                                 <th>Gene Id</th>
                                 <th>Gene Name</th>
                                 <th>Gene Symbol</th>
-                                <th>MGI Reference</th>
                             </tr>
                         </c:when>
                     </c:choose>
@@ -376,16 +384,16 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT ALLELE --%>
-                                                <form method="get" target="alleleEditTarget" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/editAllele">
+                                                <form method="get" target="alleleEditTarget" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit">
                                                     <input type="hidden" name="id_allele" value="${allele.id_allele}" />
 
                                                     <input type="hidden" id="filterAlleleIdEdit" name="filterAlleleId" value="${filter.alleleId}" />
                                                     <input type="hidden" id="filterAlleleNameEdit" name="filterAlleleName" value="${filter.alleleName}" />
                                                     <input type="hidden" id="filterAlleleSymbolEdit" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
+                                                    <input type="hidden" id="filterAlleleMgiReferenceEdit" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
                                                     <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
                                                     <input type="hidden" id="filterGeneNameEdit" name="filterGeneName" value="${filter.geneName}" />
                                                     <input type="hidden" id="filterGeneSymbolEdit" name="filterGeneSymbol" value="${filter.geneSymbol}" />
-                                                    <input type="hidden" id="filterMGIReferenceEdit" name="filterMGIReference" value="${filter.alleleMgiReference}" />
                                                     <input alt="Edit Allele" type="image" height="15" width="15" title="Edit allele ${allele.id_allele}"
                                                            src="${pageContext.request.contextPath}/images/edit.jpg" />
                                                 </form>
@@ -406,14 +414,14 @@
                             <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
                             
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/geneManagementEdit/editGene">
+                                <a href="${pageContext.request.contextPath}/curation/geneManagementEdit/edit">
                                     ${fn:escapeXml(allele.gene.id_gene)}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.symbol)}</td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMGI('${fn:escapeXml(allele.mgi_ref)}');">
+                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgi_ref)}');">
                                     ${fn:escapeXml(allele.mgi_ref)}
                                 </a>
                             </td>

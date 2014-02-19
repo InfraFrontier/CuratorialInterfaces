@@ -20,7 +20,6 @@
 
 package uk.ac.ebi.emma.controller;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -62,11 +61,11 @@ public class GeneManagementDetailControllerTest {
     }
 
     /**
-     * Test of editGene method, of class GeneManagementDetailController.
+     * Test of edit method, of class GeneManagementDetailController.
      */
     @Test
     public void testEditGene() {
-        System.out.println("editGene");
+        System.out.println("edit");
         int id_gene = 0;
         String filterGeneId = "0";
         String filterGeneName = "test gene name";
@@ -77,7 +76,7 @@ public class GeneManagementDetailControllerTest {
         
         GeneManagementDetailController instance = new GeneManagementDetailController();
         String expResult = "geneManagementDetail";
-        String result = instance.editGene(id_gene, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+        String result = instance.edit(id_gene, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
         assertEquals(expResult, result);                                        // Verify function return.
         
         Map modelMap = model.asMap();
@@ -139,34 +138,5 @@ public class GeneManagementDetailControllerTest {
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");
 //    }
-
-    /**
-     * Test of getFieldLengths method, of class GeneManagementDetailController.
-     */
-    @Test
-    public void testGetFieldLengths() {
-        System.out.println("getFieldLengths - genes");
-        String tablename = "genes";
-        GeneManagementDetailController instance = new GeneManagementDetailController();
-        HashMap<String, Integer> result = instance.getFieldLengths(tablename);
-        assertEquals("gene.name: ", 300, (int)result.get("name"));
-        assertEquals("gene.symbol: ", 100, (int)result.get("symbol"));
-        assertEquals("gene.chromosome: ", 2, (int)result.get("chromosome"));
-        assertEquals("gene.cytoband: ", 15, (int)result.get("cytoband"));
-        assertEquals("gene.species: ", 20, (int)result.get("species"));
-        assertEquals("gene.mgi_ref: ", 20, (int)result.get("mgi_ref"));
-        assertEquals("gene.username: ", 20, (int)result.get("username"));
-        assertEquals("gene.promoter: ", 150, (int)result.get("promoter"));
-        assertEquals("gene.founder_line_number: ", 150, (int)result.get("founder_line_number"));
-        assertEquals("gene.plasmid_construct: ", 150, (int)result.get("plasmid_construct"));
-        assertEquals("gene.ensembl_ref: ", 18, (int)result.get("ensembl_ref"));
-
-        System.out.println("getFieldLengths - syn_genes");
-        tablename = "syn_genes";
-        result = instance.getFieldLengths(tablename);
-        assertEquals("syn_genes.name: ", 50, (int)result.get("name"));
-        assertEquals("syn_genes.symbol: ", 50, (int)result.get("symbol"));
-        assertEquals("syn_genes.username: ", 20, (int)result.get("username"));
-    }
     
 }
