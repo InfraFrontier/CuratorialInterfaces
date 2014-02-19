@@ -20,7 +20,6 @@ public class Allele {
     private String username;
     private Date last_change;
     private int gen_id_gene;
-    private String strainID;
     private Gene gene;
     private Mutation mutation;
 
@@ -80,14 +79,6 @@ public class Allele {
         this.gen_id_gene = gen_id_gene;
     }
 
-    public String getStrainID() {
-        return strainID;
-    }
-
-    public void setStrainID(String strainID) {
-        this.strainID = strainID;
-    }
-
     public Gene getGene() {
         return gene;
     }
@@ -104,10 +95,4 @@ public class Allele {
         this.mutation = mutation;
     }
 
-//    @Override
-//    public String toString() {
-//        return AllelesManager.toJSON(this);
-//    }
-
-    
 }

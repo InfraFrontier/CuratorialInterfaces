@@ -20,13 +20,11 @@
 
 package uk.ac.ebi.emma.validator;
 
-import java.util.Iterator;
-import java.util.Set;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
+import uk.ac.ebi.emma.entity.Allele;
 import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.entity.GeneSynonym;
 import uk.ac.ebi.emma.util.Utils;
 
 /**
@@ -34,7 +32,7 @@ import uk.ac.ebi.emma.util.Utils;
  * @author mrelac
  */
 @Component
-public class GeneValidator implements Validator {
+public class AlleleValidator implements Validator {
 
     /**
      * Required for Validator implementation.
@@ -53,33 +51,17 @@ public class GeneValidator implements Validator {
      */
     @Override
     public void validate(Object target, Errors errors) {
-        Gene gene = (Gene)target;
+        Allele allele = (Allele)target;
         
-        // Centimorgan, if supplied, must be an integer.
-        if ((gene.getCentimorgan() != null) && ( ! gene.getCentimorgan().isEmpty())) {
-            Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
-            if (centimorgan == null) {
-                errors.rejectValue("centimorgan", null, "Please enter an integer.");
-            }
-        }
-        if ((gene.getName() != null) && (gene.getName().trim().length() == 0)) {
+        if ((allele.getName() != null) && (allele.getName().trim().length() == 0)) {
             errors.rejectValue("name", null, "Please provide a name.");
         }
         
-        Utils.validateMaxFieldLengths(gene, "genes", errors);
+        Utils.validateMaxFieldLengths(allele, "alleles", errors);
         
-        // Validate that GeneSynonym string data doesn't exceed maximum varchar lengths.
-        if (gene.getSynonyms() != null) {                                       // Validate each 'geneSynonyms' instance's max string lengths
-            Set<GeneSynonym> geneSynonyms = gene.getSynonyms();
-            Iterator<GeneSynonym> synGenesIterator = geneSynonyms.iterator();
-            int i = 0;
-            while (synGenesIterator.hasNext()) {
-                GeneSynonym geneSynonym = (GeneSynonym)synGenesIterator.next();
-                errors.pushNestedPath("synonyms[" + Integer.toString(i) + "]");
-                Utils.validateMaxFieldLengths(geneSynonym, "syn_genes", errors);
-                errors.popNestedPath();
-                i++;
-            }
+        // Make sure allele is bound to an existing gene.
+        if (allele.getGen_id_gene() <= 0) {
+            errors.rejectValue("gen_id_gene", null, "Please select a gene.");
         }
     }
 }

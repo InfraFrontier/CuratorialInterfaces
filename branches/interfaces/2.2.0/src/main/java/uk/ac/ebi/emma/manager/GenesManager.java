@@ -28,6 +28,7 @@ import org.hibernate.Session;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Allele;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
@@ -63,9 +64,10 @@ public class GenesManager extends AbstractManager {
 
     /**
      * Saves the given <code>Gene</code> instance
-     * @param gene the <code>Gene</code> instance p0to be saved
+     * @param gene the <code>Gene</code> instance to be saved
+     * @exception PersistFailedException if save fails
      */
-    public void save(Gene gene) {
+    public void save(Gene gene) throws PersistFailedException {
         Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
         gene.setCentimorgan(centimorgan == null ? null : centimorgan.toString());   // Centimorgans are numeric, nullable in the database, so re-map any non-numeric values to null.
     
@@ -95,7 +97,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
-            throw e;
+            throw new PersistFailedException("Failed to save gene. Reason: " + e.getLocalizedMessage());
         }
     }
     
@@ -493,8 +495,9 @@ public class GenesManager extends AbstractManager {
      * Adds a new synonym to the gene identified by <code>gene</code>.
      * @param gene the <code>Gene</code> instance to which the new synonym is to be added
      * @return the new <code>GeneSynonym</code> instance.
+     * @exception PersistFailedException if save fails
      */
-    public GeneSynonym addSynonym(Gene gene) {
+    public GeneSynonym addSynonym(Gene gene) throws PersistFailedException {
         synchronized(gene) {
             GeneSynonym geneSynonym = new GeneSynonym();
             geneSynonym.setLast_change(new Date());

@@ -39,7 +39,6 @@ import uk.ac.ebi.emma.util.Filter;
 @RequestMapping("/alleleManagementList")
 public class AlleleManagementListController {
     private final AllelesManager allelesManager = new AllelesManager();
-//    private final GenesManager genesManager = new GenesManager();
     
     /**
      * 'Go' button implementation
@@ -56,13 +55,13 @@ public class AlleleManagementListController {
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="alleleId", required=false) String alleleId
-          , @RequestParam(value="alleleName", required=false) String alleleName
-          , @RequestParam(value="alleleSymbol", required=false) String alleleSymbol
-          , @RequestParam(value="alleleMgiReference", required=false) String alleleMgiReference
-          , @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
+            @RequestParam(value="alleleId") String alleleId
+          , @RequestParam(value="alleleName") String alleleName
+          , @RequestParam(value="alleleSymbol") String alleleSymbol
+          , @RequestParam(value="alleleMgiReference") String alleleMgiReference
+          , @RequestParam(value="geneId") String geneId
+          , @RequestParam(value="geneName") String geneName
+          , @RequestParam(value="geneSymbol") String geneSymbol
           , Model model)
     {
         Filter filter = new Filter();
@@ -187,6 +186,22 @@ public class AlleleManagementListController {
     @ResponseBody
     public List<String> getAlleleSymbols(@RequestParam String filterTerm) {
         return allelesManager.getSymbols(filterTerm);
+    }
+    
+    /**
+     * Returns a distinct filtered list of MGI references suitable from alleles
+     * for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct MGI references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getMgiReferences"
+                  , method = RequestMethod.GET
+    )
+    @ResponseBody
+    public List<String> getMgiReferences(@RequestParam String filterTerm) {
+        return allelesManager.getMGIReferences(filterTerm);
     }
 
     

@@ -53,11 +53,11 @@ public class GeneManagementListController {
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="geneMgiReference", required=false) String geneMgiReference
+            @RequestParam(value="geneId") String geneId
+          , @RequestParam(value="geneName") String geneName
+          , @RequestParam(value="geneSymbol") String geneSymbol
+          , @RequestParam(value="chromosome") String chromosome
+          , @RequestParam(value="geneMgiReference") String geneMgiReference
           , Model model)
     {
         Filter filter = new Filter();
@@ -205,18 +205,18 @@ public class GeneManagementListController {
     }
 
     /**
-     * Returns a distinct filtered list of MGI references suitable for autocomplete
-     * sourcing.
+     * Returns a distinct filtered list of MGI references suitable from genes
+     * for autocomplete sourcing.
      * 
      * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
      * @@return a <code>List&lt;String&gt;</code> of distinct MGI references filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
      * */
-    @RequestMapping(value = "/getMGIReferences"
+    @RequestMapping(value = "/getMgiReferences"
                   , method = RequestMethod.GET
     )
     @ResponseBody
-    public List<String> getMGIReferences(@RequestParam String filterTerm) {
+    public List<String> getMgiReferences(@RequestParam String filterTerm) {
         return genesManager.getMGIReferences(filterTerm);
     }
 
