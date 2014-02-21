@@ -60,7 +60,7 @@ public class AlleleValidator implements Validator {
         Utils.validateMaxFieldLengths(allele, "alleles", errors);
         
         // Make sure allele is bound to an existing gene.
-        if (allele.getGen_id_gene() <= 0) {
+        if (allele.getGene().getId_gene() <= 0) {
             errors.rejectValue("gen_id_gene", null, "Please select a gene.");
         }
     }

@@ -42,16 +42,48 @@
             .buttonAlignment {
                 text-align: right;
             }
+            
+            #divGene.over {
+                background: #cc99ff;
+            }
+            
         </style>
         
         <script>
+            var urlGeneChooserRoot = "${pageContext.request.contextPath}/curation/geneChooser";
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
-            var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementDetail";
+            var urlGeneListRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             
             $(document).ready(function() {
                 setMaxlengths();
                 clearErrors();
+ 
+                $('#divGene')
+                    .on('dragenter', handleDragEnter)
+                    .on('dragover',  handleDragOver)
+                    .on('dragleave', handleDragLeave)
+                    .on('drop',      handleDrop)
+                    .on('dragend',   handleDragLeave);
+                $('#geneId').on('change', function(e) {
+                    updateGeneDiv();
+                });
             });
+            
+            function updateGeneDiv() {
+                var newGeneId = $('#geneId').val();
+                var geneName = '';
+                var geneSymbol = '';
+                if ((isInteger(newGeneId)) && (newGeneId > 0)) {
+                    var gene = getGene($('#geneId').val());
+                    if (gene !== null) {
+                        geneName = gene.name;
+                        geneSymbol = gene.symbol;
+                    }
+                }
+                // Set gene details
+                $('#geneName').val(geneName);
+                $('#geneSymbol').val(geneSymbol);
+            }
             
             function lookupMGI() {
                 var id = $('#mgiReference').val();
@@ -66,16 +98,9 @@
                   , data: { tablename: 'alleles' }
                   , dataType: "json"
                   , success: function( data ) {
-                      $('#chromosome').attr("maxLength", data['chromosome']);
-                      $('#cytoband').attr("maxLength", data['cytoband']);
-                      $('#ensemblReference').attr("maxLength", data['ensembl_ref']);
-                      $('#founderLineNumber').attr("maxLength", data['founder_line_number']);
-                      $('#mgiReference').attr("maxLength", data['mgi_ref']);
+                      $('#alleleSymbol').attr("maxLength", data['alls_form']);
                       $('#alleleName').attr("maxLength", data['name']);
-                      $('#plasmidConstruct').attr("maxLength", data['plasmid_construct']);
-                      $('#promoter').attr("maxLength", data['promoter']);
-                      $('#species').attr("maxLength", data['species']);
-                      $('#alleleSymbol').attr("maxLength", data['symbol']);
+                      $('#mgiReference').attr("maxLength", data['mgi_ref']);
                     }
                 });
             }
@@ -117,6 +142,48 @@
                 return false;
             }
             
+            function handleDragEnter(e) {
+                this.classList.add('over');
+            }
+            function handleDragLeave(e) {
+                this.classList.remove('over');
+            }
+            function handleDrop(e) {
+                var id_gene = e.originalEvent.dataTransfer.getData('text');
+                $('#geneId').val(id_gene);
+                updateGeneDiv();
+               
+                return false;
+            }
+            function handleDragOver(e) {
+                if (e.preventDefault) {
+                    e.preventDefault();
+                }
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            }
+
+            var geneChooserWindow;
+            function showGeneChooser() {
+                if (geneChooserWindow === undefined)
+                     geneChooserWindow = window.open(urlGeneChooserRoot, "_blank", "width = 768, height=406");
+
+                 return false;
+            }
+
+            function getGene(id) {
+                var gene = null;
+                $.ajax({
+                    url: urlGeneListRoot + "/getGene"
+                    , dataType: "json"
+                    , async: false
+                    , data: {id_gene: id}
+                    , success: function(data) {
+                        gene = data;
+                    }
+                });
+                
+                return gene;
+            }
         </script>
         
         <title>Allele Management - add/edit</title>
@@ -150,9 +217,9 @@
                                             <td style="border: 0"><input name="alleleId" value="${allele.id_allele == 0 ? '' : allele.id_allele}" readonly="readonly" /></td>
                                             
                                             <%-- ALLELE NAME --%>
-                                            <td><form:label for="alleleName" path="allele.name">Allele name:</form:label></td>
+                                            <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>
                                             <td>
-                                                <form:textarea id="alleleName" name="alleleName" path="allele.name" value="${allele.name}" />
+                                                <form:textarea id="alleleName" path="allele.name" value="${allele.name}" placeholder="Required field" />
                                                 <br />
                                                 <form:errors path="allele.name" cssClass="error" />
                                             </td>
@@ -160,7 +227,7 @@
                                             <%-- ALLELE SYMBOL --%>
                                             <td><form:label for="alleleSymbol" path="allele.symbol">Allele symbol:</form:label></td>
                                             <td>
-                                                <form:textarea id="alleleSymbol" name="alleleSymbol" path="allele.symbol" value="${allele.symbol}" />
+                                                <form:textarea id="alleleSymbol" path="allele.symbol" value="${allele.symbol}" />
                                                 <br />
                                                 <form:errors path="allele.symbol" cssClass="error" />
                                             </td>
@@ -168,11 +235,42 @@
                                         <tr>
                                             
                                             <%-- GENE --%>
-                                            <td><form:label for="gene" path="allele.gen_id_gene">Gene:</form:label></td>
                                             <td>
-                                                <form:input id="gene" name="gene" path="allele.gen_id_gene" value="${allele.gene.name}" />
-                                                <br />
-                                                <form:errors path="allele.gen_id_gene" cssClass="error" />
+                                                <label>Gene:</label>
+                                                <input alt="Click for gene list." type="image" height="15" width="15" title="Click for gene list."
+                                                       src="${pageContext.request.contextPath}/images/geneChooser.jpg"
+                                                       onclick="showGeneChooser();"
+                                                />
+                                            </td>
+                                            <td>
+                                                <div id="divGene" style="border: 1px solid black">
+                                                    <table>
+                                                        <tr>
+                                                            <td><label>Id:</label></td>
+                                                            <td>
+                                                                <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
+                                                                            value="${allele.gene.id_gene > 0 ? allele.gene.id_gene : ''}" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            
+                                                            <td><label>Name:</label></td>
+                                                            <td>
+                                                                <form:textarea id="geneName" path="allele.gene.name" readonly="true"
+                                                                            value="${allele.gene.name}" type="text" />
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            
+                                                            <td><label>Symbol</label></td>
+                                                            <td>
+                                                                <form:textarea id="geneSymbol" path="allele.gene.symbol" readonly="true"
+                                                                            value="${allele.gene.symbol}" type="text" />
+                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
                                             </td>
                                             
                                             <%-- MGI REFERENCE --%>
@@ -184,7 +282,7 @@
                                                 </form:label>
                                             </td>
                                             <td>
-                                                <form:input id="mgiReference" name="mgi_ref" path="allele.mgi_ref" value="${allele.mgi_ref}" />
+                                                <form:input id="mgiReference" path="allele.mgi_ref" value="${allele.mgi_ref}" />
                                                 <br />
                                                 <form:errors path="allele.mgi_ref" cssClass="error" />
                                             </td>

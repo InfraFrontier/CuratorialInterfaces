@@ -20,17 +20,20 @@
 
 package uk.ac.ebi.emma.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Allele;
+import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.manager.AllelesManager;
 import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.Filter;
@@ -51,6 +54,22 @@ public class AlleleManagementDetailController {
     @Autowired
     private AlleleValidator validator;
 
+    /**
+     * Return the full list of genes
+     * @param model the Genes list data model
+     * 
+     * @return the full list of genes
+     */
+    @RequestMapping(method=RequestMethod.GET)
+    @ModelAttribute
+    public String initialize(Model model)
+    {
+        List<Gene> genesList = genesManager.getGenes();
+        model.addAttribute("genesList", genesList);
+        
+        return "alleleManagementDetail";
+    }
+    
     /**
      * 'Edit/New Allele' icon implementation
      * 
@@ -128,8 +147,6 @@ public class AlleleManagementDetailController {
             
           , Model model) 
     {
-        // Since allele.id_allele is not bound (because we don't want a '0' to show in the Allele Id field),
-        // we require the id_allele to be passed in. Plug it into the allele object.
         allele.setId_allele(id_allele);
         
         // Load up the model in case we have to redisplay the detail form.            // Save the filter info and add to model.
