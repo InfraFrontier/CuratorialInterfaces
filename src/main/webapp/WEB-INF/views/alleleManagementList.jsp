@@ -11,7 +11,6 @@
 <%@ taglib prefix="form"   uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec"    uri="http://www.springframework.org/security/tags" %>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <html>
@@ -412,6 +411,11 @@
                             <td style="border: 1px solid black">${allele.id_allele}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
+                            <td style="border: 1px solid black">
+                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgi_ref)}');">
+                                    ${fn:escapeXml(allele.mgi_ref)}
+                                </a>
+                            </td>
                             
                             <td style="border: 1px solid black">
                                 <a href="${pageContext.request.contextPath}/curation/geneManagementEdit/edit">
@@ -420,11 +424,6 @@
                             </td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.symbol)}</td>
-                            <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgi_ref)}');">
-                                    ${fn:escapeXml(allele.mgi_ref)}
-                                </a>
-                            </td>
                         </tr>
                     </c:forEach>
                 </tbody>

@@ -161,6 +161,21 @@ public class GeneManagementListController {
     }
     
     /**
+     * Returns a gene instance matching <b>id_gene</b> if found; null otherwise.
+     * 
+     * @param id_gene the primary key of the desired gene instance
+     * @@return a gene instance matching <b>id_gene</b> if found; null otherwise.
+     * */
+    @RequestMapping(value = "/getGene"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public Gene getGene(@RequestParam int id_gene) {
+        Gene gene = genesManager.getGene(id_gene);
+        gene.setAlleles(null);                      // Null out the alleles, as jackson creates a stack overflow trying to serialize everything.
+        return gene;
+    }
+    
+    /**
      * Returns a [distinct], unfiltered list of all gene ids suitable for autocomplete
      * sourcing.
      * 

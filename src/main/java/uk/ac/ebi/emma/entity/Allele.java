@@ -19,7 +19,6 @@ public class Allele {
     private String mgi_ref;
     private String username;
     private Date last_change;
-    private int gen_id_gene;
     private Gene gene;
     private Mutation mutation;
 
@@ -69,14 +68,6 @@ public class Allele {
 
     public void setLast_change(Date last_change) {
         this.last_change = last_change;
-    }
-
-    public int getGen_id_gene() {
-        return gen_id_gene;
-    }
-
-    public void setGen_id_gene(int gen_id_gene) {
-        this.gen_id_gene = gen_id_gene;
     }
 
     public Gene getGene() {
