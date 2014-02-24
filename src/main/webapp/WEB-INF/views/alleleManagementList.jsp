@@ -283,7 +283,7 @@
         <h2>Allele Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
         
-        <form:form method="get" modelAttribute="filter">
+        <form:form method="get" modelAttribute="filter" target="alleleManagementList">
             <%-- NEW ALLELE --%>
             <input type="hidden" name="id_allele" value="0" />
             
@@ -384,7 +384,7 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT ALLELE --%>
-                                                <form method="get" target="alleleEditTarget" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit">
+                                                <form method="get" target="alleleManagementDetail" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit">
                                                     <input type="hidden" name="id_allele" value="${allele.id_allele}" />
 
                                                     <input type="hidden" id="filterAlleleIdEdit" name="filterAlleleId" value="${filter.alleleId}" />
@@ -446,18 +446,18 @@
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundMutationsCount eq 0}">
-                                            <a href="mutationManagementList" target="mutationEditTarget" title="Edit mutations">
+                                            <a href="mutationManagementList" target="mutationManagementList" title="Edit mutations">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
                                         <c:when test="${boundMutationsCount eq 1}">
-                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationEditTarget" title="Edit bound mutation ${boundMutationIds}">
+                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationManagementList" title="Edit bound mutation ${boundMutationIds}">
                                                 ${boundMutationIds}
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationEditTarget" title="Edit bound mutations ${boundMutationIds}">
-                                                ${boundAlleleIds}
+                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationManagementList" title="Edit bound mutations ${boundMutationIds}">
+                                                ${boundMutationIds}
                                             </a>
                                         </c:otherwise>
                                     </c:choose>
@@ -473,7 +473,8 @@
                             </td>
                             
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/geneManagementEdit/edit">
+                                <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?geneId=${allele.gene.id_gene}&amp;geneName=&amp;geneSymbol=&amp;chromosome=&amp;geneMgiReference="
+                                   target="geneManagementList">
                                     ${fn:escapeXml(allele.gene.id_gene)}
                                 </a>
                             </td>

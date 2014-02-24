@@ -67,12 +67,18 @@
                 $('#geneId').on('change', function(e) {
                     updateGeneDiv();
                 });
+                $('#geneName').on('change', function(e) {
+                    validate();
+                });
             });
             
             function updateGeneDiv() {
-                var newGeneId = $('#geneId').val();
                 var geneName = '';
                 var geneSymbol = '';
+                
+            //    validate();
+                
+                var newGeneId = $('#geneId').val();
                 if ((isInteger(newGeneId)) && (newGeneId > 0)) {
                     var gene = getGene($('#geneId').val());
                     if (gene !== null) {
@@ -105,31 +111,54 @@
                 });
             }
 
-            function dataChanged(inputControl) {
-                var tr = $(inputControl).parent().parent();
-                var isDirty = $(tr).find('.clsIsDirty');
-                $(isDirty).val('true');
+            function validate() {
+                clearErrors();
+                
+                var errMsg = '';
+                var newGeneId = $('#geneId').val();
+                var geneName = '';
+                var geneSymbol = '';
+                var errorCount = 0;
+                
+                // Validate allele name is not empty.
+                var alleleName = $('#alleleName').val().trim();
+                if (alleleName.length === 0) {
+                    errorCount++;
+                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a name.</span>';
+                    $('#alleleName').parent().append(errMsg);
+                }
+                
+                // Validate geneId is an int and describes a valid gene.
+                if ((isInteger(newGeneId)) && (newGeneId > 0)) {
+                    var gene = getGene($('#geneId').val());
+                    if (gene !== null) {
+                        geneName = gene.name;
+                        geneSymbol = gene.symbol;
+                    } else {
+                        errorCount++;
+                        errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a valid gene.</span>';
+                        $('#geneId').parent().append(errMsg);
+                    }
+                } else {
+                    errorCount++;
+                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please enter an integer.</span>';
+                    $('#geneId').parent().append(errMsg);
+                }
+                // Set gene details
+                $('#geneName').val(geneName);
+                $('#geneSymbol').val(geneSymbol);
+                
+                if (errorCount > 0) {
+                    $('.saveButton').attr("disabled", true);
+                    return false;
+                } else {
+                    $('.saveButton').attr("disabled", false);
+                    return true;
+                }
                 
                 return false;
             }
-            
-            function validate() {
-                /*
-                // Remove any filter validation messages.
-                clearErrors();
 
-                var filterIdValue = $('#centimorgan').val();
-                var notAnInteger = ((filterIdValue !== '') && (!isInteger(filterIdValue)));
-                if (notAnInteger) {
-                    var errMsg = '<span id="centimorgan.errors" class="clientError">Please enter an integer.</span>';
-                    $('#centimorgan').parent().append(errMsg);
-                    $('.saveButton').attr("disabled", true);
-                    return false;
-                }
-*/
-                return true;
-            }
-            
             function clearErrors() {
                 $('.clientError').remove();
                 $('.saveButton').attr("disabled", false);
@@ -214,7 +243,7 @@
                                         <tr>
                                             <%-- ALLELE ID --%>
                                             <td><label id="labAlleleId">Allele ID:</label></td>
-                                            <td style="border: 0"><input name="alleleId" value="${allele.id_allele == 0 ? '' : allele.id_allele}" readonly="readonly" /></td>
+                                            <td style="border: 0"><input name="alleleId" value="${allele.id_allele}" readonly="readonly" /></td>
                                             
                                             <%-- ALLELE NAME --%>
                                             <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>
@@ -254,7 +283,7 @@
                                                 <label>Gene:</label>
                                                 <input alt="Click for gene list." type="image" height="15" width="15" title="Click for gene list."
                                                        src="${pageContext.request.contextPath}/images/geneChooser.jpg"
-                                                       onclick="showGeneChooser();"
+                                                       onclick="showGeneChooser();return false;"
                                                 />
                                             </td>
                                             <td colspan="7">
@@ -264,7 +293,9 @@
                                                             <td><label>Gene Id:</label></td>
                                                             <td>
                                                                 <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
-                                                                            value="${allele.gene.id_gene > 0 ? allele.gene.id_gene : ''}" />
+                                                                            value="${allele.gene.id_gene}" />
+                                                                <br />
+                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
                                                             </td>
                                                             <td><label>Gene Name:</label></td>
                                                             <td>
@@ -275,7 +306,6 @@
                                                             <td>
                                                                 <form:textarea id="geneSymbol" path="allele.gene.symbol" readonly="true"
                                                                             value="${allele.gene.symbol}" type="text" />
-                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -319,7 +349,6 @@
                         </table>
                     </td>
                 </tr>
-                <tr><td><form:errors path="allele.*" cssClass="error" /></td></tr>
             </table>
         </form>
     </body>
