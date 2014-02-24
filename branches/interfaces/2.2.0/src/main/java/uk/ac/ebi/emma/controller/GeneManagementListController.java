@@ -171,7 +171,7 @@ public class GeneManagementListController {
     @ResponseBody
     public Gene getGene(@RequestParam int id_gene) {
         Gene gene = genesManager.getGene(id_gene);
-        gene.setAlleles(null);                      // Null out the alleles, as jackson creates a stack overflow trying to serialize everything.
+        gene.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
         return gene;
     }
     

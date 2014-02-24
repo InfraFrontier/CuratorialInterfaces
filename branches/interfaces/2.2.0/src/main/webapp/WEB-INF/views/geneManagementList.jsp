@@ -285,7 +285,7 @@
         <h2>Gene Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
         
-        <form:form method="get" modelAttribute="filter">
+        <form:form method="get" modelAttribute="filter" target="geneManagementList">
             <%-- NEW GENE --%>
             <input type="hidden" name="id_gene" value="0" />
             
@@ -299,7 +299,7 @@
                    formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/edit" />
         </form:form>
         
-        <form:form modelAttribute="filter" method="get">
+        <form:form modelAttribute="filter" method="get" target="alleleManagementList">
             <table id="tabFilter" style="border: 1px solid black">
                 <thead>
                     <tr><th colspan="4" style="text-align: left">Filter</th></tr>
@@ -381,7 +381,7 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT GENE --%>
-                                                <form method="get" target="geneEditTarget" action="${pageContext.request.contextPath}/curation/geneManagementDetail/edit">
+                                                <form method="get" target="geneManagementDetail" action="${pageContext.request.contextPath}/curation/geneManagementDetail/edit">
                                                     <input type="hidden" name="id_gene" value="${gene.id_gene}" />
 
                                                     <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
@@ -441,17 +441,23 @@
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundAllelesCount eq 0}">
-                                            <a href="alleleManagementList" target="alleleEditTarget" title="Edit alleles">
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/showFilter?alleleId=&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                               target="alleleManagementList"
+                                               title="Edit alleles">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
                                         <c:when test="${boundAllelesCount eq 1}">
-                                            <a href="alleleManagementList?alleleIds=${boundAlleleIds}" target="alleleEditTarget" title="Edit bound allele ${boundAlleleIds}">
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?alleleId=${boundAlleleIds}&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                               target="alleleManagementList"
+                                               title="Edit bound allele ${boundAlleleIds}">
                                                 ${boundAlleleIds}
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="alleleManagementList?alleleIds=${boundAlleleIds}" target="alleleEditTarget" title="Edit bound alleles ${boundAlleleIds}">
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?alleleId=${boundAlleleIds}&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                               target="alleleManagementList"
+                                               title="Edit bound alleles ${boundAlleleIds}">
                                                 ${boundAlleleIds}
                                             </a>
                                         </c:otherwise>

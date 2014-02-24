@@ -25,6 +25,7 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 import uk.ac.ebi.emma.entity.Allele;
 import uk.ac.ebi.emma.entity.Gene;
+import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.Utils;
 
 /**
@@ -33,7 +34,8 @@ import uk.ac.ebi.emma.util.Utils;
  */
 @Component
 public class AlleleValidator implements Validator {
-
+    GenesManager genesManager = new GenesManager();
+    
     /**
      * Required for Validator implementation.
      * @param clazz caller's class
@@ -50,6 +52,7 @@ public class AlleleValidator implements Validator {
      * @param errors errors object
      */
     @Override
+    @SuppressWarnings("empty-statement")
     public void validate(Object target, Errors errors) {
         Allele allele = (Allele)target;
         
@@ -60,8 +63,31 @@ public class AlleleValidator implements Validator {
         Utils.validateMaxFieldLengths(allele, "alleles", errors);
         
         // Make sure allele is bound to an existing gene.
-        if (allele.getGene().getId_gene() <= 0) {
-            errors.rejectValue("gen_id_gene", null, "Please select a gene.");
+        Integer pk = extractAndValidateGeneKey(allele);
+        if (pk == null) {
+            errors.rejectValue("gene.id_gene", null, "Please select a valid gene.");
         }
+    }
+    
+    // PRIVATE METHODS
+    
+    
+    /**
+     * Extract and validate gene key from allele. If gene key doesn't identify
+     * a valid gene, null is returned; otherwise the key (always > 0) is returned.
+     * @param allele the allele to query
+     * @return the gene's primary key, if found and valid; null otherwise
+     */
+    private Integer extractAndValidateGeneKey(Allele allele) {
+        if (allele.getGene() == null)
+            return null;
+        Integer id_gene = allele.getGene().getId_gene();
+        if (id_gene <= 0)
+            return null;
+        Gene gene = genesManager.getGene(id_gene);
+        if (gene == null)
+            return null;
+        
+        return gene.getId_gene();
     }
 }
