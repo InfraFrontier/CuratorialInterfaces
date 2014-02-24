@@ -61,6 +61,8 @@
                     });
                 });
 
+                $('#tabResults > tbody > tr')
+                    .on('dragstart', handleDragStart)
                 $('#tabResults').dataTable();
             });
 
@@ -189,7 +191,7 @@
             }
 
             function lookupMgi(id) {
-                window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
+                window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
             }
 
             function lookupEnsembl(id) {
@@ -269,6 +271,11 @@
                 $('.filterComponent').val('');
                 clearErrors();
                 return false;
+            }
+            
+            function handleDragStart(e) {
+                var id_gene = $(this).data('id_gene');
+                e.originalEvent.dataTransfer.setData('text', id_gene);
             }
 
         </script>
@@ -366,7 +373,7 @@
                 </thead>
                 <tbody>
                     <c:forEach var="gene" items="${filteredGenesList}" varStatus="status">
-                        <tr>
+                        <tr draggable="true" data-id_gene="${gene.id_gene}">
                             <td style="border: 1px solid black">
                                 <table>
                                     <thead></thead>

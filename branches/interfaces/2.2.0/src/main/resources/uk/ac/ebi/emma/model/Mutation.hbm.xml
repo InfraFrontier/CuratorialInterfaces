@@ -5,7 +5,7 @@
         <id column="id" name="id">
             <generator class="native"/>
         </id>
-        <many-to-one cascade="all" class="Allele" column="alls_id_allel" insert="false" lazy="false" name="allele" not-found="ignore" update="false"/>
+        <many-to-one cascade="none" class="Allele" column="alls_id_allel" insert="false" lazy="false" name="allele" not-found="ignore" update="false" foreign-key="id_allel"/>
         <property column="alls_id_allel" name="alls_id_allel"/>
         <property column="main_type" name="main_type"/>
         <property column="sub_type" name="sub_type"/>

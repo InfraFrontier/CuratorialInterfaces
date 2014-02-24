@@ -87,7 +87,7 @@
             
             function lookupMGI() {
                 var id = $('#mgiReference').val();
-                window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
+                window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
             }
             
             function setMaxlengths() {
@@ -231,47 +231,6 @@
                                                 <br />
                                                 <form:errors path="allele.symbol" cssClass="error" />
                                             </td>
-                                        </tr>
-                                        <tr>
-                                            
-                                            <%-- GENE --%>
-                                            <td>
-                                                <label>Gene:</label>
-                                                <input alt="Click for gene list." type="image" height="15" width="15" title="Click for gene list."
-                                                       src="${pageContext.request.contextPath}/images/geneChooser.jpg"
-                                                       onclick="showGeneChooser();"
-                                                />
-                                            </td>
-                                            <td>
-                                                <div id="divGene" style="border: 1px solid black">
-                                                    <table>
-                                                        <tr>
-                                                            <td><label>Id:</label></td>
-                                                            <td>
-                                                                <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
-                                                                            value="${allele.gene.id_gene > 0 ? allele.gene.id_gene : ''}" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            
-                                                            <td><label>Name:</label></td>
-                                                            <td>
-                                                                <form:textarea id="geneName" path="allele.gene.name" readonly="true"
-                                                                            value="${allele.gene.name}" type="text" />
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            
-                                                            <td><label>Symbol</label></td>
-                                                            <td>
-                                                                <form:textarea id="geneSymbol" path="allele.gene.symbol" readonly="true"
-                                                                            value="${allele.gene.symbol}" type="text" />
-                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
                                             
                                             <%-- MGI REFERENCE --%>
                                             <td>
@@ -286,7 +245,42 @@
                                                 <br />
                                                 <form:errors path="allele.mgi_ref" cssClass="error" />
                                             </td>
-                                            <td colspan="2"></td>
+                                        </tr>
+                                        <tr><td colspan="8">&nbsp;</td></tr>
+                                        <tr>
+                                            <td>
+                                                
+                                            <%-- GENE --%>
+                                                <label>Gene:</label>
+                                                <input alt="Click for gene list." type="image" height="15" width="15" title="Click for gene list."
+                                                       src="${pageContext.request.contextPath}/images/geneChooser.jpg"
+                                                       onclick="showGeneChooser();"
+                                                />
+                                            </td>
+                                            <td colspan="7">
+                                                <div id="divGene" style="border: 1px solid gray">
+                                                    <table>
+                                                        <tr>
+                                                            <td><label>Gene Id:</label></td>
+                                                            <td>
+                                                                <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
+                                                                            value="${allele.gene.id_gene > 0 ? allele.gene.id_gene : ''}" />
+                                                            </td>
+                                                            <td><label>Gene Name:</label></td>
+                                                            <td>
+                                                                <form:textarea id="geneName" path="allele.gene.name" readonly="true"
+                                                                            value="${allele.gene.name}" type="text" />
+                                                            </td>
+                                                            <td><label>Gene Symbol</label></td>
+                                                            <td>
+                                                                <form:textarea id="geneSymbol" path="allele.gene.symbol" readonly="true"
+                                                                            value="${allele.gene.symbol}" type="text" />
+                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
                                         </tr>
                                     </table>
                                 </td>

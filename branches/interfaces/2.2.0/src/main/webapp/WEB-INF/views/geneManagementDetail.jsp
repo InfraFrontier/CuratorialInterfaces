@@ -89,7 +89,7 @@
             
             function lookupMgi() {
                 var id = $('#mgiReference').val();
-                window.open("http://www.informatics.jax.org/searches/accession_report.cgi?id=MGI:" + id, "MgiWindow");
+                window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
             }
             
             function lookupEnsembl() {

@@ -42,6 +42,7 @@ public class AllelesManager extends AbstractManager {
     public void save(Allele allele) throws PersistFailedException {
         allele.setLast_change(new Date());
         allele.setUsername(username);
+        allele.setGen_id_gene(allele.getGene().getId_gene());
         try {
             getCurrentSession().beginTransaction();
             getCurrentSession().saveOrUpdate(allele);
@@ -95,7 +96,6 @@ public class AllelesManager extends AbstractManager {
         
         return remapNulls(allele);
     }
-    
     
     /**
      * Returns a distinct filtered list of allele names suitable for autocomplete
