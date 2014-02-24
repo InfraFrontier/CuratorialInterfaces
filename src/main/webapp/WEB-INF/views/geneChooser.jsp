@@ -34,16 +34,11 @@
                 $('#tabResults > tbody > tr')
                     .on('dragstart', handleDragStart)
                 $('#tabResults').dataTable()
-                
-                
-                
             });
             
             function handleDragStart(e) {
                 var id_gene = $(this).data('id_gene');
                 e.originalEvent.dataTransfer.setData('text', id_gene);
-       //         e.originalEvent.dataTransfer.effectAllowed = 'copy';
-                
             }
             
         </script>

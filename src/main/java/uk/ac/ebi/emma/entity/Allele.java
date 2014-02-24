@@ -6,10 +6,11 @@
 package uk.ac.ebi.emma.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  *
- * @author phil
+ * @author mrelac
  */
 public class Allele {
     
@@ -20,7 +21,8 @@ public class Allele {
     private String username;
     private Date last_change;
     private Gene gene;
-    private Mutation mutation;
+    private Set<Mutation> mutations;
+    private int gen_id_gene;
 
     public int getId_allele() {
         return id_allele;
@@ -78,12 +80,20 @@ public class Allele {
         this.gene = gene;
     }
 
-    public Mutation getMutation() {
-        return mutation;
+    public Set<Mutation> getMutations() {
+        return mutations;
     }
 
-    public void setMutation(Mutation mutation) {
-        this.mutation = mutation;
+    public void setMutations(Set<Mutation> mutations) {
+        this.mutations = mutations;
+    }
+
+    public int getGen_id_gene() {
+        return gen_id_gene;
+    }
+
+    public void setGen_id_gene(int gen_id_gene) {
+        this.gen_id_gene = gen_id_gene;
     }
 
 }
