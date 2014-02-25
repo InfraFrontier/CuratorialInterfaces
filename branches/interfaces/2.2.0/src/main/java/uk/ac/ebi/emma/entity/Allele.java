@@ -14,7 +14,7 @@ import java.util.Set;
  */
 public class Allele {
     
-    private int id_allele;
+    private Integer id_allele;
     private String name;
     private String symbol;
     private String mgi_ref;
@@ -24,11 +24,11 @@ public class Allele {
     private Set<Mutation> mutations;
     private int gen_id_gene;
 
-    public int getId_allele() {
+    public Integer getId_allele() {
         return id_allele;
     }
 
-    public void setId_allele(int id_allele) {
+    public void setId_allele(Integer id_allele) {
         this.id_allele = id_allele;
     }
 

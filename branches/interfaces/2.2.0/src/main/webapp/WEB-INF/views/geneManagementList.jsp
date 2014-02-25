@@ -67,23 +67,19 @@
             });
 
             function clearErrors() {
-     //           $('#tabFilter tbody .filterErrorTr0').remove();
                 $('.clientError').remove();
                 $('#go').attr("disabled", false);
             }
 
+            // Returns true if validation passes; false if it does not.
             function validate() {
                 // Remove any error validation messages.
                 clearErrors();
 
-                var filterGeneIdValue = $('#geneId').val();
-                var error = ((filterGeneIdValue !== '') && ( ! isInteger(filterGeneIdValue)));
-                if (error) {
-     //               $('#tabFilter tbody tr:eq(0)').after('<tr class="filterErrorTr0"><td colspan="4" style="color: red">Please enter an integer.</td></tr>');
-     //               $('#geneId').addClass('error');
-
-                    var errMsg = '<br class="clientError" /><span class="clientError">Please enter an integer.</span>';
-                    $('#geneId').parent().append(errMsg);
+                var filterValue = $('#filterGeneId').val();
+                if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
+                    var errMsg = '<br class="clientError" /><span class="clientError">Please enter only integers.</span>';
+                    $('#filterGeneId').parent().append(errMsg);
                     $('#go').attr("disabled", true);
 
                     return false;
@@ -94,19 +90,8 @@
 
             function populateFilterAutocompletes() {
                 var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
-                
 
-            // This slows down the page very noticably. Since its contribution to the user experience is minimal, let's try leaving it out for now.
-            /*
-                if (geneIds === null)
-                    populateGeneIds(urlRoot);
-                $("#geneId").autocomplete({
-                    source: geneIds,
-                    minLength: 1
-                });
-                */
-
-                $("#geneName").autocomplete({
+                $("#filterGeneName").autocomplete({
                     source: function(request, response) {
                         $.ajax({
                             url: urlRoot + "/getGeneNames"
@@ -122,7 +107,7 @@
                     minLength: 1
                 });
 
-                $("#geneSymbol").autocomplete({
+                $("#filterGeneSymbol").autocomplete({
                     source: function(request, response) {
                         $.ajax({
                             url: urlRoot + "/getGeneSymbols",
@@ -140,12 +125,12 @@
 
                 populateChromosomes(urlRoot);
                 
-                $("#chromosome").autocomplete({
+                $("#filterChromosome").autocomplete({
                     source: chromosomes,
                     minLength: 1
                 });
 
-                $("#mgiReference").autocomplete({
+                $("#filterGeneMgiReference").autocomplete({
                     source: function(request, response) {
                         $.ajax({
                             url: urlRoot + "/getMgiReferences",
@@ -245,23 +230,23 @@
                     value = '';
 
                 switch (id) {
-                    case 'geneId':
+                    case 'filterGeneId':
                         $('input[id^="filterGeneId"]').val(value);
                         break;
 
-                    case 'geneName':
+                    case 'filterGeneName':
                         $('input[id^="filterGeneName"]').val(value);
                         break;
 
-                    case 'geneSymbol':
+                    case 'filterGeneSymbol':
                         $('input[id^="filterGeneSymbol"]').val(value);
                         break;
 
-                    case 'chromosome':
+                    case 'filterChromosome':
                         $('input[id^="filterChromosome"]').val(value);
                         break;
 
-                    case 'mgiReference':
+                    case 'filterGeneMgiReference':
                         $('input[id^="filterGeneMgiReference"]').val(value);
                         break;
                 }
@@ -285,7 +270,7 @@
         <h2>Gene Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
         
-        <form:form method="get" modelAttribute="filter" target="geneManagementList">
+        <form:form method="get" modelAttribute="filter">
             <%-- NEW GENE --%>
             <input type="hidden" name="id_gene" value="0" />
             
@@ -296,10 +281,16 @@
             <input type="hidden" id="filterGeneMgiReferenceNew" name="filterGeneMgiReference" value="${filter.geneMgiReference}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/edit" />
+                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/edit"
+                   formtarget="geneManagementDetail"/>
         </form:form>
         
-        <form:form modelAttribute="filter" method="get" target="alleleManagementList">
+        <form:form modelAttribute="filter" method="get">
+            <input type="hidden" id="filterGeneIdGo" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" id="filterGeneNameGo" name="filterGeneName" value="${filter.geneName}" />
+            <input type="hidden" id="filterGeneSymbolGo" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" id="filterChromosomeGo" name="filterChromosome" value="${filter.chromosome}" />
+            <input type="hidden" id="filterGeneMgiReferenceGo" name="filterGeneMgiReference" value="${filter.geneMgiReference}" />
             <table id="tabFilter" style="border: 1px solid black">
                 <thead>
                     <tr><th colspan="4" style="text-align: left">Filter</th></tr>
@@ -312,27 +303,29 @@
                             &nbsp;&nbsp;&nbsp;
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
-                                   formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"/>
+                                   formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"
+                                   formtarget="geneManagementList" />
                         </td>
                     </tr>
                 </tfoot>
                 <tbody>
+                    <%-- FILTER --%>
                     <tr>
                         <td><form:label path="geneId">Gene Id:</form:label></td>
-                        <td><form:input id="geneId" class="filterComponent" path="geneId" onkeyup="updateFilter(this);" /></td>
+                        <td><form:input id="filterGeneId" class="filterComponent" path="geneId" onkeyup="updateFilter(this);" /></td>
                         
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
-                        <td><form:input id="chromosome" class="filterComponent" path="chromosome" /></td>
+                        <td><form:input id="filterChromosome" class="filterComponent" path="chromosome" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="geneName" class="filterComponent" path="geneName" /></td>
+                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" /></td>
                         <td><form:label path="geneMgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="mgiReference" class="filterComponent" path="geneMgiReference" /></td>
+                        <td><form:input id="filterGeneMgiReference" class="filterComponent" path="geneMgiReference" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="geneSymbol" class="filterComponent" path="geneSymbol" /></td>
+                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
@@ -381,7 +374,7 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT GENE --%>
-                                                <form method="get" target="geneManagementDetail" action="${pageContext.request.contextPath}/curation/geneManagementDetail/edit">
+                                                <form method="get" action="${pageContext.request.contextPath}/curation/geneManagementDetail/edit">
                                                     <input type="hidden" name="id_gene" value="${gene.id_gene}" />
 
                                                     <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
@@ -390,7 +383,8 @@
                                                     <input type="hidden" id="filterChromosomeEdit" name="filterChromosome" value="${filter.chromosome}" />
                                                     <input type="hidden" id="filterGeneMgiReferenceEdit" name="filterGeneMgiReference" value="${filter.geneMgiReference}" />
                                                     <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
-                                                           src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                                           src="${pageContext.request.contextPath}/images/edit.jpg"
+                                                           formtarget="geneManagementDetail"/>
                                                 </form>
                                             </td>
 
@@ -441,21 +435,21 @@
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundAllelesCount eq 0}">
-                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/showFilter?alleleId=&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/showFilter?filterAlleleId=&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filgerGeneName=&amp;filterGeneSymbol="
                                                target="alleleManagementList"
                                                title="Edit alleles">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
                                         <c:when test="${boundAllelesCount eq 1}">
-                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?alleleId=${boundAlleleIds}&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${boundAlleleIds}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
                                                target="alleleManagementList"
                                                title="Edit bound allele ${boundAlleleIds}">
                                                 ${boundAlleleIds}
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?alleleId=${boundAlleleIds}&amp;alleleName=&amp;alleleSymbol=&amp;alleleMgiReference=&amp;geneId=&amp;geneName=&amp;geneSymbol="
+                                            <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${boundAlleleIds}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
                                                target="alleleManagementList"
                                                title="Edit bound alleles ${boundAlleleIds}">
                                                 ${boundAlleleIds}

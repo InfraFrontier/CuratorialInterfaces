@@ -93,7 +93,6 @@ public class GeneManagementDetailController {
      * 
      * @param gene the Gene instance
      * @param errors the Errors binding result object
-     * @param id_gene the actual gene primary key (for some reason gene.id_gene is 0, even for a valid gene instance).
      * @param synonymsAreDirty true for each dirty synonym; false for each clean (unmodified) one
      * @param hidSeedValues
      * @param synonymIds
@@ -111,9 +110,6 @@ public class GeneManagementDetailController {
     @Qualifier("uk.ac.ebi.emma.controller.GeneManagementDetailController")
     public String save(
             @Valid Gene gene, Errors errors
-          
-          , @RequestParam(value="id_gene") int id_gene
-            
           , @RequestParam(value = "hidSeedValues", required=false) String[] hidSeedValues
           , @RequestParam(value = "synonymsAreDirty", required=false) String[] synonymsAreDirty
           , @RequestParam(value = "synonymIds", required=false) String[] synonymIds
@@ -128,12 +124,8 @@ public class GeneManagementDetailController {
             
           , Model model) 
     {
-        // Since gene.id_gene is not bound (because we don't want a '0' to show in the Gene Id field),
-        // we require the id_gene to be passed in. Plug it into the gene object.
-        gene.setId_gene(id_gene);
-        
         // re-attach any synonyms. The Gene object passed in does not contain the synonym objects.
-        if (gene.getId_gene() > 0) {
+        if ((gene.getId_gene() != null) && (gene.getId_gene() > 0)) {
             Gene dbGene = genesManager.getGene(gene.getId_gene());
             gene.setSynonyms(dbGene.getSynonyms());
         }
@@ -164,7 +156,7 @@ public class GeneManagementDetailController {
             Set<GeneSynonym> geneSynonymSet = new LinkedHashSet<>();
             for (int i = 0; i < hidSeedValues.length; i++) {
                 GeneSynonym geneSynonym = new GeneSynonym();
-                Integer id_syn = 0;
+                Integer id_syn = null;
                 try {
                     id_syn = Integer.parseInt(synonymIds[i]);
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { }
@@ -203,44 +195,46 @@ public class GeneManagementDetailController {
             genesManager.save(gene);
         } catch (PersistFailedException pfe) {
             errors.reject(null, pfe.getLocalizedMessage());
+            return "geneManagementDetail";
         }
             
-        return "redirect:/curation/geneManagementList/go"
-                + "?geneId=" + filterGeneId
-                + "&geneName=" + filterGeneName
-                + "&geneSymbol=" + filterGeneSymbol
-                + "&chromosome=" + filterChromosome
-                + "&geneMgiReference=" + filterGeneMgiReference;
+        return "redirect:/curation/geneManagementDetail/edit"
+                + "?id_gene=" + gene.getId_gene()
+                + "&filterGeneId=" + filterGeneId
+                + "&filterGeneName=" + filterGeneName
+                + "&filterGeneSymbol=" + filterGeneSymbol
+                + "&filterChromosome=" + filterChromosome
+                + "&filterGeneMgiReference=" + filterGeneMgiReference;
     }
     
-        /**
-     * Show the list form with saved filter values.
-     * 
-     * @param filterGeneId
-     * @param filterGeneName
-     * @param filterGeneSymbol
-     * @param filterChromosome
-     * @param filterGeneMgiReference
-     * @param model the filter data, saved above in edit().
-     * @return redirected view to same gene detail data.
-     */
-    @RequestMapping(value="/showList", method=RequestMethod.GET)
-    public String showList(
-            @RequestParam(value="filterGeneId") String filterGeneId
-          , @RequestParam(value="filterGeneName") String filterGeneName
-          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
-          , @RequestParam(value="filterChromosome") String filterChromosome
-          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
-            
-          , Model model) 
-    {
-        return "redirect:/curation/geneManagementList/go"
-                + "?geneId=" + filterGeneId
-                + "&geneName=" + filterGeneName
-                + "&geneSymbol=" + filterGeneSymbol
-                + "&chromosome=" + filterChromosome
-                + "&geneMgiReference=" + filterGeneMgiReference;
-    }
+//    /**
+//     * Show the list form with saved filter values.
+//     * 
+//     * @param filterGeneId
+//     * @param filterGeneName
+//     * @param filterGeneSymbol
+//     * @param filterChromosome
+//     * @param filterGeneMgiReference
+//     * @param model the filter data, saved above in edit().
+//     * @return redirected view to same gene detail data.
+//     */
+//    @RequestMapping(value="/showList", method=RequestMethod.GET)
+//    public String showList(
+//            @RequestParam(value="filterGeneId") String filterGeneId
+//          , @RequestParam(value="filterGeneName") String filterGeneName
+//          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+//          , @RequestParam(value="filterChromosome") String filterChromosome
+//          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
+//            
+//          , Model model) 
+//    {
+//        return "redirect:/curation/geneManagementList/showFilter"
+//                + "?filterGeneId=" + filterGeneId
+//                + "&filterGeneName=" + filterGeneName
+//                + "&filterGeneSymbol=" + filterGeneSymbol
+//                + "&filterChromosome=" + filterChromosome
+//                + "&filterGeneMgiReference=" + filterGeneMgiReference;
+//    }
     
     
     // PRIVATE METHODS

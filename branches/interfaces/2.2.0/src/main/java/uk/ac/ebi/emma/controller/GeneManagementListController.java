@@ -43,29 +43,29 @@ public class GeneManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param geneId the gene id search criterion (may be empty)
-     * @param geneName the gene name search criterion (may be empty)
-     * @param geneSymbol the gene symbol search criterion (may be empty)
-     * @param chromosome the chromosome search criterion (may be empty)
-     * @param geneMgiReference the MGI reference search criterion (may be empty)
+     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneName the gene name search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
+     * @param filterChromosome the chromosome search criterion (may be empty)
+     * @param filterGeneMgiReference the MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="geneId") String geneId
-          , @RequestParam(value="geneName") String geneName
-          , @RequestParam(value="geneSymbol") String geneSymbol
-          , @RequestParam(value="chromosome") String chromosome
-          , @RequestParam(value="geneMgiReference") String geneMgiReference
+            @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneName") String filterGeneName
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterChromosome") String filterChromosome
+          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setGeneId(geneId != null ? geneId : "");
-        filter.setGeneName(geneName != null ? geneName : "");
-        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
-        filter.setChromosome(chromosome != null ? chromosome : "");
-        filter.setGeneMgiReference(geneMgiReference != null ? geneMgiReference : "");
+        filter.setGeneId(filterGeneId != null ? filterGeneId : "");
+        filter.setGeneName(filterGeneName != null ? filterGeneName : "");
+        filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
+        filter.setChromosome(filterChromosome != null ? filterChromosome : "");
+        filter.setGeneMgiReference(filterGeneMgiReference != null ? filterGeneMgiReference : "");
         model.addAttribute("filter", filter);
         List<Gene> filteredGenesList = genesManager.getFilteredGenesList(filter);
         model.addAttribute("filteredGenesList", filteredGenesList);
@@ -110,31 +110,31 @@ public class GeneManagementListController {
     }
     
     /**
-     * Displays the form with no results grid.
-     * @param geneId the gene id search criterion (may be empty)
-     * @param geneName the gene name search criterion (may be empty)
-     * @param geneSymbol the gene symbol search criterion (may be empty)
-     * @param chromosome the chromosome search criterion (may be empty)
-     * @param geneMgiReference the MGI reference search criterion (may be empty)
+     * Displays the form with no results grid. Since this is the entry point to
+     * gene management curation, the filter parameter values are optional.
+     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneName the gene name search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
+     * @param filterChromosome the chromosome search criterion (may be empty)
+     * @param filterGeneMgiReference the MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-          , @RequestParam(value="chromosome", required=false) String chromosome
-          , @RequestParam(value="geneMgiReference", required=false) String geneMgiReference
-            
+            @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
+          , @RequestParam(value="filterChromosome", required=false) String filterChromosome
+          , @RequestParam(value="filterGeneMgiReference", required=false) String filterGeneMgiReference
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setGeneId((geneId != null ? geneId : ""));
-        filter.setGeneName((geneName != null ? geneName : ""));
-        filter.setGeneSymbol((geneSymbol != null ? geneSymbol : ""));
-        filter.setChromosome((chromosome != null ? chromosome : ""));
-        filter.setGeneMgiReference((geneMgiReference != null ? geneMgiReference : ""));
+        filter.setGeneId((filterGeneId != null ? filterGeneId : ""));
+        filter.setGeneName((filterGeneName != null ? filterGeneName : ""));
+        filter.setGeneSymbol((filterGeneSymbol != null ? filterGeneSymbol : ""));
+        filter.setChromosome((filterChromosome != null ? filterChromosome : ""));
+        filter.setGeneMgiReference((filterGeneMgiReference != null ? filterGeneMgiReference : ""));
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);
@@ -171,7 +171,9 @@ public class GeneManagementListController {
     @ResponseBody
     public Gene getGene(@RequestParam int id_gene) {
         Gene gene = genesManager.getGene(id_gene);
-        gene.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
+        if (gene != null)
+            gene.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
+        
         return gene;
     }
     

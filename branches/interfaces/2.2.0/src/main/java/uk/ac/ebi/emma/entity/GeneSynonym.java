@@ -26,7 +26,7 @@ import org.hibernate.SessionFactory;
 public class GeneSynonym {
     private SessionFactory sessionFactory;
 
-    private int id_syn;
+    private Integer id_syn;
     private String name;
     private String symbol;
     private String username;
@@ -42,11 +42,11 @@ public class GeneSynonym {
         this.sessionFactory = sessionFactory;
     }
 
-    public int getId_syn() {
+    public Integer getId_syn() {
         return id_syn;
     }
 
-    public void setId_syn(int id_syn) {
+    public void setId_syn(Integer id_syn) {
         this.id_syn = id_syn;
     }
 

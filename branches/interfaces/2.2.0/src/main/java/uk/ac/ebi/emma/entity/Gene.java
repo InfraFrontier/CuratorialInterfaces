@@ -27,7 +27,7 @@ import javax.persistence.Transient;
  */
 public class Gene implements Serializable {
     
-    private int id_gene;
+    private Integer id_gene;
     private String name;
     private String symbol;
     private String chromosome;
@@ -45,11 +45,11 @@ public class Gene implements Serializable {
     private Set<Allele> alleles;
     private boolean isDirty = false;
 
-    public int getId_gene() {
+    public Integer getId_gene() {
         return id_gene;
     }
 
-    public void setId_gene(int id_gene) {
+    public void setId_gene(Integer id_gene) {
         this.id_gene = id_gene;
     }
 
