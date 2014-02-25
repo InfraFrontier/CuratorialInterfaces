@@ -191,8 +191,6 @@
         <br />
 
         <form>
-            <input type="hidden" name="id_gene" value="${gene.id_gene}" />
-            
             <input type="hidden" name="filterGeneId" value="${filter.geneId}" />
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
@@ -208,7 +206,7 @@
                                         <tr>
                                             <%-- GENE ID --%>
                                             <td><label id="labGeneId">Gene ID:</label></td>
-                                            <td style="border: 0"><input name="geneId" value="${gene.id_gene == 0 ? '' : gene.id_gene}" readonly="readonly" /></td>
+                                            <td style="border: 0"><form:input name="geneId" value="${gene.id_gene}" path="gene.id_gene" readonly="readonly" /></td>
                                             
                                             <%-- GENE NAME --%>
                                             <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>
@@ -367,14 +365,17 @@
                     <td style="float: right">
                         <table>
                             <tr>
+                                <%--
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="submit" value="Back"
                                                formmethod="GET"
-                                               formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/showList" />
+                                               formaction="${pageContext.request.contextPath}/curation/geneManagementList/showFilter"
+                                               formtarget="geneManagementList"/>
                                     </div>
                                 </td>
                                 <td>&nbsp;&nbsp;&nbsp;</td>
+                                --%>
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="button" value="Clear"

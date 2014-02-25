@@ -92,24 +92,24 @@ public class GeneManagementDetailControllerTest {
         // The gene's components are null, so there is no more checking that can be done.
     }
 
-    /**
-     * Test of showList method, of class GeneManagementDetailController.
-     */
-    @Test
-    public void testShowList() {
-        System.out.println("showList");
-        String filterGeneId = "0";
-        String filterGeneName = "test gene name";
-        String filterGeneSymbol = "test gene symbol";
-        String filterChromosome = "test chromosome";
-        String filterMGIReference = "test mgi reference";
-        Model model = new BindingAwareModelMap();
-        
-        GeneManagementDetailController instance = new GeneManagementDetailController();
-        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&geneMgiReference=test mgi reference";
-        String result = instance.showList(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
-        assertEquals(expResult, result);                                        // Verify function return.
-    }
+//    /**
+//     * Test of showList method, of class GeneManagementDetailController.
+//     */
+//    @Test
+//    public void testShowList() {
+//        System.out.println("showList");
+//        String filterGeneId = "0";
+//        String filterGeneName = "test gene name";
+//        String filterGeneSymbol = "test gene symbol";
+//        String filterChromosome = "test chromosome";
+//        String filterMGIReference = "test mgi reference";
+//        Model model = new BindingAwareModelMap();
+//        
+//        GeneManagementDetailController instance = new GeneManagementDetailController();
+//        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&geneMgiReference=test mgi reference";
+//        String result = instance.showList(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+//        assertEquals(expResult, result);                                        // Verify function return.
+//    }
 
 //    /**
 //     * Test of save method, of class GeneManagementDetailController.

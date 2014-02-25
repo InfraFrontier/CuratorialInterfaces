@@ -43,35 +43,35 @@ public class AlleleManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param alleleId the allele id search criterion (may be empty)
-     * @param alleleName the allele name search criterion (may be empty)
-     * @param alleleSymbol the allele symbol search criterion (may be empty)
-     * @param geneId the gene id search criterion (may be empty)
-     * @param geneName the gene name search criterion (may be empty)
-     * @param geneSymbol the gene symbol search criterion (may be empty)
-     * @param alleleMgiReference the allele MGI reference search criterion (may be empty)
+     * @param filterAlleleId the allele id search criterion (may be empty)
+     * @param filterAlleleName the allele name search criterion (may be empty)
+     * @param filterAlleleSymbol the allele symbol search criterion (may be empty)
+     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneName the gene name search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
+     * @param filterAlleleMgiReference the allele MGI reference search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="alleleId") String alleleId
-          , @RequestParam(value="alleleName") String alleleName
-          , @RequestParam(value="alleleSymbol") String alleleSymbol
-          , @RequestParam(value="alleleMgiReference") String alleleMgiReference
-          , @RequestParam(value="geneId") String geneId
-          , @RequestParam(value="geneName") String geneName
-          , @RequestParam(value="geneSymbol") String geneSymbol
+            @RequestParam(value="filterAlleleId") String filterAlleleId
+          , @RequestParam(value="filterAlleleName") String filterAlleleName
+          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
+          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
+          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneName") String filterGeneName
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setAlleleId(alleleId != null ? alleleId : "");
-        filter.setAlleleName(alleleName != null ? alleleName : "");
-        filter.setAlleleSymbol(alleleSymbol != null ? alleleSymbol : "");
-        filter.setGeneId(geneId != null ? geneId : "");
-        filter.setGeneName(geneName != null ? geneName : "");
-        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
-        filter.setAlleleMgiReference(alleleMgiReference != null ? alleleMgiReference : "");
+        filter.setAlleleId(filterAlleleId != null ? filterAlleleId : "");
+        filter.setAlleleName(filterAlleleName != null ? filterAlleleName : "");
+        filter.setAlleleSymbol(filterAlleleSymbol != null ? filterAlleleSymbol : "");
+        filter.setGeneId(filterGeneId != null ? filterGeneId : "");
+        filter.setGeneName(filterGeneName != null ? filterGeneName : "");
+        filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
+        filter.setAlleleMgiReference(filterAlleleMgiReference != null ? filterAlleleMgiReference : "");
         model.addAttribute("filter", filter);
         List<Allele> filteredAllelesList = allelesManager.getFilteredAllelesList(filter);
         model.addAttribute("filteredAllelesList", filteredAllelesList);
@@ -116,37 +116,37 @@ public class AlleleManagementListController {
     }
     
     /**
-     * Displays the form with no results grid.
-     * @param alleleId the allele id search criterion (may be empty)
-     * @param alleleName the allele name search criterion (may be empty)
-     * @param alleleSymbol the allele symbol search criterion (may be empty)
-     * @param alleleMgiReference the allele MGI reference search criterion (may be empty)
-     * @param geneId the gene id search criterion (may be empty)
-     * @param geneName the gene name search criterion (may be empty)
-     * @param geneSymbol the gene symbol search criterion (may be empty)
+     * Displays the form with no results grid. Since this is the entry point to
+     * allele management curation, the filter parameter values are optional.
+     * @param filterAlleleId the allele id search criterion (may be empty)
+     * @param filterAlleleName the allele name search criterion (may be empty)
+     * @param filterAlleleSymbol the allele symbol search criterion (may be empty)
+     * @param filterAlleleMgiReference the allele MGI reference search criterion (may be empty)
+     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneName the gene name search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="alleleId", required=false) String alleleId
-          , @RequestParam(value="alleleName", required=false) String alleleName
-          , @RequestParam(value="alleleSymbol", required=false) String alleleSymbol
-          , @RequestParam(value="alleleMgiReference", required=false) String alleleMgiReference
-          , @RequestParam(value="geneId", required=false) String geneId
-          , @RequestParam(value="geneName", required=false) String geneName
-          , @RequestParam(value="geneSymbol", required=false) String geneSymbol
-            
+            @RequestParam(value="filterAlleleId", required=false) String filterAlleleId
+          , @RequestParam(value="filterAlleleName", required=false) String filterAlleleName
+          , @RequestParam(value="filterAlleleSymbol", required=false) String filterAlleleSymbol
+          , @RequestParam(value="filterAlleleMgiReference", required=false) String filterAlleleMgiReference
+          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneName", required=false) String filterGeneName
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setAlleleId((alleleId != null ? alleleId : ""));
-        filter.setAlleleName((alleleName != null ? alleleName : ""));
-        filter.setAlleleSymbol((alleleSymbol != null ? alleleSymbol : ""));
-        filter.setAlleleId((geneId != null ? geneId : ""));
-        filter.setAlleleName((geneName != null ? geneName : ""));
-        filter.setAlleleSymbol((geneSymbol != null ? geneSymbol : ""));
-        filter.setAlleleMgiReference((alleleMgiReference != null ? alleleMgiReference : ""));
+        filter.setAlleleId((filterAlleleId != null ? filterAlleleId : ""));
+        filter.setAlleleName((filterAlleleName != null ? filterAlleleName : ""));
+        filter.setAlleleSymbol((filterAlleleSymbol != null ? filterAlleleSymbol : ""));
+        filter.setAlleleId((filterGeneId != null ? filterGeneId : ""));
+        filter.setAlleleName((filterGeneName != null ? filterGeneName : ""));
+        filter.setAlleleSymbol((filterGeneSymbol != null ? filterGeneSymbol : ""));
+        filter.setAlleleMgiReference((filterAlleleMgiReference != null ? filterAlleleMgiReference : ""));
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);

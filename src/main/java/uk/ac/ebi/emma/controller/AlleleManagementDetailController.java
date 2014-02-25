@@ -108,8 +108,11 @@ public class AlleleManagementDetailController {
         model.addAttribute("loggedInUser", loggedInUser);
         
         Allele allele = allelesManager.getAllele(id_allele);
-        if (allele == null)
+        if (allele == null) {
             allele = new Allele();
+            allele.setId_allele(null);
+        }
+        
         model.addAttribute("allele", allele);
     
         return "alleleManagementDetail";
@@ -135,7 +138,7 @@ public class AlleleManagementDetailController {
     public String save(
             @Valid Allele allele, Errors errors
           
-          , @RequestParam(value="id_allele") int id_allele
+          , @RequestParam(value="id_allele") Integer id_allele
             
           , @RequestParam(value="filterAlleleId") String filterAlleleId
           , @RequestParam(value="filterAlleleName") String filterAlleleName
@@ -169,50 +172,51 @@ public class AlleleManagementDetailController {
             return "alleleManagementDetail";
         }
         
-        return "redirect:/curation/alleleManagementList/go"
-                + "?alleleId=" + filterAlleleId
-                + "&alleleName=" + filterAlleleName
-                + "&alleleSymbol=" + filterAlleleSymbol
-                + "&alleleMgiReference=" + filterAlleleMgiReference
-                + "&geneId=" + filterGeneId
-                + "&geneName=" + filterGeneName
-                + "&geneSymbol=" + filterGeneSymbol;
+        return "redirect:/curation/alleleManagementDetail/edit"
+                + "?id_allele=" + allele.getId_allele()
+                + "&filterAlleleId=" + filterAlleleId
+                + "&filterAlleleName=" + filterAlleleName
+                + "&filterAlleleSymbol=" + filterAlleleSymbol
+                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
+                + "&filterGeneId=" + filterGeneId
+                + "&filterGeneName=" + filterGeneName
+                + "&filterGeneSymbol=" + filterGeneSymbol;
     }
     
-    /**
-     * Show the list form with saved filter values.
-     * 
-     * @param filterAlleleId
-     * @param filterAlleleName
-     * @param filterAlleleSymbol
-     * @param filterAlleleMgiReference
-     * @param filterGeneId
-     * @param filterGeneName
-     * @param filterGeneSymbol
-     * @param model the filter data, saved above in edit().
-     * @return redirected view to same gene detail data.
-     */
-    @RequestMapping(value="/showList", method=RequestMethod.GET)
-    public String showList(
-            @RequestParam(value="filterAlleleId") String filterAlleleId
-          , @RequestParam(value="filterAlleleName") String filterAlleleName
-          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
-          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
-          , @RequestParam(value="filterGeneName") String filterGeneName
-          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
-            
-          , Model model) 
-    {
-        return "redirect:/curation/alleleManagementList/go"
-                + "?alleleId=" + filterAlleleId
-                + "&alleleName=" + filterAlleleName
-                + "&alleleSymbol=" + filterAlleleSymbol
-                + "&alleleMgiReference=" + filterAlleleMgiReference
-                + "&geneId=" + filterGeneId
-                + "&geneName=" + filterGeneName
-                + "&geneSymbol=" + filterGeneSymbol;
-    }
+//    /**
+//     * Show the list form with saved filter values.
+//     * 
+//     * @param filterAlleleId
+//     * @param filterAlleleName
+//     * @param filterAlleleSymbol
+//     * @param filterAlleleMgiReference
+//     * @param filterGeneId
+//     * @param filterGeneName
+//     * @param filterGeneSymbol
+//     * @param model the filter data, saved above in edit().
+//     * @return redirected view to same gene detail data.
+//     */
+//    @RequestMapping(value="/showList", method=RequestMethod.GET)
+//    public String showList(
+//            @RequestParam(value="filterAlleleId") String filterAlleleId
+//          , @RequestParam(value="filterAlleleName") String filterAlleleName
+//          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
+//          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
+//          , @RequestParam(value="filterGeneId") String filterGeneId
+//          , @RequestParam(value="filterGeneName") String filterGeneName
+//          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+//            
+//          , Model model) 
+//    {
+//        return "redirect:/curation/alleleManagementList/showFilter"
+//                + "?filterAlleleId=" + filterAlleleId
+//                + "&filterAlleleName=" + filterAlleleName
+//                + "&filterAlleleSymbol=" + filterAlleleSymbol
+//                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
+//                + "&filterGeneId=" + filterGeneId
+//                + "&filterGeneName=" + filterGeneName
+//                + "&filterGeneSymbol=" + filterGeneSymbol;
+//    }
     
     
     // PRIVATE METHODS

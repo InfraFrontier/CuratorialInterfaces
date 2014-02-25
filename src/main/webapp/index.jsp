@@ -9,10 +9,10 @@
     </head>
 
     <body>
-       <a href="curation/geneManagementList/showFilter">Gene Management</a>
+       <a href="curation/geneManagementList/showFilter" target="geneManagementList">Gene Management</a>
        <br />
        <br />
-       <a href="curation/alleleManagementList/showFilter">Allele Management</a>
+       <a href="curation/alleleManagementList/showFilter" target="alleleManagementList">Allele Management</a>
        <br />
     </body>
 </html>

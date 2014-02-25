@@ -67,7 +67,7 @@
                 $('#geneId').on('change', function(e) {
                     updateGeneDiv();
                 });
-                $('#geneName').on('change', function(e) {
+                $('#alleleName').on('keyup', function(e) {
                     validate();
                 });
             });
@@ -76,7 +76,7 @@
                 var geneName = '';
                 var geneSymbol = '';
                 
-            //    validate();
+                validate();
                 
                 var newGeneId = $('#geneId').val();
                 if ((isInteger(newGeneId)) && (newGeneId > 0)) {
@@ -141,7 +141,7 @@
                     }
                 } else {
                     errorCount++;
-                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please enter an integer.</span>';
+                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a valid gene.</span>';
                     $('#geneId').parent().append(errMsg);
                 }
                 // Set gene details
@@ -167,6 +167,7 @@
             function clearInputs() {
                 $('#tabAlleleDetail :input').val('');
                 clearErrors();
+                $('.error').remove();
                 
                 return false;
             }
@@ -243,13 +244,12 @@
                                         <tr>
                                             <%-- ALLELE ID --%>
                                             <td><label id="labAlleleId">Allele ID:</label></td>
-                                            <td style="border: 0"><input name="alleleId" value="${allele.id_allele}" readonly="readonly" /></td>
+                                            <td style="border: 0"><form:input name="alleleId" value="${allele.id_allele}" readonly="readonly" path="allele.id_allele" /></td>
                                             
                                             <%-- ALLELE NAME --%>
                                             <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>
                                             <td>
                                                 <form:textarea id="alleleName" path="allele.name" value="${allele.name}" placeholder="Required field" />
-                                                <br />
                                                 <form:errors path="allele.name" cssClass="error" />
                                             </td>
                                             
@@ -294,7 +294,6 @@
                                                             <td>
                                                                 <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
                                                                             value="${allele.gene.id_gene}" />
-                                                                <br />
                                                                 <form:errors path="allele.gene.id_gene" cssClass="error" />
                                                             </td>
                                                             <td><label>Gene Name:</label></td>
@@ -322,14 +321,17 @@
                     <td style="float: right">
                         <table>
                             <tr>
+                                <%--
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="submit" value="Back"
                                                formmethod="GET"
-                                               formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/showList" />
+                                               formaction="${pageContext.request.contextPath}/curation/alleleManagementList/showFilter"
+                                               formtarget="alleleManagementList" />
                                     </div>
                                 </td>
                                 <td>&nbsp;&nbsp;&nbsp;</td>
+                                --%>
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="button" value="Clear"
@@ -342,7 +344,7 @@
                                         <input type="submit" value="Save" class="saveButton"
                                                formmethod="POST"
                                                formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/save"
-                                               onclick="clearErrors();" />
+                                               onclick="validate();" />
                                     </div>
                                 </td>
                             </tr>

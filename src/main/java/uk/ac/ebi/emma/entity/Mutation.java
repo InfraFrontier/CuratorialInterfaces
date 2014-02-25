@@ -12,7 +12,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil
  */
 public class Mutation {
-    private int id;
+    private Integer id;
     private String main_type;
     private String sub_type;
     private String dominance;
@@ -34,11 +34,11 @@ public class Mutation {
     private Allele allele;
     private Background background;
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
