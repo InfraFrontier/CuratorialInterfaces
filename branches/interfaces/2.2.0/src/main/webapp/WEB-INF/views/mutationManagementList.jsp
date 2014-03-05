@@ -62,7 +62,7 @@
                     });
                 });
                 
-       //         $('#tabResults').dataTable();
+                $('#tabResults').dataTable();
             });
 
             function clearErrors() {
@@ -173,7 +173,7 @@
                     , success: function(data) {
                         if (data.status === 'ok') {
                             var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent()[0];
-        //                    $('#tabResults').dataTable().fnDeleteRow(tr);       // Remove the allele from the grid.
+                            $('#tabResults').dataTable().fnDeleteRow(tr);       // Remove the allele from the grid.
                         } else {
                             alert(data.message);
                         }
@@ -377,22 +377,32 @@
                             <td style="border: 1px solid black">${mutation.main_type}</td>
                             <td style="border: 1px solid black">${mutation.sub_type}</td>
                             <td style="border: 1px solid black">
-                                <a href="strainManagementList?strainIds=${mutation.str_id_str}" target="strainManagementList" title="Edit strain Id ${mutation.str_id_str}">
+<!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! ADD STRAIN FILTERS ONCE STRAIN SCREEN IS WRITTEN. FIXME FIXME FIXME -->
+                                <a href="${pageContext.request.contextPath}/curation/strainManagementList/go?filterStrainId=${mutation.str_id_str}"
+                                   target="strainManagementList"
+                                   title="Edit strain ID ${mutation.str_id_str}">
                                     ${mutation.str_id_str}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="backgroundManagementList?backgroundIds=${mutation.bg_id_bg}" target="backgroundManagementList" title="Edit background Id ${mutation.bg_id_bg}">
+<!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! ADD BACKGROUND FILTERS ONCE BACKGROUND SCREEN IS WRITTEN. FIXME FIXME FIXME -->
+                                <a href="${pageContext.request.contextPath}/curation/backgroundManagementList/go?filterBackgroundId=${mutation.bg_id_bg}"
+                                   target="backgroundManagementList"
+                                   title="Edit background ID ${mutation.bg_id_bg}">
                                     ${mutation.bg_id_bg}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="alleleManagementList?alleleIds=${mutation.alls_id_allel}" target="alleleManagementList" title="Edit allele Id ${mutation.alls_id_allel}">
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${mutation.alls_id_allel}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                   target="alleleManagementList"
+                                   title="Edit allele ID ${mutation.alls_id_allel}">
                                     ${mutation.alls_id_allel}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="alleleManagementList?alleleIds=${mutation.alls_id_allel_replaced}" target="alleleManagementList" title="Edit replaced allele Id ${mutation.alls_id_allel_replaced}">
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${mutation.alls_id_allel_replaced}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                   target="alleleManagementList"
+                                   title="Edit replaced allele ID ${mutation.alls_id_allel_replaced}">
                                     ${mutation.alls_id_allel_replaced}
                                 </a>
                             </td>
