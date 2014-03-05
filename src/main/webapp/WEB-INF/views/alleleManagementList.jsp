@@ -433,19 +433,11 @@
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
-                                                <c:when test="${boundMutationsCount == 1}">
-                                                    <td>
-                                                        <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
-                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation ID ${boundMutationIds}."
-                                                               class="ui-state-disabled" />
-                                                    </td>
-                                                </c:when>
                                                 <c:when test="${boundMutationsCount > 0}">
                                                     <td>
                                                         <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation Ids ${boundMutationIds}."
+                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation Id(s) ${boundMutationIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
@@ -467,19 +459,18 @@
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundMutationsCount eq 0}">
-                                            <a href="mutationManagementList" target="mutationManagementList" title="Edit mutations">
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationId=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainId=&amp;filterAlleleId=&amp;filterBackgroundId="
+                                               target="mutationManagementList"
+                                               title="Edit mutations">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
-                                        <c:when test="${boundMutationsCount eq 1}">
-                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationManagementList" title="Edit bound mutation ${boundMutationIds}">
-                                                ${boundMutationIds}
-                                            </a>
-                                        </c:when>
                                         <c:otherwise>
-                                            <a href="mutationManagementList?mutationIds=${boundMutationIds}" target="mutationManagementList" title="Edit bound mutations ${boundMutationIds}">
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationId=${boundMutationIds}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainId=&amp;filterAlleleId=&amp;filterBackgroundId="
+                                               target="mutationManagementList"
+                                               title="Edit mutation ID(s) ${boundMutationIds}">
                                                 ${boundMutationIds}
-                                            </a>
+                                            </a>   
                                         </c:otherwise>
                                     </c:choose>
                                 </form>
@@ -495,8 +486,9 @@
                             
                             <td style="border: 1px solid black">
                                 <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?filterGeneId=${allele.gene.id_gene}&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
-                                   target="geneManagementList">
-                                    ${fn:escapeXml(allele.gene.id_gene)}
+                                   target="geneManagementList"
+                                   title="Edit gene ID ${allele.gene.id_gene}">
+                                    ${allele.gene.id_gene}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.name)}</td>

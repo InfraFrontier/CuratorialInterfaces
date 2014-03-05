@@ -401,19 +401,11 @@
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
-                                                <c:when test="${boundAllelesCount == 1}">
-                                                    <td>
-                                                        <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
-                                                               src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete gene ID ${gene.id_gene} as it is bound to allele ID ${boundAlleleIds}."
-                                                               class="ui-state-disabled" />
-                                                    </td>
-                                                </c:when>
                                                 <c:when test="${boundAllelesCount > 0}">
                                                     <td>
                                                         <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete gene ID ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
+                                                               title="Cannot delete gene ID ${gene.id_gene} as it is bound to allele ID(s) ${boundAlleleIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
