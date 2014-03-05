@@ -17,30 +17,22 @@ package uk.ac.ebi.emma.entity;
 
 import java.util.Date;
 import javax.persistence.Transient;
-import org.hibernate.SessionFactory;
 
 /**
  *
  * @author mrelac
  */
 public class GeneSynonym {
-    private SessionFactory sessionFactory;
-
-    private Integer id_syn;
+    private Integer id_syn;                                                     // primary key
+    
+    private Gene gene;
     private String name;
     private String symbol;
-    private String username;
-    private Date last_change;
-    private Gene gene;
+    
+    private Date last_change;                                                   // date last changed
+    private String username;                                                    // changed by username
+    
     private boolean isDirty;
-
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
-
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
 
     public Integer getId_syn() {
         return id_syn;

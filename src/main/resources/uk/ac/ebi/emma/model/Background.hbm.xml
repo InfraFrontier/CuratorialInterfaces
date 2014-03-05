@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
-  <class name="Background" table="backgrounds">
-    <id column="id_bg" name="id_bg">
-      <generator class="native"/>
-    </id>
-    <property column="name" name="name"/>
-    <property column="symbol" name="symbol"/>
-    <property column="inbred" name="inbred"/>
-    <property column="username" name="username"/>
-    <property column="species" name="species"/>
-    <property column="last_change" name="last_change"/>
-    <property column="notes" name="notes"/>
-    <property column="curated" name="curated"/>
-  </class>
+    <class name="Background" table="backgrounds">
+        <id column="id_bg" name="id_bg">
+            <generator class="native"/>
+        </id>
+        
+        <property column="curated" name="curated"/>
+        <property column="inbred" name="inbred"/>
+        <property column="name" name="name"/>
+        <property column="notes" name="notes"/>
+        <property column="species" name="species"/>
+        <property column="symbol" name="symbol"/>
+        
+        <property column="last_change" name="last_change"/>
+        <property column="username" name="username"/>
+    </class>
 </hibernate-mapping>

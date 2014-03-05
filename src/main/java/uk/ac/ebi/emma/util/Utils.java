@@ -216,10 +216,10 @@ public class Utils {
 
     /**
      * Given a <code>ResultSet</code> and a column name, this method attempts to
-     * fetch the value from the result set. If successful, the value is returned;
-     * otherwise, an empty <code>String</code> is returned. This method guarantees
-     * a non-null return value regardless of <em>columnName</em> to be suitable
-     * for client display.
+     * fetch the value from the result set. If successful, the value is returned
+     * as a string; otherwise, an empty <code>String</code> is returned. This
+     * method guarantees a non-null return value regardless of <em>columnName</em>
+     * to be suitable for client display.
      * @param rs the result set to search
      * @param columnName the desired column name
      * @return the value, if successful; an empty <code>String</code> otherwise
@@ -234,6 +234,30 @@ public class Utils {
         }
         catch (SQLException e) {
             throw new RuntimeException("Unable to get result set value for column '" + columnName + "'");
+        }
+        
+        return retVal;
+    }
+
+    /**
+     * Given a <code>ResultSet</code> and a column name containing a [possibly
+     * null] <code>Date</code>, this method attempts to fetch the date from the
+     * result set. If successful, the value is returned
+     * as a <code>Date</code>; otherwise, null <code>Date</code> is returned.
+     * @param rs the result set to search
+     * @param columnName the desired column name containing data of type <code>Date</code>
+     * @return the value, if successful; null otherwise
+     */
+    public static Date getDbDateValue(ResultSet rs, String columnName) {
+        Date retVal = null;
+        
+        try {
+            Object o = rs.getObject(columnName);
+            if (o != null)
+                retVal = (Date)o;
+        }
+        catch (SQLException e) {
+            throw new RuntimeException("Unable to get result set Date value for column '" + columnName + "'");
         }
         
         return retVal;

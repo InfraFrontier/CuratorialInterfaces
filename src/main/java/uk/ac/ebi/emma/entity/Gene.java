@@ -1,5 +1,5 @@
 /**
- * Copyright © 2009-2013 EMBL - European Bioinformatics Institute
+ * Copyright © 2014 EMBL - European Bioinformatics Institute
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); 
  * you may not use this file except in compliance with the License.  
@@ -16,33 +16,37 @@
 
 package uk.ac.ebi.emma.entity;
 
-import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import javax.persistence.Transient;
 
 /**
  *
- * @author phil
+ * @author phil, mrelac
  */
-public class Gene implements Serializable {
+public class Gene {
     
-    private Integer id_gene;
-    private String name;
-    private String symbol;
+    private Integer id_gene = 0;                                                // primary key
+    
+    private Integer centimorgan;
     private String chromosome;
-    private /*int*/ String centimorgan;
     private String cytoband;
-    private String species;
-    private String mgi_ref;
-    private String username;
-    private Date last_change;
-    private String promoter;
-    private String founder_line_number;
-    private String plasmid_construct;
     private String ensembl_ref;
-    private Set<GeneSynonym> synonyms;
+    private String founder_line_number;
+    private String mgi_ref;
+    private String name;
+    private String plasmid_construct;
+    private String promoter;
+    private String species;
+    private String symbol;
+    
+    // COLLECTIONS
     private Set<Allele> alleles;
+    private Set<GeneSynonym> synonyms;
+    
+    private Date last_change;                                                   // date last changed
+    private String username;                                                    // changed by username
+    
     private boolean isDirty = false;
 
     public Integer getId_gene() {
@@ -53,20 +57,12 @@ public class Gene implements Serializable {
         this.id_gene = id_gene;
     }
 
-    public String getName() {
-        return name;
+    public Integer getCentimorgan() {
+        return centimorgan;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCentimorgan(Integer centimorgan) {
+        this.centimorgan = centimorgan;
     }
 
     public String getChromosome() {
@@ -77,68 +73,12 @@ public class Gene implements Serializable {
         this.chromosome = chromosome;
     }
 
-    public String getCentimorgan() {
-        return centimorgan;
-    }
-
-    public void setCentimorgan(String centimorgan) {
-        this.centimorgan = centimorgan;
-    }
-
     public String getCytoband() {
         return cytoband;
     }
 
     public void setCytoband(String cytoband) {
         this.cytoband = cytoband;
-    }
-
-    public String getSpecies() {
-        return species;
-    }
-
-    public void setSpecies(String species) {
-        this.species = species;
-    }
-
-    public String getMgi_ref() {
-        return mgi_ref;
-    }
-
-    public void setMgi_ref(String mgi_ref) {
-        this.mgi_ref = mgi_ref;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getPromoter() {
-        return promoter;
-    }
-
-    public void setPromoter(String promoter) {
-        this.promoter = promoter;
-    }
-
-    public String getFounder_line_number() {
-        return founder_line_number;
-    }
-
-    public void setFounder_line_number(String founder_line_number) {
-        this.founder_line_number = founder_line_number;
-    }
-
-    public String getPlasmid_construct() {
-        return plasmid_construct;
-    }
-
-    public void setPlasmid_construct(String plasmid_construct) {
-        this.plasmid_construct = plasmid_construct;
     }
 
     public String getEnsembl_ref() {
@@ -149,12 +89,60 @@ public class Gene implements Serializable {
         this.ensembl_ref = ensembl_ref;
     }
 
-    public Set<GeneSynonym> getSynonyms() {
-        return synonyms;
+    public String getFounder_line_number() {
+        return founder_line_number;
     }
 
-    public void setSynonyms(Set<GeneSynonym> synonyms) {
-        this.synonyms = synonyms;
+    public void setFounder_line_number(String founder_line_number) {
+        this.founder_line_number = founder_line_number;
+    }
+
+    public String getMgi_ref() {
+        return mgi_ref;
+    }
+
+    public void setMgi_ref(String mgi_ref) {
+        this.mgi_ref = mgi_ref;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPlasmid_construct() {
+        return plasmid_construct;
+    }
+
+    public void setPlasmid_construct(String plasmid_construct) {
+        this.plasmid_construct = plasmid_construct;
+    }
+
+    public String getPromoter() {
+        return promoter;
+    }
+
+    public void setPromoter(String promoter) {
+        this.promoter = promoter;
+    }
+
+    public String getSpecies() {
+        return species;
+    }
+
+    public void setSpecies(String species) {
+        this.species = species;
+    }
+
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
     }
 
     public Set<Allele> getAlleles() {
@@ -165,12 +153,28 @@ public class Gene implements Serializable {
         this.alleles = alleles;
     }
 
+    public Set<GeneSynonym> getSynonyms() {
+        return synonyms;
+    }
+
+    public void setSynonyms(Set<GeneSynonym> synonyms) {
+        this.synonyms = synonyms;
+    }
+
     public Date getLast_change() {
         return last_change;
     }
 
     public void setLast_change(Date last_change) {
         this.last_change = last_change;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Transient
@@ -183,5 +187,4 @@ public class Gene implements Serializable {
         this.isDirty = isDirty;
     }
 
-    
 }

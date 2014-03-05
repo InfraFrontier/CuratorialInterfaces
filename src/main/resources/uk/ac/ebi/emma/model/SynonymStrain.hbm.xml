@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="SynonymStrain" table="syn_strains">
+        <id column="id_syn" name="id_syn">
+            <generator class="native"/>
+        </id>
+    
+        <property column="name" name="name"/>
+        <property column="str_id_str" name="str_id_str"/>
+    
+        <property column="last_change" name="last_change"/>
+        <property column="username" name="username"/>
+    </class>
+</hibernate-mapping>

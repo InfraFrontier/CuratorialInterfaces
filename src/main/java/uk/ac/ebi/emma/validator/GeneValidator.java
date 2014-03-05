@@ -56,7 +56,7 @@ public class GeneValidator implements Validator {
         Gene gene = (Gene)target;
         
         // Centimorgan, if supplied, must be an integer.
-        if ((gene.getCentimorgan() != null) && ( ! gene.getCentimorgan().isEmpty())) {
+        if (gene.getCentimorgan() != null) {
             Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
             if (centimorgan == null) {
                 errors.rejectValue("centimorgan", null, "Please enter an integer.");

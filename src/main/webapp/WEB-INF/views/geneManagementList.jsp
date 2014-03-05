@@ -62,7 +62,7 @@
                 });
 
                 $('#tabResults > tbody > tr')
-                    .on('dragstart', handleDragStart)
+                    .on('dragstart', handleDragStart);
                 $('#tabResults').dataTable();
             });
 
@@ -311,7 +311,7 @@
                 <tbody>
                     <%-- FILTER --%>
                     <tr>
-                        <td><form:label path="geneId">Gene Id:</form:label></td>
+                        <td><form:label path="geneId">Gene ID:</form:label></td>
                         <td><form:input id="filterGeneId" class="filterComponent" path="geneId" onkeyup="updateFilter(this);" /></td>
                         
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
@@ -382,7 +382,7 @@
                                                     <input type="hidden" id="filterGeneSymbolEdit" name="filterGeneSymbol" value="${filter.geneSymbol}" />
                                                     <input type="hidden" id="filterChromosomeEdit" name="filterChromosome" value="${filter.chromosome}" />
                                                     <input type="hidden" id="filterGeneMgiReferenceEdit" name="filterGeneMgiReference" value="${filter.geneMgiReference}" />
-                                                    <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ${gene.id_gene}"
+                                                    <input alt="Edit Gene" type="image" height="15" width="15" title="Edit gene ID ${gene.id_gene}"
                                                            src="${pageContext.request.contextPath}/images/edit.jpg"
                                                            formtarget="geneManagementDetail"/>
                                                 </form>
@@ -405,7 +405,7 @@
                                                     <td>
                                                         <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete gene ${gene.id_gene} as it is bound to allele ID ${boundAlleleIds}."
+                                                               title="Cannot delete gene ID ${gene.id_gene} as it is bound to allele ID ${boundAlleleIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
@@ -413,14 +413,14 @@
                                                     <td>
                                                         <input alt="Delete Gene" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete gene ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
+                                                               title="Cannot delete gene ID ${gene.id_gene} as it is bound to allele IDs ${boundAlleleIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>
                                                         <%-- DELETE GENE --%>
-                                                        <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ${gene.id_gene}"
+                                                        <input alt="Delete Gene" type="image" height="15" width="15" title="Delete gene ID ${gene.id_gene}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteGene(${gene.id_gene}, this)"
                                                                formmethod="POST" />

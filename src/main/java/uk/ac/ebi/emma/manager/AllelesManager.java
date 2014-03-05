@@ -35,27 +35,9 @@ import uk.ac.ebi.emma.util.Utils;
 public class AllelesManager extends AbstractManager {
 
     /**
-     * Saves the given <code>Allele</code> instance
-     * @param allele the <code>Allele</code> instance to be saved
-     * @exception PersistFailedException if save fails
-     */
-    public void save(Allele allele) throws PersistFailedException {
-        allele.setLast_change(new Date());
-        allele.setUsername(username);
-        allele.setGen_id_gene(allele.getGene().getId_gene());
-        try {
-            getCurrentSession().beginTransaction();
-            getCurrentSession().saveOrUpdate(allele);
-            getCurrentSession().getTransaction().commit();
-        } catch (HibernateException e) {
-            getCurrentSession().getTransaction().rollback();
-            throw new PersistFailedException("Failed to save allele. Reason: " + e.getLocalizedMessage());
-        }
-    }    
-
-    /**
-     * Deletes the named <code>Allele</code> object.
-     * @param allele the <code>Allele</code> object to be deleted
+     * Delete allele.
+     * 
+     * @param allele the allele to be deleted
      */
     public void delete(Allele allele) {
         try {
@@ -70,11 +52,12 @@ public class AllelesManager extends AbstractManager {
     }
     
     /**
-     * Deletes the <code>Allele</code> object identified by <b>id</b>.
-     * @param id the <code>Allele</code> primary key of object to be deleted
+     * Delete allele.
+     * 
+     * @param id_allele the primary key of the allele to be deleted
      */
-    public void delete(int id) {
-        delete(getAllele(id));
+    public void delete(int id_allele) {
+        delete(getAllele(id_allele));
     }
     
     /**
@@ -94,7 +77,7 @@ public class AllelesManager extends AbstractManager {
             getCurrentSession().getTransaction().rollback();
         }
         
-        return remapNulls(allele);
+        return allele;
     }
     
     /**
@@ -177,8 +160,7 @@ public class AllelesManager extends AbstractManager {
      * 
      * @param filter values to filter by
      * @return a list of <code>Allele</code>.
-     * @throws NumberFormatException if allele id(s) and/or gene id(s) are not numeric.
-     * NOTE: a comma-separated list (with optional whitespace between the commas) containing one or more numbers is valid
+     * @throws NumberFormatException if ids are not numeric (commas and whitespace are OK)
      */
     public List<Allele> getFilteredAllelesList(Filter filter) throws NumberFormatException {
         String alleleIdWhere = "";
@@ -282,30 +264,23 @@ public class AllelesManager extends AbstractManager {
             
         return targetList;
     }
-
     
-    // PRIVATE METHODS
-
-
     /**
-     * Remaps null fields to empty strings suitable for use in the client.
-     * @param allele the instance to remap
-     * @return the same instance, with nulls remapped to empty strings.
+     * Saves the given <code>Allele</code> instance
+     * @param allele the <code>Allele</code> instance to be saved
+     * @throws PersistFailedException if save fails
      */
-    private Allele remapNulls(Allele allele) {
-        // Re-map null fields to empty strings.
-        if (allele != null) {
-            if (allele.getMgi_ref() == null)
-                allele.setMgi_ref("");
-            if (allele.getName() == null)
-                allele.setName("");
-            if (allele.getSymbol() == null)
-                allele.setSymbol("");
-            if (allele.getUsername() == null)
-                allele.setUsername("");
+    public void save(Allele allele) throws PersistFailedException {
+        allele.setLast_change(new Date());
+        allele.setUsername(username);
+        allele.setGen_id_gene(allele.getGene().getId_gene());
+        try {
+            getCurrentSession().beginTransaction();
+            getCurrentSession().saveOrUpdate(allele);
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw new PersistFailedException("Failed to save allele. Reason: " + e.getLocalizedMessage());
         }
-        
-        return allele;
-    }
-    
+    }    
 }

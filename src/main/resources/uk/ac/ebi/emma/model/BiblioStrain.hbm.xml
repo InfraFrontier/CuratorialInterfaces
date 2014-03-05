@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="BiblioStrain" table="biblios_strains">
+        <id column="bib_id_biblio" name="bib_id_biblio">
+            <generator class="assigned"/>
+        </id>
+        
+        <many-to-one cascade="all" class="Biblio" column="bib_id_biblio" foreign-key="id_biblios" insert="false" lazy="false" name="biblio" not-found="ignore" unique="false" update="false"/>
+        
+        <property column="str_id_str" name="str_id_str"/>
+    </class>
+</hibernate-mapping>

@@ -206,7 +206,7 @@
                                         <tr>
                                             <%-- GENE ID --%>
                                             <td><label id="labGeneId">Gene ID:</label></td>
-                                            <td style="border: 0"><form:input name="geneId" value="${gene.id_gene}" path="gene.id_gene" readonly="readonly" /></td>
+                                            <td style="border: 0"><form:input name="geneId" value="${gene.id_gene}" path="gene.id_gene" readonly="true" /></td>
                                             
                                             <%-- GENE NAME --%>
                                             <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>

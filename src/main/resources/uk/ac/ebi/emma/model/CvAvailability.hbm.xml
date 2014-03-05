@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="CvAvailability" table="cv_availabilities">
+        <id column="id" name="id">
+            <generator class="native"/>
+        </id>
+        
+        <property column="code" name="code"/>
+        <property column="description" name="description"/>
+        <property column="in_stock" name="in_stock"/>
+        <property column="to_distr" name="to_distr"/>
+    </class>
+</hibernate-mapping>

@@ -1,81 +1,60 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE hibernate-configuration PUBLIC
-        "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 
 <hibernate-configuration>
-  <session-factory>
-      <!--
-      <property name="format_sql">true</property>
-      <property name="hibernate.connection.characterEncoding">utf8</property>
-      <property name="hibernate.connection.charSet">utf8</property>
-      <property name="hibernate.connection.datasource">${hibernate.connection.datasource}</property>
-      <property name="hibernate.connection.driver_class">${hibernate.connection.driver_class}</property>
-      <property name="hibernate.connection.provider_class">${hibernate.connection.provider_class}</property>
-      <property name="hibernate.connection.useUnicode">true</property>
-      <property name="hibernate.current_session_context_class">${hibernate.current_session_context_class}</property>
-      <property name="hibernate.dialect">${hibernate.dialect}</property>
-      <property name="hibernate.show_sql">${hibernate.show_sql}</property>
-      -->
-      <!-- C3P0 CONNECTION PROVIDER PARAMETERS -->
-      <!--
-      <property name="hibernate.c3p0.acquire_increment">${hibernate.c3p0.acquire_increment}</property>
-      <property name="hibernate.c3p0.idle_test_period">${hibernate.c3p0.idle_test_period}</property>
-      <property name="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</property>
-      <property name="hibernate.c3p0.max_statement">${hibernate.c3p0.max_statement}</property>
-      <property name="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</property>
-      <property name="hibernate.c3p0.preferredTestQuery">${hibernate.c3p0.preferredTestQuery}</property>
-      <property name="hibernate.c3p0.testConnectionOnCheckout">${hibernate.c3p0.testConnectionOnCheckout}</property>
-      <property name="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</property>
-      <property name="hibernate.c3p0.validate">${hibernate.c3p0.validate}</property>
-      -->
-      
-
- 
-    <!-- MAPPINGS -->
-    <!--
-    <mapping resource="org/emmanet/model/WebRequestsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/StrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/AvailabilitiesStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/AvailabilitiesStrainsDAO_1.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVAvailabilitiesDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/LabsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/ArchiveDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/Syn_StrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/Sources_StrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/OmimDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/Strains_OmimDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/PeopleDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/RToolsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVRtoolsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/MutationsStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/MutationsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/AllelesDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/BibliosStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/BibliosDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/ResiduesDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVSourcesDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/BackgroundDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/ProjectsStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVProjectsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVArchivingMethodDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/LaboratoriesStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/Sources_RequestsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CategoriesStrainsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CategoriesDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/SubmissionsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/SubmissionBibliosDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/SubmissionMutationsDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/CVEmbryoStateDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/IlarDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/MgiAlleleDAO.hbm.xml"/>
-    <mapping resource="org/emmanet/model/MgiMarkerDAO.hbm.xml"/>
-    -->
-
-    <mapping resource="uk/ac/ebi/emma/model/Allele.hbm.xml" />
-    <mapping resource="uk/ac/ebi/emma/model/Background.hbm.xml" />
-    <mapping resource="uk/ac/ebi/emma/model/Gene.hbm.xml" />
-    <mapping resource="uk/ac/ebi/emma/model/GeneSynonym.hbm.xml" />
-    <mapping resource="uk/ac/ebi/emma/model/Mutation.hbm.xml" />
-    
-  </session-factory>
+    <session-factory>
+        <!--
+        <property name="format_sql">true</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
+        <property name="hibernate.connection.charSet">utf8</property>
+        <property name="hibernate.connection.datasource">${hibernate.connection.datasource}</property>
+        <property name="hibernate.connection.driver_class">${hibernate.connection.driver_class}</property>
+        <property name="hibernate.connection.provider_class">${hibernate.connection.provider_class}</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+        <property name="hibernate.current_session_context_class">${hibernate.current_session_context_class}</property>
+        <property name="hibernate.dialect">${hibernate.dialect}</property>
+        <property name="hibernate.show_sql">${hibernate.show_sql}</property>
+        -->
+        <!-- C3P0 CONNECTION PROVIDER PARAMETERS -->
+        <!--
+        <property name="hibernate.c3p0.acquire_increment">${hibernate.c3p0.acquire_increment}</property>
+        <property name="hibernate.c3p0.idle_test_period">${hibernate.c3p0.idle_test_period}</property>
+        <property name="hibernate.c3p0.max_size">${hibernate.c3p0.max_size}</property>
+        <property name="hibernate.c3p0.max_statement">${hibernate.c3p0.max_statement}</property>
+        <property name="hibernate.c3p0.min_size">${hibernate.c3p0.min_size}</property>
+        <property name="hibernate.c3p0.preferredTestQuery">${hibernate.c3p0.preferredTestQuery}</property>
+        <property name="hibernate.c3p0.testConnectionOnCheckout">${hibernate.c3p0.testConnectionOnCheckout}</property>
+        <property name="hibernate.c3p0.timeout">${hibernate.c3p0.timeout}</property>
+        <property name="hibernate.c3p0.validate">${hibernate.c3p0.validate}</property>
+        -->
+        <!-- MAPPINGS -->
+        <mapping resource="uk/ac/ebi/emma/model/Allele.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Archive.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/AvailabilityStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Background.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Biblio.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/BiblioStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Category.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CategoryStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CvArchivingMethod.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CvAvailability.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CvProject.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CvRTool.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/CvSource.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Gene.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/GeneSynonym.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Ilar.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Laboratory.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/LaboratoryStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Mutation.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/MutationStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Person.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/ProjectStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Residue.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/RToolStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/SourceStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/Strain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/SynonymStrain.hbm.xml"/>
+        <mapping resource="uk/ac/ebi/emma/model/WebRequest.hbm.xml"/>
+    </session-factory>
 </hibernate-configuration>

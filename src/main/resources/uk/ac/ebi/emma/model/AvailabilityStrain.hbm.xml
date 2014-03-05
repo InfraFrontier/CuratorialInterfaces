@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="AvailabilityStrain" table="availabilities_strains">
+        <composite-id mapped="true">
+            <key-many-to-one class="CvAvailability" column="avail_id" lazy="false" name="availability"/>
+            <key-many-to-one class="Strain" column="str_id_str" lazy="false" name="strain"/>
+        </composite-id>
+        
+        <property column="avail_id" name="avail_id"/>
+        <property column="str_id_str" name="str_id_str"/>
+    </class>
+</hibernate-mapping>

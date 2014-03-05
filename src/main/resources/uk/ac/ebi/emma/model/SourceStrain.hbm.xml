@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="SourceStrain" table="sources_strains">
+        <id column="str_id_str" name="str_id_str">
+            <generator class="assigned"/>
+        </id>
+    
+        <many-to-one cascade="all" class="CvSource" name="cvSource" column="sour_id" foreign-key="id" insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Laboratory" name="laboratory" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" not-found="ignore" update="false"/>
+    
+        <property column="lab_id_labo" name="lab_id_labo"/>
+        <property column="sour_id" name="sour_id"/>
+    </class>
+</hibernate-mapping>

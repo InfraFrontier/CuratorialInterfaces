@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="WebRequest" table="web_requests">
+        <id name="id_req" column="id_req">
+            <generator class="native"/>
+        </id>
+        
+        <property name="all_paperwork_date" column="all_paperwork_date"/>
+        <property name="common_name_s" column="common_name_s"/>
+        <property name="con_addr_1" column="con_addr_1"/>
+        <property name="con_addr_2" column="con_addr_2"/>
+        <property name="con_ccode" column="con_ccode"/>
+        <property name="con_country" column="con_country"/>
+        <property name="con_dept" column="con_dept"/>
+        <property name="con_e_mail" column="con_e_mail"/>
+        <property name="con_fax" column="con_fax"/>
+        <property name="con_firstname" column="con_firstname"/>
+        <property name="con_institution" column="con_institution"/>
+        <property name="con_phone" column="con_phone"/>
+        <property name="con_postcode" column="con_postcode"/>
+        <property name="con_province" column="con_province"/>
+        <property name="con_surname" column="con_surname"/>
+        <property name="con_title" column="con_title"/>
+        <property name="con_town" column="con_town"/>
+        <property name="date_processed" column="date_processed"/>
+        <property name="frozen_emb" column="frozen_emb"/>
+        <property name="frozen_spe" column="frozen_spe"/>
+        <property name="lab_id_labo" column="lab_id_labo"/>
+        <property name="live_animals" column="live_animals"/>
+        <property name="mta_arrived_date" column="mta_arrived_date"/>
+        <property name="notes" column="notes"/>
+        <property name="register_interest" column="register_interest"/>
+        <property name="req_material" column="req_material"/>
+        <property name="req_material_state" column="req_material_state"/>
+        <property name="req_status" column="req_status"/>
+        <property name="roi_date" column="roi_date"/>
+        <property name="sci_e_mail" column="sci_e_mail"/>
+        <property name="sci_fax" column="sci_fax"/>
+        <property name="sci_firstname" column="sci_firstname"/>
+        <property name="sci_phone" column="sci_phone"/>
+        <property name="sci_surname" column="sci_surname"/>
+        <property name="sci_title" column="sci_title"/>
+        <property name="shipped" column="shipped"/>
+        <property name="str_id_str" column="str_id_str"/>
+        <property name="strain_id" column="strain_id"/>
+        <property name="strain_name" column="strain_name"/>
+        <property name="timestamp" column="timestamp"/>
+        <property name="userstamp" column="userstamp"/>
+
+        <!-- TA FIELDS-->
+        <property name="application_type" column="application_type"/>
+        <property name="eligible_country" column="eligible_country"/>
+        <property name="project_description" column="project_description"/>
+        <property name="ta_panel_decision" column="ta_panel_decision"/>
+        <property name="ta_panel_decision_date" column="ta_panel_decision_date"/>
+        <property name="ta_panel_sub_date" column="ta_panel_sub_date"/>
+        
+        <!--- BILLING FIELDS -->
+        <property name="bil_addr_1" column="bil_addr_1"/>
+        <property name="bil_addr_2" column="bil_addr_2"/>
+        <property name="bil_country" column="bil_country"/>
+        <property name="bil_dept" column="bil_dept"/>
+        <property name="bil_e_mail" column="bil_e_mail"/>
+        <property name="bil_fax" column="bil_fax"/>
+        <property name="bil_firstname" column="bil_firstname"/>
+        <property name="bil_institution" column="bil_institution"/>
+        <property name="bil_phone" column="bil_phone"/>
+        <property name="bil_postcode" column="bil_postcode"/>
+        <property name="bil_province" column="bil_province"/>
+        <property name="bil_surname" column="bil_surname"/>
+        <property name="bil_title" column="bil_title"/>
+        <property name="bil_town" column="bil_town"/>
+        <property name="bil_vat" column="bil_vat"/>
+        <property name="PO_ref" column="PO_ref"/>
+    
+        <!-- EUCOMM -->
+        <property column="eucomm_funding" name="eucomm_funding"/>
+    
+        <!-- EuroPhenome and WTSI MGP -->
+        <property column="europhenome" name="europhenome"/>
+        <property column="wtsi_mouse_portal" name="wtsi_mouse_portal"/>
+    </class>
+</hibernate-mapping>

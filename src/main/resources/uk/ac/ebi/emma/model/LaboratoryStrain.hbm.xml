@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="LaboratoryStrain" table="laboratories_strains">
+        <id column="str_id_str" name="str_id_str">
+            <generator class="assigned"/>
+        </id>
+        
+        <property column="lab_id_labo" name="lab_id_labo"/>
+    </class>
+</hibernate-mapping>
