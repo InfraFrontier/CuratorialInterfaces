@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="Biblio" table="biblios">
+        <id column="id_biblio" name="id_biblio">
+            <generator class="native"/>
+        </id>
+        
+        <property column="author1" name="author1"/>
+        <property column="author2" name="author2"/>
+        <property column="journal" name="journal"/>
+        <property column="notes" name="notes"/>
+        <property column="pages" name="pages"/>
+        <property column="pubmed_id" name="pubmed_id" />
+        <property column="title" name="title"/>
+        <property column="updated" name="updated"/>
+        <property column="volume" name="volume"/>
+        <property column="year" name="year"/>
+        
+        <property column="last_change" name="last_change"/>
+        <property column="username" name="username"/>
+    </class>
+</hibernate-mapping>

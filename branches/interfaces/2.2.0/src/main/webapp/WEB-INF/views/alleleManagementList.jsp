@@ -43,7 +43,6 @@
             var geneUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
             var alleleIds = null;
-            var chromosomes = null;
 
             $(document).ready(function() {
                 populateFilterAutocompletes();
@@ -340,10 +339,10 @@
                 </tfoot>
                 <tbody>
                     <tr>
-                        <td><form:label path="alleleId">Allele Id:</form:label></td>
+                        <td><form:label path="alleleId">Allele ID:</form:label></td>
                         <td><form:input id="filterAlleleId" class="filterComponent" path="alleleId" /></td>
                         
-                        <td><form:label path="geneId">Gene Id:</form:label></td>
+                        <td><form:label path="geneId">Gene ID:</form:label></td>
                         <td><form:input id="filterGeneId" class="filterComponent" path="geneId" /></td>
                     </tr>
                     <tr>
@@ -389,7 +388,7 @@
                                 <th>Allele Name</th>
                                 <th>Allele Symbol</th>
                                 <th>MGI Reference</th>
-                                <th>Gene Id</th>
+                                <th>Gene ID</th>
                                 <th>Gene Name</th>
                                 <th>Gene Symbol</th>
                             </tr>
@@ -427,10 +426,10 @@
                                             <c:set var="boundMutationIds" value="" />
                                             <c:forEach var="mutation" items="${boundMutations}" varStatus="status">
                                                 <c:if test="${status.index == 0}">
-                                                    <c:set var="boundMutationIds" value="${mutation.id}" scope="page" />
+                                                    <c:set var="boundMutationIds" value="${mutation.id_mutation}" scope="page" />
                                                 </c:if>
                                                 <c:if test="${status.index > 0}">
-                                                    <c:set var="boundMutationIds" value="${boundMutationIds}, ${mutation.id}" />
+                                                    <c:set var="boundMutationIds" value="${boundMutationIds}, ${mutation.id_mutation}" />
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
@@ -438,7 +437,7 @@
                                                     <td>
                                                         <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ${allele.id_allele} as it is bound to mutation ID ${boundMutationIds}."
+                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation ID ${boundMutationIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
@@ -446,14 +445,14 @@
                                                     <td>
                                                         <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ${allele.id_allele} as it is bound to mutation IDs ${boundMutationIds}."
+                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation Ids ${boundMutationIds}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>
                                                         <%-- DELETE ALLELE --%>
-                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ${allele.id_allele}"
+                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ID ${allele.id_allele}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteAllele(${allele.id_allele}, this)"
                                                                formmethod="POST" />

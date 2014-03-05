@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="MutationStrain" table="mutations_strains">
+        <id column="mut_id" name="mut_id">
+            <generator class="assigned"/>
+        </id>
+        
+        <many-to-one cascade="all" class="Mutation" column="mut_id" foreign-key="id" insert="false" lazy="false" name="mutation" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Strain" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" name="strain" not-found="ignore" update="false"/>
+        
+        <property column="str_id_str" name="str_id_str"/>
+    </class>
+</hibernate-mapping>

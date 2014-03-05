@@ -1,34 +1,38 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
-  <class name="Gene" table="genes">
-    <id column="id_gene" name="id_gene">
-      <generator class="native"/>
-    </id>
-    <set name="synonyms" table="syn_genes" lazy="false" cascade="all" order-by="id_syn">
-        <key>
-            <column name="gen_id_gene" />
-        </key>
-        <one-to-many class="GeneSynonym" />
-    </set>
-    <set name="alleles" table="alleles" lazy="false" cascade="none" order-by="id_allel">
-        <key>
-            <column name="gen_id_gene" />
-        </key>
-        <one-to-many class="Allele" />
-    </set>
-    <property column="name" name="name"/>
-    <property column="symbol" name="symbol"/>
-    <property column="chromosome" name="chromosome"/>
-    <property column="centimorgan" name="centimorgan"/>
-    <property column="cytoband" name="cytoband"/>
-    <property column="species" name="species"/>
-    <property column="mgi_ref" name="mgi_ref"/>
-    <property column="last_change" name="last_change" />
-    <property column="username" name="username"/>
-    <property column="promoter" name="promoter"/>
-    <property column="founder_line_number" name="founder_line_number"/>
-    <property column="plasmid_construct" name="plasmid_construct"/>
-    <property column="ensembl_ref" name="ensembl_ref"/>
-  </class>
+    <class name="Gene" table="genes">
+        <id column="id_gene" name="id_gene">
+            <generator class="native"/>
+        </id>
+    
+        <set name="synonyms" table="syn_genes" lazy="false" cascade="all" order-by="id_syn">
+            <key>
+                <column name="gen_id_gene" />
+            </key>
+            <one-to-many class="GeneSynonym" />
+        </set>
+        <set name="alleles" table="alleles" lazy="false" cascade="none" order-by="id_allel">
+            <key>
+                <column name="gen_id_gene" />
+            </key>
+            <one-to-many class="Allele" />
+        </set>
+    
+        <property column="centimorgan" name="centimorgan"/>
+        <property column="chromosome" name="chromosome"/>
+        <property column="cytoband" name="cytoband"/>
+        <property column="ensembl_ref" name="ensembl_ref"/>
+        <property column="founder_line_number" name="founder_line_number"/>
+        <property column="mgi_ref" name="mgi_ref"/>
+        <property column="name" name="name"/>
+        <property column="plasmid_construct" name="plasmid_construct"/>
+        <property column="promoter" name="promoter"/>
+        <property column="species" name="species"/>
+        <property column="symbol" name="symbol"/>
+    
+        <property column="last_change" name="last_change" />
+        <property column="username" name="username"/>
+    </class>
 </hibernate-mapping>

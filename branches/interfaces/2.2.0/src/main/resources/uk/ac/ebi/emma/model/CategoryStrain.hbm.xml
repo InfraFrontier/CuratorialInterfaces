@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="CategoryStrain" table="categories_strains">
+        <composite-id>        
+            <key-many-to-one class="Category"  column="cat_id_cat"  lazy="false" name="category" />
+            <key-many-to-one class="Strain" column="str_id_str" lazy="false" name="strain" />
+        </composite-id>
+        
+        <many-to-one cascade="all" class="Category" column="cat_id_cat" foreign-key="id_cat" insert="false" lazy="false" name="category" not-found="ignore" unique="false" update="false"/>
+        <many-to-one cascade="all" class="Strain" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" name="strain" not-found="ignore" update="false"/>
+        
+        <property column="cat_id_cat" name="cat_id_cat" update="false" insert="false"/>
+    </class>
+</hibernate-mapping>

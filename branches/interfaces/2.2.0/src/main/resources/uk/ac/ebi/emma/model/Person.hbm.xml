@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="Person" table="people">
+        <id column="id_per" name="id_per">
+            <generator class="native"/>
+        </id>
+        
+        <many-to-one cascade="all" class="Ilar" name="ilar" column="id_ilar" foreign-key="id" insert="false" lazy="false" update="false"/>
+        <many-to-one cascade="all" class="Laboratory" name="laboratory" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" update="false"/>
+    
+        <property column="e_mail" name="email"/>
+        <property column="fax" name="fax"/>
+        <property column="firstname" name="firstname"/>
+        <property column="id_ilar" name="id_ilar"/>
+        <property column="lab_id_labo" name="lab_id_labo"/>
+        <property column="phone" name="phone"/>
+        <property column="surname" name="surname"/>
+        <property column="title" name="title"/>
+        
+        <property column="last_change" name="last_change"/>
+        <property column="username" name="username"/>
+    </class>
+</hibernate-mapping>

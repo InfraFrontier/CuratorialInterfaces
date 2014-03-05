@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+  <class name="ProjectStrain" table="projects_strains">
+    <id column="str_id_str" name="str_id_str">
+      <generator class="assigned"/>
+    </id>
+    
+    <many-to-one cascade="all" class="CvProject" name="cvProject" column="project_id" insert="false" lazy="false" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="Strain" name="strain" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" not-found="ignore" update="false"/>
+    
+    <property column="project_id" name="project_id"/>
+  </class>
+</hibernate-mapping>

@@ -1,45 +1,63 @@
-/*
- * AvailabilitiesStrainsDAO.java
+ /**
+ * Copyright © 2008 EMBL - European Bioinformatics Institute
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License.  
+ * You may obtain a copy of the License at
  *
- * Created on 07 January 2008, 14:49
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package uk.ac.ebi.emma.entity;
 
+import java.util.Date;
+
 /**
  *
- * @author phil
+ * @author phil, mrelac
  */
 public class Mutation {
-    private Integer id;
-    private String main_type;
-    private String sub_type;
-    private String dominance;
-    private String tm_esline;
-    private String ch_ano_name;
-    private String ch_ano_desc;
-    private String mu_cause;
-    private int alls_id_allel;
-    private String bg_id_bg;
-    private String str_id_str;
-    private String sex;
-    private String genotype;
-    private String ki_alter;
-    private String username;
-    private String last_change;
-    private int alls_id_allel_replaced;
-    private String chromosome;
+    private Integer id_mutation = 0;                                            // primary key
+    
+    private String ch_ano_desc;                                                 // chromosome annotated description
+    private String ch_ano_name;                                                 // chromosome annotated name
+    private String chromosome;                                                  // chromosome
+    private String dominance;                                                   // dominance
+    private String genotype;                                                    // genotype
+    private String ki_alter;                                                    // knock-in alter
+    private String main_type;                                                   // type
+    private String mu_cause;                                                    // mutation cause
+    private String sex;                                                         // sex
+    private String sub_type;                                                    // subtype
+    private String tm_esline;                                                   // targeted mutation es cell line
+    
+    // FOREIGN KEYS
+    private Integer alls_id_allel;                                              // foreign key to alleles table
+    private Integer alls_id_allel_replaced;                                     // foreign key to alleles table for replaced allele
+    private Integer bg_id_bg;                                                   // foreign key to backgrounds table
+    private Integer str_id_str;                                                 // foreign key to strains table
 
+    // CLASS INSTANCES
     private Allele allele;
     private Background background;
+    private Strain strain;
+    private Allele replacedAllele;
+    
+    private Date last_change;                                                   // date last changed
+    private String username;                                                    // changed by username
 
-    public Integer getId() {
-        return id;
+    public Integer getId_mutation() {
+        return id_mutation;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setId_mutation(Integer id_mutation) {
+        this.id_mutation = id_mutation;
     }
 
     public String getMain_type() {
@@ -98,27 +116,27 @@ public class Mutation {
         this.mu_cause = mu_cause;
     }
 
-    public int getAlls_id_allel() {
+    public Integer getAlls_id_allel() {
         return alls_id_allel;
     }
 
-    public void setAlls_id_allel(int alls_id_allel) {
+    public void setAlls_id_allel(Integer alls_id_allel) {
         this.alls_id_allel = alls_id_allel;
     }
 
-    public String getBg_id_bg() {
+    public Integer getBg_id_bg() {
         return bg_id_bg;
     }
 
-    public void setBg_id_bg(String bg_id_bg) {
+    public void setBg_id_bg(Integer bg_id_bg) {
         this.bg_id_bg = bg_id_bg;
     }
 
-    public String getStr_id_str() {
+    public Integer getStr_id_str() {
         return str_id_str;
     }
 
-    public void setStr_id_str(String str_id_str) {
+    public void setStr_id_str(Integer str_id_str) {
         this.str_id_str = str_id_str;
     }
 
@@ -154,19 +172,19 @@ public class Mutation {
         this.username = username;
     }
 
-    public String getLast_change() {
+    public Date getLast_change() {
         return last_change;
     }
 
-    public void setLast_change(String last_change) {
+    public void setLast_change(Date last_change) {
         this.last_change = last_change;
     }
 
-    public int getAlls_id_allel_replaced() {
+    public Integer getAlls_id_allel_replaced() {
         return alls_id_allel_replaced;
     }
 
-    public void setAlls_id_allel_replaced(int alls_id_allel_replaced) {
+    public void setAlls_id_allel_replaced(Integer alls_id_allel_replaced) {
         this.alls_id_allel_replaced = alls_id_allel_replaced;
     }
 
@@ -194,6 +212,21 @@ public class Mutation {
         this.background = background;
     }
 
+    public Strain getStrain() {
+        return strain;
+    }
+
+    public void setStrain(Strain strain) {
+        this.strain = strain;
+    }
+
+    public Allele getReplacedAllele() {
+        return replacedAllele;
+    }
+
+    public void setReplacedAllele(Allele replacedAllele) {
+        this.replacedAllele = replacedAllele;
+    }
 
 
 }

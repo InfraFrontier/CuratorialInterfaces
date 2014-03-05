@@ -1,48 +1,54 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
+ /**
+ * Copyright © 2014 EMBL - European Bioinformatics Institute
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); 
+ * you may not use this file except in compliance with the License.  
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package uk.ac.ebi.emma.entity;
+
+import java.util.Date;
 
 /**
  *
  * @author mrelac
  */
 public class Background {
-    
-private int id_bg;
-private String name;
-private String symbol;
-private String inbred;
-private String notes;
-private String username;
-private String species;
-private String last_change;
-private String curated;
+    private Integer id_bg = 0;                                                  // primary key
 
-    public int getId_bg() {
+    private String curated;
+    private String inbred;
+    private String name;
+    private String notes;
+    private String species;
+    private String symbol;
+    
+    private Date last_change;                                                   // date last changed
+    private String username;                                                    // changed by username
+
+    public Integer getId_bg() {
         return id_bg;
     }
 
-    public void setId_bg(int id_bg) {
+    public void setId_bg(Integer id_bg) {
         this.id_bg = id_bg;
     }
 
-    public String getName() {
-        return name;
+    public String getCurated() {
+        return curated;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getSymbol() {
-        return symbol;
-    }
-
-    public void setSymbol(String symbol) {
-        this.symbol = symbol;
+    public void setCurated(String curated) {
+        this.curated = curated;
     }
 
     public String getInbred() {
@@ -53,6 +59,14 @@ private String curated;
         this.inbred = inbred;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public String getNotes() {
         return notes;
     }
@@ -61,62 +75,36 @@ private String curated;
         this.notes = notes;
     }
 
-    /**
-     * @return the username
-     */
-    public String getUsername() {
-        return username;
-    }
-
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    /**
-     * @return the species
-     */
     public String getSpecies() {
         return species;
     }
 
-    /**
-     * @param species the species to set
-     */
     public void setSpecies(String species) {
         this.species = species;
     }
 
-    /**
-     * @return the last_change
-     */
-    public String getLast_change() {
+    public String getSymbol() {
+        return symbol;
+    }
+
+    public void setSymbol(String symbol) {
+        this.symbol = symbol;
+    }
+
+    public Date getLast_change() {
         return last_change;
     }
 
-    /**
-     * @param last_change the last_change to set
-     */
-    public void setLast_change(String last_change) {
+    public void setLast_change(Date last_change) {
         this.last_change = last_change;
     }
 
-    /**
-     * @return the curated
-     */
-    public String getCurated() {
-        return curated;
+    public String getUsername() {
+        return username;
     }
 
-    /**
-     * @param curated the curated to set
-     */
-    public void setCurated(String curated) {
-        this.curated = curated;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-
-    
 }

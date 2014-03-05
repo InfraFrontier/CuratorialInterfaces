@@ -45,8 +45,9 @@ public class GenesManager extends AbstractManager {
     /**
      * Returns the full list of genes from persistent storage.
      * @return  the full list of genes from persistent storage.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<Gene> getGenes() {
+    public List<Gene> getGenes() throws HibernateException {
         List<Gene> genesList = null;
         Session session = getCurrentSession();
         try {
@@ -65,11 +66,11 @@ public class GenesManager extends AbstractManager {
     /**
      * Saves the given <code>Gene</code> instance
      * @param gene the <code>Gene</code> instance to be saved
-     * @exception PersistFailedException if save fails
+     * @throws PersistFailedException if save fails
      */
     public void save(Gene gene) throws PersistFailedException {
         Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
-        gene.setCentimorgan(centimorgan == null ? null : centimorgan.toString());   // Centimorgans are numeric, nullable in the database, so re-map any non-numeric values to null.
+        gene.setCentimorgan(centimorgan == null ? null : centimorgan);          // Centimorgans are numeric, nullable in the database, so re-map any non-numeric values to null.
     
         // 08-Feb-14 (mrelac) After spending a day trying unsuccessfully to get
         // hibernate 4.3.1 to generate timestamps, I am abandoning that approach
@@ -89,7 +90,7 @@ public class GenesManager extends AbstractManager {
                 }
             }
         }
-        gene.setLast_change(new Date());
+        gene.setLast_change(now);
         gene.setUsername(username);
         try {
             getCurrentSession().beginTransaction();
@@ -104,8 +105,9 @@ public class GenesManager extends AbstractManager {
     /**
      * Deletes the named <code>Gene</code> object.
      * @param gene the <code>Gene</code> object to be deleted
+     * @throws HibernateException if a hibernate error occurs
      */
-    public void delete(Gene gene) {
+    public void delete(Gene gene) throws HibernateException {
         try {
             getCurrentSession().beginTransaction();
             getCurrentSession().delete(gene);
@@ -120,8 +122,9 @@ public class GenesManager extends AbstractManager {
     /**
      * Deletes the <code>Gene</code> object identified by <b>id</b>.
      * @param id the <code>Gene</code> primary key of object to be deleted
+     * @throws HibernateException if a hibernate error occurs
      */
-    public void delete(int id) {
+    public void delete(int id) throws HibernateException {
         delete(getGene(id));
     }
 
@@ -130,8 +133,9 @@ public class GenesManager extends AbstractManager {
      * autocomplete sourcing.
      * @return a <code>List&lt;String&gt;</code> of gene ids suitable for
      *         autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<String> getGeneIds() {
+    public List<String> getGeneIds() throws HibernateException {
         List<Gene> genesList = getGenes();
         List<String> targetList = new ArrayList();
         
@@ -153,8 +157,9 @@ public class GenesManager extends AbstractManager {
      * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
      * @@return a <code>List&lt;String&gt;</code> of distinct gene names filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<String> getNames(String filterTerm) {
+    public List<String> getNames(String filterTerm) throws HibernateException {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
@@ -182,10 +187,11 @@ public class GenesManager extends AbstractManager {
      * sourcing.
      * 
      * @param filterTerm the filter term for the gene symbol (used in sql LIKE clause)
-     * @@return a <code>List&lt;String&gt;</code> of distinct gene symbols filtered
+     * @return a <code>List&lt;String&gt;</code> of distinct gene symbols filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<String> getSymbols(String filterTerm) {
+    public List<String> getSymbols(String filterTerm) throws HibernateException {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
@@ -213,8 +219,9 @@ public class GenesManager extends AbstractManager {
      * for autocomplete sourcing.
      * @return a <code>List&lt;String&gt;</code> of distinct gene chromosomes suitable
      *         for autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<String> getChromosomes() {
+    public List<String> getChromosomes() throws HibernateException {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
@@ -244,8 +251,9 @@ public class GenesManager extends AbstractManager {
      * @param filterTerm the filter term for the gene name (used in sql LIKE clause)
      * @@return a <code>List&lt;String&gt;</code> of distinct gene mgi references filtered
      * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<String> getMGIReferences(String filterTerm) {
+    public List<String> getMGIReferences(String filterTerm) throws HibernateException {
         List<String> targetList = new ArrayList();
         List sourceList = null;
         try {
@@ -272,8 +280,9 @@ public class GenesManager extends AbstractManager {
      * Returns the <code>Gene</code> object matching <code>id_gene</code>
      * @param id_gene the gene id to match
      * @return the <code>Gene</code> object matching <code>id_gene</code>.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public Gene getGene(int id_gene) {
+    public Gene getGene(int id_gene) throws HibernateException {
         Gene gene = null;
         try {
             getCurrentSession().beginTransaction();
@@ -283,6 +292,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
+            throw e;
         }
         
         return remapNulls(gene);
@@ -293,8 +303,9 @@ public class GenesManager extends AbstractManager {
      * @param name the gene name to match
      * @return the first <code>Gene</code> object matching <code>id_gene</code>,
      * if found; null otherwise.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public Gene getGene(String name) {
+    public Gene getGene(String name) throws HibernateException {
         List<Gene> genesList = null;
         Gene gene = null;
         
@@ -309,6 +320,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
+            throw e;
         }
         
         if ((genesList != null) && ( ! genesList.isEmpty())) {
@@ -325,7 +337,7 @@ public class GenesManager extends AbstractManager {
      * <li>gene ID</li>
      * <li>gene name</li>
      * <li>gene symbol</li>
-     * <li>MGI reference</li></ul>,
+     * <li>MGI reference</li></ul>
      * this method performs a query, ANDing all non-empty fields in a WHERE
      * clause against the genes table. The result is a <code>List&lt;Gene
      * &gt;</code> of qualifying results. A list is always returned, even if
@@ -333,8 +345,10 @@ public class GenesManager extends AbstractManager {
      * 
      * @param filter values to filter by
      * @return a list of <code>Gene</code>.
+     * @throws NumberFormatException if ids are not numeric (commas and whitespace are OK),
+     *         HibernateException if a hibernate error occurs
      */
-    public List<Gene> getFilteredGenesList(Filter filter) {
+    public List<Gene> getFilteredGenesList(Filter filter) throws NumberFormatException, HibernateException {
         String chromosomeWhere = "";
         String geneIdWhere = "";
         String geneNameWhere = "";
@@ -451,8 +465,9 @@ public class GenesManager extends AbstractManager {
      * @param id_gene the gene id to match
      * @return  a <code>List&lt;Allele&gt;</code> of allele records matching
      * <code>id_gene</code>.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public List<Allele> getBoundAlleles(int id_gene) {
+    public List<Allele> getBoundAlleles(int id_gene) throws HibernateException {
         List<Allele> allelesList = null;
         try {
             getCurrentSession().beginTransaction();
@@ -463,6 +478,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
+            throw e;
         }
 
         return allelesList;
@@ -476,8 +492,9 @@ public class GenesManager extends AbstractManager {
      * </code> collection
      * @param id_syn the id_syn to match
      * @return The object if found; null otherwise.
+     * @throws HibernateException if a hibernate error occurs
      */
-    public static GeneSynonym findGeneSynonym(Gene gene, int id_syn) {
+    public static GeneSynonym findGeneSynonym(Gene gene, int id_syn) throws HibernateException {
         if (gene.getSynonyms() == null)
             return null;
         Iterator<GeneSynonym> geneSynonymIterator = gene.getSynonyms().iterator();
@@ -516,8 +533,9 @@ public class GenesManager extends AbstractManager {
      * the <code>Gene</code> object identified by <code>gene</code>.
      * @param gene the gene from which the synonym is to be deleted
      * @param id_syn the primary key of the synonym to be deleted
+     * @throws HibernateException if a hibernate error occurs
      */
-    public void deleteSynonym(Gene gene, int id_syn) {
+    public void deleteSynonym(Gene gene, int id_syn) throws HibernateException {
         if (gene == null)
             return;
         
@@ -540,41 +558,50 @@ public class GenesManager extends AbstractManager {
     
     // PRIVATE METHODS
 
-
+// *********** FIXME FIXME FIXME ***********
+    // IS THIS REALLY NECESSARY?
+// *********** FIXME FIXME FIXME ***********
+    // IS THIS REALLY NECESSARY?
+// *********** FIXME FIXME FIXME ***********
+    // IS THIS REALLY NECESSARY?
+// *********** FIXME FIXME FIXME ***********
+    // IS THIS REALLY NECESSARY?
+// *********** FIXME FIXME FIXME ***********
+    // IS THIS REALLY NECESSARY?
     /**
      * Remaps null fields to empty strings suitable for use in the client.
      * @param gene the instance to remap
      * @return the same instance, with nulls remapped to empty strings.
      */
     private Gene remapNulls(Gene gene) {
-        // Re-map null fields to empty strings.
-        if (gene != null) {
-            if (gene.getCentimorgan() == null)
-                gene.setCentimorgan("");
-            if (gene.getChromosome()== null)
-                gene.setChromosome("");
-            if (gene.getCytoband()== null)
-                gene.setCytoband("");
-            if (gene.getEnsembl_ref()== null)
-                gene.setEnsembl_ref("");
-            if (gene.getFounder_line_number()== null)
-                gene.setFounder_line_number("");
-            if (gene.getMgi_ref()== null)
-                gene.setMgi_ref("");
-            if (gene.getName() == null)
-                gene.setName("");
-            if (gene.getPlasmid_construct()== null)
-                gene.setPlasmid_construct("");
-            if (gene.getPromoter()== null)
-                gene.setPromoter("");
-            if (gene.getSpecies()== null)
-                gene.setSpecies("");
-            if (gene.getSymbol() == null)
-                gene.setSymbol("");
-            if (gene.getUsername()== null)
-                gene.setUsername("");
-        }
-        
+////////        // Re-map null fields to empty strings.
+////////        if (gene != null) {
+////////            if (gene.getCentimorgan() == null)
+////////                gene.setCentimorgan(null);
+////////            if (gene.getChromosome()== null)
+////////                gene.setChromosome("");
+////////            if (gene.getCytoband()== null)
+////////                gene.setCytoband("");
+////////            if (gene.getEnsembl_ref()== null)
+////////                gene.setEnsembl_ref("");
+////////            if (gene.getFounder_line_number()== null)
+////////                gene.setFounder_line_number("");
+////////            if (gene.getMgi_ref()== null)
+////////                gene.setMgi_ref("");
+////////            if (gene.getName() == null)
+////////                gene.setName("");
+////////            if (gene.getPlasmid_construct()== null)
+////////                gene.setPlasmid_construct("");
+////////            if (gene.getPromoter()== null)
+////////                gene.setPromoter("");
+////////            if (gene.getSpecies()== null)
+////////                gene.setSpecies("");
+////////            if (gene.getSymbol() == null)
+////////                gene.setSymbol("");
+////////            if (gene.getUsername()== null)
+////////                gene.setUsername("");
+////////        }
+////////        
         return gene;
     }
     

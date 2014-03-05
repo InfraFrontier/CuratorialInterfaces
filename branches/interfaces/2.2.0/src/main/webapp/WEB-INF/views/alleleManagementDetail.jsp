@@ -244,7 +244,7 @@
                                         <tr>
                                             <%-- ALLELE ID --%>
                                             <td><label id="labAlleleId">Allele ID:</label></td>
-                                            <td style="border: 0"><form:input name="alleleId" value="${allele.id_allele}" readonly="readonly" path="allele.id_allele" /></td>
+                                            <td style="border: 0"><form:input name="alleleId" value="${allele.id_allele}" readonly="true" path="allele.id_allele" /></td>
                                             
                                             <%-- ALLELE NAME --%>
                                             <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>

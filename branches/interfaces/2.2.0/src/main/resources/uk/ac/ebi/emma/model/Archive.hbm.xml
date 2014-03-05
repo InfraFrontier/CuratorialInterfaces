@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="Archive" table="archive">
+        <id column="id" name="id">
+            <generator class="native"/>
+        </id>
+
+        <many-to-one class="CvArchivingMethod" name="archivingMethod" cascade="all" column="id" insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one class="Laboratory" name="laboratory" cascade="persist, merge" column="lab_id_labo" foreign-key="id_labo" insert="false" lazy="false" outer-join="true" update="false"/>
+        <many-to-one class="Strain" name="strain" cascade="all" column="id" insert="false" lazy="false" not-found="ignore" property-ref="archive_id" update="false"/>
+    
+        <property column="archived" name="archived"/>
+        <property column="archiving_method_id" name="archiving_method_id"/>
+        <property column="breeding" name="breeding"/>
+        <property column="embryo_state" name="embryo_state"/>
+        <property column="evaluated" name="evaluated"/>
+        <property column="female_bg_id" name="female_bg_id"/>
+        <property column="females" name="females"/>
+        <property column="freezing_started" name="freezing_started"/>
+        <property column="frozen_sanger_embryos_arrived" name="frozen_sanger_embryos_arrived"/>
+        <property column="lab_id_labo" name="lab_id_labo"/>
+        <property column="male_bg_id" name="male_bg_id"/>
+        <property column="males" name="males"/>
+        <property column="notes" name="notes"/>
+        <property column="received" name="received"/>
+        <property column="str_id_str" name="str_id_str"/>
+        <property column="submitted" name="submitted"/>
+        <property column="wt_received" name="wt_received"/>
+        <property column="wt_rederiv_started" name="wt_rederiv_started"/>
+    </class>
+</hibernate-mapping>
