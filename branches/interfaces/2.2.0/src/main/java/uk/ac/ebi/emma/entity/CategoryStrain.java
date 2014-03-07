@@ -24,27 +24,27 @@ import java.io.Serializable;
  */
 public class CategoryStrain implements Serializable {
 
-    private Integer cat_id_cat = 0;                                             // first half of primary key
-    private Integer str_id_str = 0;                                             // second half of primary key
+    private Integer category_key = 0;                                          // first half of primary key (foreign key to categories table) (was cat_id_cat)
+    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private Category category;                                                  // (was categoriesDAO)
-    private Strain strain;                                                      // (was strainsDAO)
+    private Strain   strain;                                                    // (was strainsDAO)
 
-    public Integer getCat_id_cat() {
-        return cat_id_cat;
+    public Integer getCategory_key() {
+        return category_key;
     }
 
-    public void setCat_id_cat(Integer cat_id_cat) {
-        this.cat_id_cat = cat_id_cat;
+    public void setCategory_key(Integer category_key) {
+        this.category_key = category_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public Category getCategory() {

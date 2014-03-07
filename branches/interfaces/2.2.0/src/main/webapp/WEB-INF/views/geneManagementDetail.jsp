@@ -103,7 +103,7 @@
             }
             
             function setMaxGeneLengths() {
-                // Set genes table field lengths.
+                // Set table field maximum lengths.
                 $.ajax({
                     url: urlUtilRoot + "/getFieldLengths"
                   , async: false
@@ -191,7 +191,7 @@
         <br />
 
         <form>
-            <input type="hidden" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" name="filterGeneKey" value="${filter.gene_key}" />
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <input type="hidden" name="filterChromosome" value="${filter.chromosome}" />
@@ -206,7 +206,7 @@
                                         <tr>
                                             <%-- GENE ID --%>
                                             <td><label id="labGeneId">Gene ID:</label></td>
-                                            <td style="border: 0"><form:input name="geneId" value="${gene.id_gene}" path="gene.id_gene" readonly="true" /></td>
+                                            <td style="border: 0"><form:input name="gene_key" value="${gene.gene_key}" path="gene.gene_key" readonly="true" /></td>
                                             
                                             <%-- GENE NAME --%>
                                             <td><form:label for="geneName" path="gene.name">Gene name:</form:label></td>
@@ -251,11 +251,11 @@
                                         </tr>
                                         <tr>
                                             <%-- PLASMID CONSTRUCT --%>
-                                            <td><form:label for="plasmidConstruct" path="gene.plasmid_construct">Plasmid construct:</form:label></td>
+                                            <td><form:label for="plasmidConstruct" path="gene.plasmidConstruct">Plasmid construct:</form:label></td>
                                             <td>
-                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmid_construct" value="${gene.plasmid_construct}" />
+                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmidConstruct" value="${gene.plasmidConstruct}" />
                                                 <br />
-                                                <form:errors path="gene.plasmid_construct" cssClass="error" />
+                                                <form:errors path="gene.plasmidConstruct" cssClass="error" />
                                             </td>
                                             
                                             <%-- PROMOTER --%>
@@ -267,11 +267,11 @@
                                             </td>
                                             
                                             <%-- FOUNDER LINE NUMBER --%>
-                                            <td><form:label for="founderLineNumber" path="gene.founder_line_number">Founder line number:</form:label></td>
+                                            <td><form:label for="founderLineNumber" path="gene.founderLineNumber">Founder line number:</form:label></td>
                                             <td>
-                                                <form:input id="founderLineNumber" name="founderLineNumber" path="gene.founder_line_number" value="${gene.founder_line_number}" />
+                                                <form:input id="founderLineNumber" name="founderLineNumber" path="gene.founderLineNumber" value="${gene.founderLineNumber}" />
                                                 <br />
-                                                <form:errors path="gene.founder_line_number" cssClass="error" />
+                                                <form:errors path="gene.founderLineNumber" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr>
@@ -286,30 +286,30 @@
                                             
                                             <%-- MGI REFERENCE --%>
                                             <td>
-                                                <form:label for="mgiReference" path="gene.mgi_ref">
+                                                <form:label for="mgiReference" path="gene.mgiReference">
                                                     <a href="javascript:lookupMgi();">
                                                         MGI reference:
                                                     </a>
                                                 </form:label>
                                             </td>
                                             <td>
-                                                <form:input id="mgiReference" name="mgi_ref" path="gene.mgi_ref" value="${gene.mgi_ref}" />
+                                                <form:input id="mgiReference" name="mgiReference" path="gene.mgiReference" value="${gene.mgiReference}" />
                                                 <br />
-                                                <form:errors path="gene.mgi_ref" cssClass="error" />
+                                                <form:errors path="gene.mgiReference" cssClass="error" />
                                             </td>
                                             
                                             <%-- ENSEMBL REFERENCE --%>
                                             <td>
-                                                <form:label for="ensemblReference" path="gene.ensembl_ref">
+                                                <form:label for="ensemblReference" path="gene.ensemblReference">
                                                     <a href="javascript:lookupEnsembl();">
                                                         Ensembl reference:
                                                     </a>
                                                 </form:label>
                                             </td>
                                             <td>
-                                                <form:input id="ensemblReference" name="ensemblReference" path="gene.ensembl_ref" value="${gene.ensembl_ref}" />
+                                                <form:input id="ensemblReference" name="ensemblReference" path="gene.ensemblReference" value="${gene.ensemblReference}" />
                                                 <br />
-                                                <form:errors path="gene.ensembl_ref" cssClass="error" />
+                                                <form:errors path="gene.ensemblReference" cssClass="error" />
                                             </td>
                                         </tr>
                                     </table>
@@ -339,12 +339,12 @@
                                                     <td>
                                                         <input type="hidden" name="hidSeedValues" value="seedValue" />
                                                         <input type="hidden" name="synonymsAreDirty" class="clsIsDirty" value="false" />
-                                                        <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete synonym ${synonym.id_syn}"
+                                                        <input alt="Delete Synonym" type="image" height="15" width="15" title="Delete synonym ${synonym.geneSynonym_key}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteSynonym(this); return false;"/>
                                                     </td>
                                                     <td>
-                                                        <input name="synonymIds" readonly="readonly" value="${synonym.id_syn}" />
+                                                        <input name="synonymIds" readonly="readonly" value="${synonym.geneSynonym_key}" />
                                                     </td>
                                                     <td>
                                                         <input name="synonymNames" class="synonymName" value="${synonym.name}" onchange="dataChanged(this);" />

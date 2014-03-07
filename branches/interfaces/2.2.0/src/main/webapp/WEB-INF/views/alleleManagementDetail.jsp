@@ -64,7 +64,7 @@
                     .on('dragleave', handleDragLeave)
                     .on('drop',      handleDrop)
                     .on('dragend',   handleDragLeave);
-                $('#geneId').on('change', function(e) {
+                $('#gene_key').on('change', function(e) {
                     updateGeneDiv();
                 });
                 $('#alleleName').on('keyup', function(e) {
@@ -78,9 +78,9 @@
                 
                 validate();
                 
-                var newGeneId = $('#geneId').val();
+                var newGeneId = $('#gene_key').val();
                 if ((isInteger(newGeneId)) && (newGeneId > 0)) {
-                    var gene = getGene($('#geneId').val());
+                    var gene = getGene($('#gene_key').val());
                     if (gene !== null) {
                         geneName = gene.name;
                         geneSymbol = gene.symbol;
@@ -97,7 +97,7 @@
             }
             
             function setMaxlengths() {
-                // Set alleles table field lengths.
+                // Set table field maximum lengths.
                 $.ajax({
                     url: urlUtilRoot + "/getFieldLengths"
                   , async: false
@@ -115,7 +115,7 @@
                 clearErrors();
                 
                 var errMsg = '';
-                var newGeneId = $('#geneId').val();
+                var newGene_key = $('#gene_key').val();
                 var geneName = '';
                 var geneSymbol = '';
                 var errorCount = 0;
@@ -124,25 +124,25 @@
                 var alleleName = $('#alleleName').val().trim();
                 if (alleleName.length === 0) {
                     errorCount++;
-                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a name.</span>';
+                    errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a name.</span>';
                     $('#alleleName').parent().append(errMsg);
                 }
                 
-                // Validate geneId is an int and describes a valid gene.
-                if ((isInteger(newGeneId)) && (newGeneId > 0)) {
-                    var gene = getGene($('#geneId').val());
+                // Validate gene_key is an int and describes a valid gene.
+                if ((isInteger(newGene_key)) && (newGene_key > 0)) {
+                    var gene = getGene($('#gene_key').val());
                     if (gene !== null) {
                         geneName = gene.name;
                         geneSymbol = gene.symbol;
                     } else {
                         errorCount++;
-                        errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a valid gene.</span>';
-                        $('#geneId').parent().append(errMsg);
+                        errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a valid gene.</span>';
+                        $('#gene_key').parent().append(errMsg);
                     }
                 } else {
                     errorCount++;
-                    errMsg = '<br class="clientError" /><span id="geneId.errors" class="clientError">Please choose a valid gene.</span>';
-                    $('#geneId').parent().append(errMsg);
+                    errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a valid gene.</span>';
+                    $('#gene_key').parent().append(errMsg);
                 }
                 // Set gene details
                 $('#geneName').val(geneName);
@@ -179,8 +179,8 @@
                 this.classList.remove('over');
             }
             function handleDrop(e) {
-                var id_gene = e.originalEvent.dataTransfer.getData('text');
-                $('#geneId').val(id_gene);
+                var gene_key = e.originalEvent.dataTransfer.getData('text');
+                $('#gene_key').val(gene_key);
                 updateGeneDiv();
                
                 return false;
@@ -206,7 +206,7 @@
                     url: urlGeneListRoot + "/getGene"
                     , dataType: "json"
                     , async: false
-                    , data: {id_gene: id}
+                    , data: {gene_key: id}
                     , success: function(data) {
                         gene = data;
                     }
@@ -225,13 +225,13 @@
         <br />
 
         <form>
-            <input type="hidden" name="id_allele" value="${allele.id_allele}" />
+            <input type="hidden" name="allele_key" value="${allele.allele_key}" />
             
-            <input type="hidden" name="filterAlleleId" value="${filter.alleleId}" />
+            <input type="hidden" name="filterAlleleKey" value="${filter.allele_key}" />
             <input type="hidden" name="filterAlleleName" value="${filter.alleleName}" />
             <input type="hidden" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
             <input type="hidden" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-            <input type="hidden" name="filterGeneId" value="${filter.geneId}" />
+            <input type="hidden" name="filterGeneKey" value="${filter.gene_key}" />
             <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
             <table style="border: none">
@@ -244,7 +244,7 @@
                                         <tr>
                                             <%-- ALLELE ID --%>
                                             <td><label id="labAlleleId">Allele ID:</label></td>
-                                            <td style="border: 0"><form:input name="alleleId" value="${allele.id_allele}" readonly="true" path="allele.id_allele" /></td>
+                                            <td style="border: 0"><form:input name="allele_key" value="${allele.allele_key}" readonly="true" path="allele.allele_key" /></td>
                                             
                                             <%-- ALLELE NAME --%>
                                             <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>
@@ -263,16 +263,16 @@
                                             
                                             <%-- MGI REFERENCE --%>
                                             <td>
-                                                <form:label for="mgiReference" path="allele.mgi_ref">
+                                                <form:label for="mgiReference" path="allele.mgiReference">
                                                     <a href="javascript:lookupMGI();">
                                                         MGI reference:
                                                     </a>
                                                 </form:label>
                                             </td>
                                             <td>
-                                                <form:input id="mgiReference" path="allele.mgi_ref" value="${allele.mgi_ref}" />
+                                                <form:input id="mgiReference" path="allele.mgiReference" value="${allele.mgiReference}" />
                                                 <br />
-                                                <form:errors path="allele.mgi_ref" cssClass="error" />
+                                                <form:errors path="allele.mgiReference" cssClass="error" />
                                             </td>
                                         </tr>
                                         <tr><td colspan="8">&nbsp;</td></tr>
@@ -292,9 +292,9 @@
                                                         <tr>
                                                             <td><label>Gene Id:</label></td>
                                                             <td>
-                                                                <form:input id="geneId" path="allele.gene.id_gene" placeholder="Required field"
-                                                                            value="${allele.gene.id_gene}" />
-                                                                <form:errors path="allele.gene.id_gene" cssClass="error" />
+                                                                <form:input id="gene_key" path="allele.gene.gene_key" placeholder="Required field"
+                                                                            value="${allele.gene.gene_key}" />
+                                                                <form:errors path="allele.gene.gene_key" cssClass="error" />
                                                             </td>
                                                             <td><label>Gene Name:</label></td>
                                                             <td>

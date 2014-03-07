@@ -26,35 +26,35 @@ import javax.persistence.Transient;
  */
 public class Gene {
     
-    private Integer id_gene = 0;                                                // primary key
+    private Integer gene_key = 0;                                              // primary key (was id_gene)
     
     private Integer centimorgan;
     private String chromosome;
     private String cytoband;
-    private String ensembl_ref;
-    private String founder_line_number;
-    private String mgi_ref;
+    private String ensemblReference;                                            // (was ensembl_ref)
+    private String founderLineNumber;                                           // (was founder_line_number)
+    private String mgiReference;                                                // (was mgi_ref)
     private String name;
-    private String plasmid_construct;
+    private String plasmidConstruct;                                            // (was plasmid_construct)
     private String promoter;
     private String species;
     private String symbol;
     
     // COLLECTIONS
-    private Set<Allele> alleles;
+    private Set<Allele>      alleles;
     private Set<GeneSynonym> synonyms;
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
     
     private boolean isDirty = false;
 
-    public Integer getId_gene() {
-        return id_gene;
+    public Integer getGene_key() {
+        return gene_key;
     }
 
-    public void setId_gene(Integer id_gene) {
-        this.id_gene = id_gene;
+    public void setGene_key(Integer gene_key) {
+        this.gene_key = gene_key;
     }
 
     public Integer getCentimorgan() {
@@ -81,28 +81,28 @@ public class Gene {
         this.cytoband = cytoband;
     }
 
-    public String getEnsembl_ref() {
-        return ensembl_ref;
+    public String getEnsemblReference() {
+        return ensemblReference;
     }
 
-    public void setEnsembl_ref(String ensembl_ref) {
-        this.ensembl_ref = ensembl_ref;
+    public void setEnsemblReference(String ensemblReference) {
+        this.ensemblReference = ensemblReference;
     }
 
-    public String getFounder_line_number() {
-        return founder_line_number;
+    public String getFounderLineNumber() {
+        return founderLineNumber;
     }
 
-    public void setFounder_line_number(String founder_line_number) {
-        this.founder_line_number = founder_line_number;
+    public void setFounderLineNumber(String founderLineNumber) {
+        this.founderLineNumber = founderLineNumber;
     }
 
-    public String getMgi_ref() {
-        return mgi_ref;
+    public String getMgiReference() {
+        return mgiReference;
     }
 
-    public void setMgi_ref(String mgi_ref) {
-        this.mgi_ref = mgi_ref;
+    public void setMgiReference(String mgiReference) {
+        this.mgiReference = mgiReference;
     }
 
     public String getName() {
@@ -113,12 +113,12 @@ public class Gene {
         this.name = name;
     }
 
-    public String getPlasmid_construct() {
-        return plasmid_construct;
+    public String getPlasmidConstruct() {
+        return plasmidConstruct;
     }
 
-    public void setPlasmid_construct(String plasmid_construct) {
-        this.plasmid_construct = plasmid_construct;
+    public void setPlasmidConstruct(String plasmidConstruct) {
+        this.plasmidConstruct = plasmidConstruct;
     }
 
     public String getPromoter() {

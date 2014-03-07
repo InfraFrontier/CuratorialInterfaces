@@ -23,7 +23,7 @@ import java.util.Date;
  * @author mrelac
  */
 public class Background {
-    private Integer id_bg = 0;                                                  // primary key
+    private Integer background_key = 0;                                        // primary key (was id_bg)
 
     private String curated;
     private String inbred;
@@ -32,15 +32,15 @@ public class Background {
     private String species;
     private String symbol;
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
 
-    public Integer getId_bg() {
-        return id_bg;
+    public Integer getBackground_key() {
+        return background_key;
     }
 
-    public void setId_bg(Integer id_bg) {
-        this.id_bg = id_bg;
+    public void setBackground_key(Integer background_key) {
+        this.background_key = background_key;
     }
 
     public String getCurated() {

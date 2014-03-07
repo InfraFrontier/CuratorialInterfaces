@@ -22,19 +22,19 @@ package uk.ac.ebi.emma.entity;
  */
 public class CvAvailability {
     
-    private Integer id = 0;                                                     // primary key
+    private Integer cvAvailability_key = 0;                                    // primary key (was id)
     
     private String code;
     private String description;
     private Integer in_stock;
     private Integer to_distr;
 
-    public Integer getId() {
-        return id;
+    public Integer getCvAvailability_key() {
+        return cvAvailability_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCvAvailability_key(Integer cvAvailability_key) {
+        this.cvAvailability_key = cvAvailability_key;
     }
 
     public String getCode() {

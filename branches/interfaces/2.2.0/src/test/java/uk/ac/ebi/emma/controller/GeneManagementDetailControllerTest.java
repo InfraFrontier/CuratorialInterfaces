@@ -67,7 +67,7 @@ public class GeneManagementDetailControllerTest {
     public void testEditGene() {
         System.out.println("edit");
         int id_gene = 0;
-        String filterGeneId = "0";
+        String filterGeneKey = "0";
         String filterGeneName = "test gene name";
         String filterGeneSymbol = "test gene symbol";
         String filterChromosome = "test chromosome";
@@ -76,13 +76,13 @@ public class GeneManagementDetailControllerTest {
         
         GeneManagementDetailController instance = new GeneManagementDetailController();
         String expResult = "geneManagementDetail";
-        String result = instance.edit(id_gene, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+        String result = instance.edit(id_gene, filterGeneKey, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
         assertEquals(expResult, result);                                        // Verify function return.
         
         Map modelMap = model.asMap();
         // Check filter.
         Filter filter = (Filter)modelMap.get("filter");
-        assertEquals(filterGeneId, filter.getGeneId());
+        assertEquals(filterGeneKey, filter.getGene_key());
         assertEquals(filterGeneName, filter.getGeneName());
         assertEquals(filterGeneSymbol, filter.getGeneSymbol());
         assertEquals(filterChromosome, filter.getChromosome());
@@ -98,7 +98,7 @@ public class GeneManagementDetailControllerTest {
 //    @Test
 //    public void testShowList() {
 //        System.out.println("showList");
-//        String filterGeneId = "0";
+//        String filterGeneKey = "0";
 //        String filterGeneName = "test gene name";
 //        String filterGeneSymbol = "test gene symbol";
 //        String filterChromosome = "test chromosome";
@@ -106,8 +106,8 @@ public class GeneManagementDetailControllerTest {
 //        Model model = new BindingAwareModelMap();
 //        
 //        GeneManagementDetailController instance = new GeneManagementDetailController();
-//        String expResult = "redirect:/curation/geneManagementList/go?geneId=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&geneMgiReference=test mgi reference";
-//        String result = instance.showList(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+//        String expResult = "redirect:/curation/geneManagementList/go?gene_key=0&geneName=test gene name&geneSymbol=test gene symbol&chromosome=test chromosome&geneMgiReference=test mgi reference";
+//        String result = instance.showList(filterGeneKey, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
 //        assertEquals(expResult, result);                                        // Verify function return.
 //    }
 
@@ -125,7 +125,7 @@ public class GeneManagementDetailControllerTest {
 //        String[] synonymIds = null;
 //        String[] synonymNames = null;
 //        String[] synonymSymbols = null;
-//        String filterGeneId = "";
+//        String filterGeneKey = "";
 //        String filterGeneName = "";
 //        String filterGeneSymbol = "";
 //        String filterChromosome = "";
@@ -133,7 +133,7 @@ public class GeneManagementDetailControllerTest {
 //        Model model = null;
 //        GeneManagementDetailController instance = new GeneManagementDetailController();
 //        String expResult = "";
-//        String result = instance.save(gene, bindingResult, id_gene, hidSeedValues, synonymsAreDirty, synonymIds, synonymNames, synonymSymbols, filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
+//        String result = instance.save(gene, bindingResult, id_gene, hidSeedValues, synonymsAreDirty, synonymIds, synonymNames, synonymSymbols, filterGeneKey, filterGeneName, filterGeneSymbol, filterChromosome, filterMGIReference, model);
 //        assertEquals(expResult, result);
 //        // TODO review the generated test code and remove the default call to fail.
 //        fail("The test case is a prototype.");

@@ -79,25 +79,25 @@
                 // Remove any error validation messages.
                 clearErrors();
 
-                filterValue = $('#filterMutationId').val();
+                filterValue = $('#filterMutationKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterMutationId').parent().append(errMsg);
+                    $('#filterMutationKey').parent().append(errMsg);
                 }
-                filterValue = $('#filterStrainId').val();
+                filterValue = $('#filterStrainKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterStrainId').parent().append(errMsg);
+                    $('#filterStrainKey').parent().append(errMsg);
                 }
-                filterValue = $('#filterAlleleId').val();
+                filterValue = $('#filterAlleleKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterAlleleId').parent().append(errMsg);
+                    $('#filterAlleleKey').parent().append(errMsg);
                 }
-                filterValue = $('#filterBackgroundId').val();
+                filterValue = $('#filterBackgroundKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterBackgroundId').parent().append(errMsg);
+                    $('#filterBackgroundKey').parent().append(errMsg);
                 }
                 
                 if (errorCount > 0)
@@ -169,7 +169,7 @@
                     url: mutationListUrlRoot + "/deleteAllele"
                     , dataType: "json"
                     , async: false
-                    , data: {'id_allele': id}
+                    , data: {'allele_key': id}
                     , success: function(data) {
                         if (data.status === 'ok') {
                             var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent()[0];
@@ -193,8 +193,8 @@
                     value = '';
 
                 switch (id) {
-                    case 'filterMutationId':
-                        $('input[id^="filterMutationId"]').val(value);
+                    case 'filterMutationKey':
+                        $('input[id^="filterMutationKey"]').val(value);
                         break;
                         
                     case 'filterMutationType':
@@ -205,16 +205,16 @@
                         $('input[id^="filterMutationSubtype"]').val(value);
                         break;
                         
-                    case 'filterStrainId':
-                        $('input[id^="filterStrainId"]').val(value);
+                    case 'filterStrainKey':
+                        $('input[id^="filterStrainKey"]').val(value);
                         break;
                         
-                    case 'filterAlleleId':
-                        $('input[id^="filterAlleleId"]').val(value);
+                    case 'filterAlleleKey':
+                        $('input[id^="filterAlleleKey"]').val(value);
                         break;
 
-                    case 'filterBackgroundId':
-                        $('input[id^="filterBackgroundId"]').val(value);
+                    case 'filterBackgroundKey':
+                        $('input[id^="filterBackgroundKey"]').val(value);
                         break;
                 }
             }
@@ -234,26 +234,26 @@
         
         <form:form method="get" modelAttribute="filter" target="mutationManagementDetail">
             <%-- NEW MUTATION --%>
-            <input type="hidden" name="id_mutation" value="0" />
+            <input type="hidden" name="mutation_key" value="0" />
             
-            <input type="hidden" id="filterMutationIdNew" name="filterMutationId" value="${filter.mutationId}" />
-            <input type="hidden" id="filterMutationTypeNew" name="filterMutationType" value="${filter.mutationType}" />
-            <input type="hidden" id="filterMutationSubtypeNew" name="filterMutationSubtype" value="${filter.mutationSubtype}" />
-            <input type="hidden" id="filterStrainIdNew" name="filterStrainId" value="${filter.strainId}" />
-            <input type="hidden" id="filterAlleleIdNew" name="filterAlleleId" value="${filter.alleleId}" />
-            <input type="hidden" id="filterBackgroundIdNew" name="filterBackgroundId" value="${filter.backgroundId}" />
+            <input type="hidden" id="filterMutationKeyNew"      name="filterMutationKey"     class="filterComponent" value="${filter.mutation_key}" />
+            <input type="hidden" id="filterMutationTypeNew"     name="filterMutationType"    class="filterComponent" value="${filter.mutationType}" />
+            <input type="hidden" id="filterMutationSubtypeNew"  name="filterMutationSubtype" class="filterComponent" value="${filter.mutationSubtype}" />
+            <input type="hidden" id="filterStrainKeyNew"        name="filterStrainKey"       class="filterComponent" value="${filter.strain_key}" />
+            <input type="hidden" id="filterAlleleKeyNew"        name="filterAlleleKey"       class="filterComponent" value="${filter.allele_key}" />
+            <input type="hidden" id="filterBackgroundKeyNew"    name="filterBackgroundKey"   class="filterComponent" value="${filter.background_key}" />
             <input type="submit" value="New" style="margin-left: 450px; margin-bottom: 5px" tabindex="1"
                    formmethod="get"
                    formaction="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit" />
         </form:form>
         
         <form:form modelAttribute="filter" method="get">
-            <input type="hidden" id="filterMutationIdGo" name="filterMutationId" value="${filter.mutationId}" />
-            <input type="hidden" id="filterMutationTypeGo" name="filterMutationType" value="${filter.mutationType}" />
-            <input type="hidden" id="filterMutationSubtypeGo" name="filterMutationSubtype" value="${filter.mutationSubtype}" />
-            <input type="hidden" id="filterStrainIdGo" name="filterStrainId" value="${filter.strainId}" />
-            <input type="hidden" id="filterAlleleIdGo" name="filterAlleleId" value="${filter.alleleId}" />
-            <input type="hidden" id="filterBackgroundIdGo" name="filterBackgroundId" value="${filter.backgroundId}" />
+            <input type="hidden" id="filterMutationKeyGo"      name="filterMutationKey"     class="filterComponent" value="${filter.mutation_key}" />
+            <input type="hidden" id="filterMutationTypeGo"     name="filterMutationType"    class="filterComponent" value="${filter.mutationType}" />
+            <input type="hidden" id="filterMutationSubtypeGo"  name="filterMutationSubtype" class="filterComponent" value="${filter.mutationSubtype}" />
+            <input type="hidden" id="filterStrainKeyGo"        name="filterStrainKey"       class="filterComponent" value="${filter.strain_key}" />
+            <input type="hidden" id="filterAlleleKeyGo"        name="filterAlleleKey"       class="filterComponent" value="${filter.allele_key}" />
+            <input type="hidden" id="filterBackgroundKeyGo"    name="filterBackgroundKey"   class="filterComponent" value="${filter.background_key}" />
             
             <table id="tabFilter" style="border: 1px solid black">
                 <thead>
@@ -275,12 +275,12 @@
                 <tbody>
                     <tr>
                         <%-- MUTATION ID --%>
-                        <td><form:label path="mutationId">Mutation Id:</form:label></td>
-                        <td><form:input id="filterMutationId" class="filterComponent" path="mutationId" tabindex="2" /></td>
+                        <td><form:label path="mutation_key">Mutation Id:</form:label></td>
+                        <td><form:input id="filterMutationKey" class="filterComponent" path="mutation_key" tabindex="2" /></td>
                         
                         <%-- STRAIN ID --%>
-                        <td><form:label path="strainId">Strain Id:</form:label></td>
-                        <td><form:input id="filterStrainId" class="filterComponent" path="strainId" tabindex="5" /></td>
+                        <td><form:label path="strain_key">Strain Id:</form:label></td>
+                        <td><form:input id="filterStrainKey" class="filterComponent" path="strain_key" tabindex="5" /></td>
                     </tr>
                     <tr>
                         <%-- MUTATION TYPE --%>
@@ -288,8 +288,8 @@
                         <td><form:input id="filterMutationType" class="filterComponent" path="mutationType" tabindex="3" /></td>
                         
                         <%-- ALLELE ID --%>
-                        <td><form:label path="alleleId">Allele Id:</form:label></td>
-                        <td><form:input id="filterAlleleId" class="filterComponent" path="alleleId" tabindex="6" /></td>
+                        <td><form:label path="allele_key">Allele Id:</form:label></td>
+                        <td><form:input id="filterAlleleKey" class="filterComponent" path="allele_key" tabindex="6" /></td>
                     </tr>
                     <tr>
                         <%-- MUTATION SUBTYPE --%>
@@ -297,8 +297,8 @@
                         <td><form:input id="filterMutationSubtype" class="filterComponent" path="mutationSubtype" tabindex="4" /></td>
                         
                         <%-- BACKGROUND ID --%>
-                        <td><form:label path="backgroundId">Background Id:</form:label></td>
-                        <td><form:input id="filterBackgroundId" class="filterComponent" path="backgroundId" tabindex="7" /></td>
+                        <td><form:label path="background_key">Background Id:</form:label></td>
+                        <td><form:input id="filterBackgroundKey" class="filterComponent" path="background_key" tabindex="7" /></td>
                     </tr>
                 </tbody>
             </table>
@@ -350,71 +350,74 @@
                                             <td>
                                                 <%-- EDIT MUTATION --%>
                                                 <form method="get" target="mutationManagementDetail" action="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit">
-                                                    <input type="hidden" name="id_mutation" value="${mutation.id_mutation}" />
+                                                    <input type="hidden" name="mutation_key" value="${mutation.mutation_key}" />
 
-                                                    <input type="hidden" id="filterMutationIdEdit" name="filterMutationId" value="${filter.mutationId}" />
-                                                    <input type="hidden" id="filterMutationTypeEdit" name="filterMutationType" value="${filter.mutationType}" />
-                                                    <input type="hidden" id="filterMutationSubtypeEdit" name="filterMutationSubtype" value="${filter.mutationSubtype}" />
-                                                    <input type="hidden" id="filterStrainIdEdit" name="filterStrainId" value="${filter.strainId}" />
-                                                    <input type="hidden" id="filterAlleleIdEdit" name="filterAlleleId" value="${filter.alleleId}" />
-                                                    <input type="hidden" id="filterBackgroundIdEdit" name="filterBackgroundId" value="${filter.backgroundId}" />
-                                                    <input alt="Edit Mutation" type="image" height="15" width="15" title="Edit mutation Id ${mutation.id_mutation}"
-                                                           src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                                    <input type="hidden" id="filterMutationKeyEdit"      name="filterMutationKey"     class="filterComponent" value="${filter.mutation_key}" />
+                                                    <input type="hidden" id="filterMutationTypeEdit"     name="filterMutationType"    class="filterComponent" value="${filter.mutationType}" />
+                                                    <input type="hidden" id="filterMutationSubtypeEdit"  name="filterMutationSubtype" class="filterComponent" value="${filter.mutationSubtype}" />
+                                                    <input type="hidden" id="filterStrainKeyEdit"        name="filterStrainKey"       class="filterComponent" value="${filter.strain_key}" />
+                                                    <input type="hidden" id="filterAlleleKeyEdit"        name="filterAlleleKey"       class="filterComponent" value="${filter.allele_key}" />
+                                                    <input type="hidden" id="filterBackgroundKeyEdit"    name="filterBackgroundKey"   class="filterComponent" value="${filter.background_key}" />
+                                                    <a href="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit?mutation_key=${mutation.mutation_key}&amp;filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey="
+                                                       target="mutationManagementDetail"
+                                                       title="Edit mutation ${mutation.mutation_key}">
+                                                        Edit
+                                                    </a>
                                                 </form>
                                             </td>
                                             <td>
                                                 <%-- DELETE MUTATION --%>
-                                                <input alt="Delete Mutation" type="image" height="15" width="15" title="Delete mutation Id ${mutation.id_mutation}"
+                                                <input alt="Delete Mutation" type="image" height="15" width="15" title="Delete mutation Id ${mutation.mutation_key}"
                                                        src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                       onclick="deleteMutation(${mutation.id_mutation}, this)"
+                                                       onclick="deleteMutation(${mutation.mutation_key}, this)"
                                                        formmethod="POST" />
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </td>
-                            <td style="border: 1px solid black">${mutation.id_mutation}</td>
-                            <td style="border: 1px solid black">${mutation.main_type}</td>
-                            <td style="border: 1px solid black">${mutation.sub_type}</td>
+                            <td style="border: 1px solid black">${mutation.mutation_key}</td>
+                            <td style="border: 1px solid black">${mutation.type}</td>
+                            <td style="border: 1px solid black">${mutation.subtype}</td>
                             <td style="border: 1px solid black">
 <!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! ADD STRAIN FILTERS ONCE STRAIN SCREEN IS WRITTEN. FIXME FIXME FIXME -->
-                                <a href="${pageContext.request.contextPath}/curation/strainManagementList/go?filterStrainId=${mutation.str_id_str}"
+                                <a href="${pageContext.request.contextPath}/curation/strainManagementList/go?filterStrainKey=${mutation.strain_key}"
                                    target="strainManagementList"
-                                   title="Edit strain ID ${mutation.str_id_str}">
-                                    ${mutation.str_id_str}
+                                   title="Edit strain ID ${mutation.strain_key}">
+                                    ${mutation.strain_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
 <!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! ADD BACKGROUND FILTERS ONCE BACKGROUND SCREEN IS WRITTEN. FIXME FIXME FIXME -->
-                                <a href="${pageContext.request.contextPath}/curation/backgroundManagementList/go?filterBackgroundId=${mutation.bg_id_bg}"
+                                <a href="${pageContext.request.contextPath}/curation/backgroundManagementList/go?filterBackgroundKey=${mutation.background_key}"
                                    target="backgroundManagementList"
-                                   title="Edit background ID ${mutation.bg_id_bg}">
-                                    ${mutation.bg_id_bg}
+                                   title="Edit background ID ${mutation.background_key}">
+                                    ${mutation.background_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${mutation.alls_id_allel}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.allele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
                                    target="alleleManagementList"
-                                   title="Edit allele ID ${mutation.alls_id_allel}">
-                                    ${mutation.alls_id_allel}
+                                   title="Edit allele ID ${mutation.allele_key}">
+                                    ${mutation.allele_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleId=${mutation.alls_id_allel_replaced}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneId=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.alleleReplaced_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
                                    target="alleleManagementList"
-                                   title="Edit replaced allele ID ${mutation.alls_id_allel_replaced}">
-                                    ${mutation.alls_id_allel_replaced}
+                                   title="Edit replaced allele ID ${mutation.alleleReplaced_key}">
+                                    ${mutation.alleleReplaced_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${mutation.sex}</td>
                             <td style="border: 1px solid black">${mutation.genotype}</td>
-                            <td style="border: 1px solid black">${mutation.ki_alter}</td>
-                            <td style="border: 1px solid black">${mutation.mu_cause}</td>
+                            <td style="border: 1px solid black">${mutation.knockinAlter}</td>
+                            <td style="border: 1px solid black">${mutation.cause}</td>
                             <td style="border: 1px solid black">${mutation.chromosome}</td>
                             <td style="border: 1px solid black">${mutation.dominance}</td>
-                            <td style="border: 1px solid black">${mutation.tm_esline}</td>
-                            <td style="border: 1px solid black">${mutation.ch_ano_name}</td>
-                            <td style="border: 1px solid black">${mutation.ch_ano_desc}</td>
+                            <td style="border: 1px solid black">${mutation.targetedMutationEsLine}</td>
+                            <td style="border: 1px solid black">${mutation.chromosomeAnnotatedName}</td>
+                            <td style="border: 1px solid black">${mutation.chromosomeAnnotatedDescription}</td>
                         </tr>
                     </c:forEach>
                 </tbody>

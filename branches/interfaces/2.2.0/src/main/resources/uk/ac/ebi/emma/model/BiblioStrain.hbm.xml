@@ -3,12 +3,13 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="BiblioStrain" table="biblios_strains">
-        <id column="bib_id_biblio" name="bib_id_biblio">
+        <id column="bib_id_biblio" name="biblio_key">
             <generator class="assigned"/>
         </id>
         
-        <many-to-one cascade="all" class="Biblio" column="bib_id_biblio" foreign-key="id_biblios" insert="false" lazy="false" name="biblio" not-found="ignore" unique="false" update="false"/>
+        <many-to-one cascade="all"  class="Biblio" name="biblio" column="bib_id_biblio" foreign-key="biblio_key" insert="false" lazy="false" not-found="ignore" unique="false" update="false"/>
+        <many-to-one cascade="none" class="Strain" name="strain" column="str_id_str"    foreign-key="strain_key" insert="false" lazy="false" not-found="ignore" unique="false" update="false"/>          
         
-        <property column="str_id_str" name="str_id_str"/>
+        <property column="str_id_str" name="strain_key"/>
     </class>
 </hibernate-mapping>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping package="uk.ac.ebi.emma.entity">
+    <class name="RtoolStrain" table="rtools_strains">
+        <id column="rtls_id" name="cvRtool_key">
+            <generator class="assigned"/>
+        </id>
+
+        <many-to-one cascade="all" class="Strain" name="strain"  column="str_id_str" foreign-key="strain_key"  insert="false" lazy="false" not-found="ignore" unique="false" update="false"/>          
+        
+        <property column="str_id_str" name="strain_key" update="false" insert="false"/>
+    </class>
+</hibernate-mapping>

@@ -3,13 +3,13 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="CvAvailability" table="cv_availabilities">
-        <id column="id" name="id">
+        <id column="id" name="cvAvailability_key">
             <generator class="native"/>
         </id>
         
-        <property column="code" name="code"/>
+        <property column="code"        name="code"/>
         <property column="description" name="description"/>
-        <property column="in_stock" name="in_stock"/>
-        <property column="to_distr" name="to_distr"/>
+        <property column="in_stock"    name="in_stock"/>
+        <property column="to_distr"    name="to_distr"/>
     </class>
 </hibernate-mapping>

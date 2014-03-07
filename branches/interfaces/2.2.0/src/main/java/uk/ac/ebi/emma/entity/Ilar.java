@@ -20,19 +20,19 @@ package uk.ac.ebi.emma.entity;
  * @author phil
  */
 public class Ilar {
-    private Integer id = 0;                                                     // primary key
+    private Integer ilar_key = 0;                                              // primary key (was id)
     
     private String investigator;
     private String labcode;
     private String organisation;
     private String status;
 
-    public Integer getId() {
-        return id;
+    public Integer getIlar_key() {
+        return ilar_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setIlar_key(Integer ilar_key) {
+        this.ilar_key = ilar_key;
     }
 
     public String getInvestigator() {

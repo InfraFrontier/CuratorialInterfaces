@@ -29,36 +29,36 @@ import org.apache.http.client.utils.URIBuilder;
  * @author mrelac
  */
 public class Filter {
-    private String alleleId;        // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String allele_key;        // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String alleleMgiReference;
     private String alleleName;
     private String alleleSymbol;
-    private String backgroundId;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String background_key;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String chromosome;
-    private String geneId;          // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String gene_key;       // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String geneMgiReference;
     private String geneName;
     private String geneSymbol;
-    private String mutationId;      // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String mutation_key;      // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String mutationType;
     private String mutationSubtype;
-    private String strainId;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String strain_key;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     
     public Filter() {
-        this.alleleId = "";
+        this.allele_key = "";
         this.alleleMgiReference = "";
         this.alleleName = "";
         this.alleleSymbol = "";
-        this.backgroundId = "";
+        this.background_key = "";
         this.chromosome = "";
-        this.geneId = "";
+        this.gene_key = "";
         this.geneMgiReference = "";
         this.geneName = "";
         this.geneSymbol = "";
-        this.mutationId = "";
+        this.mutation_key = "";
         this.mutationType = "";
         this.mutationSubtype = "";
-        this.strainId = "";
+        this.strain_key = "";
     }
     
     /**
@@ -67,20 +67,20 @@ public class Filter {
      * @param request the source <code>HttpServletRequest</code> instance
      */
     public Filter(HttpServletRequest request) {
-        this.alleleId = request.getParameter("alleleId") == null ? "" : request.getParameter("alleleId");
+        this.allele_key = request.getParameter("allele_key") == null ? "" : request.getParameter("allele_key");
         this.alleleMgiReference = request.getParameter("alleleMgiReference") == null ? "" : request.getParameter("alleleMgiReference");
         this.alleleName = request.getParameter("alleleName") == null ? "" : request.getParameter("alleleName");
         this.alleleSymbol = request.getParameter("alleleSymbol") == null ? "" : request.getParameter("alleleSymbol");
-        this.backgroundId = request.getParameter("backgroundId") == null ? "" : request.getParameter("backgroundId");
+        this.background_key = request.getParameter("background_key") == null ? "" : request.getParameter("background_key");
         this.chromosome = request.getParameter("chromosome") == null ? "" : request.getParameter("chromosome");
-        this.geneId = request.getParameter("geneId") == null ? "" : request.getParameter("geneId");
+        this.gene_key = request.getParameter("gene_key") == null ? "" : request.getParameter("gene_key");
         this.geneMgiReference = request.getParameter("geneMgiReference") == null ? "" : request.getParameter("geneMgiReference");
         this.geneName = request.getParameter("geneName") == null ? "" : request.getParameter("geneName");
         this.geneSymbol = request.getParameter("geneSymbol") == null ? "" : request.getParameter("geneSymbol");
-        this.mutationId = request.getParameter("mutationId") == null ? "" : request.getParameter("mutationId");
+        this.mutation_key = request.getParameter("mutation_key") == null ? "" : request.getParameter("mutation_key");
         this.mutationType = request.getParameter("mutationType") == null ? "" : request.getParameter("mutationType");
         this.mutationSubtype = request.getParameter("mutationSubtype") == null ? "" : request.getParameter("mutationSubype");
-        this.strainId = request.getParameter("strainId") == null ? "" : request.getParameter("strainId");
+        this.strain_key = request.getParameter("strain_key") == null ? "" : request.getParameter("strain_key");
     }
     
     /**
@@ -92,34 +92,34 @@ public class Filter {
      */
     public String generateQueryString() {
         URIBuilder builder = new URIBuilder();
-        if ( ! alleleId.isEmpty())
-            builder.addParameter("alleleId", alleleId);
+        if ( ! allele_key.isEmpty())
+            builder.addParameter("allele_key", allele_key);
         if ( ! alleleMgiReference.isEmpty())
             builder.addParameter("alleleMgiReference", alleleMgiReference);
         if ( ! alleleName.isEmpty())
             builder.addParameter("alleleName", alleleName);
         if ( ! alleleSymbol.isEmpty())
             builder.addParameter("alleleSymbol", alleleSymbol);
-        if ( ! backgroundId.isEmpty())
-            builder.addParameter("backgroundId", backgroundId);
+        if ( ! background_key.isEmpty())
+            builder.addParameter("background_key", background_key);
         if ( ! chromosome.isEmpty())
             builder.addParameter("chromosome", chromosome);
-        if ( ! geneId.isEmpty())
-            builder.addParameter("geneId", geneId);
+        if ( ! gene_key.isEmpty())
+            builder.addParameter("gene_key", gene_key);
         if ( ! geneMgiReference.isEmpty())
             builder.addParameter("geneMgiReference", geneMgiReference);
         if ( ! geneName.isEmpty())
             builder.addParameter("geneName", geneName);
         if ( ! geneSymbol.isEmpty())
             builder.addParameter("geneSymbol", geneSymbol);
-        if ( ! mutationId.isEmpty())
-            builder.addParameter("mutationId", mutationId);
+        if ( ! mutation_key.isEmpty())
+            builder.addParameter("mutation_key", mutation_key);
         if ( ! mutationType.isEmpty())
             builder.addParameter("mutationType", mutationType);
         if ( ! mutationSubtype.isEmpty())
             builder.addParameter("mutationSubtype", mutationSubtype);
-        if ( ! strainId.isEmpty())
-            builder.addParameter("strainId", strainId);
+        if ( ! strain_key.isEmpty())
+            builder.addParameter("strain_key", strain_key);
         
         String query = "";
         try {
@@ -131,12 +131,12 @@ public class Filter {
     }
     
     // GETTERS AND SETTERS
-    public String getAlleleId() {
-        return alleleId;
+    public String getAllele_key() {
+        return allele_key;
     }
 
-    public void setAlleleId(String alleleId) {
-        this.alleleId = alleleId;
+    public void setAllele_key(String allele_key) {
+        this.allele_key = allele_key;
     }
 
     public String getAlleleMgiReference() {
@@ -163,12 +163,12 @@ public class Filter {
         this.alleleSymbol = alleleSymbol;
     }
 
-    public String getBackgroundId() {
-        return backgroundId;
+    public String getBackground_key() {
+        return background_key;
     }
 
-    public void setBackgroundId(String backgroundId) {
-        this.backgroundId = backgroundId;
+    public void setBackground_key(String background_key) {
+        this.background_key = background_key;
     }
 
     public String getChromosome() {
@@ -179,12 +179,12 @@ public class Filter {
         this.chromosome = chromosome;
     }
 
-    public String getGeneId() {
-        return geneId;
+    public String getGene_key() {
+        return gene_key;
     }
 
-    public void setGeneId(String geneId) {
-        this.geneId = geneId;
+    public void setGene_key(String gene_key) {
+        this.gene_key = gene_key;
     }
 
     public String getGeneMgiReference() {
@@ -211,12 +211,12 @@ public class Filter {
         this.geneSymbol = geneSymbol;
     }
 
-    public String getMutationId() {
-        return mutationId;
+    public String getMutation_key() {
+        return mutation_key;
     }
 
-    public void setMutationId(String mutationId) {
-        this.mutationId = mutationId;
+    public void setMutation_key(String mutation_key) {
+        this.mutation_key = mutation_key;
     }
 
     public String getMutationType() {
@@ -235,12 +235,12 @@ public class Filter {
         this.mutationSubtype = mutationSubtype;
     }
 
-    public String getStrainId() {
-        return strainId;
+    public String getStrain_key() {
+        return strain_key;
     }
 
-    public void setStrainId(String strainId) {
-        this.strainId = strainId;
+    public void setStrain_key(String strain_key) {
+        this.strain_key = strain_key;
     }
     
     

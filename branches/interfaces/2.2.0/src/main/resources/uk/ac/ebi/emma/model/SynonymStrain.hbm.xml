@@ -3,14 +3,14 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="SynonymStrain" table="syn_strains">
-        <id column="id_syn" name="id_syn">
+        <id column="id_syn" name="synonymStrain_key">
             <generator class="native"/>
         </id>
     
-        <property column="name" name="name"/>
-        <property column="str_id_str" name="str_id_str"/>
+        <property column="name"        name="name"/>
+        <property column="str_id_str"  name="strain_key"/>
     
         <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="username"    name="username"/>
     </class>
 </hibernate-mapping>

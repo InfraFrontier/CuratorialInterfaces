@@ -22,7 +22,7 @@ package uk.ac.ebi.emma.entity;
  */
 public class Residue {
     
-    private Integer id = 0;                                                     // primary key
+    private Integer residue_key = 0;                                           // primary key (was id)
 
     private String accepted;
     private String accepted_date;
@@ -64,12 +64,12 @@ public class Residue {
     private String when_mice_month;
     private String when_mice_year;
 
-    public Integer getId() {
-        return id;
+    public Integer getResidue_key() {
+        return residue_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setResidue_key(Integer residue_key) {
+        this.residue_key = residue_key;
     }
 
     public String getAccepted() {

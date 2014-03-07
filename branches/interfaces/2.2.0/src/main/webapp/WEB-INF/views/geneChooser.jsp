@@ -37,8 +37,8 @@
             });
             
             function handleDragStart(e) {
-                var id_gene = $(this).data('id_gene');
-                e.originalEvent.dataTransfer.setData('text', id_gene);
+                var gene_key = $(this).data('gene_key');
+                e.originalEvent.dataTransfer.setData('text', gene_key);
             }
             
         </script>
@@ -64,13 +64,13 @@
                 </thead>
                 <tbody>
                     <c:forEach var="gene" items="${genesList}" varStatus="status">
-                        <tr draggable="true" data-id_gene="${gene.id_gene}">
-                            <td style="border: 1px solid black">${gene.id_gene}</td>
+                        <tr draggable="true" data-gene_key="${gene.gene_key}">
+                            <td style="border: 1px solid black">${gene.gene_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.symbol)}</td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(gene.mgi_ref)}');">
-                                    ${fn:escapeXml(gene.mgi_ref)}
+                                <a href="javascript:lookupMgi('${fn:escapeXml(gene.mgiReference)}');">
+                                    ${fn:escapeXml(gene.mgiReference)}
                                 </a>
                             </td>
                         </tr>

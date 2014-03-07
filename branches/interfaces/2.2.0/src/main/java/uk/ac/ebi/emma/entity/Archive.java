@@ -20,7 +20,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class Archive {
-    private Integer id = 0;                                                     // primary key
+    private Integer archive_key = 0;                                           // primary key (was id)
 
     private String archived;
     private String archiving_method_id;
@@ -43,22 +43,22 @@ public class Archive {
     private String wt_rederiv_started;
     
     // FOREIGN KEYS
-    private Integer female_bg_id;                                               // foreign key to backgrounds table for females
-    private Integer lab_id_labo;                                                // foreign key to laboratories table
-    private Integer male_bg_id;                                                 // foreign key to backgrounds table for females
-    private Integer str_id_str;                                                 // foreign key to strains table
+    private Integer backgroundFemale_key;                                      // foreign key to backgrounds table for females (was female_bg_id)
+    private Integer laboratory_key;                                            // foreign key to laboratories table (was lab_id_labo)
+    private Integer backgroundMale_key;                                        // foreign key to backgrounds table for females (was male_bg_id
+    private Integer strain_key;                                                // foreign key to strains table (was str_id_str)
 
     // CLASS INSTANCES
     private CvArchivingMethod archivingMethod;                                  // (was cvamDAO)
-    private Laboratory laboratory;                                              // (was labsDAO)
-    private Strain strain;                                                      // (was strainsDAO)
+    private Laboratory        laboratory;                                       // (was labsDAO)
+    private Strain            strain;                                           // (was strainsDAO)
 
-    public Integer getId() {
-        return id;
+    public Integer getArchive_key() {
+        return archive_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setArchive_key(Integer archive_key) {
+        this.archive_key = archive_key;
     }
 
     public String getArchived() {
@@ -197,36 +197,36 @@ public class Archive {
         this.wt_rederiv_started = wt_rederiv_started;
     }
 
-    public Integer getFemale_bg_id() {
-        return female_bg_id;
+    public Integer getBackgroundFemale_key() {
+        return backgroundFemale_key;
     }
 
-    public void setFemale_bg_id(Integer female_bg_id) {
-        this.female_bg_id = female_bg_id;
+    public void setBackgroundFemale_key(Integer backgroundFemale_key) {
+        this.backgroundFemale_key = backgroundFemale_key;
     }
 
-    public Integer getLab_id_labo() {
-        return lab_id_labo;
+    public Integer getLaboratory_key() {
+        return laboratory_key;
     }
 
-    public void setLab_id_labo(Integer lab_id_labo) {
-        this.lab_id_labo = lab_id_labo;
+    public void setLaboratory_key(Integer laboratory_key) {
+        this.laboratory_key = laboratory_key;
     }
 
-    public Integer getMale_bg_id() {
-        return male_bg_id;
+    public Integer getBackgroundMale_key() {
+        return backgroundMale_key;
     }
 
-    public void setMale_bg_id(Integer male_bg_id) {
-        this.male_bg_id = male_bg_id;
+    public void setBackgroundMale_key(Integer backgroundMale_key) {
+        this.backgroundMale_key = backgroundMale_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public CvArchivingMethod getArchivingMethod() {

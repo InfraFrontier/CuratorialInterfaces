@@ -3,16 +3,16 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="GeneSynonym" table="syn_genes">
-        <id column="id_syn" name="id_syn">
+        <id column="id_syn" name="geneSynonym_key">
             <generator class="native"/>
         </id>
     
-        <many-to-one cascade="save-update" class="Gene" lazy="false" name="gene">
+        <many-to-one class="Gene" name="gene" cascade="save-update" lazy="false" >
             <column name="gen_id_gene" not-null="false"/>
         </many-to-one>
         
-        <property column="name" name="name"/>
-        <property column="symbol" name="symbol"/>
+        <property column="name"        name="name"/>
+        <property column="symbol"      name="symbol"/>
         
         <!--
                11-Dec-2013 (mrelac) The statements below compiled but neither inserted the timestamp into the table,
@@ -21,6 +21,6 @@
               <timestamp column="last_change" generated="always" name="last_change" source="db"/>
         -->
         <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="username"    name="username"/>
     </class>
 </hibernate-mapping>

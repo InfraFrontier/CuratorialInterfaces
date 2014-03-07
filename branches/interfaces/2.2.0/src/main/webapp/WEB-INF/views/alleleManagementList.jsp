@@ -42,7 +42,7 @@
         <script>
             var geneUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
-            var alleleIds = null;
+            var alleleKeys = null;
 
             $(document).ready(function() {
                 populateFilterAutocompletes();
@@ -55,7 +55,7 @@
                 clearErrors();
                 
                 $('.filterComponent').each(function (index, element) {
-                    $(element).on('keyup blur', function(event) {
+                    $(element).on('keyup change', function(event) {
                         updateFilter(element);
                     });
                 });
@@ -77,15 +77,15 @@
                 // Remove any error validation messages.
                 clearErrors();
 
-                filterValue = $('#filterAlleleId').val();
+                filterValue = $('#filterAlleleKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterAlleleId').parent().append(errMsg);
+                    $('#filterAlleleKey').parent().append(errMsg);
                 }
-                filterValue = $('#filterGeneId').val();
+                filterValue = $('#filterGeneKey').val();
                 if ((filterValue !== '') && ( ! isInteger(filterValue)) && ( ! isIntegerArray(filterValue))) {
                     errorCount++;
-                    $('#filterGeneId').parent().append(errMsg);
+                    $('#filterGeneKey').parent().append(errMsg);
                 }
                 
                 if (errorCount > 0)
@@ -210,21 +210,12 @@
                 window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
             }
 
-            function populateAlleleIds(urlRoot) {
-                jQuery.ajax({
-                    url: urlRoot + "/getAlleleIds"
-                  , async: false
-                }).done(function(data) {
-                    alleleIds = data.slice(0);
-                });
-            }
-
             function deleteAllele(id, deleteIcon) {
                 $.ajax({
                     url: urlRoot + "/deleteAllele"
                     , dataType: "json"
                     , async: false
-                    , data: {'id_allele': id}
+                    , data: {'allele_key': id}
                     , success: function(data) {
                         if (data.status === 'ok') {
                             var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent()[0];
@@ -248,8 +239,8 @@
                     value = '';
 
                 switch (id) {
-                    case 'filterAlleleId':
-                        $('input[id^="filterAlleleId"]').val(value);
+                    case 'filterAlleleKey':
+                        $('input[id^="filterAlleleKey"]').val(value);
                         break;
 
                     case 'filterAlleleName':
@@ -268,8 +259,8 @@
                         $('input[id^="filterAlleleMgiReference"]').val(value);
                         break;
                         
-                    case 'filterGeneId':
-                        $('input[id^="filterGeneId"]').val(value);
+                    case 'filterGeneKey':
+                        $('input[id^="filterGeneKey"]').val(value);
                         break;
 
                     case 'filterGeneName':
@@ -295,30 +286,31 @@
         <h2>Allele Management - list</h2>
         <span id="loginHeader">Logged in as user "<sec:authentication property='principal.username'/>"</span>
         
-        <form:form method="get" modelAttribute="filter" target="alleleManagementDetail">
+        <form:form method="get" modelAttribute="filter">
             <%-- NEW ALLELE --%>
-            <input type="hidden" name="id_allele" value="0" />
+            <input type="hidden" name="allele_key" value="0" />
             
-            <input type="hidden" id="filterAlleleIdNew" name="filterAlleleId" value="${filter.alleleId}" />
-            <input type="hidden" id="filterAlleleNameNew" name="filterAlleleName" value="${filter.alleleName}" />
-            <input type="hidden" id="filterAlleleSymbolNew" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
-            <input type="hidden" id="filterAlleleMgiReferenceNew" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-            <input type="hidden" id="filterGeneIdNew" name="filterGeneId" value="${filter.geneId}" />
-            <input type="hidden" id="filterGeneNameNew" name="filterGeneName" value="${filter.geneName}" />
-            <input type="hidden" id="filterGeneSymbolNew" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" id="filterAlleleKeyNew"          name="filterAlleleKey"          class="filterComponent" value="${filter.allele_key}" />
+            <input type="hidden" id="filterAlleleNameNew"         name="filterAlleleName"         class="filterComponent" value="${filter.alleleName}" />
+            <input type="hidden" id="filterAlleleSymbolNew"       name="filterAlleleSymbol"       class="filterComponent" value="${filter.alleleSymbol}" />
+            <input type="hidden" id="filterAlleleMgiReferenceNew" name="filterAlleleMgiReference" class="filterComponent" value="${filter.alleleMgiReference}" />
+            <input type="hidden" id="filterGeneKeyNew"            name="filterGeneKey"            class="filterComponent" value="${filter.gene_key}" />
+            <input type="hidden" id="filterGeneNameNew"           name="filterGeneName"           class="filterComponent" value="${filter.geneName}" />
+            <input type="hidden" id="filterGeneSymbolNew"         name="filterGeneSymbol"         class="filterComponent" value="${filter.geneSymbol}" />
             <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
                    formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit" />
+                   formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit"
+                   formtarget="alleleManagementDetail" />
         </form:form>
         
         <form:form modelAttribute="filter" method="get">
-            <input type="hidden" id="filterAlleleIdGo" name="filterAlleleId" value="${filter.alleleId}" />
-            <input type="hidden" id="filterAlleleNameGo" name="filterAlleleName" value="${filter.alleleName}" />
-            <input type="hidden" id="filterAlleleSymbolGo" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
-            <input type="hidden" id="filterAlleleMgiReferenceGo" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-            <input type="hidden" id="filterGeneIdGo" name="filterGeneId" value="${filter.geneId}" />
-            <input type="hidden" id="filterGeneNameGo" name="filterGeneName" value="${filter.geneName}" />
-            <input type="hidden" id="filterGeneSymbolGo" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" id="filterAlleleKeyGo"          name="filterAlleleKey"          class="filterComponent" value="${filter.allele_key}" />
+            <input type="hidden" id="filterAlleleNameGo"         name="filterAlleleName"         class="filterComponent" value="${filter.alleleName}" />
+            <input type="hidden" id="filterAlleleSymbolGo"       name="filterAlleleSymbol"       class="filterComponent" value="${filter.alleleSymbol}" />
+            <input type="hidden" id="filterAlleleMgiReferenceGo" name="filterAlleleMgiReference" class="filterComponent" value="${filter.alleleMgiReference}" />
+            <input type="hidden" id="filterGeneKeyGo"            name="filterGeneKey"            class="filterComponent" value="${filter.gene_key}" />
+            <input type="hidden" id="filterGeneNameGo"           name="filterGeneName"           class="filterComponent" value="${filter.geneName}" />
+            <input type="hidden" id="filterGeneSymbolGo"         name="filterGeneSymbol"         class="filterComponent" value="${filter.geneSymbol}" />
             
             <table id="tabFilter" style="border: 1px solid black">
                 <thead>
@@ -339,11 +331,11 @@
                 </tfoot>
                 <tbody>
                     <tr>
-                        <td><form:label path="alleleId">Allele ID:</form:label></td>
-                        <td><form:input id="filterAlleleId" class="filterComponent" path="alleleId" /></td>
+                        <td><form:label path="allele_key">Allele ID:</form:label></td>
+                        <td><form:input id="filterAlleleKey" class="filterComponent" path="allele_key" /></td>
                         
-                        <td><form:label path="geneId">Gene ID:</form:label></td>
-                        <td><form:input id="filterGeneId" class="filterComponent" path="geneId" /></td>
+                        <td><form:label path="gene_key">Gene ID:</form:label></td>
+                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleName">Allele name:</form:label></td>
@@ -383,10 +375,10 @@
                         <c:when test="${fn:length(filteredAllelesList) > 0}">
                             <tr style="border: 1px solid black">
                                 <th>Actions</th>
-                                <th>Bound Mutations</th>
                                 <th>Allele ID</th>
                                 <th>Allele Name</th>
                                 <th>Allele Symbol</th>
+                                <th>Bound Mutations</th>
                                 <th>MGI Reference</th>
                                 <th>Gene ID</th>
                                 <th>Gene Name</th>
@@ -405,31 +397,34 @@
                                         <tr>
                                             <td>
                                                 <%-- EDIT ALLELE --%>
-                                                <form method="get" target="alleleManagementDetail" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit">
-                                                    <input type="hidden" name="id_allele" value="${allele.id_allele}" />
+                                                <form method="get" action="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit">
+                                                    <input type="hidden" name="allele_key" value="${allele.allele_key}" />
 
-                                                    <input type="hidden" id="filterAlleleIdEdit" name="filterAlleleId" value="${filter.alleleId}" />
-                                                    <input type="hidden" id="filterAlleleNameEdit" name="filterAlleleName" value="${filter.alleleName}" />
-                                                    <input type="hidden" id="filterAlleleSymbolEdit" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
-                                                    <input type="hidden" id="filterAlleleMgiReferenceEdit" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-                                                    <input type="hidden" id="filterGeneIdEdit" name="filterGeneId" value="${filter.geneId}" />
-                                                    <input type="hidden" id="filterGeneNameEdit" name="filterGeneName" value="${filter.geneName}" />
-                                                    <input type="hidden" id="filterGeneSymbolEdit" name="filterGeneSymbol" value="${filter.geneSymbol}" />
-                                                    <input alt="Edit Allele" type="image" height="15" width="15" title="Edit allele ${allele.id_allele}"
-                                                           src="${pageContext.request.contextPath}/images/edit.jpg" />
+                                                    <input type="hidden" id="filterAlleleKeyEdit"          name="filterAlleleKey"          class="filterComponent" value="${filter.allele_key}" />
+                                                    <input type="hidden" id="filterAlleleNameEdit"         name="filterAlleleName"         class="filterComponent" value="${filter.alleleName}" />
+                                                    <input type="hidden" id="filterAlleleSymbolEdit"       name="filterAlleleSymbol"       class="filterComponent" value="${filter.alleleSymbol}" />
+                                                    <input type="hidden" id="filterAlleleMgiReferenceEdit" name="filterAlleleMgiReference" class="filterComponent" value="${filter.alleleMgiReference}" />
+                                                    <input type="hidden" id="filterGeneKeyEdit"            name="filterGeneKey"            class="filterComponent" value="${filter.gene_key}" />
+                                                    <input type="hidden" id="filterGeneNameEdit"           name="filterGeneName"           class="filterComponent" value="${filter.geneName}" />
+                                                    <input type="hidden" id="filterGeneSymbolEdit"         name="filterGeneSymbol"         class="filterComponent" value="${filter.geneSymbol}" />
+                                                    <a href="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit?allele_key=${allele.allele_key}&amp;filterAlleleKey=&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                                       target="alleleManagementDetail"
+                                                       title="Edit allele ${allele.allele_key}">
+                                                        Edit
+                                                    </a>
                                                 </form>
                                             </td>
                                             
                                             <c:set var="boundMutations" value="${allele.mutations}" />
                                             <c:set var="boundMutationsCount" value="${fn:length(boundMutations)}" />
 
-                                            <c:set var="boundMutationIds" value="" />
+                                            <c:set var="boundMutationKeys" value="" />
                                             <c:forEach var="mutation" items="${boundMutations}" varStatus="status">
                                                 <c:if test="${status.index == 0}">
-                                                    <c:set var="boundMutationIds" value="${mutation.id_mutation}" scope="page" />
+                                                    <c:set var="boundMutationKeys" value="${mutation.mutation_key}" scope="page" />
                                                 </c:if>
                                                 <c:if test="${status.index > 0}">
-                                                    <c:set var="boundMutationIds" value="${boundMutationIds}, ${mutation.id_mutation}" />
+                                                    <c:set var="boundMutationKeys" value="${boundMutationKeys}, ${mutation.mutation_key}" />
                                                 </c:if>
                                             </c:forEach>
                                             <c:choose>
@@ -437,16 +432,16 @@
                                                     <td>
                                                         <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ID ${allele.id_allele} as it is bound to mutation Id(s) ${boundMutationIds}."
+                                                               title="Cannot delete allele ID ${allele.allele_key} as it is bound to mutation(s) ${boundMutationKeys}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>
                                                         <%-- DELETE ALLELE --%>
-                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ID ${allele.id_allele}"
+                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ID ${allele.allele_key}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               onclick="deleteAllele(${allele.id_allele}, this)"
+                                                               onclick="deleteAllele(${allele.allele_key}, this)"
                                                                formmethod="POST" />
                                                     </td>
                                                 </c:otherwise>
@@ -455,40 +450,40 @@
                                     </tbody>
                                 </table>
                             </td>
+                            <td style="border: 1px solid black">${allele.allele_key}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
                             <td style="border: 1px solid black">
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundMutationsCount eq 0}">
-                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationId=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainId=&amp;filterAlleleId=&amp;filterBackgroundId="
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey="
                                                target="mutationManagementList"
                                                title="Edit mutations">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationId=${boundMutationIds}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainId=&amp;filterAlleleId=&amp;filterBackgroundId="
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationKey=${boundMutationKeys}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey="
                                                target="mutationManagementList"
-                                               title="Edit mutation ID(s) ${boundMutationIds}">
-                                                ${boundMutationIds}
+                                               title="Edit mutation(s) ${boundMutationKeys}">
+                                                ${boundMutationKeys}
                                             </a>   
                                         </c:otherwise>
                                     </c:choose>
                                 </form>
                             </td>
-                            <td style="border: 1px solid black">${allele.id_allele}</td>
-                            <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
-                            <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgi_ref)}');">
-                                    ${fn:escapeXml(allele.mgi_ref)}
+                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgiReference)}');">
+                                    ${fn:escapeXml(allele.mgiReference)}
                                 </a>
                             </td>
                             
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?filterGeneId=${allele.gene.id_gene}&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
+                                <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?filterGeneKey=${allele.gene.gene_key}&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
                                    target="geneManagementList"
-                                   title="Edit gene ID ${allele.gene.id_gene}">
-                                    ${allele.gene.id_gene}
+                                   title="Edit gene ${allele.gene.gene_key}">
+                                    ${allele.gene.gene_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.name)}</td>

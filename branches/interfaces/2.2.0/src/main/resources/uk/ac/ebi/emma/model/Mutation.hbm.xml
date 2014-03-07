@@ -1,34 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<!-- Corrected database primary key name 'id' to 'id_mutation' for consistency. -->
+<!-- Corrected database primary key name 'id' to 'mutation_key' for consistency. -->
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Mutation" table="mutations">
-        <id column="id" name="id_mutation">
+        <id column="id" name="mutation_key">
             <generator class="native"/>
         </id>
         
-        <many-to-one cascade="none" class="Allele" name="allele" column="alls_id_allel" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
-        <many-to-one cascade="all" class="Background" name="background" column="bg_id_bg" insert="false" lazy="false" not-found="ignore" update="false"/>
-        <many-to-one cascade="none" class="Allele" name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
-        <many-to-one cascade="none" class="Strain" name="strain" column="str_id_str" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str"/>
+        <many-to-one cascade="none" class="Allele"     name="allele"         column="alls_id_allel"          insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
+        <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg"/>
+        <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
+        <many-to-one cascade="none" class="Strain"     name="strain"         column="str_id_str"             insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str"/>
         
-        <property column="alls_id_allel" name="alls_id_allel"/>
-        <property column="bg_id_bg" name="bg_id_bg"/>
-        <property column="ch_ano_desc" name="ch_ano_desc"/>
-        <property column="ch_ano_name" name="ch_ano_name"/>
-        <property column="chromosome" name="chromosome"/>
-        <property column="dominance" name="dominance"/>
-        <property column="genotype" name="genotype"/>
-        <property column="ki_alter" name="ki_alter"/>
-        <property column="main_type" name="main_type"/>
-        <property column="mu_cause" name="mu_cause"/>
-        <property column="sex" name="sex"/>
-        <property column="str_id_str" name="str_id_str"/>
-        <property column="sub_type" name="sub_type"/>
-        <property column="tm_esline" name="tm_esline"/>
+        <property column="alls_id_allel"          name="allele_key"/>
+        <property column="alls_id_allel_replaced" name="alleleReplaced_key"/>
+        <property column="bg_id_bg"               name="background_key"/>
+        <property column="ch_ano_desc"            name="chromosomeAnnotatedDescription"/>
+        <property column="ch_ano_name"            name="chromosomeAnnotatedName"/>
+        <property column="chromosome"             name="chromosome"/>
+        <property column="dominance"              name="dominance"/>
+        <property column="genotype"               name="genotype"/>
+        <property column="ki_alter"               name="knockinAlter"/>
+        <property column="main_type"              name="type"/>
+        <property column="mu_cause"               name="cause"/>
+        <property column="sex"                    name="sex"/>
+        <property column="str_id_str"             name="strain_key"/>
+        <property column="sub_type"               name="subtype"/>
+        <property column="tm_esline"              name="targetedMutationEsLine"/>
         
-        <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="last_change"            name="last_change"/>
+        <property column="username"               name="username"/>
     </class>
 </hibernate-mapping>

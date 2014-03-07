@@ -4,7 +4,7 @@
 <!-- Standardised column 'ex_owner_description' to use name 'exclusive_owner_desc' for consistency. -->
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Strain" table="strains">
-        <id column="id_str" name="id_str">
+        <id column="id_str" name="strain_key">
             <generator class="increment"/>
         </id>
     
@@ -24,7 +24,7 @@
         </set>
         <set lazy="false" name="rtoolsStrains" table="rtools_strains">
             <key column="str_id_str" update="false"/>
-            <one-to-many class="RToolStrain" not-found="ignore"/>
+            <one-to-many class="RtoolStrain" not-found="ignore"/>
         </set>
         <set lazy="false" name="mutationsStrains" table="mutations_strains">
             <key column="str_id_str"/>
@@ -47,51 +47,51 @@
             <one-to-many class="WebRequest" not-found="ignore"/>
         </set>
     
-        <many-to-one cascade="all" class="Archive" name="archive" column="archive_id" insert="false" lazy="false" unique="true" update="false"/>
-        <many-to-one cascade="all" class="Background" name="background" column="bg_id_bg" insert="false" lazy="false" not-found="ignore" update="false"/>
-        <many-to-one cascade="all" class="Person" name="strainCreator" column="per_id_per" foreign-key="id_per" insert="false" lazy="false" not-found="ignore" update="false"/>
-        <many-to-one cascade="all" class="Person" name="strainShippingContact" column="per_id_per_contact" foreign-key="id_per" insert="false" lazy="false" not-found="ignore" update="false"/>
-        <many-to-one cascade="all" class="Person" name="strainSubmitter" column="per_id_per_sub" foreign-key="id_per" insert="false" lazy="false" not-found="ignore" update="false"/>
-        <many-to-one cascade="all" class="Residue" name="residue" column="res_id" foreign-key="str_id_str" insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Archive"    name="archive"         column="archive_id"         foreign-key="archive_key"    insert="false" lazy="false" unique="true"      update="false"/>
+        <many-to-one cascade="all" class="Background" name="background"      column="bg_id_bg"           foreign-key="background_key" insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Person"     name="creator"         column="per_id_per"         foreign-key="person_key"     insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Residue"    name="residue"         column="res_id"             foreign-key="strain_key"     insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Person"     name="shippingContact" column="per_id_per_contact" foreign-key="person_key"     insert="false" lazy="false" not-found="ignore" update="false"/>
+        <many-to-one cascade="all" class="Person"     name="submitter"       column="per_id_per_sub"     foreign-key="person_key"     insert="false" lazy="false" not-found="ignore" update="false"/>
     
-        <property column="additional_owner" name="additional_owner"/>
-        <property column="archive_id" name="archive_id"/>
-        <property column="available_to_order" name="available_to_order"/>
-        <property column="bg_id_bg" name="bg_id_bg"/>
-        <property column="charact_gen" name="charact_gen"/>
-        <property column="code_internal" name="code_internal"/>
-        <property column="date_published" name="date_published"/>
-        <property column="emma_id" name="emma_id"/>
+        <property column="additional_owner"     name="additional_owner"/>
+        <property column="archive_id"           name="archive_key"/>
+        <property column="available_to_order"   name="available_to_order"/>
+        <property column="bg_id_bg"             name="background_key"/>
+        <property column="charact_gen"          name="charact_gen"/>
+        <property column="code_internal"        name="code_internal"/>
+        <property column="date_published"       name="date_published"/>
+        <property column="emma_id"              name="emma_id"/>
         <property column="ex_owner_description" name="exclusive_owner_desc"/>
-        <property column="exclusive_owner" name="exclusive_owner"/>
-        <property column="generation" name="generation"/>
-        <property column="gp_release" name="gp_release"/>
-        <property column="health_status" name="health_status"/>
-        <property column="hethemi_fertile" name="hethemi_fertile"/>
-        <property column="human_model" name="human_model"/>
-        <property column="human_model_desc" name="human_model_desc"/>
-        <property column="immunocompromised" name="immunocompromised"/>
-        <property column="maintenance" name="maintenance"/>
-        <property column="mgi_ref" name="mgi_ref"/>
-        <property column="mta_file" name="mta_file"/>
-        <property column="mutant_fertile" name="mutant_fertile"/>
-        <property column="mutant_viable" name="mutant_viable"/>
-        <property column="name" name="name"/>
-        <property column="name_status" name="name_status"/>
-        <property column="per_id_per_contact" name="per_id_per_shipping_contact"/>
-        <property column="per_id_per" name="per_id_per_creator"/>
-        <property column="per_id_per_sub" name="per_id_per_submitter"/>
-        <property column="pheno_text" name="pheno_text"/>
-        <property column="pheno_text_hetero" name="pheno_text_hetero"/>
-        <property column="reporting_count" name="reporting_count"/>
-        <property column="require_homozygous" name="require_homozygous"/>
-        <property column="res_id" name="res_id"/>
-        <property column="sibmatings" name="sibmatings"/>
-        <property column="str_access" name="str_access"/>
-        <property column="str_status" name="str_status"/>
-        <property column="str_type" name="str_type"/>
-        <property column="sub_id_sub" name="sub_id_sub"/>
+        <property column="exclusive_owner"      name="exclusive_owner"/>
+        <property column="generation"           name="generation"/>
+        <property column="gp_release"           name="gp_release"/>
+        <property column="health_status"        name="health_status"/>
+        <property column="hethemi_fertile"      name="hethemi_fertile"/>
+        <property column="human_model"          name="human_model"/>
+        <property column="human_model_desc"     name="human_model_desc"/>
+        <property column="immunocompromised"    name="immunocompromised"/>
+        <property column="maintenance"          name="maintenance"/>
+        <property column="mgi_ref"              name="mgiReference"/>
+        <property column="mta_file"             name="mta_file"/>
+        <property column="mutant_fertile"       name="mutant_fertile"/>
+        <property column="mutant_viable"        name="mutant_viable"/>
+        <property column="name"                 name="name"/>
+        <property column="name_status"          name="name_status"/>
+        <property column="per_id_per_contact"   name="personShippingContact_key"/>
+        <property column="per_id_per"           name="personCreator_key"/>
+        <property column="per_id_per_sub"       name="personSubmitter_key"/>
+        <property column="pheno_text"           name="pheno_text"/>
+        <property column="pheno_text_hetero"    name="pheno_text_hetero"/>
+        <property column="reporting_count"      name="reporting_count"/>
+        <property column="require_homozygous"   name="require_homozygous"/>
+        <property column="res_id"               name="residue_key"/>
+        <property column="sibmatings"           name="sibmatings"/>
+        <property column="str_access"           name="str_access"/>
+        <property column="str_status"           name="str_status"/>
+        <property column="str_type"             name="str_type"/>
+        <property column="sub_id_sub"           name="submission_key"/>
     
-        <property column="username" name="username"/>
+        <property column="username"             name="username"/>
     </class>
 </hibernate-mapping>

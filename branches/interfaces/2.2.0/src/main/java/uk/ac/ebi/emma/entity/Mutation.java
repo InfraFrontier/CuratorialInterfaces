@@ -23,57 +23,73 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class Mutation {
-    private Integer id_mutation = 0;                                            // primary key
+    private Integer mutation_key = 0;                                          // primary key (was id_mutation)
     
-    private String ch_ano_desc;                                                 // chromosome annotated description
-    private String ch_ano_name;                                                 // chromosome annotated name
+    private String cause;                                                       // mutation cause (was mu_cause)
     private String chromosome;                                                  // chromosome
+    private String chromosomeAnnotatedDescription;                              // chromosome annotated description (was ch_ano_desc)
+    private String chromosomeAnnotatedName;                                     // chromosome annotated name (was ch_ano_name)
     private String dominance;                                                   // dominance
     private String genotype;                                                    // genotype
-    private String ki_alter;                                                    // knock-in alter
-    private String main_type;                                                   // type
-    private String mu_cause;                                                    // mutation cause
+    private String knockinAlter;                                                // knock-in alter (was ki_alter)
     private String sex;                                                         // sex
-    private String sub_type;                                                    // subtype
-    private String tm_esline;                                                   // targeted mutation es cell line
+    private String subtype;                                                     // subtype (was sub_type)
+    private String targetedMutationEsLine;                                      // targeted mutation es cell line (was tm_esline)
+    private String type;                                                        // type (was main_type)
     
     // FOREIGN KEYS
-    private Integer alls_id_allel;                                              // foreign key to alleles table
-    private Integer alls_id_allel_replaced;                                     // foreign key to alleles table for replaced allele
-    private Integer bg_id_bg;                                                   // foreign key to backgrounds table
-    private Integer str_id_str;                                                 // foreign key to strains table
+    private Integer allele_key;                                                // foreign key to alleles table (was alls_id_allel)
+    private Integer alleleReplaced_key;                                        // foreign key to alleles table for replaced allele (was alls_id_allel_replaced)
+    private Integer background_key;                                            // foreign key to backgrounds table (was bg_id_bg)
+    private Integer strain_key;                                                // foreign key to strains table (was str_id_str)
 
     // CLASS INSTANCES
-    private Allele allele;
-    private Background background;
-    private Strain strain;
-    private Allele replacedAllele;
+    private Allele     allele;                                                  // (was allelesDAO)
+    private Background background;                                              // (was backgroundDAO)
+    private Strain     strain;                                                  // (didn't exist before EMMA2)
+    private Allele     replacedAllele;                                          // (didn't exist before EMMA2)
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
 
-    public Integer getId_mutation() {
-        return id_mutation;
+    public Integer getMutation_key() {
+        return mutation_key;
     }
 
-    public void setId_mutation(Integer id_mutation) {
-        this.id_mutation = id_mutation;
+    public void setMutation_key(Integer mutation_key) {
+        this.mutation_key = mutation_key;
     }
 
-    public String getMain_type() {
-        return main_type;
+    public String getCause() {
+        return cause;
     }
 
-    public void setMain_type(String main_type) {
-        this.main_type = main_type;
+    public void setCause(String cause) {
+        this.cause = cause;
     }
 
-    public String getSub_type() {
-        return sub_type;
+    public String getChromosome() {
+        return chromosome;
     }
 
-    public void setSub_type(String sub_type) {
-        this.sub_type = sub_type;
+    public void setChromosome(String chromosome) {
+        this.chromosome = chromosome;
+    }
+
+    public String getChromosomeAnnotatedDescription() {
+        return chromosomeAnnotatedDescription;
+    }
+
+    public void setChromosomeAnnotatedDescription(String chromosomeAnnotatedDescription) {
+        this.chromosomeAnnotatedDescription = chromosomeAnnotatedDescription;
+    }
+
+    public String getChromosomeAnnotatedName() {
+        return chromosomeAnnotatedName;
+    }
+
+    public void setChromosomeAnnotatedName(String chromosomeAnnotatedName) {
+        this.chromosomeAnnotatedName = chromosomeAnnotatedName;
     }
 
     public String getDominance() {
@@ -84,60 +100,20 @@ public class Mutation {
         this.dominance = dominance;
     }
 
-    public String getTm_esline() {
-        return tm_esline;
+    public String getGenotype() {
+        return genotype;
     }
 
-    public void setTm_esline(String tm_esline) {
-        this.tm_esline = tm_esline;
+    public void setGenotype(String genotype) {
+        this.genotype = genotype;
     }
 
-    public String getCh_ano_name() {
-        return ch_ano_name;
+    public String getKnockinAlter() {
+        return knockinAlter;
     }
 
-    public void setCh_ano_name(String ch_ano_name) {
-        this.ch_ano_name = ch_ano_name;
-    }
-
-    public String getCh_ano_desc() {
-        return ch_ano_desc;
-    }
-
-    public void setCh_ano_desc(String ch_ano_desc) {
-        this.ch_ano_desc = ch_ano_desc;
-    }
-
-    public String getMu_cause() {
-        return mu_cause;
-    }
-
-    public void setMu_cause(String mu_cause) {
-        this.mu_cause = mu_cause;
-    }
-
-    public Integer getAlls_id_allel() {
-        return alls_id_allel;
-    }
-
-    public void setAlls_id_allel(Integer alls_id_allel) {
-        this.alls_id_allel = alls_id_allel;
-    }
-
-    public Integer getBg_id_bg() {
-        return bg_id_bg;
-    }
-
-    public void setBg_id_bg(Integer bg_id_bg) {
-        this.bg_id_bg = bg_id_bg;
-    }
-
-    public Integer getStr_id_str() {
-        return str_id_str;
-    }
-
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setKnockinAlter(String knockinAlter) {
+        this.knockinAlter = knockinAlter;
     }
 
     public String getSex() {
@@ -148,52 +124,60 @@ public class Mutation {
         this.sex = sex;
     }
 
-    public String getGenotype() {
-        return genotype;
+    public String getSubtype() {
+        return subtype;
     }
 
-    public void setGenotype(String genotype) {
-        this.genotype = genotype;
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
-    public String getKi_alter() {
-        return ki_alter;
+    public String getTargetedMutationEsLine() {
+        return targetedMutationEsLine;
     }
 
-    public void setKi_alter(String ki_alter) {
-        this.ki_alter = ki_alter;
+    public void setTargetedMutationEsLine(String targetedMutationEsLine) {
+        this.targetedMutationEsLine = targetedMutationEsLine;
     }
 
-    public String getUsername() {
-        return username;
+    public String getType() {
+        return type;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public Date getLast_change() {
-        return last_change;
+    public Integer getAllele_key() {
+        return allele_key;
     }
 
-    public void setLast_change(Date last_change) {
-        this.last_change = last_change;
+    public void setAllele_key(Integer allele_key) {
+        this.allele_key = allele_key;
     }
 
-    public Integer getAlls_id_allel_replaced() {
-        return alls_id_allel_replaced;
+    public Integer getAlleleReplaced_key() {
+        return alleleReplaced_key;
     }
 
-    public void setAlls_id_allel_replaced(Integer alls_id_allel_replaced) {
-        this.alls_id_allel_replaced = alls_id_allel_replaced;
+    public void setAlleleReplaced_key(Integer alleleReplaced_key) {
+        this.alleleReplaced_key = alleleReplaced_key;
     }
 
-    public String getChromosome() {
-        return chromosome;
+    public Integer getBackground_key() {
+        return background_key;
     }
 
-    public void setChromosome(String chromosome) {
-        this.chromosome = chromosome;
+    public void setBackground_key(Integer background_key) {
+        this.background_key = background_key;
+    }
+
+    public Integer getStrain_key() {
+        return strain_key;
+    }
+
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public Allele getAllele() {
@@ -228,5 +212,20 @@ public class Mutation {
         this.replacedAllele = replacedAllele;
     }
 
+    public Date getLast_change() {
+        return last_change;
+    }
+
+    public void setLast_change(Date last_change) {
+        this.last_change = last_change;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 }

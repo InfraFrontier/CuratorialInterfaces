@@ -20,13 +20,12 @@
 
 package uk.ac.ebi.emma.validator;
 
-import java.util.Iterator;
-import java.util.Set;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.entity.GeneSynonym;
+import uk.ac.ebi.emma.entity.Allele;
+import uk.ac.ebi.emma.entity.Mutation;
+import uk.ac.ebi.emma.manager.AllelesManager;
 import uk.ac.ebi.emma.util.Utils;
 
 /**
@@ -34,8 +33,9 @@ import uk.ac.ebi.emma.util.Utils;
  * @author mrelac
  */
 @Component
-public class GeneValidator implements Validator {
-
+public class MutationValidator implements Validator {
+    AllelesManager allelesManager = new AllelesManager();
+    
     /**
      * Required for Validator implementation.
      * @param clazz caller's class
@@ -43,7 +43,7 @@ public class GeneValidator implements Validator {
      */
     @Override
     public boolean supports(Class clazz) {
-            return Gene.class.isAssignableFrom(clazz);
+            return Mutation.class.isAssignableFrom(clazz);
     }
 
     /**
@@ -52,34 +52,38 @@ public class GeneValidator implements Validator {
      * @param errors errors object
      */
     @Override
+    @SuppressWarnings("empty-statement")
     public void validate(Object target, Errors errors) {
-        Gene gene = (Gene)target;
+        Mutation mutation = (Mutation)target;
+
+        Utils.validateMaxFieldLengths(mutation, "mutations", errors);
         
-        // Centimorgan, if supplied, must be an integer.
-        if (gene.getCentimorgan() != null) {
-            Integer centimorgan = Utils.tryParseInt(gene.getCentimorgan());
-            if (centimorgan == null) {
-                errors.rejectValue("centimorgan", null, "Please enter an integer.");
-            }
+        // Make sure mutation is bound to an existing allele.
+        Integer pk = extractAndValidateAlleleKey(mutation);
+        if (pk == null) {
+            errors.rejectValue("mutation.allele.allele_key", null, "Please choose a valid allele.");
         }
-        if ((gene.getName() != null) && (gene.getName().trim().length() == 0)) {
-            errors.rejectValue("name", null, "Please provide a name.");
-        }
+    }
+    
+    // PRIVATE METHODS
+    
+    
+    /**
+     * Extract and validate allele key from mutation. If allele key doesn't identify
+     * a valid allele, null is returned; otherwise the key (always > 0) is returned.
+     * @param mutation the mutation to query
+     * @return the allele's primary key, if found and valid; null otherwise
+     */
+    private Integer extractAndValidateAlleleKey(Mutation mutation) {
+        if (mutation.getAllele() == null)
+            return null;
+        Integer allele_key = mutation.getAllele().getAllele_key();
+        if ((allele_key == null) || (allele_key <= 0))
+            return null;
+        Allele allele = allelesManager.getAllele(allele_key);
+        if (allele == null)
+            return null;
         
-        Utils.validateMaxFieldLengths(gene, "genes", errors);
-        
-        // Validate that GeneSynonym string data doesn't exceed maximum varchar lengths.
-        if (gene.getSynonyms() != null) {
-            Set<GeneSynonym> geneSynonyms = gene.getSynonyms();
-            Iterator<GeneSynonym> synGenesIterator = geneSynonyms.iterator();
-            int i = 0;
-            while (synGenesIterator.hasNext()) {
-                GeneSynonym geneSynonym = (GeneSynonym)synGenesIterator.next();
-                errors.pushNestedPath("synonyms[" + Integer.toString(i) + "]");
-                Utils.validateMaxFieldLengths(geneSynonym, "syn_genes", errors);
-                errors.popNestedPath();
-                i++;
-            }
-        }
+        return allele.getAllele_key();
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
-<!-- Corrected database column misspelling of id_allel to id_allele and unclear 'alls_form' to the more descriptive 'symbol' similar to the 'genes' table. -->
+<!-- Corrected database column misspelling of id_allel to allele_key and unclear 'alls_form' to the more descriptive 'symbol' similar to the 'genes' table. -->
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Allele" table="alleles">
-        <id column="id_allel" name="id_allele">
+        <id column="id_allel" name="allele_key">
             <generator class="native"/>
         </id>
     
@@ -15,14 +15,14 @@
             <one-to-many class="Mutation" />
         </set>
 
-        <many-to-one cascade="none" class="Gene" name="gene" column="gen_id_gene" foreign-key="id_gene" insert="false" lazy="false" not-found="ignore" update="false" />
+        <many-to-one column="gen_id_gene" name="gene" class="Gene" cascade="none" foreign-key="gene_key" insert="false" lazy="false" not-found="ignore" update="false" />
     
-        <property column="gen_id_gene" name="gen_id_gene"/>
-        <property column="mgi_ref" name="mgi_ref"/>
-        <property column="name" name="name"/>
-        <property column="alls_form" name="symbol"/>
+        <property column="gen_id_gene" name="gene_key"/>
+        <property column="mgi_ref"     name="mgiReference"/>
+        <property column="name"        name="name"/>
+        <property column="alls_form"   name="symbol"/>
         
         <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="username"    name="username"/>
     </class>
 </hibernate-mapping>

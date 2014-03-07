@@ -25,36 +25,38 @@ import java.util.Set;
  */
 public class Allele {
     
-    private Integer id_allele = 0;                                              // primary key
+    private Integer allele_key = 0;                                            // primary key (was id_allele)
     
-    private String mgi_ref;
+    private String mgiReference;                                                // (was mgiReference)
     private String name;
     private String symbol;
     
     // FOREIGN KEYS
-    private Integer gen_id_gene;                                                // foreign key to genes table
+    private Integer gene_key;                                                  // foreign key to genes table
+    
+    // COLLECTIONS
     private Set<Mutation> mutations;                                            // foreign key to mutations table
 
     // CLASS INSTANCES
     private Gene gene;
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
 
-    public Integer getId_allele() {
-        return id_allele;
+    public Integer getAllele_key() {
+        return allele_key;
     }
 
-    public void setId_allele(Integer id_allele) {
-        this.id_allele = id_allele;
+    public void setAllele_key(Integer allele_key) {
+        this.allele_key = allele_key;
     }
 
-    public String getMgi_ref() {
-        return mgi_ref;
+    public String getMgiReference() {
+        return mgiReference;
     }
 
-    public void setMgi_ref(String mgi_ref) {
-        this.mgi_ref = mgi_ref;
+    public void setMgiReference(String mgiReference) {
+        this.mgiReference = mgiReference;
     }
 
     public String getName() {
@@ -73,12 +75,12 @@ public class Allele {
         this.symbol = symbol;
     }
 
-    public Integer getGen_id_gene() {
-        return gen_id_gene;
+    public Integer getGene_key() {
+        return gene_key;
     }
 
-    public void setGen_id_gene(Integer gen_id_gene) {
-        this.gen_id_gene = gen_id_gene;
+    public void setGene_key(Integer gene_key) {
+        this.gene_key = gene_key;
     }
 
     public Set<Mutation> getMutations() {

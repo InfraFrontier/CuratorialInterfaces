@@ -31,7 +31,7 @@ import uk.ac.ebi.emma.util.Utils;
  *   JdbcTemplate getter/setter, and Serializable attribute.
  */
 public class Biblio implements RowMapper {
-    private Integer id_biblio = 0;                                              // primary key
+    private Integer biblio_key = 0;                                            // primary key (was id_biblio)
 
     private String author1;
     private String author2;
@@ -44,8 +44,8 @@ public class Biblio implements RowMapper {
     private String volume;
     private String year;
     
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
-    private Date last_change;                                                   // date last changed
 
     private JdbcTemplate jdbcTemplate;
     private PlatformTransactionManager platformTransactionManager;
@@ -62,7 +62,7 @@ public class Biblio implements RowMapper {
     public Object mapRow(ResultSet rs, int rowNum) throws SQLException {
         Biblio bibliosDAO = new Biblio();
 
-        bibliosDAO.setId_biblio(Integer.parseInt(Utils.getDbValue(rs, "id_biblio")));
+        bibliosDAO.setBiblio_key(Integer.parseInt(Utils.getDbValue(rs, "id_biblio")));
         bibliosDAO.setTitle(Utils.getDbValue(rs, "title"));
         bibliosDAO.setAuthor1(Utils.getDbValue(rs, "author1"));
         bibliosDAO.setAuthor2(Utils.getDbValue(rs, "author2"));
@@ -81,12 +81,12 @@ public class Biblio implements RowMapper {
 
     // SETTERS AND GETTERS
 
-    public Integer getId_biblio() {
-        return id_biblio;
+    public Integer getBiblio_key() {
+        return biblio_key;
     }
 
-    public void setId_biblio(Integer id_biblio) {
-        this.id_biblio = id_biblio;
+    public void setBiblio_key(Integer biblio_key) {
+        this.biblio_key = biblio_key;
     }
 
     public String getAuthor1() {

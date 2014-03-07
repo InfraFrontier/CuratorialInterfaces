@@ -22,27 +22,27 @@ package uk.ac.ebi.emma.entity;
  */
 public class ProjectStrain {
 
-    private Integer project_id = 0;                                             // first half of primary key
-    private Integer str_id_str = 0;                                             // second half of primary key
+    private Integer cvProject_key = 0;                                         // first half of primary key (foreign key to cv_projects table) (was project_id)
+    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
-    private CvProject cvProject;
-    private Strain strain;
+    private CvProject cvProject;                                                // (was cvProjectsDAO)
+    private Strain    strain;                                                   // (was strainsDAO)
 
-    public Integer getProject_id() {
-        return project_id;
+    public Integer getCvProject_key() {
+        return cvProject_key;
     }
 
-    public void setProject_id(Integer project_id) {
-        this.project_id = project_id;
+    public void setCvProject_key(Integer cvProject_key) {
+        this.cvProject_key = cvProject_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public CvProject getCvProject() {

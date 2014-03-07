@@ -3,13 +3,13 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Ilar" table="ilar">
-        <id column="id" name="id">
+        <id column="id" name="ilar_key">
             <generator class="native"/>
         </id>
         
         <property column="investigator" name="investigator"/>
-        <property column="labcode" name="labcode"/>
+        <property column="labcode"      name="labcode"/>
         <property column="organisation" name="organisation"/>
-        <property column="status" name="status"/>
+        <property column="status"       name="status"/>
     </class>
 </hibernate-mapping>

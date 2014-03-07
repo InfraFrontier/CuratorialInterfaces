@@ -22,7 +22,7 @@ package uk.ac.ebi.emma.entity;
  */
 public class WebRequest {
 
-    private Integer id_req = 0;                                                 // primary key
+    private Integer webRequest_key = 0;                                        // primary key (was id_req)
     
     private String all_paperwork_date;
     private String common_name_s;
@@ -99,12 +99,12 @@ public class WebRequest {
     private String europhenome = "no";
     private String wtsi_mouse_portal = "no";
 
-    public Integer getId_req() {
-        return id_req;
+    public Integer getWebRequest_key() {
+        return webRequest_key;
     }
 
-    public void setId_req(Integer id_req) {
-        this.id_req = id_req;
+    public void setWebRequest_key(Integer webRequest_key) {
+        this.webRequest_key = webRequest_key;
     }
 
     public String getAll_paperwork_date() {

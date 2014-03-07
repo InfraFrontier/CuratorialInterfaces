@@ -54,26 +54,26 @@ public class MutationsManager extends AbstractManager {
     /**
      * Delete mutation.
      * 
-     * @param id_mutation the primary key of the mutation to be deleted
+     * @param mutation_key the primary key of the mutation to be deleted
      * @throws HibernateException if a hibernate error occurs
      */
-    public void delete(int id_mutation) throws HibernateException {
-        delete(getMutation(id_mutation));
+    public void delete(int mutation_key) throws HibernateException {
+        delete(getMutation(mutation_key));
     }
     
     /**
      * Returns the number of mutations for the given background foreign key
      * 
-     * @param bg_id_bg mutations table's foreign key to the backgrounds table
+     * @param background_key mutations table's foreign key to the backgrounds table
      * @return the number of mutations for the given background foreign key
      * @throws HibernateException if a hibernate error occurs
      */
-    public int getBackgroundIDCount(int bg_id_bg) throws HibernateException {
+    public int getBackgroundIDCount(int background_key) throws HibernateException {
         int count = 0;
         try {
             getCurrentSession().beginTransaction();
-            count = (int)getCurrentSession().createSQLQuery("SELECT COUNT(bg_id_bg) FROM mutations WHERE bg_id_bg = ?")
-                    .setParameter(0, bg_id_bg)
+            count = (int)getCurrentSession().createSQLQuery("SELECT COUNT(bg_id_bg) FROM mutations WHERE bg_id_bg = background_key")
+                    .setParameter("background_key", background_key)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
 
@@ -86,18 +86,19 @@ public class MutationsManager extends AbstractManager {
     }
     
     /**
-     * Returns the <code>Mutation</code> matching <code>id_mutation</code>
-     * @param id_mutation the desired mutation id
+     * Returns the <code>Mutation</code> matching <code>mutation_key</code>
+     * @param mutation_key the desired mutation primary key
      * 
-     * @return the <code>Mutation</code> matching <code>id_mutation</code>.
+     * @return the <code>Mutation</code> matching <code>mutation_key</code>.
      * @throws HibernateException if a hibernate error occurs
      */
-    public Mutation getMutation(int id_mutation) throws HibernateException {
+    public Mutation getMutation(int mutation_key) throws HibernateException {
         Mutation mutation = null;
         try {
             getCurrentSession().beginTransaction();
-            mutation = (Mutation)getCurrentSession().createQuery("FROM Mutation m WHERE id_mutation = ?")
-                    .setParameter(0, id_mutation)
+            mutation = (Mutation)getCurrentSession()
+                    .createQuery("FROM Mutation m WHERE mutation_key = :mutation_key")
+                    .setParameter("mutation_key", mutation_key)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -109,18 +110,19 @@ public class MutationsManager extends AbstractManager {
     }
     
     /**
-     * Returns the <code>Mutation</code> matching <code>id_strain</code>
-     * @param id_strain the desired strain id
+     * Returns the <code>Mutation_strain_key matching <code>strain_key</code>
+     * @param strain_key the desired strain primary key
      * 
-     * @return the <code>Mutation</code> matching <code>id_strain</code>.
+     * @return the <code>Mutation</code> matching <code>strain_key</code>.
      * @throws HibernateException if a hibernate error occurs
      */
-    public List getMutationsByStrainID(int id_strain) throws HibernateException {
+    public List getMutationsByStrainID(int strain_key) throws HibernateException {
         List<Mutation> mutations = null;
         try {
             getCurrentSession().beginTransaction();
-            mutations = getCurrentSession().createQuery("FROM MutationStrain m WHERE str_id_str = ?")
-                    .setParameter(0, id_strain)
+            mutations = getCurrentSession()
+                    .createQuery("FROM MutationStrain m WHERE strain_key = :strain_key")
+                    .setParameter("strain_key", strain_key)
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -143,7 +145,9 @@ public class MutationsManager extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT sub_type FROM mutations ORDER BY sub_type").list();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT sub_type FROM mutations ORDER BY sub_type")
+                    .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -173,7 +177,9 @@ public class MutationsManager extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT main_type FROM mutations ORDER BY main_type").list();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT main_type FROM mutations ORDER BY main_type")
+                    .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -224,8 +230,8 @@ public class MutationsManager extends AbstractManager {
         
         String queryString = "SELECT * FROM mutations m\nWHERE (1 = 1)\n";     
         
-        if ((filter.getMutationId() != null) && ( ! filter.getMutationId().isEmpty())) {
-            String mutationIds = Utils.cleanIntArray(filter.getMutationId());
+        if ((filter.getMutation_key() != null) && ( ! filter.getMutation_key().isEmpty())) {
+            String mutationIds = Utils.cleanIntArray(filter.getMutation_key());
             if (Utils.isValidIntArray(mutationIds)) {
                 mutationIdWhere = "  AND (m.id IN (" + mutationIds + "))\n";
                 queryString += mutationIdWhere;
@@ -239,22 +245,22 @@ public class MutationsManager extends AbstractManager {
             mutationSubtypeWhere = "  AND (m.sub_type = :mutationSubtype)\n";
             queryString += mutationSubtypeWhere;
         }
-        if ((filter.getStrainId() != null) && ( ! filter.getStrainId().isEmpty())) {
-            String strainIds = Utils.cleanIntArray(filter.getStrainId());
+        if ((filter.getStrain_key() != null) && ( ! filter.getStrain_key().isEmpty())) {
+            String strainIds = Utils.cleanIntArray(filter.getStrain_key());
             if (Utils.isValidIntArray(strainIds)) {
                 strainIdWhere = "  AND (m.str_id_str in (" + strainIds + "))\n";
                 queryString += strainIdWhere;
             }
         }
-        if ((filter.getAlleleId() != null) && ( ! filter.getAlleleId().isEmpty())) {
-            String alleleIds = Utils.cleanIntArray(filter.getAlleleId());
+        if ((filter.getAllele_key() != null) && ( ! filter.getAllele_key().isEmpty())) {
+            String alleleIds = Utils.cleanIntArray(filter.getAllele_key());
             if (Utils.isValidIntArray(alleleIds)) {
                 alleleIdWhere = "  AND (m.alls_id_allel in (" + alleleIds + "))\n";
                 queryString += alleleIdWhere;
             }
         }
-        if ((filter.getBackgroundId() != null) && ( ! filter.getBackgroundId().isEmpty())) {
-            String backgroundIds = Utils.cleanIntArray(filter.getBackgroundId());
+        if ((filter.getBackground_key() != null) && ( ! filter.getBackground_key().isEmpty())) {
+            String backgroundIds = Utils.cleanIntArray(filter.getBackground_key());
             if (Utils.isValidIntArray(backgroundIds)) {
                 backgroundIdWhere = "  AND (m.bg_id_bg IN (" + backgroundIds + "))\n";
                 queryString += backgroundIdWhere;
@@ -322,7 +328,7 @@ public class MutationsManager extends AbstractManager {
 
     /**
      * This is a legacy method. Callers of this method should instead call
-     * getMutationsByStrainId(id_strain) directly.
+     * getMutationsByStrainId(strain_key) directly.
      * 
      * When all EMMA code has been ported and references to this method removed,
      * getMutationIDsByStrain() may be removed.

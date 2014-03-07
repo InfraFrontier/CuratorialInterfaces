@@ -23,23 +23,25 @@ import javax.persistence.Transient;
  * @author mrelac
  */
 public class GeneSynonym {
-    private Integer id_syn;                                                     // primary key
+    private Integer geneSynonym_key;                                           // primary key (was id_syn)
     
-    private Gene gene;
+    // CLASS INSTANCES
+    private Gene gene;                                                          // (was genes)
+    
     private String name;
     private String symbol;
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
     
     private boolean isDirty;
 
-    public Integer getId_syn() {
-        return id_syn;
+    public Integer getGeneSynonym_key() {
+        return geneSynonym_key;
     }
 
-    public void setId_syn(Integer id_syn) {
-        this.id_syn = id_syn;
+    public void setGeneSynonym_key(Integer geneSynonym_key) {
+        this.geneSynonym_key = geneSynonym_key;
     }
 
     public String getName() {

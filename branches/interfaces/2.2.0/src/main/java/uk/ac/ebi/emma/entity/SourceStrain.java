@@ -21,38 +21,38 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class SourceStrain {
-    private Integer str_id_str = 0;                                             // primary key
+    private Integer strain_key = 0;                                             // first half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer cvSource_key;                                               // second half of primary key (foreign key to cv_sources table) (was sour_id)
 
     // FOREIGN KEYS
-    private Integer lab_id_labo;                                                // foreign key to laboratories table
-    private Integer sour_id;                                                    // foreign key to sources table
+    private Integer laboratory_key;                                             // foreign key to laboratories table (was lab_id_labo)
 
     // CLASS INSTANCES
     private Laboratory laboratory;                                              // (was labsDAO)
-    private CvSource cvSource;                                                    // (was cvsourcesDAO)
+    private CvSource   cvSource;                                                // (was cvsourcesDAO)
 
-    public Integer getSour_id() {
-        return sour_id;
+    public Integer getCvSource_key() {
+        return cvSource_key;
     }
 
-    public void setSour_id(Integer sour_id) {
-        this.sour_id = sour_id;
+    public void setCvSource_key(Integer cvSource_key) {
+        this.cvSource_key = cvSource_key;
     }
 
-    public Integer getLab_id_labo() {
-        return lab_id_labo;
+    public Integer getLaboratory_key() {
+        return laboratory_key;
     }
 
-    public void setLab_id_labo(Integer lab_id_labo) {
-        this.lab_id_labo = lab_id_labo;
+    public void setLaboratory_key(Integer laboratory_key) {
+        this.laboratory_key = laboratory_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public Laboratory getLaboratory() {
