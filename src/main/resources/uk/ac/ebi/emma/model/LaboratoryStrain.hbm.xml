@@ -3,10 +3,10 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="LaboratoryStrain" table="laboratories_strains">
-        <id column="str_id_str" name="str_id_str">
+        <id column="str_id_str" name="strain_key">
             <generator class="assigned"/>
         </id>
         
-        <property column="lab_id_labo" name="lab_id_labo"/>
+        <property column="lab_id_labo" name="laboratory_key"/>
     </class>
 </hibernate-mapping>

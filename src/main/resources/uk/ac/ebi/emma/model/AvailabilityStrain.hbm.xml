@@ -8,7 +8,7 @@
             <key-many-to-one class="Strain" column="str_id_str" lazy="false" name="strain"/>
         </composite-id>
         
-        <property column="avail_id" name="avail_id"/>
-        <property column="str_id_str" name="str_id_str"/>
+        <property column="avail_id"   name="cvAvailibility_key"/>
+        <property column="str_id_str" name="strain_key"/>
     </class>
 </hibernate-mapping>

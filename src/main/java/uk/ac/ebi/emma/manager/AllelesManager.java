@@ -54,23 +54,24 @@ public class AllelesManager extends AbstractManager {
     /**
      * Delete allele.
      * 
-     * @param id_allele the primary key of the allele to be deleted
+     * @param allele_key the primary key of the allele to be deleted
      */
-    public void delete(int id_allele) {
-        delete(getAllele(id_allele));
+    public void delete(int allele_key) {
+        delete(getAllele(allele_key));
     }
     
     /**
-     * Returns the <code>Allele</code> object matching <code>id_allele</code>
-     * @param id_allele the allele id to match
-     * @return the <code>Allele</code> object matching <code>id_allele</code>.
+     * Returns the <code>Allele</code> object matching <code>allele_key</code>
+     * @param allele_key the allele primary key to match
+     * @return the <code>Allele</code> object matching <code>allele_key</code>.
      */
-    public Allele getAllele(int id_allele) {
+    public Allele getAllele(int allele_key) {
         Allele allele = null;
         try {
             getCurrentSession().beginTransaction();
-            allele = (Allele)getCurrentSession().createQuery("FROM Allele g WHERE id_allele = ?")
-                    .setParameter(0, id_allele)
+            allele = (Allele)getCurrentSession()
+                    .createQuery("FROM Allele a WHERE allele_key = :allele_key")
+                    .setParameter("allele_key", allele_key)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -93,7 +94,10 @@ public class AllelesManager extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT name FROM alleles WHERE name LIKE ?").setParameter(0, "%" + filterTerm + "%").list();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT name FROM alleles WHERE name LIKE :name")
+                    .setParameter("name", "%" + filterTerm + "%")
+                    .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -124,7 +128,10 @@ public class AllelesManager extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT alls_form FROM alleles WHERE alls_form LIKE ?").setParameter(0, "%" + filterTerm + "%").list();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT alls_form FROM alleles WHERE alls_form LIKE :symbol")
+                    .setParameter("symbol", "%" + filterTerm + "%")
+                    .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -174,8 +181,8 @@ public class AllelesManager extends AbstractManager {
         
         String queryString = "SELECT * FROM alleles a\nJOIN genes g ON g.id_gene = a.gen_id_gene\nWHERE (1 = 1)\n";
 
-        if ((filter.getAlleleId() != null) && ( ! filter.getAlleleId().isEmpty())) {
-            String alleleIds = Utils.cleanIntArray(filter.getAlleleId());
+        if ((filter.getAllele_key() != null) && ( ! filter.getAllele_key().isEmpty())) {
+            String alleleIds = Utils.cleanIntArray(filter.getAllele_key());
             if (Utils.isValidIntArray(alleleIds)) {
                 alleleIdWhere = "  AND (a.id_allel IN (" + alleleIds + "))\n";
                 queryString += alleleIdWhere;
@@ -193,8 +200,8 @@ public class AllelesManager extends AbstractManager {
             alleleMgiReferenceWhere = "  AND (a.mgi_ref LIKE :alleleMgiReference)\n";
             queryString += alleleMgiReferenceWhere;
         }
-        if ((filter.getGeneId() != null) && ( ! filter.getGeneId().isEmpty())) {
-            String geneIds = Utils.cleanIntArray(filter.getGeneId());
+        if ((filter.getGene_key() != null) && ( ! filter.getGene_key().isEmpty())) {
+            String geneIds = Utils.cleanIntArray(filter.getGene_key());
             if (Utils.isValidIntArray(geneIds)) {
                 geneIdWhere = "  AND (a.gen_id_gene IN (" + geneIds + "))\n";
                 queryString += geneIdWhere;
@@ -247,7 +254,10 @@ public class AllelesManager extends AbstractManager {
         List sourceList = null;
         try {
             getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession().createSQLQuery("SELECT DISTINCT mgi_ref FROM alleles WHERE mgi_ref LIKE ? ORDER BY CAST(mgi_ref AS unsigned) ASC").setParameter(0, "%" + filterTerm + "%").list();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT mgi_ref FROM alleles WHERE mgi_ref LIKE :mgiReference ORDER BY CAST(mgi_ref AS unsigned) ASC")
+                    .setParameter("mgiReference", "%" + filterTerm + "%")
+                    .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
@@ -273,7 +283,7 @@ public class AllelesManager extends AbstractManager {
     public void save(Allele allele) throws PersistFailedException {
         allele.setLast_change(new Date());
         allele.setUsername(username);
-        allele.setGen_id_gene(allele.getGene().getId_gene());
+        allele.setGene_key(allele.getGene().getGene_key());
         try {
             getCurrentSession().beginTransaction();
             getCurrentSession().saveOrUpdate(allele);

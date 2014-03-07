@@ -3,7 +3,7 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Residue" table="residues">
-        <id column="id" name="id">
+        <id column="id" name="residue_key">
             <generator class="native"/>
         </id>
     

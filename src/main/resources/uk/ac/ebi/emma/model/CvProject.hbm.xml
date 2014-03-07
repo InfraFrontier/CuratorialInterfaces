@@ -3,11 +3,11 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="CvProject" table="cv_projects">
-        <id column="id" name="id">
+        <id column="id" name="cvProject_key">
             <generator class="native"/>
         </id>
         
-        <property column="code" name="code"/>
+        <property column="code"        name="code"/>
         <property column="description" name="description"/>
     </class>
 </hibernate-mapping>

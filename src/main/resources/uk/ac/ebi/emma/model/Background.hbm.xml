@@ -3,18 +3,18 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Background" table="backgrounds">
-        <id column="id_bg" name="id_bg">
+        <id column="id_bg" name="background_key">
             <generator class="native"/>
         </id>
         
-        <property column="curated" name="curated"/>
-        <property column="inbred" name="inbred"/>
-        <property column="name" name="name"/>
-        <property column="notes" name="notes"/>
-        <property column="species" name="species"/>
-        <property column="symbol" name="symbol"/>
+        <property column="curated"     name="curated"/>
+        <property column="inbred"      name="inbred"/>
+        <property column="name"        name="name"/>
+        <property column="notes"       name="notes"/>
+        <property column="species"     name="species"/>
+        <property column="symbol"      name="symbol"/>
         
         <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="username"    name="username"/>
     </class>
 </hibernate-mapping>

@@ -3,7 +3,7 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="WebRequest" table="web_requests">
-        <id name="id_req" column="id_req">
+        <id column="id_req" name="webRequest_key" >
             <generator class="native"/>
         </id>
         

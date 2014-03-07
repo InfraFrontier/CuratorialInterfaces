@@ -21,16 +21,16 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class CvArchivingMethod {
-    private Integer id = 0;                                                     // primary key
+    private Integer cvArchivingMethod_key = 0;                                 // primary key (was id)
     
     private String description;
 
-    public Integer getId() {
-        return id;
+    public Integer getCvArchivingMethod_key() {
+        return cvArchivingMethod_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCvArchivingMethod_key(Integer cvArchivingMethod_key) {
+        this.cvArchivingMethod_key = cvArchivingMethod_key;
     }
 
     public String getDescription() {

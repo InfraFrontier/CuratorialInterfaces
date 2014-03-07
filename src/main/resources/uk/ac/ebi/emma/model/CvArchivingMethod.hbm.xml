@@ -3,7 +3,7 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="CvArchivingMethod" table="cv_archiving_method">
-        <id column="id" name="id">
+        <id column="id" name="cvArchivingMethod_key">
             <generator class="native"/>
         </id>
         

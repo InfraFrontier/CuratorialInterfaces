@@ -22,22 +22,22 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class SynonymStrain {
-    private Integer id_syn = 0;                                                 // primary key
+    private Integer synonymStrain_key = 0;                                     // primary key (was id_syn)
     
     private String name;
     
     // FOREIGN KEYS
-    private int str_id_str;                                                     // foreign key to strains table
+    private int strain_key;                                                    // foreign key to strains table (was str_id_str)
     
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
-    private Date last_change;                                                   // date last changed
 
-    public Integer getId_syn() {
-        return id_syn;
+    public Integer getSynonymStrain_key() {
+        return synonymStrain_key;
     }
 
-    public void setId_syn(Integer id_syn) {
-        this.id_syn = id_syn;
+    public void setSynonymStrain_key(Integer synonymStrain_key) {
+        this.synonymStrain_key = synonymStrain_key;
     }
 
     public String getName() {
@@ -48,12 +48,12 @@ public class SynonymStrain {
         this.name = name;
     }
 
-    public int getStr_id_str() {
-        return str_id_str;
+    public int getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(int str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(int strain_key) {
+        this.strain_key = strain_key;
     }
 
     public String getUsername() {

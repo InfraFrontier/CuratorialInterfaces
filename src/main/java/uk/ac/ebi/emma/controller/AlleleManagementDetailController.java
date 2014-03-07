@@ -73,13 +73,13 @@ public class AlleleManagementDetailController {
     /**
      * 'Edit/New Allele' icon implementation
      * 
-     * @param id_allele the allele ID being edited (a value of 0 indicates a new
+     * @param allele_key the allele ID being edited (a value of 0 indicates a new
      *                allele is to be added).
-     * @param filterAlleleId the Allele Id part of the filter
+     * @param filterAlleleKey the Allele Id part of the filter
      * @param filterAlleleName the Allele name part of the filter
      * @param filterAlleleSymbol the Allele symbol part of the filter
      * @param filterAlleleMgiReference the MGI reference part of the filter
-     * @param filterGeneId the Gene Id part of the filter
+     * @param filterGeneKey the Gene Id part of the filter
      * @param filterGeneName the Gene name part of the filter
      * @param filterGeneSymbol the Gene symbol part of the filter
      * @param model the model
@@ -87,30 +87,30 @@ public class AlleleManagementDetailController {
      */
     @RequestMapping(value="/edit", method=RequestMethod.GET)
     public String edit(
-            @RequestParam(value="id_allele") Integer id_allele
+            @RequestParam(value="allele_key") Integer allele_key
             
-          , @RequestParam(value="filterAlleleId") String filterAlleleId
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterAlleleName") String filterAlleleName
           , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
           , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
             
           , Model model)
     {
         // Save the filter info and add to model.
-        Filter filter = buildFilter(filterAlleleId, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
-                                    filterGeneId, filterGeneName, filterGeneSymbol);
+        Filter filter = buildFilter(filterAlleleKey, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
+                                    filterGeneKey, filterGeneName, filterGeneSymbol);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
         
-        Allele allele = allelesManager.getAllele(id_allele);
+        Allele allele = allelesManager.getAllele(allele_key);
         if (allele == null) {
             allele = new Allele();
-            allele.setId_allele(null);
+            allele.setAllele_key(null);
         }
         
         model.addAttribute("allele", allele);
@@ -123,12 +123,12 @@ public class AlleleManagementDetailController {
      * 
      * @param allele the allele instance
      * @param errors the Errors binding result object
-     * @param id_allele the actual allele primary key
-     * @param filterAlleleId
+     * @param allele_key the actual allele primary key
+     * @param filterAlleleKey
      * @param filterAlleleName
      * @param filterAlleleSymbol
      * @param filterAlleleMgiReference
-     * @param filterGeneId
+     * @param filterGeneKey
      * @param filterGeneName
      * @param filterGeneSymbol
      * @param model the filter data, saved above in edit().
@@ -138,23 +138,23 @@ public class AlleleManagementDetailController {
     public String save(
             @Valid Allele allele, Errors errors
           
-          , @RequestParam(value="id_allele") Integer id_allele
+          , @RequestParam(value="allele_key") Integer allele_key
             
-          , @RequestParam(value="filterAlleleId") String filterAlleleId
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterAlleleName") String filterAlleleName
           , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
           , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
             
           , Model model) 
     {
-        allele.setId_allele(id_allele);
+        allele.setAllele_key(allele_key);
         
         // Load up the model in case we have to redisplay the detail form.            // Save the filter info and add to model.
-        Filter filter = buildFilter(filterAlleleId, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
-                                    filterGeneId, filterGeneName, filterGeneSymbol);
+        Filter filter = buildFilter(filterAlleleKey, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
+                                    filterGeneKey, filterGeneName, filterGeneSymbol);
         model.addAttribute(filter);
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
@@ -173,12 +173,12 @@ public class AlleleManagementDetailController {
         }
         
         return "redirect:/curation/alleleManagementDetail/edit"
-                + "?id_allele=" + allele.getId_allele()
-                + "&filterAlleleId=" + filterAlleleId
+                + "?allele_key=" + allele.getAllele_key()
+                + "&filterAlleleKey=" + filterAlleleKey
                 + "&filterAlleleName=" + filterAlleleName
                 + "&filterAlleleSymbol=" + filterAlleleSymbol
                 + "&filterAlleleMgiReference=" + filterAlleleMgiReference
-                + "&filterGeneId=" + filterGeneId
+                + "&filterGeneKey=" + filterGeneKey
                 + "&filterGeneName=" + filterGeneName
                 + "&filterGeneSymbol=" + filterGeneSymbol;
     }
@@ -186,11 +186,11 @@ public class AlleleManagementDetailController {
 //    /**
 //     * Show the list form with saved filter values.
 //     * 
-//     * @param filterAlleleId
+//     * @param filterAlleleKey
 //     * @param filterAlleleName
 //     * @param filterAlleleSymbol
 //     * @param filterAlleleMgiReference
-//     * @param filterGeneId
+//     * @param filterGeneKey
 //     * @param filterGeneName
 //     * @param filterGeneSymbol
 //     * @param model the filter data, saved above in edit().
@@ -198,22 +198,22 @@ public class AlleleManagementDetailController {
 //     */
 //    @RequestMapping(value="/showList", method=RequestMethod.GET)
 //    public String showList(
-//            @RequestParam(value="filterAlleleId") String filterAlleleId
+//            @RequestParam(value="filterAlleleKey") String filterAlleleKey
 //          , @RequestParam(value="filterAlleleName") String filterAlleleName
 //          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
 //          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-//          , @RequestParam(value="filterGeneId") String filterGeneId
+//          , @RequestParam(value="filterGeneKey") String filterGeneKey
 //          , @RequestParam(value="filterGeneName") String filterGeneName
 //          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
 //            
 //          , Model model) 
 //    {
 //        return "redirect:/curation/alleleManagementList/showFilter"
-//                + "?filterAlleleId=" + filterAlleleId
+//                + "?filterAlleleKey=" + filterAlleleKey
 //                + "&filterAlleleName=" + filterAlleleName
 //                + "&filterAlleleSymbol=" + filterAlleleSymbol
 //                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
-//                + "&filterGeneId=" + filterGeneId
+//                + "&filterGeneKey=" + filterGeneKey
 //                + "&filterGeneName=" + filterGeneName
 //                + "&filterGeneSymbol=" + filterGeneSymbol;
 //    }
@@ -222,14 +222,14 @@ public class AlleleManagementDetailController {
     // PRIVATE METHODS
     
     
-    private Filter buildFilter(String alleleId, String alleleName, String alleleSymbol, String alleleMgiReference,
-                               String geneId, String geneName, String geneSymbol) {
+    private Filter buildFilter(String allele_key, String alleleName, String alleleSymbol, String alleleMgiReference,
+                               String gene_key, String geneName, String geneSymbol) {
         Filter filter = new Filter();
-        filter.setAlleleId(alleleId != null ? alleleId : "");
+        filter.setAllele_key(allele_key != null ? allele_key : "");
         filter.setAlleleName(alleleName != null ? alleleName : "");
         filter.setAlleleSymbol(alleleSymbol != null ? alleleSymbol : "");
         filter.setAlleleMgiReference(alleleMgiReference != null ? alleleMgiReference : "");
-        filter.setGeneId(geneId != null ? geneId : "");
+        filter.setGene_key(gene_key != null ? gene_key : "");
         filter.setGeneName(geneName != null ? geneName : "");
         filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
         

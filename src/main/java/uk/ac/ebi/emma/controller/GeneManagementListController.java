@@ -43,7 +43,7 @@ public class GeneManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneKey the gene id search criterion (may be empty)
      * @param filterGeneName the gene name search criterion (may be empty)
      * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param filterChromosome the chromosome search criterion (may be empty)
@@ -53,7 +53,7 @@ public class GeneManagementListController {
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="filterGeneId") String filterGeneId
+            @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , @RequestParam(value="filterChromosome") String filterChromosome
@@ -61,7 +61,7 @@ public class GeneManagementListController {
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setGeneId(filterGeneId != null ? filterGeneId : "");
+        filter.setGene_key(filterGeneKey != null ? filterGeneKey : "");
         filter.setGeneName(filterGeneName != null ? filterGeneName : "");
         filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
         filter.setChromosome(filterChromosome != null ? filterChromosome : "");
@@ -81,18 +81,18 @@ public class GeneManagementListController {
      * avoids re-posting problems with the back button. NOTE: It is the caller's
      * responsibility to insure there are no foreign key constraints.
      * 
-     * @param id_gene primary key of the gene to be deleted
+     * @param gene_key primary key of the gene to be deleted
      * @return a JSON string containing 'status' [ok or fail], and a message [
      * empty string if status is ok; error message otherwise]
      */
     @RequestMapping(value = "/deleteGene"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> deleteGene(@RequestParam int id_gene) {
+    public ResponseEntity<String> deleteGene(@RequestParam int gene_key) {
         String status, message;
         
         try {
-            genesManager.delete(id_gene);
+            genesManager.delete(gene_key);
             status = "ok";
             message = "";
         } catch (Exception e) {
@@ -112,7 +112,7 @@ public class GeneManagementListController {
     /**
      * Displays the form with no results grid. Since this is the entry point to
      * gene management curation, the filter parameter values are optional.
-     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneKey the gene id search criterion (may be empty)
      * @param filterGeneName the gene name search criterion (may be empty)
      * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param filterChromosome the chromosome search criterion (may be empty)
@@ -122,7 +122,7 @@ public class GeneManagementListController {
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="filterGeneId", required=false) String filterGeneId
+            @RequestParam(value="filterGeneKey", required=false) String filterGeneKey
           , @RequestParam(value="filterGeneName", required=false) String filterGeneName
           , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
           , @RequestParam(value="filterChromosome", required=false) String filterChromosome
@@ -130,7 +130,7 @@ public class GeneManagementListController {
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setGeneId((filterGeneId != null ? filterGeneId : ""));
+        filter.setGene_key((filterGeneKey != null ? filterGeneKey : ""));
         filter.setGeneName((filterGeneName != null ? filterGeneName : ""));
         filter.setGeneSymbol((filterGeneSymbol != null ? filterGeneSymbol : ""));
         filter.setChromosome((filterChromosome != null ? filterChromosome : ""));
@@ -161,36 +161,22 @@ public class GeneManagementListController {
     }
     
     /**
-     * Returns a gene instance matching <b>id_gene</b> if found; null otherwise.
+     * Returns a gene instance matching <b>gene_key</b> if found; null otherwise.
      * 
-     * @param id_gene the primary key of the desired gene instance
-     * @@return a gene instance matching <b>id_gene</b> if found; null otherwise.
+     * @param gene_key the primary key of the desired gene instance
+     * @@return a gene instance matching <b>gene_key</b> if found; null otherwise.
      * */
     @RequestMapping(value = "/getGene"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public Gene getGene(@RequestParam int id_gene) {
-        Gene gene = genesManager.getGene(id_gene);
+    public Gene getGene(@RequestParam int gene_key) {
+        Gene gene = genesManager.getGene(gene_key);
         if (gene != null)
             gene.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
         
         return gene;
     }
     
-    /**
-     * Returns a [distinct], unfiltered list of all gene ids suitable for autocomplete
-     * sourcing.
-     * 
-     * @@return a [distinct], unfiltered list of all gene ids suitable for autocomplete
-     * sourcing.
-     * */
-    @RequestMapping(value = "/getGeneIds"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public List<String> getGeneIds() {
-        return genesManager.getGeneIds();
-    }
-
     /**
      * Returns a distinct filtered list of gene names suitable for autocomplete
      * sourcing.

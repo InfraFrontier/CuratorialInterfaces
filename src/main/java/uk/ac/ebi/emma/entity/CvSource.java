@@ -21,17 +21,17 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class CvSource {
-    private Integer id;                                                         // primary key
+    private Integer cvSource_key;                                              // primary key (was id)
     
     private String code;
     private String description;
 
-    public Integer getId() {
-        return id;
+    public Integer getCvSource_key() {
+        return cvSource_key;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCvSource_key(Integer cvSource_key) {
+        this.cvSource_key = cvSource_key;
     }
 
     public String getCode() {

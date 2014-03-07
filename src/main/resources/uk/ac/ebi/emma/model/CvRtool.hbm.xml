@@ -2,12 +2,12 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
-    <class name="CvRTool" table="cv_rtools">
-        <id column="id" name="id">
+    <class name="CvRtool" table="cv_rtools">
+        <id column="id" name="cvRtool_key">
             <generator class="native"/>
         </id>
         
-        <property column="code" name="code"/>
+        <property column="code"        name="code"/>
         <property column="description" name="description"/>
     </class>
 </hibernate-mapping>

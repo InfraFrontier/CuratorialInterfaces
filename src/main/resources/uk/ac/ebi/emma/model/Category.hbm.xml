@@ -3,16 +3,16 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Category" table="categories">
-        <id column="id_cat" name="id_cat">
+        <id column="id_cat" name="category_key">
             <generator class="native"/>
         </id>
         
-        <property column="curated" name="curated"/>
+        <property column="curated"     name="curated"/>
         <property column="description" name="description"/>
-        <property column="main_cat" name="main_cat"/>
-        <property column="sub_cat" name="sub_cat"/>
+        <property column="main_cat"    name="main_cat"/>
+        <property column="sub_cat"     name="sub_cat"/>
         
         <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="username"    name="username"/>
     </class>
 </hibernate-mapping>

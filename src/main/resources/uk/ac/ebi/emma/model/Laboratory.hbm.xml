@@ -3,24 +3,24 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
     <class name="Laboratory" table="laboratories">
-        <id column="id_labo" name="id_labo">
+        <id column="id_labo" name="laboratory_key">
             <generator class="native"/>
         </id>
         
-        <property column="addr_line_1" name="addr_line_1"/>
-        <property column="addr_line_2" name="addr_line_2"/>
-        <property column="authority" name="authority"/>
-        <property column="base_url" name="base_url"/>
-        <property column="code" name="code"/>
-        <property column="country" name="country"/>
+        <property column="addr_line_1"  name="addr_line_1"/>
+        <property column="addr_line_2"  name="addr_line_2"/>
+        <property column="authority"    name="authority"/>
+        <property column="base_url"     name="base_url"/>
+        <property column="code"         name="code"/>
+        <property column="country"      name="country"/>
         <property column="country_code" name="country_code"/>
-        <property column="dept" name="dept"/>
-        <property column="name" name="name"/>
-        <property column="postcode" name="postcode"/>
-        <property column="province" name="province"/>
-        <property column="town" name="town"/>
+        <property column="dept"         name="dept"/>
+        <property column="name"         name="name"/>
+        <property column="postcode"     name="postcode"/>
+        <property column="province"     name="province"/>
+        <property column="town"         name="town"/>
         
-        <property column="last_change" name="last_change"/>
-        <property column="username" name="username"/>
+        <property column="last_change"  name="last_change"/>
+        <property column="username"     name="username"/>
     </class>
 </hibernate-mapping>

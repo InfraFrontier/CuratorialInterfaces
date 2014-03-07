@@ -23,7 +23,7 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class Laboratory {
-    private Integer id_labo = 0;                                                // primary key
+    private Integer laboratory_key = 0;                                        // primary key (was id_labo)
     
     private String addr_line_1;
     private String addr_line_2;
@@ -38,15 +38,15 @@ public class Laboratory {
     private String province;
     private String town;
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
 
-    public Integer getId_labo() {
-        return id_labo;
+    public Integer getLaboratory_key() {
+        return laboratory_key;
     }
 
-    public void setId_labo(Integer id_labo) {
-        this.id_labo = id_labo;
+    public void setLaboratory_key(Integer laboratory_key) {
+        this.laboratory_key = laboratory_key;
     }
 
     public String getAddr_line_1() {

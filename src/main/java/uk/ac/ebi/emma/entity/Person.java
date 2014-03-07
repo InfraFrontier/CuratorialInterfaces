@@ -23,7 +23,7 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class Person {
-    private Integer id_per = 0;                                                 // primary key
+    private Integer person_key = 0;                                            // primary key (was id_per)
     
     private String email;
     private String fax;
@@ -33,22 +33,22 @@ public class Person {
     private String title;
     
     // FOREIGN KEYS
-    private Integer id_ilar;                                                    // foreign key to ilar table
-    private Integer lab_id_labo;                                                // foreign key to laboratories table
+    private Integer ilar_key;                                                  // foreign key to ilar table (was id_ilar)
+    private Integer laboratory_key;                                            // foreign key to laboratories table (was lab_id_labo)
     
     // CLASS INSTANCES
     private Ilar ilar;                                                          // (was ilarDAO)
     private Laboratory laboratory;                                              // (was labsDAO)
     
-    private Date last_change;                                                   // date last changed
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
 
-    public Integer getId_per() {
-        return id_per;
+    public Integer getPerson_key() {
+        return person_key;
     }
 
-    public void setId_per(Integer id_per) {
-        this.id_per = id_per;
+    public void setPerson_key(Integer person_key) {
+        this.person_key = person_key;
     }
 
     public String getEmail() {
@@ -99,20 +99,20 @@ public class Person {
         this.title = title;
     }
 
-    public Integer getId_ilar() {
-        return id_ilar;
+    public Integer getIlar_key() {
+        return ilar_key;
     }
 
-    public void setId_ilar(Integer id_ilar) {
-        this.id_ilar = id_ilar;
+    public void setIlar_key(Integer ilar_key) {
+        this.ilar_key = ilar_key;
     }
 
-    public Integer getLab_id_labo() {
-        return lab_id_labo;
+    public Integer getLaboratory_key() {
+        return laboratory_key;
     }
 
-    public void setLab_id_labo(Integer lab_id_labo) {
-        this.lab_id_labo = lab_id_labo;
+    public void setLaboratory_key(Integer laboratory_key) {
+        this.laboratory_key = laboratory_key;
     }
 
     public Ilar getIlar() {

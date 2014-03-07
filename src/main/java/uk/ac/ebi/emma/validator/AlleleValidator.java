@@ -65,7 +65,7 @@ public class AlleleValidator implements Validator {
         // Make sure allele is bound to an existing gene.
         Integer pk = extractAndValidateGeneKey(allele);
         if (pk == null) {
-            errors.rejectValue("gene.id_gene", null, "Please choose a valid gene.");
+            errors.rejectValue("gene.gene_key", null, "Please choose a valid gene.");
         }
     }
     
@@ -81,13 +81,13 @@ public class AlleleValidator implements Validator {
     private Integer extractAndValidateGeneKey(Allele allele) {
         if (allele.getGene() == null)
             return null;
-        Integer id_gene = allele.getGene().getId_gene();
-        if ((id_gene == null) || (id_gene <= 0))
+        Integer gene_key = allele.getGene().getGene_key();
+        if ((gene_key == null) || (gene_key <= 0))
             return null;
-        Gene gene = genesManager.getGene(id_gene);
+        Gene gene = genesManager.getGene(gene_key);
         if (gene == null)
             return null;
         
-        return gene.getId_gene();
+        return gene.getGene_key();
     }
 }

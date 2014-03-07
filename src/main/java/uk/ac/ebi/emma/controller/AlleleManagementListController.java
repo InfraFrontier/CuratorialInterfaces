@@ -43,10 +43,10 @@ public class AlleleManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param filterAlleleId the allele id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
      * @param filterAlleleName the allele name search criterion (may be empty)
      * @param filterAlleleSymbol the allele symbol search criterion (may be empty)
-     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneKey the gene id search criterion (may be empty)
      * @param filterGeneName the gene name search criterion (may be empty)
      * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param filterAlleleMgiReference the allele MGI reference search criterion (may be empty)
@@ -55,20 +55,20 @@ public class AlleleManagementListController {
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="filterAlleleId") String filterAlleleId
+            @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterAlleleName") String filterAlleleName
           , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
           , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setAlleleId(filterAlleleId != null ? filterAlleleId : "");
+        filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
         filter.setAlleleName(filterAlleleName != null ? filterAlleleName : "");
         filter.setAlleleSymbol(filterAlleleSymbol != null ? filterAlleleSymbol : "");
-        filter.setGeneId(filterGeneId != null ? filterGeneId : "");
+        filter.setGene_key(filterGeneKey != null ? filterGeneKey : "");
         filter.setGeneName(filterGeneName != null ? filterGeneName : "");
         filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
         filter.setAlleleMgiReference(filterAlleleMgiReference != null ? filterAlleleMgiReference : "");
@@ -87,18 +87,18 @@ public class AlleleManagementListController {
      * avoids re-posting problems with the back button. NOTE: It is the caller's
      * responsibility to insure there are no foreign key constraints.
      * 
-     * @param id_allele primary key of the allele to be deleted
+     * @param allele_key primary key of the allele to be deleted
      * @return a JSON string containing 'status' [ok or fail], and a message [
      * empty string if status is ok; error message otherwise]
      */
     @RequestMapping(value = "/deleteAllele"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> deleteAllele(@RequestParam int id_allele) {
+    public ResponseEntity<String> deleteAllele(@RequestParam int allele_key) {
         String status, message;
         
         try {
-            allelesManager.delete(id_allele);
+            allelesManager.delete(allele_key);
             status = "ok";
             message = "";
         } catch (Exception e) {
@@ -118,11 +118,11 @@ public class AlleleManagementListController {
     /**
      * Displays the form with no results grid. Since this is the entry point to
      * allele management curation, the filter parameter values are optional.
-     * @param filterAlleleId the allele id search criterion (may be empty)
+     * @param filterAllele_key the allele id search criterion (may be empty)
      * @param filterAlleleName the allele name search criterion (may be empty)
      * @param filterAlleleSymbol the allele symbol search criterion (may be empty)
      * @param filterAlleleMgiReference the allele MGI reference search criterion (may be empty)
-     * @param filterGeneId the gene id search criterion (may be empty)
+     * @param filterGeneKey the gene id search criterion (may be empty)
      * @param filterGeneName the gene name search criterion (may be empty)
      * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the data model
@@ -130,20 +130,20 @@ public class AlleleManagementListController {
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="filterAlleleId", required=false) String filterAlleleId
+            @RequestParam(value="filterAlleleKey", required=false) String filterAllele_key
           , @RequestParam(value="filterAlleleName", required=false) String filterAlleleName
           , @RequestParam(value="filterAlleleSymbol", required=false) String filterAlleleSymbol
           , @RequestParam(value="filterAlleleMgiReference", required=false) String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId", required=false) String filterGeneId
+          , @RequestParam(value="filterGeneKey", required=false) String filterGeneKey
           , @RequestParam(value="filterGeneName", required=false) String filterGeneName
           , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setAlleleId((filterAlleleId != null ? filterAlleleId : ""));
+        filter.setAllele_key((filterAllele_key != null ? filterAllele_key : ""));
         filter.setAlleleName((filterAlleleName != null ? filterAlleleName : ""));
         filter.setAlleleSymbol((filterAlleleSymbol != null ? filterAlleleSymbol : ""));
-        filter.setAlleleId((filterGeneId != null ? filterGeneId : ""));
+        filter.setAllele_key((filterGeneKey != null ? filterGeneKey : ""));
         filter.setAlleleName((filterGeneName != null ? filterGeneName : ""));
         filter.setAlleleSymbol((filterGeneSymbol != null ? filterGeneSymbol : ""));
         filter.setAlleleMgiReference((filterAlleleMgiReference != null ? filterAlleleMgiReference : ""));

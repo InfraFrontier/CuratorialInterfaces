@@ -70,7 +70,7 @@ public class GeneManagementListControllerTest {
     @Test
     public void testGo() {
         System.out.println("go");
-        String geneId = "123";
+        String gene_key = "123";
         String geneName = "test gene name";
         String geneSymbol = "test gene symbol";
         String chromosome = "test chromosome";
@@ -78,14 +78,14 @@ public class GeneManagementListControllerTest {
         Model model = new BindingAwareModelMap();
         GeneManagementListController instance = new GeneManagementListController();
         String expResult = "geneManagementList";
-        String result = instance.go(geneId, geneName, geneSymbol, chromosome, mgiReference, model);
+        String result = instance.go(gene_key, geneName, geneSymbol, chromosome, mgiReference, model);
         assertEquals(expResult, result);
 
         Map modelMap = model.asMap();
         
         // Check filter.
         Filter filter = (Filter)modelMap.get("filter");
-        assertEquals(geneId, filter.getGeneId());
+        assertEquals(gene_key, filter.getGene_key());
         assertEquals(geneName, filter.getGeneName());
         assertEquals(geneSymbol, filter.getGeneSymbol());
         assertEquals(chromosome, filter.getChromosome());
@@ -125,7 +125,7 @@ public class GeneManagementListControllerTest {
     @Test
     public void testShowFilter() {
         System.out.println("showFilter");
-        String geneId = "123";
+        String gene_key = "123";
         String geneName = "test gene name";
         String geneSymbol = "test gene symbol";
         String chromosome = "test chromosome";
@@ -133,13 +133,13 @@ public class GeneManagementListControllerTest {
         Model model = new BindingAwareModelMap();
         GeneManagementListController instance = new GeneManagementListController();
         String expResult = "geneManagementList";
-        String result = instance.showFilter(geneId, geneName, geneSymbol, chromosome, mgiReference, model);
+        String result = instance.showFilter(gene_key, geneName, geneSymbol, chromosome, mgiReference, model);
         assertEquals(expResult, result);
 
         Map modelMap = model.asMap();
         // Check filter.
         Filter filter = (Filter)modelMap.get("filter");
-        assertEquals(geneId, filter.getGeneId());
+        assertEquals(gene_key, filter.getGene_key());
         assertEquals(geneName, filter.getGeneName());
         assertEquals(geneSymbol, filter.getGeneSymbol());
         assertEquals(chromosome, filter.getChromosome());
@@ -158,17 +158,6 @@ public class GeneManagementListControllerTest {
         System.out.println("getChromosomes - has no filterTerm.");
         GeneManagementListController instance = new GeneManagementListController();
         List<String> result = instance.getChromosomes();
-        assert(result.size() > 0);
-    }
-
-    /**
-     * Test of getGeneIds method, of class GeneManagementListController.
-     */
-    @Test
-    public void testGetGeneIds() {
-        System.out.println("getGeneIds - has no filterTerm.");
-        GeneManagementListController instance = new GeneManagementListController();
-        List<String> result = instance.getGeneIds();
         assert(result.size() > 0);
     }
 

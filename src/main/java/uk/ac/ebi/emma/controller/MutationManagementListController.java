@@ -43,32 +43,32 @@ public class MutationManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param filterMutationId the mutation id search criterion (may be empty)
+     * @param filterMutationKey the mutation id search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
      * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
-     * @param filterStrainId the strain id search criterion (may be empty)
-     * @param filterAlleleId the allele id search criterion (may be empty)
-     * @param filterBackgroundId the background id search criterion (may be empty)
+     * @param filterStrainKey the strain id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterBackgroundKey the background id search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/go", method=RequestMethod.GET)
     public String go(
-            @RequestParam(value="filterMutationId") String filterMutationId
+            @RequestParam(value="filterMutationKey") String filterMutationKey
           , @RequestParam(value="filterMutationType") String filterMutationType
           , @RequestParam(value="filterMutationSubtype") String filterMutationSubtype
-          , @RequestParam(value="filterStrainId") String filterStrainId
-          , @RequestParam(value="filterAlleleId") String filterAlleleId
-          , @RequestParam(value="filterBackgroundId") String filterBackgroundId
+          , @RequestParam(value="filterStrainKey") String filterStrainKey
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
+          , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setMutationId(filterMutationId != null ? filterMutationId : "");
+        filter.setMutation_key(filterMutationKey != null ? filterMutationKey : "");
         filter.setMutationType(filterMutationType != null ? filterMutationType : "");
         filter.setMutationSubtype(filterMutationSubtype != null ? filterMutationSubtype : "");
-        filter.setStrainId(filterStrainId != null ? filterStrainId : "");
-        filter.setAlleleId(filterAlleleId != null ? filterAlleleId : "");
-        filter.setBackgroundId(filterBackgroundId != null ? filterBackgroundId : "");
+        filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
+        filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
+        filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
         
         model.addAttribute("filter", filter);
         
@@ -86,18 +86,18 @@ public class MutationManagementListController {
      * avoids re-posting problems with the back button. NOTE: It is the caller's
      * responsibility to insure there are no foreign key constraints.
      * 
-     * @param id_mutation primary key of the mutation to be deleted
+     * @param mutation_key primary key of the mutation to be deleted
      * @return a JSON string containing 'status' [ok or fail], and a message [
      * empty string if status is ok; error message otherwise]
      */
     @RequestMapping(value = "/deleteMutation"
                   , method = RequestMethod.GET)
     @ResponseBody
-    public ResponseEntity<String> deleteMutation(@RequestParam int id_mutation) {
+    public ResponseEntity<String> deleteMutation(@RequestParam int mutation_key) {
         String status, message;
         
         try {
-            mutationsManager.delete(id_mutation);
+            mutationsManager.delete(mutation_key);
             status = "ok";
             message = "";
         } catch (Exception e) {
@@ -117,32 +117,32 @@ public class MutationManagementListController {
     /**
      * Displays the form with no results grid. Since this is the entry point to
      * mutation management curation, the filter parameter values are optional.
-     * @param filterMutationId the mutation id search criterion (may be empty)
+     * @param filterMutationKey the mutation id search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
      * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
-     * @param filterStrainId the strain id search criterion (may be empty)
-     * @param filterAlleleId the allele id search criterion (may be empty)
-     * @param filterBackgroundId the background id search criterion (may be empty)
+     * @param filterStrainKey the strain id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterBackgroundKey the background id search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
     @RequestMapping(value="/showFilter", method=RequestMethod.GET)
     public String showFilter(
-            @RequestParam(value="filterMutationId", required=false) String filterMutationId
+            @RequestParam(value="filterMutationKey", required=false) String filterMutationKey
           , @RequestParam(value="filterMutationType", required=false) String filterMutationType
           , @RequestParam(value="filterMutationSubtype", required=false) String filterMutationSubtype
-          , @RequestParam(value="filterStrainId", required=false) String filterStrainId
-          , @RequestParam(value="filterAlleleId", required=false) String filterAlleleId
-          , @RequestParam(value="filterBackgroundId", required=false) String filterBackgroundId
+          , @RequestParam(value="filterStrainKey", required=false) String filterStrainKey
+          , @RequestParam(value="filterAlleleKey", required=false) String filterAlleleKey
+          , @RequestParam(value="filterBackgroundKey", required=false) String filterBackgroundKey
           , Model model)
     {
         Filter filter = new Filter();
-        filter.setMutationId(filterMutationId != null ? filterMutationId : "");
+        filter.setMutation_key(filterMutationKey != null ? filterMutationKey : "");
         filter.setMutationType(filterMutationType != null ? filterMutationType : "");
         filter.setMutationSubtype(filterMutationSubtype != null ? filterMutationSubtype : "");
-        filter.setStrainId(filterStrainId != null ? filterStrainId : "");
-        filter.setAlleleId(filterAlleleId != null ? filterAlleleId : "");
-        filter.setBackgroundId(filterBackgroundId != null ? filterBackgroundId : "");
+        filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
+        filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
+        filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);

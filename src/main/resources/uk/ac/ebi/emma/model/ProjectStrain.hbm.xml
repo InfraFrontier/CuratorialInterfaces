@@ -3,13 +3,13 @@
 
 <hibernate-mapping package="uk.ac.ebi.emma.entity">
   <class name="ProjectStrain" table="projects_strains">
-    <id column="str_id_str" name="str_id_str">
+    <id column="str_id_str" name="strain_key">
       <generator class="assigned"/>
     </id>
     
-    <many-to-one cascade="all" class="CvProject" name="cvProject" column="project_id" insert="false" lazy="false" not-found="ignore" update="false"/>
-    <many-to-one cascade="all" class="Strain" name="strain" column="str_id_str" foreign-key="id_str" insert="false" lazy="false" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="CvProject" name="cvProject" column="project_id" foreign-key="cvProject_key" insert="false" lazy="false" not-found="ignore" update="false"/>
+    <many-to-one cascade="all" class="Strain"    name="strain"    column="str_id_str" foreign-key="strain_key"    insert="false" lazy="false" not-found="ignore" update="false"/>
     
-    <property column="project_id" name="project_id"/>
+    <property column="project_id" name="cvProject_key"/>
   </class>
 </hibernate-mapping>

@@ -25,7 +25,7 @@ import org.springframework.web.context.request.WebRequest;
  * @author phil, mrelac
  */
 public class Strain {
-    private Integer id_str = 0;                                                 // primary key
+    private Integer strain_key = 0;                                            // primary key (was id_str)
     
     private String additional_owner;                                            // additional owner (comma-separated list of names)
     private String available_to_order;                                          // available to order
@@ -43,7 +43,7 @@ public class Strain {
     private String human_model_desc;                                            // human model description
     private String immunocompromised;                                           // immunocompromised (yes/no/unknown)
     private String maintenance;                                                 // maintenance
-    private String mgi_ref;                                                     // MGI reference
+    private String mgiReference;                                                // MGI reference (was mgi_ref)
     private String msgContentArrv;                                              // (was MSGcontentArrv)
     private String msgContentComp;                                              // (was MSGcontentComp)
     private String msgContentFrz;                                               // (was MSGcontentFrz)
@@ -62,42 +62,42 @@ public class Strain {
     private String str_type;                                                    // strain type
     
     // FOREIGN KEYS
-    private Integer archive_id;                                                 // foreign key to archive table (was archive_id)
-    private Integer bg_id_bg;                                                   // foreign key to backgrounds table (was bg_id_bg)
-    private Integer per_id_per_shipping_contact;                                // foreign key to people table for shipping contact (was per_id_per_contact)
-    private Integer per_id_per_creator;                                         // foreign key to people table for strain creator/PI (was per_id_per)
-    private Integer per_id_per_submitter;                                       // foreign key to people table for submitter (was per_id_per_sub)
-    private Integer res_id;                                                     // foreign key to residues table (was res_id)
-    private Integer sub_id_sub;                                                 // foreign key to submissions table (was sub_id_sub)
+    private Integer archive_key;                                               // foreign key to archive table (was archive_id)
+    private Integer background_key;                                            // foreign key to backgrounds table (was bg_id_bg)
+    private Integer personShippingContact_key;                                 // foreign key to people table for shipping contact (was per_id_per_contact)
+    private Integer personCreator_key;                                         // foreign key to people table for strain creator/PI (was per_id_per)
+    private Integer personSubmitter_key;                                       // foreign key to people table for submitter (was per_id_per_sub)
+    private Integer residue_key;                                               // foreign key to residues table (was res_id)
+    private Integer submission_key;                                            // foreign key to submissions table (was sub_id_sub)
     
     // COLLECTIONS
     private Set<AvailabilityStrain> availabilitiesStrains;                      // (was AvailabilitiesStrainsDAO)
-    private Set<BiblioStrain> bibliosStrains;                                   // (was setBibliosStrainsDAO)
-    private Set<CategoryStrain> categoriesStrains;                              // (was categoriesStrainsDAO)
-    private Set<RToolStrain> rtoolsStrains;                                     // (was cvDAO. List of countries from cv_country.
-    private Set<MutationStrain> mutationsStrains;                               // (was mutationsStrainsDAO)
-    private Set<ProjectStrain> projectsStrains;                                            // (was ProjectsDAO)
-    private Set<SourceStrain> sourcesStrains;                                   // (was sources_StrainsDAO)
-    private Set<SynonymStrain> synonymsStrains;                                 // (was syn_strainsDAO)
-    private Set<WebRequest> webRequests;                                        // (was wrDAO)
+    private Set<BiblioStrain>       bibliosStrains;                             // (was setBibliosStrainsDAO)
+    private Set<CategoryStrain>     categoriesStrains;                          // (was categoriesStrainsDAO)
+    private Set<RtoolStrain>        rtoolsStrains;                              // (was cvDAO. List of countries from cv_country.
+    private Set<MutationStrain>     mutationsStrains;                           // (was mutationsStrainsDAO)
+    private Set<ProjectStrain>      projectsStrains;                            // (was ProjectsDAO)
+    private Set<SourceStrain>       sourcesStrains;                             // (was sources_StrainsDAO)
+    private Set<SynonymStrain>      synonymsStrains;                            // (was syn_strainsDAO)
+    private Set<WebRequest>         webRequests;                                // (was wrDAO)
     
     // CLASS INSTANCES
-    private Archive archive;                                                    // (was archiveDAO)
+    private Archive    archive;                                                 // (was archiveDAO)
     private Background background;                                              // (was backgroundDAO)
-    private Person strainCreator;                                               // strain creator/PI instance (was peopleDAO)
-    private Person strainShippingContact;                                       // strain shipping contact instance (was peopleDAOCon)
-    private Person strainSubmitter;                                             // strain submitter instance (was peopleDAOSub)
-    private Residue residue;                                                    // (was residuesDAO)
+    private Person     creator;                                                 // strain creator/PI instance (was peopleDAO)
+    private Residue    residue;                                                 // (was residuesDAO)
+    private Person     shippingContact;                                         // strain shipping contact instance (was peopleDAOCon)
+    private Person     submitter;                                               // strain submitter instance (was peopleDAOSub)
     
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
-    private Date last_change;                                                   // date last changed
 
-    public Integer getId_str() {
-        return id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setId_str(Integer id_str) {
-        this.id_str = id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public String getAdditional_owner() {
@@ -228,12 +228,12 @@ public class Strain {
         this.maintenance = maintenance;
     }
 
-    public String getMgi_ref() {
-        return mgi_ref;
+    public String getMgiReference() {
+        return mgiReference;
     }
 
-    public void setMgi_ref(String mgi_ref) {
-        this.mgi_ref = mgi_ref;
+    public void setMgiReference(String mgiReference) {
+        this.mgiReference = mgiReference;
     }
 
     public String getMsgContentArrv() {
@@ -364,60 +364,60 @@ public class Strain {
         this.str_type = str_type;
     }
 
-    public Integer getArchive_id() {
-        return archive_id;
+    public Integer getArchive_key() {
+        return archive_key;
     }
 
-    public void setArchive_id(Integer archive_id) {
-        this.archive_id = archive_id;
+    public void setArchive_key(Integer archive_key) {
+        this.archive_key = archive_key;
     }
 
-    public Integer getBg_id_bg() {
-        return bg_id_bg;
+    public Integer getBackground_key() {
+        return background_key;
     }
 
-    public void setBg_id_bg(Integer bg_id_bg) {
-        this.bg_id_bg = bg_id_bg;
+    public void setBackground_key(Integer background_key) {
+        this.background_key = background_key;
     }
 
-    public Integer getPer_id_per_shipping_contact() {
-        return per_id_per_shipping_contact;
+    public Integer getPersonShippingContact_key() {
+        return personShippingContact_key;
     }
 
-    public void setPer_id_per_shipping_contact(Integer per_id_per_shipping_contact) {
-        this.per_id_per_shipping_contact = per_id_per_shipping_contact;
+    public void setPersonShippingContact_key(Integer personShippingContact_key) {
+        this.personShippingContact_key = personShippingContact_key;
     }
 
-    public Integer getPer_id_per_creator() {
-        return per_id_per_creator;
+    public Integer getPersonCreator_key() {
+        return personCreator_key;
     }
 
-    public void setPer_id_per_creator(Integer per_id_per_creator) {
-        this.per_id_per_creator = per_id_per_creator;
+    public void setPersonCreator_key(Integer personCreator_key) {
+        this.personCreator_key = personCreator_key;
     }
 
-    public Integer getPer_id_per_submitter() {
-        return per_id_per_submitter;
+    public Integer getPersonSubmitter_key() {
+        return personSubmitter_key;
     }
 
-    public void setPer_id_per_submitter(Integer per_id_per_submitter) {
-        this.per_id_per_submitter = per_id_per_submitter;
+    public void setPersonSubmitter_key(Integer personSubmitter_key) {
+        this.personSubmitter_key = personSubmitter_key;
     }
 
-    public Integer getRes_id() {
-        return res_id;
+    public Integer getResidue_key() {
+        return residue_key;
     }
 
-    public void setRes_id(Integer res_id) {
-        this.res_id = res_id;
+    public void setResidue_key(Integer residue_key) {
+        this.residue_key = residue_key;
     }
 
-    public Integer getSub_id_sub() {
-        return sub_id_sub;
+    public Integer getSubmission_key() {
+        return submission_key;
     }
 
-    public void setSub_id_sub(Integer sub_id_sub) {
-        this.sub_id_sub = sub_id_sub;
+    public void setSubmission_key(Integer submission_key) {
+        this.submission_key = submission_key;
     }
 
     public Set<AvailabilityStrain> getAvailabilitiesStrains() {
@@ -444,11 +444,11 @@ public class Strain {
         this.categoriesStrains = categoriesStrains;
     }
 
-    public Set<RToolStrain> getRtoolsStrains() {
+    public Set<RtoolStrain> getRtoolsStrains() {
         return rtoolsStrains;
     }
 
-    public void setRtoolsStrains(Set<RToolStrain> rtoolsStrains) {
+    public void setRtoolsStrains(Set<RtoolStrain> rtoolsStrains) {
         this.rtoolsStrains = rtoolsStrains;
     }
 
@@ -508,28 +508,12 @@ public class Strain {
         this.background = background;
     }
 
-    public Person getStrainCreator() {
-        return strainCreator;
+    public Person getCreator() {
+        return creator;
     }
 
-    public void setStrainCreator(Person strainCreator) {
-        this.strainCreator = strainCreator;
-    }
-
-    public Person getStrainShippingContact() {
-        return strainShippingContact;
-    }
-
-    public void setStrainShippingContact(Person strainShippingContact) {
-        this.strainShippingContact = strainShippingContact;
-    }
-
-    public Person getStrainSubmitter() {
-        return strainSubmitter;
-    }
-
-    public void setStrainSubmitter(Person strainSubmitter) {
-        this.strainSubmitter = strainSubmitter;
+    public void setCreator(Person creator) {
+        this.creator = creator;
     }
 
     public Residue getResidue() {
@@ -538,6 +522,22 @@ public class Strain {
 
     public void setResidue(Residue residue) {
         this.residue = residue;
+    }
+
+    public Person getShippingContact() {
+        return shippingContact;
+    }
+
+    public void setShippingContact(Person shippingContact) {
+        this.shippingContact = shippingContact;
+    }
+
+    public Person getSubmitter() {
+        return submitter;
+    }
+
+    public void setSubmitter(Person submitter) {
+        this.submitter = submitter;
     }
 
     public String getUsername() {
@@ -555,5 +555,5 @@ public class Strain {
     public void setLast_change(Date last_change) {
         this.last_change = last_change;
     }
-
+    
 }

@@ -20,24 +20,27 @@
 
 package uk.ac.ebi.emma.controller;
 
-import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Allele;
-import uk.ac.ebi.emma.entity.Gene;
+import uk.ac.ebi.emma.entity.Background;
+import uk.ac.ebi.emma.entity.Mutation;
+import uk.ac.ebi.emma.entity.Strain;
 import uk.ac.ebi.emma.manager.AllelesManager;
-import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.manager.BackgroundsManager;
+import uk.ac.ebi.emma.manager.MutationsManager;
+import uk.ac.ebi.emma.manager.StrainsManager;
 import uk.ac.ebi.emma.util.Filter;
-import uk.ac.ebi.emma.validator.AlleleValidator;
+import uk.ac.ebi.emma.validator.MutationValidator;
 
 /**
  *
@@ -47,73 +50,75 @@ import uk.ac.ebi.emma.validator.AlleleValidator;
 @RequestMapping("/mutationManagementDetail")
 public class MutationManagementDetailController {
     @Autowired
-    private final GenesManager genesManager = new GenesManager();
-    @Autowired
     private final AllelesManager allelesManager = new AllelesManager();
+    @Autowired
+    private final BackgroundsManager backgroundsManager = new BackgroundsManager();
+    @Autowired
+    private final MutationsManager mutationsManager = new MutationsManager();
+    @Autowired
+    private final StrainsManager strainsManager = new StrainsManager();
     
     @Autowired
-    private AlleleValidator validator;
+    private MutationValidator validator;
 
-    /**
-     * Return the full list of genes
-     * @param model the Genes list data model
-     * 
-     * @return the full list of genes
-     */
-    @RequestMapping(method=RequestMethod.GET)
-    @ModelAttribute
-    public String initialize(Model model)
-    {
-        List<Gene> genesList = genesManager.getGenes();
-        model.addAttribute("genesList", genesList);
-        
-        return "mutationManagementDetail";
-    }
+////////////    /**
+////////////     * Return the full list of genes
+////////////     * @param model the Genes list data model
+////////////     * 
+////////////     * @return the full list of genes
+////////////     */
+////////////    @RequestMapping(method=RequestMethod.GET)
+////////////    @ModelAttribute
+////////////    public String initialize(Model model)
+////////////    {
+////////////        List<Gene> genesList = genesManager.getGenes();
+////////////        model.addAttribute("genesList", genesList);
+////////////        
+////////////        return "mutationManagementDetail";
+////////////    }
     
     /**
-     * 'Edit/New Allele' icon implementation
+     * 'Edit/New Mutation' icon implementation
      * 
-     * @param id_allele the allele ID being edited (a value of 0 indicates a new
-     *                allele is to be added).
-     * @param filterAlleleId the Allele Id part of the filter
-     * @param filterAlleleName the Allele name part of the filter
-     * @param filterAlleleSymbol the Allele symbol part of the filter
-     * @param filterAlleleMgiReference the MGI reference part of the filter
-     * @param filterGeneId the Gene Id part of the filter
-     * @param filterGeneName the Gene name part of the filter
-     * @param filterGeneSymbol the Gene symbol part of the filter
+     * @param mutation_key the mutation primary key being edited (a value of 0 indicates a new
+     *                mutation is to be added).
+     * @param filterMutationKey the mutation id search criterion (may be empty)
+     * @param filterMutationType the mutation type search criterion (may be empty)
+     * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
+     * @param filterStrainKey the strain id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterBackgroundKey the background id search criterion (may be empty)
      * @param model the model
      * @return the view to show
      */
     @RequestMapping(value="/edit", method=RequestMethod.GET)
     public String edit(
-            @RequestParam(value="id_allele") Integer id_allele
+            @RequestParam(value="mutation_key") Integer mutation_key
             
-          , @RequestParam(value="filterAlleleId") String filterAlleleId
-          , @RequestParam(value="filterAlleleName") String filterAlleleName
-          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
-          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
-          , @RequestParam(value="filterGeneName") String filterGeneName
-          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterMutationKey") String filterMutationKey
+          , @RequestParam(value="filterMutationType") String filterMutationType
+          , @RequestParam(value="filterMutationSubtype") String filterMutationSubtype
+          , @RequestParam(value="filterStrainKey") String filterStrainKey
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
+          , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
             
           , Model model)
     {
         // Save the filter info and add to model.
-        Filter filter = buildFilter(filterAlleleId, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
-                                    filterGeneId, filterGeneName, filterGeneSymbol);
+        Filter filter = buildFilter(filterMutationKey, filterMutationType, filterMutationSubtype, filterStrainKey,
+                                    filterAlleleKey, filterBackgroundKey);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
         
-        Allele allele = allelesManager.getAllele(id_allele);
-        if (allele == null) {
-            allele = new Allele();
-            allele.setId_allele(null);
+        Mutation mutation = mutationsManager.getMutation(mutation_key);
+        if (mutation == null) {
+            mutation = new Mutation();
+            mutation.setMutation_key(null);
         }
         
-        model.addAttribute("allele", allele);
+        model.addAttribute("mutation", mutation);
     
         return "mutationManagementDetail";
     }
@@ -121,117 +126,110 @@ public class MutationManagementDetailController {
     /**
      * Save the form data.
      * 
-     * @param id_allele the allele primary key
-     * @param allele the allele instance
+     * @param allele_key the allele primary key
+     * @param mutation the mutation instance
      * @param errors the Errors binding result object
-     * @param filterAlleleId
-     * @param filterAlleleName
-     * @param filterAlleleSymbol
-     * @param filterAlleleMgiReference
-     * @param filterGeneId
-     * @param filterGeneName
-     * @param filterGeneSymbol
+     * @param filterMutationKey the mutation id search criterion (may be empty)
+     * @param filterMutationType the mutation type search criterion (may be empty)
+     * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
+     * @param filterStrainKey the strain id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterBackgroundKey the background id search criterion (may be empty)
      * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
     @RequestMapping(value="/save", method=RequestMethod.POST)
     public String save(
-            @Valid Allele allele, Errors errors
+            @Valid Mutation mutation, Errors errors
           
-          , @RequestParam(value="id_allele") Integer id_allele     // WE MAY NOT NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    //      , @RequestParam(value="allele_key") Integer allele_key     // WE MAY NOT NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
             
-          , @RequestParam(value="filterAlleleId") String filterAlleleId
-          , @RequestParam(value="filterAlleleName") String filterAlleleName
-          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
-          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-          , @RequestParam(value="filterGeneId") String filterGeneId
-          , @RequestParam(value="filterGeneName") String filterGeneName
-          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterMutationKey") String filterMutationKey
+          , @RequestParam(value="filterMutationType") String filterMutationType
+          , @RequestParam(value="filterMutationSubtype") String filterMutationSubtype
+          , @RequestParam(value="filterStrainKey") String filterStrainKey
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
+          , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
             
           , Model model) 
     {
-        allele.setId_allele(id_allele);
+   //     allele.setAllele_key(allele_key);
         
-        // Load up the model in case we have to redisplay the detail form.            // Save the filter info and add to model.
-        Filter filter = buildFilter(filterAlleleId, filterAlleleName, filterAlleleSymbol, filterAlleleMgiReference,
-                                    filterGeneId, filterGeneName, filterGeneSymbol);
+        // Load up the model in case we have to redisplay the detail form.
+        // Save the filter info and add to model.
+        Filter filter = buildFilter(filterMutationKey, filterMutationType, filterMutationSubtype, filterStrainKey,
+                                    filterAlleleKey, filterBackgroundKey);
         model.addAttribute(filter);
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
         
         // Validate.
-        validator.validate(allele, errors);
+        validator.validate(mutation, errors);
         if (errors.hasErrors()) {
             return "mutationManagementDetail";
         }
         
         try {
-            allelesManager.save(allele);
+            mutationsManager.save(mutation);
         } catch (PersistFailedException pfe) {
             errors.reject(null, pfe.getLocalizedMessage());
             return "mutationManagementDetail";
         }
         
         return "redirect:/curation/mutationManagementDetail/edit"
-                + "?id_allele=" + allele.getId_allele()
-                + "&filterAlleleId=" + filterAlleleId
-                + "&filterAlleleName=" + filterAlleleName
-                + "&filterAlleleSymbol=" + filterAlleleSymbol
-                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
-                + "&filterGeneId=" + filterGeneId
-                + "&filterGeneName=" + filterGeneName
-                + "&filterGeneSymbol=" + filterGeneSymbol;
+                + "?filterMutationKey=" + filterMutationKey
+                + "&filterMutationType=" + filterMutationType
+                + "&filterMutationSubtype=" + filterMutationSubtype
+                + "&filterStrainKey=" + filterStrainKey
+                + "&filterAlleleKey=" + filterAlleleKey
+                + "&filterBackgroundKey=" + filterBackgroundKey;
     }
     
-//    /**
-//     * Show the list form with saved filter values.
-//     * 
-//     * @param filterAlleleId
-//     * @param filterAlleleName
-//     * @param filterAlleleSymbol
-//     * @param filterAlleleMgiReference
-//     * @param filterGeneId
-//     * @param filterGeneName
-//     * @param filterGeneSymbol
-//     * @param model the filter data, saved above in edit().
-//     * @return redirected view to same gene detail data.
-//     */
-//    @RequestMapping(value="/showList", method=RequestMethod.GET)
-//    public String showList(
-//            @RequestParam(value="filterAlleleId") String filterAlleleId
-//          , @RequestParam(value="filterAlleleName") String filterAlleleName
-//          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
-//          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-//          , @RequestParam(value="filterGeneId") String filterGeneId
-//          , @RequestParam(value="filterGeneName") String filterGeneName
-//          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
-//            
-//          , Model model) 
-//    {
-//        return "redirect:/curation/alleleManagementList/showFilter"
-//                + "?filterAlleleId=" + filterAlleleId
-//                + "&filterAlleleName=" + filterAlleleName
-//                + "&filterAlleleSymbol=" + filterAlleleSymbol
-//                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
-//                + "&filterGeneId=" + filterGeneId
-//                + "&filterGeneName=" + filterGeneName
-//                + "&filterGeneSymbol=" + filterGeneSymbol;
-//    }
+    /**
+     * Show the list form with saved filter values.
+     * 
+     * @param filterMutationKey the mutation id search criterion (may be empty)
+     * @param filterMutationType the mutation type search criterion (may be empty)
+     * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
+     * @param filterStrainKey the strain id search criterion (may be empty)
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param model the filter data, saved above in edit().
+     * @return redirected view to same gene detail data.
+     */
+    @RequestMapping(value="/showList", method=RequestMethod.GET)
+    public String showList(
+            @RequestParam(value="filterMutationKey") String filterMutationKey
+          , @RequestParam(value="filterMutationType") String filterMutationType
+          , @RequestParam(value="filterMutationSubtype") String filterMutationSubtype
+          , @RequestParam(value="filterStrainKey") String filterStrainKey
+          , @RequestParam(value="filterAlleleKey") String filterAlleleKey
+          , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
+            
+          , Model model) 
+    {
+        return "redirect:/curation/mutationManagementList/showFilter"
+                + "?filterMutationKey=" + filterMutationKey
+                + "&filterMutationType=" + filterMutationType
+                + "&filterMutationSubtype=" + filterMutationSubtype
+                + "&filterStrainKey=" + filterStrainKey
+                + "&filterAlleleKey=" + filterAlleleKey
+                + "&filterBackgroundKey=" + filterBackgroundKey;
+    }
     
     
     // PRIVATE METHODS
     
     
-    private Filter buildFilter(String alleleId, String alleleName, String alleleSymbol, String alleleMgiReference,
-                               String geneId, String geneName, String geneSymbol) {
+    private Filter buildFilter(String filterMutationKey, String filterMutationType, String filterMutationSubtype, String filterStrainKey,
+                                    String filterAlleleKey, String filterBackgroundKey) {
         Filter filter = new Filter();
-        filter.setAlleleId(alleleId != null ? alleleId : "");
-        filter.setAlleleName(alleleName != null ? alleleName : "");
-        filter.setAlleleSymbol(alleleSymbol != null ? alleleSymbol : "");
-        filter.setAlleleMgiReference(alleleMgiReference != null ? alleleMgiReference : "");
-        filter.setGeneId(geneId != null ? geneId : "");
-        filter.setGeneName(geneName != null ? geneName : "");
-        filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
+        filter.setMutation_key(filterMutationKey != null ? filterMutationKey : "");
+        filter.setMutationType(filterMutationType != null ? filterMutationType : "");
+        filter.setMutationSubtype(filterMutationSubtype != null ? filterMutationSubtype : "");
+        filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
+        filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
+        filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
         
         return filter;
     }
@@ -240,4 +238,51 @@ public class MutationManagementDetailController {
     // GETTERS AND SETTERS
     
 
+    
+    /**
+     * Returns an allele instance matching <b>allele_key</b> if found; null otherwise.
+     * 
+     * @param allele_key the primary key of the desired allele instance
+     * @@return an allele instance matching <b>allele_key</b> if found; null otherwise.
+     * */
+    @RequestMapping(value = "/getAllele"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public Allele getAllele(@RequestParam int allele_key) {
+        Allele allele = allelesManager.getAllele(allele_key);
+        
+        return allele;
+    }
+    
+    /**
+     * Returns a background instance matching <b>background_key</b> if found; null otherwise.
+     * 
+     * @param background_key the primary key of the desired background instance
+     * @@return a background instance matching <b>background_key</b> if found; null otherwise.
+     * */
+    @RequestMapping(value = "/getBackground"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public Background getBackground(@RequestParam int background_key) {
+        Background background = backgroundsManager.getBackground(background_key);
+        
+        return background;
+    }
+    
+    /**
+     * Returns a strain instance matching <b>strain_key</b> if found; null otherwise.
+     * 
+     * @param strain_key the primary key of the desired strain instance
+     * @@return a strain instance matching <b>strain_key</b> if found; null otherwise.
+     * */
+    @RequestMapping(value = "/getStrain"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public Strain getStrain(@RequestParam int strain_key) {
+        Strain strain = strainsManager.getStrain(strain_key);
+////////        if (strain != null)
+////////            strain.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
+        
+        return strain;
+    }
 }

@@ -23,27 +23,27 @@ import java.io.Serializable;
  * @author phil, mrelac
  */
 public class AvailabilityStrain implements Serializable {
-    private Integer avail_id = 0;                                               // first half of primary key
-    private Integer str_id_str = 0;                                             // second half of primary key
+    private Integer cvAvailibility_key = 0;                                    // first half of primary key (foreign key to cv_availibilities table) (was avail_id)
+    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private CvAvailability availability;                                        // (was cvavailDAO)
-    private Strain strain;                                                      // (was strainsDAO)
+    private Strain         strain;                                              // (was strainsDAO)
 
-    public Integer getAvail_id() {
-        return avail_id;
+    public Integer getCvAvailibility_key() {
+        return cvAvailibility_key;
     }
 
-    public void setAvail_id(Integer avail_id) {
-        this.avail_id = avail_id;
+    public void setCvAvailibility_key(Integer cvAvailibility_key) {
+        this.cvAvailibility_key = cvAvailibility_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public CvAvailability getAvailability() {

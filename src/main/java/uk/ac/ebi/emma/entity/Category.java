@@ -24,22 +24,22 @@ import java.util.Date;
  */
 public class Category {
 
-    private Integer id_cat = 0;                                                 // primary key
+    private Integer category_key = 0;                                          // primary key (was id_cat)
     
     private String curated;
     private String description;
     private String main_cat;
     private String sub_cat;
     
+    private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
-    private Date last_change;                                                   // date last changed
 
-    public Integer getId_cat() {
-        return id_cat;
+    public Integer getCategory_key() {
+        return category_key;
     }
 
-    public void setId_cat(Integer id_cat) {
-        this.id_cat = id_cat;
+    public void setCategory_key(Integer category_key) {
+        this.category_key = category_key;
     }
 
     public String getCurated() {

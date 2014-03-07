@@ -21,27 +21,27 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class BiblioStrain {
-    private Integer bib_id_biblio = 0;                                          // first half of primary key
-    private Integer str_id_str = 0;                                             // second half of primary key
+    private Integer biblio_key = 0;                                            // first half of primary key (foreign key to biblios table) (was bib_id_biblio)
+    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private Biblio biblio;                                                      // (was bibliosDAO)
     private Strain strain;                                                      // (was strainsDAO)
 
-    public Integer getBib_id_biblio() {
-        return bib_id_biblio;
+    public Integer getBiblio_key() {
+        return biblio_key;
     }
 
-    public void setBib_id_biblio(Integer bib_id_biblio) {
-        this.bib_id_biblio = bib_id_biblio;
+    public void setBiblio_key(Integer biblio_key) {
+        this.biblio_key = biblio_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public Biblio getBiblio() {

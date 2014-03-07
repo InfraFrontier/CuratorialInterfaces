@@ -88,7 +88,7 @@ public class UtilControllerTest {
         result = instance.getFieldLengths(tablename);
         assertEquals("allele.name: ", 200, (int)result.get("name"));
         assertEquals("allele.symbol: ", 100, (int)result.get("alls_form"));
-        assertEquals("allele.mgi_ref: ", 20, (int)result.get("mgi_ref"));
+        assertEquals("allele.mgiReference: ", 20, (int)result.get("mgi_ref"));
         assertEquals("allele.username: ", 20, (int)result.get("username"));
     }
     

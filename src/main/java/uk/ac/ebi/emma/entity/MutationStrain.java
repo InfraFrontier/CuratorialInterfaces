@@ -18,30 +18,30 @@ package uk.ac.ebi.emma.entity;
 
 /**
  *
- * @author phil
+ * @author phil, mrelac
  */
 public class MutationStrain {
-    private Integer mut_id = 0;                                                 // first half of primary key
-    private Integer str_id_str = 0;                                             // second half of primary key
+    private Integer mutation_key = 0;                                          // first half of primary key (foreign key to mutations table) (was mut_id)
+    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private Mutation mutation;                                                  // (was mutationsDAO)
-    private Strain strain;                                                      // (was strainsDAO)
+    private Strain   strain;                                                    // (was strainsDAO)
 
-    public Integer getMut_id() {
-        return mut_id;
+    public Integer getMutation_key() {
+        return mutation_key;
     }
 
-    public void setMut_id(Integer mut_id) {
-        this.mut_id = mut_id;
+    public void setMutation_key(Integer mutation_key) {
+        this.mutation_key = mutation_key;
     }
 
-    public Integer getStr_id_str() {
-        return str_id_str;
+    public Integer getStrain_key() {
+        return strain_key;
     }
 
-    public void setStr_id_str(Integer str_id_str) {
-        this.str_id_str = str_id_str;
+    public void setStrain_key(Integer strain_key) {
+        this.strain_key = strain_key;
     }
 
     public Mutation getMutation() {

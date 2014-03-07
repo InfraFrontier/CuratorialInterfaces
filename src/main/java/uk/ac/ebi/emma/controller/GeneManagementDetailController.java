@@ -51,9 +51,9 @@ public class GeneManagementDetailController {
     /**
      * 'Edit/New Gene' icon implementation
      * 
-     * @param id_gene the gene ID being edited (a value of 0 indicates a new
+     * @param gene_key the gene ID being edited (a value of 0 indicates a new
      *                gene is to be added).
-     * @param filterGeneId the Gene Id part of the filter
+     * @param filterGeneKey the Gene Id part of the filter
      * @param filterGeneName the Gene name part of the filter
      * @param filterGeneSymbol the Gene symbol part of the filter
      * @param filterChromosome the chromosome part of the filter
@@ -63,9 +63,9 @@ public class GeneManagementDetailController {
      */
     @RequestMapping(value="/edit", method=RequestMethod.GET)
     public String edit(
-            @RequestParam(value="id_gene") Integer id_gene
+            @RequestParam(value="gene_key") Integer gene_key
             
-          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , @RequestParam(value="filterChromosome") String filterChromosome
@@ -74,13 +74,13 @@ public class GeneManagementDetailController {
           , Model model)
     {
         // Save the filter info and add to model.
-        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
+        Filter filter = buildFilter(filterGeneKey, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
         
-        Gene gene = genesManager.getGene(id_gene);
+        Gene gene = genesManager.getGene(gene_key);
         if (gene == null)
             gene = new Gene();
         model.addAttribute("gene", gene);
@@ -98,7 +98,7 @@ public class GeneManagementDetailController {
      * @param synonymIds
      * @param synonymNames
      * @param synonymSymbols
-     * @param filterGeneId
+     * @param filterGeneKey
      * @param filterGeneName
      * @param filterGeneSymbol
      * @param filterChromosome
@@ -116,7 +116,7 @@ public class GeneManagementDetailController {
           , @RequestParam(value = "synonymNames", required=false) String[] synonymNames
           , @RequestParam(value = "synonymSymbols", required=false) String[] synonymSymbols
             
-          , @RequestParam(value="filterGeneId") String filterGeneId
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , @RequestParam(value="filterChromosome") String filterChromosome
@@ -124,14 +124,15 @@ public class GeneManagementDetailController {
             
           , Model model) 
     {
-        // re-attach any synonyms. The Gene object passed in does not contain the synonym objects.
-        if ((gene.getId_gene() != null) && (gene.getId_gene() > 0)) {
-            Gene dbGene = genesManager.getGene(gene.getId_gene());
+        // re-attach any synonyms and any alleles. The Gene object passed in does not contain them.
+        if ((gene.getGene_key() != null) && (gene.getGene_key() > 0)) {
+            Gene dbGene = genesManager.getGene(gene.getGene_key());
             gene.setSynonyms(dbGene.getSynonyms());
+            gene.setAlleles(dbGene.getAlleles());
         }
-     
+        
         // Load up the model in case we have to redisplay the detail form.
-        Filter filter = buildFilter(filterGeneId, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
+        Filter filter = buildFilter(filterGeneKey, filterGeneName, filterGeneSymbol, filterChromosome, filterGeneMgiReference);
         model.addAttribute(filter);
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
@@ -156,11 +157,11 @@ public class GeneManagementDetailController {
             Set<GeneSynonym> geneSynonymSet = new LinkedHashSet<>();
             for (int i = 0; i < hidSeedValues.length; i++) {
                 GeneSynonym geneSynonym = new GeneSynonym();
-                Integer id_syn = null;
+                Integer geneSynonym_key = null;
                 try {
-                    id_syn = Integer.parseInt(synonymIds[i]);
+                    geneSynonym_key = Integer.parseInt(synonymIds[i]);
                 } catch (NumberFormatException | ArrayIndexOutOfBoundsException e) { }
-                geneSynonym.setId_syn(id_syn);
+                geneSynonym.setGeneSynonym_key(geneSynonym_key);
                 
                 String name = null;
                 try {
@@ -199,8 +200,8 @@ public class GeneManagementDetailController {
         }
             
         return "redirect:/curation/geneManagementDetail/edit"
-                + "?id_gene=" + gene.getId_gene()
-                + "&filterGeneId=" + filterGeneId
+                + "?gene_key=" + gene.getGene_key()
+                + "&filterGeneKey=" + filterGeneKey
                 + "&filterGeneName=" + filterGeneName
                 + "&filterGeneSymbol=" + filterGeneSymbol
                 + "&filterChromosome=" + filterChromosome
@@ -210,7 +211,7 @@ public class GeneManagementDetailController {
 //    /**
 //     * Show the list form with saved filter values.
 //     * 
-//     * @param filterGeneId
+//     * @param filterGeneKey
 //     * @param filterGeneName
 //     * @param filterGeneSymbol
 //     * @param filterChromosome
@@ -220,7 +221,7 @@ public class GeneManagementDetailController {
 //     */
 //    @RequestMapping(value="/showList", method=RequestMethod.GET)
 //    public String showList(
-//            @RequestParam(value="filterGeneId") String filterGeneId
+//            @RequestParam(value="filterGeneKey") String filterGeneKey
 //          , @RequestParam(value="filterGeneName") String filterGeneName
 //          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
 //          , @RequestParam(value="filterChromosome") String filterChromosome
@@ -229,7 +230,7 @@ public class GeneManagementDetailController {
 //          , Model model) 
 //    {
 //        return "redirect:/curation/geneManagementList/showFilter"
-//                + "?filterGeneId=" + filterGeneId
+//                + "?filterGeneKey=" + filterGeneKey
 //                + "&filterGeneName=" + filterGeneName
 //                + "&filterGeneSymbol=" + filterGeneSymbol
 //                + "&filterChromosome=" + filterChromosome
@@ -240,9 +241,9 @@ public class GeneManagementDetailController {
     // PRIVATE METHODS
     
     
-    private Filter buildFilter(String geneId, String geneName, String geneSymbol, String chromosome, String mgiReference) {
+    private Filter buildFilter(String gene_key, String geneName, String geneSymbol, String chromosome, String mgiReference) {
         Filter filter = new Filter();
-        filter.setGeneId(geneId != null ? geneId : "");
+        filter.setGene_key(gene_key != null ? gene_key : "");
         filter.setGeneName(geneName != null ? geneName : "");
         filter.setGeneSymbol(geneSymbol != null ? geneSymbol : "");
         filter.setChromosome(chromosome != null ? chromosome : "");
