@@ -95,7 +95,7 @@ public class UtilController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public Allele getAllele(@RequestParam int allele_key) {
-        Allele allele = allelesManager.getAllele(allele_key);
+        Allele allele = allelesManager.getAlleleName(allele_key);
         if (allele != null) {
             logger.debug("Returning allele id (name) " + allele.getAllele_key() + " (" + allele.getName() + ")");
             // Null out all collections and class instances, as jackson throws infinite recursion exception trying to map parent <--> child references.
@@ -121,7 +121,7 @@ public class UtilController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public Background getBackground(@RequestParam int background_key) {
-        Background background = backgroundsManager.getBackground(background_key);
+        Background background = backgroundsManager.getBackgroundName(background_key);
         if (background != null) {
             logger.debug("Returning background id (name) " + background.getBackground_key() + " (" + background.getName() + ")");
         } else {
@@ -142,7 +142,7 @@ public class UtilController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public Strain getStrain(@RequestParam int strain_key) {
-        Strain strain = strainsManager.getStrain(strain_key);
+        Strain strain = strainsManager.getStrainName(strain_key);
         if (strain != null) {
             logger.debug("Returning strain id (name) " + strain.getBackground_key() + " (" + strain.getName() + ")");
             // Null out all collections and class instances, as jackson throws infinite recursion exception trying to map parent <--> child references.

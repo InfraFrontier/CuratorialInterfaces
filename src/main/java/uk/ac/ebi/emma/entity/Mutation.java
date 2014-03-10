@@ -38,10 +38,10 @@ public class Mutation {
     private String type;                                                        // type (was main_type)
     
     // FOREIGN KEYS
-    private Integer allele_key;                                                // foreign key to alleles table (was alls_id_allel)
-    private Integer alleleReplaced_key;                                        // foreign key to alleles table for replaced allele (was alls_id_allel_replaced)
-    private Integer background_key;                                            // foreign key to backgrounds table (was bg_id_bg)
-    private Integer strain_key;                                                // foreign key to strains table (was str_id_str)
+    private Integer allele_key;                                                 // foreign key to alleles table (was alls_id_allel)
+    private Integer replacedAllele_key;                                         // foreign key to alleles table for replaced allele (was alls_id_allel_replaced)
+    private Integer background_key;                                             // foreign key to backgrounds table (was bg_id_bg)
+    private Integer strain_key;                                                 // foreign key to strains table (was str_id_str)
 
     // CLASS INSTANCES
     private Allele     allele;                                                  // (was allelesDAO)
@@ -156,12 +156,12 @@ public class Mutation {
         this.allele_key = allele_key;
     }
 
-    public Integer getAlleleReplaced_key() {
-        return alleleReplaced_key;
+    public Integer getReplacedAllele_key() {
+        return replacedAllele_key;
     }
 
-    public void setAlleleReplaced_key(Integer alleleReplaced_key) {
-        this.alleleReplaced_key = alleleReplaced_key;
+    public void setReplacedAllele_key(Integer replacedAllele_key) {
+        this.replacedAllele_key = replacedAllele_key;
     }
 
     public Integer getBackground_key() {

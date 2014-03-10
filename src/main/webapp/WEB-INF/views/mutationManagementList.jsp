@@ -164,16 +164,16 @@
                 $('#divResults').css('display', resultsFormDisplayAttribute);
             }
 
-            function deleteAllele(id, deleteIcon) {
+            function deleteMutation(id, deleteIcon) {
                 $.ajax({
-                    url: mutationListUrlRoot + "/deleteAllele"
+                    url: mutationListUrlRoot + "/deleteMutation"
                     , dataType: "json"
                     , async: false
-                    , data: {'allele_key': id}
+                    , data: {'mutation_key': id}
                     , success: function(data) {
                         if (data.status === 'ok') {
                             var tr = $(deleteIcon).parent().parent().parent().parent().parent().parent()[0];
-                            $('#tabResults').dataTable().fnDeleteRow(tr);       // Remove the allele from the grid.
+                            $('#tabResults').dataTable().fnDeleteRow(tr);       // Remove the mutation from the grid.
                         } else {
                             alert(data.message);
                         }
@@ -403,10 +403,10 @@
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.alleleReplaced_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.replacedAllele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
                                    target="alleleManagementList"
-                                   title="Edit replaced allele ID ${mutation.alleleReplaced_key}">
-                                    ${mutation.alleleReplaced_key}
+                                   title="Edit replaced allele ID ${mutation.replacedAllele_key}">
+                                    ${mutation.replacedAllele_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${mutation.sex}</td>

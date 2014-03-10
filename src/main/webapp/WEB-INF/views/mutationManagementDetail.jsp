@@ -420,8 +420,6 @@
         <br />
 
         <form>
-            <input type="hidden" name="mutation_key" value="${mutation.mutation_key}" />
-            
             <input type="hidden" name="filterMutationKey" value="${filter.mutation_key}" />
             <input type="hidden" name="filterMutationType" value="${filter.mutationType}" />
             <input type="hidden" name="filterMutationSubtype" value="${filter.mutationSubtype}" />
@@ -439,7 +437,7 @@
                                         <tr>
                                             <%-- MUTATION ID --%>
                                             <td><label id="labMutationId">Mutation ID:</label></td>
-                                            <td style="border: 0"><form:input name="mutation_key" value="${mutation.mutation_key}" readonly="true" path="mutation.mutation_key" /></td>
+                                            <td style="border: 0"><form:input id="mutation_key" name="mutation_key" value="${mutation.mutation_key}" readonly="true" path="mutation.mutation_key" /></td>
                                             
                                             <%-- TYPE --%>
                                             <td><label id="labType">Type:</label></td>
@@ -504,9 +502,9 @@
                                                             <%-- STRAIN --%>
                                                             <td style="width: 150px"><label>Strain Id:</label></td>
                                                             <td>
-                                                                <form:input id="strain_key" path="mutation.strain.strain_key"
-                                                                            value="${mutation.strain.strain_key}" />
-                                                                <form:errors path="mutation.strain.strain_key" cssClass="error" />
+                                                                <form:input id="strain_key" path="mutation.strain_key"
+                                                                            value="${mutation.strain_key}" />
+                                                                <form:errors path="mutation.strain_key" cssClass="error" />
                                                             </td>
                                                             <td style="width: 150px"><label>Strain Name:</label></td>
                                                             <td>
@@ -534,10 +532,10 @@
                                                             <%-- ALLELE --%>
                                                             <td style="width: 150px"><label>Allele Id:</label></td>
                                                             <td>
-                                                                <form:input id="allele_key" path="mutation.allele.allele_key"
+                                                                <form:input id="allele_key" path="mutation.allele_key"
                                                                             placeholder="Required field"
-                                                                            value="${mutation.allele.allele_key}" />
-                                                                <form:errors path="mutation.allele.allele_key" cssClass="error" />
+                                                                            value="${mutation.allele_key}" />
+                                                                <form:errors path="mutation.allele_key" cssClass="error" />
                                                             </td>
                                                             <td style="width: 150px"><label>Allele Name:</label></td>
                                                             <td>
@@ -570,9 +568,9 @@
                                                             <%-- BACKGROUND --%>
                                                             <td style="width: 150px"><label>Background Id:</label></td>
                                                             <td>
-                                                                <form:input id="background_key" path="mutation.background.background_key"
-                                                                            value="${mutation.background.background_key}" />
-                                                                <form:errors path="mutation.background.background_key" cssClass="error" />
+                                                                <form:input id="background_key" path="mutation.background_key"
+                                                                            value="${mutation.background_key}" />
+                                                                <form:errors path="mutation.background_key" cssClass="error" />
                                                             </td>
                                                             <td style="width: 150px"><label>Background Name:</label></td>
                                                             <td>
@@ -605,9 +603,9 @@
                                                             <%-- REPLACED ALLELE --%>
                                                             <td style="width: 150px"><label>Replaced Allele Id:</label></td>
                                                             <td>
-                                                                <form:input id="replacedAllele_key" path="mutation.replacedAllele.allele_key"
-                                                                            value="${mutation.replacedAllele.allele_key}" />
-                                                                <form:errors path="mutation.replacedAllele.allele_key" cssClass="error" />
+                                                                <form:input id="replacedAllele_key" path="mutation.replacedAllele_key"
+                                                                            value="${mutation.replacedAllele_key}" />
+                                                                <form:errors path="mutation.replacedAllele_key" cssClass="error" />
                                                             </td>
                                                             <td><label>Replaced Allele Name:</label></td>
                                                             <td>

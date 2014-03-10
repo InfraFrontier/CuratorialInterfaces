@@ -14,7 +14,7 @@
         <many-to-one cascade="none" class="Strain"     name="strain"         column="str_id_str"             insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str" not-null="false"/>
         
         <property column="alls_id_allel"          name="allele_key"/>
-        <property column="alls_id_allel_replaced" name="alleleReplaced_key"/>
+        <property column="alls_id_allel_replaced" name="replacedAllele_key"/>
         <property column="bg_id_bg"               name="background_key"/>
         <property column="ch_ano_desc"            name="chromosomeAnnotatedDescription"/>
         <property column="ch_ano_name"            name="chromosomeAnnotatedName"/>

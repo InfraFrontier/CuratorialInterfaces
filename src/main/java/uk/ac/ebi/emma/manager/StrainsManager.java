@@ -35,7 +35,9 @@ public class StrainsManager extends AbstractManager {
      * @param strain_key the strain primary key to match
      * @return the <code>Strain</code> object matching <code>strain_key</code>.
      * @throws HibernateException if a hibernate error occurs
+     * @deprecated This method is really slow thanks to hibernate and/or misconfiguration. Use getStrainName if you want just the id and name.
      */
+    @Deprecated
     public Strain getStrain(int strain_key) throws HibernateException {
         Strain strain = null;
         try {
@@ -44,6 +46,40 @@ public class StrainsManager extends AbstractManager {
                     .createQuery("FROM Strain s WHERE id_str = :strain_key")
                     .setParameter("strain_key", strain_key)
                     .uniqueResult();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+        
+        return strain;
+    }
+    
+    /**
+     * Returns the strain_key and name from persistent storage.
+     * @param strain_key the strain primary key
+     * @return  the strain (strain_key and name only) from persistent storage,
+     *          if the strain key exists; null otherwise
+     * @throws HibernateException if a hibernate error occurs
+     * 
+     * NOTE: This query is instantaneous versus using HSQL, which is noticeably slower.
+     */
+    public Strain getStrainName(int strain_key) throws HibernateException {
+        Strain strain = null;
+        try {
+            getCurrentSession().beginTransaction();
+            Object o = getCurrentSession()
+                    .createSQLQuery("SELECT id_str AS strain_key, name FROM strains WHERE id_str = :strain_key")
+                    .setParameter("strain_key", strain_key)
+                    .uniqueResult();
+            
+            Object[] row = (Object[])o;
+            Integer id = (Integer)row[0];
+            String name = (String)row[1];
+            strain = new Strain();
+            strain.setStrain_key(id);
+            strain.setName(name);
+
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();

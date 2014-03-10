@@ -80,6 +80,45 @@ public class AllelesManager extends AbstractManager {
         
         return allele;
     }
+    
+    /**
+     * Returns the allele_key, name, symbol, and mgiReference from persistent storage.
+     * @param allele_key the allele primary key
+     * @return  the allele (allele_key, name, symbol, and mgiReference only) from persistent storage,
+     *          if the allele key exists; null otherwise
+     * @throws HibernateException if a hibernate error occurs
+     * 
+     * NOTE: This query is instantaneous versus using HSQL, which is noticeably slower.
+     */
+    public Allele getAlleleName(int allele_key) throws HibernateException {
+        Allele allele = null;
+        try {
+            getCurrentSession().beginTransaction();
+            Object o = getCurrentSession()
+                    .createSQLQuery("SELECT id_allel AS allele_key, name, alls_form AS symbol, mgi_ref AS mgiReference FROM alleles WHERE id_allel = :allele_key")
+                    .setParameter("allele_key", allele_key)
+                    .uniqueResult();
+            
+            Object[] row = (Object[])o;
+            Integer id = (Integer)row[0];
+            String name = (String)(row[1] == null ? "" : row[1]);
+            String symbol = (String)(row[2] == null ? "" : row[2]);
+            String mgiReference = (String)(row[3] == null ? "" : row[3]);
+            
+            allele = new Allele();
+            allele.setAllele_key(id);
+            allele.setName(name);
+            allele.setSymbol(symbol);
+            allele.setMgiReference(mgiReference);
+
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+        
+        return allele;
+    }
 
     /**
      * Returns the full list of allele_key, name, symbol, and mgiReference from
