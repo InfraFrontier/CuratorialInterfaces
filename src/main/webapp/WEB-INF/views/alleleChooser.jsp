@@ -1,6 +1,6 @@
 <%-- 
-    Document   : geneChooser
-    Created on : Feb 20, 2014, 2:08:30 PM
+    Document   : alleleChooser
+    Created on : Mar 07, 2014
     Author     : mrelac
 --%>
 
@@ -27,8 +27,7 @@
         <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript" charset="UTF-8"></script>
 
         <script>
-            var geneUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
-            var urlRoot = "${pageContext.request.contextPath}/curation/geneChooser";
+            var urlRoot = "${pageContext.request.contextPath}/curation/alleleChooser";
 
             $(document).ready(function() {
                 $('#tabResults > tbody > tr')
@@ -36,45 +35,45 @@
                 $('#tabResults').dataTable()
             });
             
-            function handleDragStart(e) {
-                var gene_key = $(this).data('gene_key');
-                e.originalEvent.dataTransfer.setData('text', gene_key);
-            }
-            
             function lookupMgi(mgiReference) {
                 window.open("http://www.informatics.jax.org/marker?id=MGI:" + mgiReference, "MgiWindow");
             }
             
+            function handleDragStart(e) {
+                var allele_key = $(this).data('allele_key');
+                e.originalEvent.dataTransfer.setData('text', allele_key);
+            }
+            
         </script>
         
-        <title>Gene Chooser</title>
+        <title>Allele Chooser</title>
     </head>
     
     <body>
-        <div id="divResults" title="Gene Chooser">
+        <div id="divResults" title="Allele Chooser">
         
             <table id="tabResults" style="border: 1px solid black; display: block">
                 <thead>
                     <c:choose>
-                        <c:when test="${fn:length(genesList) > 0}">
+                        <c:when test="${fn:length(allelesList) > 0}">
                             <tr style="border: 1px solid black">
-                                <th>Gene ID</th>
-                                <th>Gene Name</th>
-                                <th>Gene Symbol</th>
+                                <th>Allele ID</th>
+                                <th>Allele Name</th>
+                                <th>Allele Symbol</th>
                                 <th>MGI Reference</th>
                             </tr>
                         </c:when>
                     </c:choose>
                 </thead>
                 <tbody>
-                    <c:forEach var="gene" items="${genesList}" varStatus="status">
-                        <tr draggable="true" data-gene_key="${gene.gene_key}">
-                            <td style="border: 1px solid black">${gene.gene_key}</td>
-                            <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
-                            <td style="border: 1px solid black">${fn:escapeXml(gene.symbol)}</td>
+                    <c:forEach var="allele" items="${allelesList}" varStatus="status">
+                        <tr draggable="true" data-allele_key="${allele.allele_key}">
+                            <td style="border: 1px solid black">${allele.allele_key}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
+                            <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(gene.mgiReference)}');" target="mgiReference">
-                                    ${fn:escapeXml(gene.mgiReference)}
+                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgiReference)}');" target="mgiReference">
+                                    ${fn:escapeXml(allele.mgiReference)}
                                 </a>
                             </td>
                         </tr>

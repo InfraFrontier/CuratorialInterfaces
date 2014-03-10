@@ -159,24 +159,7 @@ public class GeneManagementListController {
     public List<String> getChromosomes() {
         return genesManager.getChromosomes();
     }
-    
-    /**
-     * Returns a gene instance matching <b>gene_key</b> if found; null otherwise.
-     * 
-     * @param gene_key the primary key of the desired gene instance
-     * @@return a gene instance matching <b>gene_key</b> if found; null otherwise.
-     * */
-    @RequestMapping(value = "/getGene"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public Gene getGene(@RequestParam int gene_key) {
-        Gene gene = genesManager.getGene(gene_key);
-        if (gene != null)
-            gene.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
-        
-        return gene;
-    }
-    
+
     /**
      * Returns a distinct filtered list of gene names suitable for autocomplete
      * sourcing.

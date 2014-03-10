@@ -152,6 +152,45 @@ public class GenesManager extends AbstractManager {
     }
 
     /**
+     * Returns the full list of gene_key, name, symbol, and mgiReference from persistent storage.
+     * @return  the full list of genes (gene_key, name, symbol, and mgiReference only) from persistent storage.
+     * @throws HibernateException if a hibernate error occurs
+     * 
+     * NOTE: This query is instantaneous versus using HSQL, which is noticeably slower.
+     */
+    public List<Gene> getGeneNames() throws HibernateException {
+        List<Gene> genesList = new ArrayList();
+        
+        try {
+            getCurrentSession().beginTransaction();
+            Object o = getCurrentSession()
+                    .createSQLQuery("SELECT id_gene AS gene_key, name, symbol, mgi_ref AS mgiReference FROM genes")
+                    .list();
+            List list = (List)o;
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                Object[] row = (Object[])it.next();
+                Integer id = (Integer)row[0];
+                String name = (String)row[1];
+                String symbol = (String)row[2];
+                String mgiReference = (String)row[3];
+                Gene gene = new Gene();
+                gene.setGene_key(id);
+                gene.setName(name);
+                gene.setSymbol(symbol);
+                gene.setMgiReference(mgiReference);
+                genesList.add(gene);
+            }
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+        
+        return genesList;
+    }
+
+    /**
      * Returns a distinct filtered list of gene names suitable for autocomplete
      * sourcing.
      * 

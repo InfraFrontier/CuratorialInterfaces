@@ -26,31 +26,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.entity.Background;
+import uk.ac.ebi.emma.manager.BackgroundsManager;
 
 /**
  *
  * @author mrelac
  */
 @Controller
-@RequestMapping("/geneChooser")
-public class GeneChooser {
-    protected GenesManager genesManager = new GenesManager();
+@RequestMapping("/backgroundChooser")
+public class BackgroundChooser {
+    protected BackgroundsManager backgroundsManager = new BackgroundsManager();
         
     /**
-     * Return the full list of genes (gene_key, name, symbol, and mgiReference only)
-     * @param model the Genes list data model
+     * Return the full list of backgrounds
+     * @param model the Backgrounds list data model
      * 
-     * @return the full list of genes
+     * @return the full list of backgrounds
      */
     @RequestMapping(method=RequestMethod.GET)
     @ModelAttribute
     public String initialize(Model model)
     {
-        List<Gene> genesList = genesManager.getGeneNames();
-        model.addAttribute("genesList", genesList);
+        List<Background> backgroundsList = backgroundsManager.getBackgroundNames();
+        model.addAttribute("backgroundsList", backgroundsList);
         
-        return "geneChooser";
+        return "backgroundChooser";
     }
 }

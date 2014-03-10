@@ -50,10 +50,8 @@
         </style>
         
         <script>
-            var urlMutationListRoot = "${pageContext.request.contextPath}/curation/mutationManagementList";
-            var urlStrainChooserRoot = "${pageContext.request.contextPath}/curation/strainManagementList";
-            var urlAlleleChooserRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
-            var urlBackgroundChooserRoot = "${pageContext.request.contextPath}/curation/backgroundManagementList";
+            var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
+            var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
             
             $(document).ready(function() {
                 setMaxlengths();
@@ -68,6 +66,36 @@
                 $('#strain_key').on('change', function(e) {
                     updateStrainDiv();
                 });
+ 
+                $('#divAllele')
+                    .on('dragenter', handleDragEnter)
+                    .on('dragover',  handleDragOver)
+                    .on('dragleave', handleDragLeave)
+                    .on('drop',      handleDrop)
+                    .on('dragend',   handleDragLeave);
+                $('#allele_key').on('change', function(e) {
+                    updateAlleleDiv();
+                });
+ 
+                $('#divBackground')
+                    .on('dragenter', handleDragEnter)
+                    .on('dragover',  handleDragOver)
+                    .on('dragleave', handleDragLeave)
+                    .on('drop',      handleDrop)
+                    .on('dragend',   handleDragLeave);
+                $('#background_key').on('change', function(e) {
+                    updateBackgroundDiv();
+                });
+ 
+                $('#divReplacedAllele')
+                    .on('dragenter', handleDragEnter)
+                    .on('dragover',  handleDragOver)
+                    .on('dragleave', handleDragLeave)
+                    .on('drop',      handleDrop)
+                    .on('dragend',   handleDragLeave);
+                $('#replacedAllele_key').on('change', function(e) {
+                    updateReplacedAlleleDiv();
+                });
             });
             
             function updateStrainDiv() {
@@ -80,12 +108,10 @@
                     var strain = getStrain($('#strain_key').val());
                     if (strain !== null) {
                         strainName = strain.name;
-                        strainSymbol = strain.symbol;
                     }
                 }
                 // Set strain details
                 $('#strainName').val(strainName);
-                $('#strainSymbol').val(strainSymbol);
             }
             
             function updateAlleleDiv() {
@@ -132,9 +158,9 @@
                 
                 validate();
                 
-                var newId = $('#replacedAlleleId').val();
+                var newId = $('#replacedAllele_key').val();
                 if ((isInteger(newId)) && (newId > 0)) {
-                    var replacedAllele = getAllele($('#replacedAlleleId').val());
+                    var replacedAllele = getAllele($('#replacedAllele_key').val());
                     if (replacedAllele !== null) {
                         replacedAlleleName = replacedAllele.name;
                         replacedAlleleSymbol = replacedAllele.symbol;
@@ -200,7 +226,7 @@
 
                 // ALLELE: if supplied, validate allele_key is an int and describes a valid allele.
                 newId = $('#allele_key').val();
-                if (newId.length > 0) {
+                if ((newId !== undefined) && (newId.length > 0)) {
                     if ((isInteger(newId)) && (newId > 0)) {
                         var allele = getAllele($('#allele_key').val());
                         if (allele !== null) {
@@ -223,7 +249,7 @@
 
                 // BACKGROUND if supplied, validate background_key is an int and describes a valid background.
                 newId = $('#background_key').val();
-                if (newId.length > 0) {
+                if ((newId !== undefined) && (newId.length > 0)) {
                     if ((isInteger(newId)) && (newId > 0)) {
                         var background = getBackground($('#background_key').val());
                         if (background !== null) {
@@ -245,22 +271,22 @@
                 }
 
                 // REPLACED ALLELE: if supplied, validate allele_key is an int and describes a valid allele.
-                newId = $('#replacedAlleleId').val();
-                if (newId.length > 0) {
+                newId = $('#replacedAllele_key').val();
+                if ((newId !== undefined) && (newId.length > 0)) {
                     if ((isInteger(newId)) && (newId > 0)) {
-                        var replacedAllele = getAllele($('#replacedAlleleId').val());
+                        var replacedAllele = getAllele($('#replacedAllele_key').val());
                         if (replacedAllele !== null) {
                             name = replacedAllele.name;
                             symbol = replacedAllele.symbol;
                         } else {
                             errorCount++;
-                            errMsg = '<br class="clientError" /><span id="replacedAlleleId.errors" class="clientError">Please choose a valid allele.</span>';
-                            $('#replacedAlleleId').parent().append(errMsg);
+                            errMsg = '<br class="clientError" /><span id="replacedAllele_key.errors" class="clientError">Please choose a valid allele.</span>';
+                            $('#replacedAllele_key').parent().append(errMsg);
                         }
                     } else {
                         errorCount++;
-                        errMsg = '<br class="clientError" /><span id="replacedAlleleId.errors" class="clientError">Please choose a valid allele.</span>';
-                        $('#replacedAlleleId').parent().append(errMsg);
+                        errMsg = '<br class="clientError" /><span id="replacedAllele_key.errors" class="clientError">Please choose a valid allele.</span>';
+                        $('#replacedAllele_key').parent().append(errMsg);
                     }
                     // Set replacedAllele details
                     $('#replacedAlleleName').val(name);
@@ -311,52 +337,77 @@
                 e.originalEvent.dataTransfer.dropEffect = 'copy';
             }
             
-            var strainChooserWindow;
             function showStrainChooser() {
-                if (strainChooserWindow === undefined)
-                     strainChooserWindow = window.open(urlStrainChooserRoot, "_blank", "width = 768, height=406");
+                 window.open(urlCurationlRoot + "/strainChooser", "_blank", "width = 768, height=406");
 
                  return false;
             }
 
-            var alleleChooserWindow;
             function showAlleleChooser() {
-                if (alleleChooserWindow === undefined)
-                     alleleChooserWindow = window.open(urlAlleleChooserRoot, "_blank", "width = 768, height=406");
+                 window.open(urlCurationlRoot + "/alleleChooser", "_blank", "width = 768, height=406");
 
                  return false;
             }
 
             var backgroundChooserWindow;
             function showBackgroundChooser() {
-                if (backgroundChooserWindow === undefined)
-                     backgroundChooserWindow = window.open(urlBackgroundChooserRoot, "_blank", "width = 768, height=406");
+                 backgroundChooserWindow = window.open(urlCurationlRoot + "/backgroundChooser", "_blank", "width = 768, height=406");
 
                  return false;
             }
 
-            var replacedReplacedAlleleChooserWindow;
-            function showReplacedAlleleChooser() {
-                if (replacedReplacedAlleleChooserWindow === undefined)
-                     replacedReplacedAlleleChooserWindow = window.open(urlAlleleChooserRoot, "_blank", "width = 768, height=406");
-
-                 return false;
-            }
-
-FIXME FIXME FIXME GET STRAIN OBJECT LIKE YOU DID THE GENE.
             function getStrain(id) {
                 var strain = null;
                 $.ajax({
-                    url: urlMutationListRoot + "/getStrain"
+                      url:      urlUtilRoot + "/getStrain"
                     , dataType: "json"
-                    , async: false
-                    , data: {'gene_key': id}
-                    , success: function(data) {
+                    , async:    false
+                    , data:     {'strain_key': id}
+                    , success:  function(data) {
                         strain = data;
+                    }
+                    , fail: function(data) {
+                        alert(data);
                     }
                 });
                 
                 return strain;
+            }
+
+            function getBackground(id) {
+                var background = null;
+                $.ajax({
+                    url:        urlUtilRoot + "/getBackground"
+                    , dataType: "json"
+                    , async:    false
+                    , data:     {'background_key': id}
+                    , success:  function(data) {
+                        background = data;
+                    }
+                    , fail: function(data) {
+                        alert(data);
+                    }
+                });
+                
+                return background;
+            }
+            
+            function getAllele(id) {
+                var allele = null;
+                $.ajax({
+                      url:      urlUtilRoot + "/getAllele"
+                    , dataType: "json"
+                    , async:    false
+                    , data:     {'allele_key': id}
+                    , success:  function(data) {
+                        allele = data;
+                    }
+                    , fail: function(data) {
+                        alert(data);
+                    }
+                });
+                
+                return allele;
             }
         </script>
         
@@ -554,7 +605,7 @@ FIXME FIXME FIXME GET STRAIN OBJECT LIKE YOU DID THE GENE.
                                                             <%-- REPLACED ALLELE --%>
                                                             <td style="width: 150px"><label>Replaced Allele Id:</label></td>
                                                             <td>
-                                                                <form:input id="alleleReplaced_key" path="mutation.replacedAllele.allele_key"
+                                                                <form:input id="replacedAllele_key" path="mutation.replacedAllele.allele_key"
                                                                             value="${mutation.replacedAllele.allele_key}" />
                                                                 <form:errors path="mutation.replacedAllele.allele_key" cssClass="error" />
                                                             </td>
