@@ -52,6 +52,42 @@ public class BackgroundsManager extends AbstractManager {
         
         return background;
     }
+    
+    /**
+     * Returns the background_key, name, and symbol from persistent storage.
+     * @param background_key the background primary key
+     * @return  the background (background_key, name, and symbol only) from persistent storage,
+     *          if the background key exists; null otherwise
+     * @throws HibernateException if a hibernate error occurs
+     * 
+     * NOTE: This query is instantaneous versus using HSQL, which is noticeably slower.
+     */
+    public Background getBackgroundName(int background_key) throws HibernateException {
+        Background background = null;
+        try {
+            getCurrentSession().beginTransaction();
+            Object o = getCurrentSession()
+                    .createSQLQuery("SELECT id_bg AS background_key, name, symbol FROM backgrounds WHERE id_bg = :background_key")
+                    .setParameter("background_key", background_key)
+                    .uniqueResult();
+            
+            Object[] row = (Object[])o;
+            Integer id = (Integer)row[0];
+            String name = (String)(row[1] == null ? "" : row[1]);
+            String symbol = (String)(row[2] == null ? "" : row[2]);
+            background = new Background();
+            background.setBackground_key(id);
+            background.setName(name);
+            background.setSymbol(symbol);
+
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+        
+        return background;
+    }
 
     /**
      * Returns the full list of background_key, name, and symbol from persistent storage.

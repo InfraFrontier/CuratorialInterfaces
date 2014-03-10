@@ -30,16 +30,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
-import uk.ac.ebi.emma.entity.Allele;
-import uk.ac.ebi.emma.entity.Background;
 import uk.ac.ebi.emma.entity.Mutation;
-import uk.ac.ebi.emma.entity.Strain;
-import uk.ac.ebi.emma.manager.AllelesManager;
-import uk.ac.ebi.emma.manager.BackgroundsManager;
 import uk.ac.ebi.emma.manager.MutationsManager;
-import uk.ac.ebi.emma.manager.StrainsManager;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.validator.MutationValidator;
 
@@ -57,22 +50,6 @@ public class MutationManagementDetailController {
     @Autowired
     private MutationValidator validator;
 
-////////////    /**
-////////////     * Return the full list of genes
-////////////     * @param model the Genes list data model
-////////////     * 
-////////////     * @return the full list of genes
-////////////     */
-////////////    @RequestMapping(method=RequestMethod.GET)
-////////////    @ModelAttribute
-////////////    public String initialize(Model model)
-////////////    {
-////////////        List<Gene> genesList = genesManager.getGenes();
-////////////        model.addAttribute("genesList", genesList);
-////////////        
-////////////        return "mutationManagementDetail";
-////////////    }
-    
     /**
      * 'Edit/New Mutation' icon implementation
      * 
@@ -122,9 +99,15 @@ public class MutationManagementDetailController {
     /**
      * Save the form data.
      * 
-     * @param allele_key the allele primary key
      * @param mutation the mutation instance
      * @param errors the Errors binding result object
+     * 
+     * @param mutation_key the allele primary key
+     * @param strain_key the allele primary key
+     * @param allele_key the allele primary key
+     * @param background_key the allele primary key
+     * @param replacedAllele_key the allele primary key
+     * 
      * @param filterMutationKey the mutation id search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
      * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
@@ -138,7 +121,11 @@ public class MutationManagementDetailController {
     public String save(
             @Valid Mutation mutation, Errors errors
           
-    //      , @RequestParam(value="allele_key") Integer allele_key     // WE MAY NOT NEED THIS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+          , @RequestParam(value="mutation_key") Integer mutation_key
+          , @RequestParam(value="strain_key") Integer strain_key
+          , @RequestParam(value="allele_key") Integer allele_key
+          , @RequestParam(value="background_key") Integer background_key
+          , @RequestParam(value="replacedAllele_key") Integer replacedAllele_key
             
           , @RequestParam(value="filterMutationKey") String filterMutationKey
           , @RequestParam(value="filterMutationType") String filterMutationType
@@ -149,7 +136,12 @@ public class MutationManagementDetailController {
             
           , Model model) 
     {
-   //     allele.setAllele_key(allele_key);
+        // Load the primary key and the foreign keys.
+        mutation.setMutation_key(mutation_key);
+        mutation.setStrain_key(strain_key);
+        mutation.setAllele_key(allele_key);
+        mutation.setBackground_key(background_key);
+        mutation.setReplacedAllele_key(replacedAllele_key);
         
         // Load up the model in case we have to redisplay the detail form.
         // Save the filter info and add to model.
@@ -166,6 +158,12 @@ public class MutationManagementDetailController {
         }
         
         try {
+            // Copy the class instance keys.
+            mutation.getStrain().setStrain_key(strain_key);
+            mutation.getAllele().setAllele_key(allele_key);
+            mutation.getBackground().setBackground_key(background_key);
+            mutation.getReplacedAllele().setAllele_key(replacedAllele_key);
+            
             mutationsManager.save(mutation);
         } catch (PersistFailedException pfe) {
             errors.reject(null, pfe.getLocalizedMessage());
@@ -173,7 +171,8 @@ public class MutationManagementDetailController {
         }
         
         return "redirect:/curation/mutationManagementDetail/edit"
-                + "?filterMutationKey=" + filterMutationKey
+                + "?mutation_key=" + mutation.getMutation_key()
+                + "&filterMutationKey=" + filterMutationKey
                 + "&filterMutationType=" + filterMutationType
                 + "&filterMutationSubtype=" + filterMutationSubtype
                 + "&filterStrainKey=" + filterStrainKey

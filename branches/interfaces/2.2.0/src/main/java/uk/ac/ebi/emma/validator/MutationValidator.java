@@ -59,25 +59,23 @@ public class MutationValidator implements Validator {
         Utils.validateMaxFieldLengths(mutation, "mutations", errors);
         
         // Make sure mutation is bound to an existing allele.
-        Integer pk = extractAndValidateAlleleKey(mutation);
+        Integer pk = validateAlleleKey(mutation.getAllele_key());
         if (pk == null) {
-            errors.rejectValue("mutation.allele.allele_key", null, "Please choose a valid allele.");
+            errors.rejectValue("mutation.allele_key", null, "Please choose a valid allele.");
         }
     }
+    
     
     // PRIVATE METHODS
     
     
     /**
-     * Extract and validate allele key from mutation. If allele key doesn't identify
-     * a valid allele, null is returned; otherwise the key (always > 0) is returned.
-     * @param mutation the mutation to query
-     * @return the allele's primary key, if found and valid; null otherwise
+     * Validate allele key. If allele key doesn't identify a valid allele, null
+     * is returned; otherwise the key (always > 0) is returned.
+     * @param allele_key the allele key to query
+     * @return the allele key, if found and valid; null otherwise
      */
-    private Integer extractAndValidateAlleleKey(Mutation mutation) {
-        if (mutation.getAllele() == null)
-            return null;
-        Integer allele_key = mutation.getAllele().getAllele_key();
+    private Integer validateAlleleKey(Integer allele_key) {
         if ((allele_key == null) || (allele_key <= 0))
             return null;
         Allele allele = allelesManager.getAllele(allele_key);

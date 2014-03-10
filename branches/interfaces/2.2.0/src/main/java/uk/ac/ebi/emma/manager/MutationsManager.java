@@ -58,7 +58,9 @@ public class MutationsManager extends AbstractManager {
      * @throws HibernateException if a hibernate error occurs
      */
     public void delete(int mutation_key) throws HibernateException {
-        delete(getMutation(mutation_key));
+        Mutation mutation = new Mutation();
+        mutation.setMutation_key(mutation_key);
+        delete(mutation);
     }
     
     /**
@@ -296,6 +298,12 @@ public class MutationsManager extends AbstractManager {
     public void save(Mutation mutation) throws PersistFailedException {
         mutation.setLast_change(new Date());
         mutation.setUsername(username);
+        
+        mutation.setAllele(null);
+        mutation.setBackground(null);
+        mutation.setStrain(null);
+        mutation.setReplacedAllele(null);
+        
         try {
             getCurrentSession().beginTransaction();
             getCurrentSession().saveOrUpdate(mutation);
