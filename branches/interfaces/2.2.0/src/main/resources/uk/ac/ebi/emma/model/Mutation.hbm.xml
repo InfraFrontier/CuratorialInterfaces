@@ -8,10 +8,10 @@
             <generator class="native"/>
         </id>
         
-        <many-to-one cascade="none" class="Allele"     name="allele"         column="alls_id_allel"          insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
-        <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg"/>
-        <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel"/>
-        <many-to-one cascade="none" class="Strain"     name="strain"         column="str_id_str"             insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str"/>
+        <many-to-one cascade="none" class="Allele"     name="allele"         column="alls_id_allel"          insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false" />
+        <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg" not-null="false"/>
+        <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false"/>
+        <many-to-one cascade="none" class="Strain"     name="strain"         column="str_id_str"             insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str" not-null="false"/>
         
         <property column="alls_id_allel"          name="allele_key"/>
         <property column="alls_id_allel_replaced" name="alleleReplaced_key"/>

@@ -26,31 +26,31 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import uk.ac.ebi.emma.entity.Gene;
-import uk.ac.ebi.emma.manager.GenesManager;
+import uk.ac.ebi.emma.entity.Allele;
+import uk.ac.ebi.emma.manager.AllelesManager;
 
 /**
  *
  * @author mrelac
  */
 @Controller
-@RequestMapping("/geneChooser")
-public class GeneChooser {
-    protected GenesManager genesManager = new GenesManager();
+@RequestMapping("/alleleChooser")
+public class AlleleChooser {
+    protected AllelesManager allelesManager = new AllelesManager();
         
     /**
-     * Return the full list of genes (gene_key, name, symbol, and mgiReference only)
-     * @param model the Genes list data model
+     * Return the full list of alleles
+     * @param model the Alleles list data model
      * 
-     * @return the full list of genes
+     * @return the full list of alleles
      */
     @RequestMapping(method=RequestMethod.GET)
     @ModelAttribute
     public String initialize(Model model)
     {
-        List<Gene> genesList = genesManager.getGeneNames();
-        model.addAttribute("genesList", genesList);
+        List<Allele> allelesList = allelesManager.getAlleleNames();
+        model.addAttribute("allelesList", allelesList);
         
-        return "geneChooser";
+        return "alleleChooser";
     }
 }

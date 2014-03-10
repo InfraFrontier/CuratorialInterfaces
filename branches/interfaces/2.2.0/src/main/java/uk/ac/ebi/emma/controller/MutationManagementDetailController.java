@@ -21,6 +21,7 @@
 package uk.ac.ebi.emma.controller;
 
 import javax.validation.Valid;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -49,14 +50,9 @@ import uk.ac.ebi.emma.validator.MutationValidator;
 @Controller
 @RequestMapping("/mutationManagementDetail")
 public class MutationManagementDetailController {
-    @Autowired
-    private final AllelesManager allelesManager = new AllelesManager();
-    @Autowired
-    private final BackgroundsManager backgroundsManager = new BackgroundsManager();
+    protected final Logger logger = Logger.getLogger(this.getClass());
     @Autowired
     private final MutationsManager mutationsManager = new MutationsManager();
-    @Autowired
-    private final StrainsManager strainsManager = new StrainsManager();
     
     @Autowired
     private MutationValidator validator;
@@ -238,51 +234,5 @@ public class MutationManagementDetailController {
     // GETTERS AND SETTERS
     
 
-    
-    /**
-     * Returns an allele instance matching <b>allele_key</b> if found; null otherwise.
-     * 
-     * @param allele_key the primary key of the desired allele instance
-     * @@return an allele instance matching <b>allele_key</b> if found; null otherwise.
-     * */
-    @RequestMapping(value = "/getAllele"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public Allele getAllele(@RequestParam int allele_key) {
-        Allele allele = allelesManager.getAllele(allele_key);
-        
-        return allele;
-    }
-    
-    /**
-     * Returns a background instance matching <b>background_key</b> if found; null otherwise.
-     * 
-     * @param background_key the primary key of the desired background instance
-     * @@return a background instance matching <b>background_key</b> if found; null otherwise.
-     * */
-    @RequestMapping(value = "/getBackground"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public Background getBackground(@RequestParam int background_key) {
-        Background background = backgroundsManager.getBackground(background_key);
-        
-        return background;
-    }
-    
-    /**
-     * Returns a strain instance matching <b>strain_key</b> if found; null otherwise.
-     * 
-     * @param strain_key the primary key of the desired strain instance
-     * @@return a strain instance matching <b>strain_key</b> if found; null otherwise.
-     * */
-    @RequestMapping(value = "/getStrain"
-                  , method = RequestMethod.GET)
-    @ResponseBody
-    public Strain getStrain(@RequestParam int strain_key) {
-        Strain strain = strainsManager.getStrain(strain_key);
-////////        if (strain != null)
-////////            strain.setAlleles(null);  // Null out the alleles, as jackson creates a stack overflow trying to serialize self-referencing alleles <--> genes.
-        
-        return strain;
-    }
+
 }

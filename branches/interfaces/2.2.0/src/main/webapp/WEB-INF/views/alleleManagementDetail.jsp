@@ -50,9 +50,8 @@
         </style>
         
         <script>
-            var urlGeneChooserRoot = "${pageContext.request.contextPath}/curation/geneChooser";
+            var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
-            var urlGeneListRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             
             $(document).ready(function() {
                 setMaxlengths();
@@ -192,10 +191,8 @@
                 e.originalEvent.dataTransfer.dropEffect = 'copy';
             }
 
-            var geneChooserWindow;
             function showGeneChooser() {
-                if (geneChooserWindow === undefined)
-                     geneChooserWindow = window.open(urlGeneChooserRoot, "_blank", "width = 768, height=406");
+                 window.open(urlCurationlRoot + "/geneChooser", "_blank", "width = 768, height=406");
 
                  return false;
             }
@@ -203,11 +200,11 @@
             function getGene(id) {
                 var gene = null;
                 $.ajax({
-                    url: urlGeneListRoot + "/getGene"
+                      url:      urlUtilRoot + "/getGene"
                     , dataType: "json"
-                    , async: false
-                    , data: {gene_key: id}
-                    , success: function(data) {
+                    , async:    false
+                    , data:     {'gene_key': id}
+                    , success:  function(data) {
                         gene = data;
                     }
                 });

@@ -16,6 +16,9 @@
 
 package uk.ac.ebi.emma.manager;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import org.hibernate.HibernateException;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.emma.entity.Background;
@@ -50,4 +53,41 @@ public class BackgroundsManager extends AbstractManager {
         return background;
     }
 
+    /**
+     * Returns the full list of background_key, name, and symbol from persistent storage.
+     * @return  the full list of backgrounds (background_key, name, and symbol only) from persistent storage.
+     * @throws HibernateException if a hibernate error occurs
+     * 
+     * NOTE: This query is instantaneous versus using HSQL, which is noticeably slower.
+     */
+    public List<Background> getBackgroundNames() throws HibernateException {
+        List<Background> backgroundsList = new ArrayList();
+        
+        try {
+            getCurrentSession().beginTransaction();
+            Object o = getCurrentSession()
+                    .createSQLQuery("SELECT id_bg AS background_key, name, symbol FROM backgrounds")
+                    .list();
+            List list = (List)o;
+            Iterator it = list.iterator();
+            while (it.hasNext()) {
+                Object[] row = (Object[])it.next();
+                Integer id = (Integer)row[0];
+                String name = (String)row[1];
+                String symbol = (String)row[2];
+                Background background = new Background();
+                background.setBackground_key(id);
+                background.setName(name);
+                background.setSymbol(symbol);
+                backgroundsList.add(background);
+            }
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+        
+        return backgroundsList;
+    }
+    
 }
