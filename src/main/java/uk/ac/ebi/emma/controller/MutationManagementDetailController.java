@@ -61,6 +61,8 @@ public class MutationManagementDetailController {
      * @param filterStrainKey the strain id search criterion (may be empty)
      * @param filterAlleleKey the allele id search criterion (may be empty)
      * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param filterGeneKey the gene primary key search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the model
      * @return the view to show
      */
@@ -74,12 +76,14 @@ public class MutationManagementDetailController {
           , @RequestParam(value="filterStrainKey") String filterStrainKey
           , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
             
           , Model model)
     {
         // Save the filter info and add to model.
         Filter filter = buildFilter(filterMutationKey, filterMutationType, filterMutationSubtype, filterStrainKey,
-                                    filterAlleleKey, filterBackgroundKey);
+                                    filterAlleleKey, filterBackgroundKey, filterGeneKey, filterGeneSymbol);
         model.addAttribute(filter);
         
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -106,7 +110,6 @@ public class MutationManagementDetailController {
      * @param strain_key the allele primary key
      * @param allele_key the allele primary key
      * @param background_key the allele primary key
-     * @param replacedAllele_key the allele primary key
      * 
      * @param filterMutationKey the mutation id search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
@@ -114,6 +117,8 @@ public class MutationManagementDetailController {
      * @param filterStrainKey the strain id search criterion (may be empty)
      * @param filterAlleleKey the allele id search criterion (may be empty)
      * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param filterGeneKey the gene primary key search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
@@ -125,7 +130,6 @@ public class MutationManagementDetailController {
           , @RequestParam(value="strain_key") Integer strain_key
           , @RequestParam(value="allele_key") Integer allele_key
           , @RequestParam(value="background_key") Integer background_key
-          , @RequestParam(value="replacedAllele_key") Integer replacedAllele_key
             
           , @RequestParam(value="filterMutationKey") String filterMutationKey
           , @RequestParam(value="filterMutationType") String filterMutationType
@@ -133,20 +137,20 @@ public class MutationManagementDetailController {
           , @RequestParam(value="filterStrainKey") String filterStrainKey
           , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
             
           , Model model) 
     {
         // Load the primary key and the foreign keys.
         mutation.setMutation_key(mutation_key);
-        mutation.setStrain_key(strain_key);
         mutation.setAllele_key(allele_key);
         mutation.setBackground_key(background_key);
-        mutation.setReplacedAllele_key(replacedAllele_key);
         
         // Load up the model in case we have to redisplay the detail form.
         // Save the filter info and add to model.
         Filter filter = buildFilter(filterMutationKey, filterMutationType, filterMutationSubtype, filterStrainKey,
-                                    filterAlleleKey, filterBackgroundKey);
+                                    filterAlleleKey, filterBackgroundKey, filterGeneKey, filterGeneSymbol);
         model.addAttribute(filter);
         String loggedInUser = SecurityContextHolder.getContext().getAuthentication().getName();
         model.addAttribute("loggedInUser", loggedInUser);
@@ -159,10 +163,8 @@ public class MutationManagementDetailController {
         
         try {
             // Copy the class instance keys.
-            mutation.getStrain().setStrain_key(strain_key);
             mutation.getAllele().setAllele_key(allele_key);
             mutation.getBackground().setBackground_key(background_key);
-            mutation.getReplacedAllele().setAllele_key(replacedAllele_key);
             
             mutationsManager.save(mutation);
         } catch (PersistFailedException pfe) {
@@ -177,7 +179,9 @@ public class MutationManagementDetailController {
                 + "&filterMutationSubtype=" + filterMutationSubtype
                 + "&filterStrainKey=" + filterStrainKey
                 + "&filterAlleleKey=" + filterAlleleKey
-                + "&filterBackgroundKey=" + filterBackgroundKey;
+                + "&filterBackgroundKey=" + filterBackgroundKey
+                + "&filterGeneKey=" + filterGeneKey
+                + "&filterGeneSymbol=" + filterGeneSymbol;
     }
     
     /**
@@ -189,6 +193,8 @@ public class MutationManagementDetailController {
      * @param filterStrainKey the strain id search criterion (may be empty)
      * @param filterAlleleKey the allele id search criterion (may be empty)
      * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param filterGeneKey the gene primary key search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
@@ -200,6 +206,8 @@ public class MutationManagementDetailController {
           , @RequestParam(value="filterStrainKey") String filterStrainKey
           , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
             
           , Model model) 
     {
@@ -209,7 +217,9 @@ public class MutationManagementDetailController {
                 + "&filterMutationSubtype=" + filterMutationSubtype
                 + "&filterStrainKey=" + filterStrainKey
                 + "&filterAlleleKey=" + filterAlleleKey
-                + "&filterBackgroundKey=" + filterBackgroundKey;
+                + "&filterBackgroundKey=" + filterBackgroundKey
+                + "&filterGeneKey=" + filterGeneKey
+                + "&filterGeneSymbol=" + filterGeneSymbol;
     }
     
     
@@ -217,7 +227,7 @@ public class MutationManagementDetailController {
     
     
     private Filter buildFilter(String filterMutationKey, String filterMutationType, String filterMutationSubtype, String filterStrainKey,
-                                    String filterAlleleKey, String filterBackgroundKey) {
+                                    String filterAlleleKey, String filterBackgroundKey, String filterGeneKey, String filterGeneSymbol) {
         Filter filter = new Filter();
         filter.setMutation_key(filterMutationKey != null ? filterMutationKey : "");
         filter.setMutationType(filterMutationType != null ? filterMutationType : "");
@@ -225,6 +235,8 @@ public class MutationManagementDetailController {
         filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
         filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
         filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
+        filter.setGene_key(filterGeneKey != null ? filterGeneKey : "");
+        filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
         
         return filter;
     }

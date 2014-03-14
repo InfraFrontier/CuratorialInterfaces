@@ -149,7 +149,7 @@ public class UtilController {
             strain.setAvailabilitiesStrains(null);
             strain.setBibliosStrains(null);
             strain.setCategoriesStrains(null);
-            strain.setMutationsStrains(null);
+            strain.setMutations(null);
             strain.setProjectsStrains(null);
             strain.setRtoolsStrains(null);
             strain.setSourcesStrains(null);

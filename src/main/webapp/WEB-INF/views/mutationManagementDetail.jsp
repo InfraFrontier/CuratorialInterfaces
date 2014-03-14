@@ -58,71 +58,56 @@
                 clearErrors();
  
                 $('#divStrain')
-                    .on('dragenter', handleDragEnter)
-                    .on('dragover',  handleDragOver)
-                    .on('dragleave', handleDragLeave)
-                    .on('drop',      handleDrop)
-                    .on('dragend',   handleDragLeave);
+                    .on('dragenter', handleDragEnterStrain)
+                    .on('dragover',  handleDragOverStrain)
+                    .on('dragleave', handleDragLeaveStrain)
+                    .on('drop',      handleDropStrain)
+                    .on('dragend',   handleDragLeaveStrain);
                 $('#strain_key').on('change', function(e) {
-                    updateStrainDiv();
+                    updateStrainDiv($('#strain_key').val());
                 });
- 
                 $('#divAllele')
-                    .on('dragenter', handleDragEnter)
-                    .on('dragover',  handleDragOver)
-                    .on('dragleave', handleDragLeave)
-                    .on('drop',      handleDrop)
-                    .on('dragend',   handleDragLeave);
+                    .on('dragenter', handleDragEnterAllele)
+                    .on('dragover',  handleDragOverAllele)
+                    .on('dragleave', handleDragLeaveAllele)
+                    .on('drop',      handleDropAllele)
+                    .on('dragend',   handleDragLeaveAllele);
                 $('#allele_key').on('change', function(e) {
                     updateAlleleDiv();
                 });
  
                 $('#divBackground')
-                    .on('dragenter', handleDragEnter)
-                    .on('dragover',  handleDragOver)
-                    .on('dragleave', handleDragLeave)
-                    .on('drop',      handleDrop)
-                    .on('dragend',   handleDragLeave);
+                    .on('dragenter', handleDragEnterBackground)
+                    .on('dragover',  handleDragOverBackground)
+                    .on('dragleave', handleDragLeaveBackground)
+                    .on('drop',      handleDropBackground)
+                    .on('dragend',   handleDragLeaveBackground);
                 $('#background_key').on('change', function(e) {
                     updateBackgroundDiv();
                 });
- 
-                $('#divReplacedAllele')
-                    .on('dragenter', handleDragEnter)
-                    .on('dragover',  handleDragOver)
-                    .on('dragleave', handleDragLeave)
-                    .on('drop',      handleDrop)
-                    .on('dragend',   handleDragLeave);
-                $('#replacedAllele_key').on('change', function(e) {
-                    updateReplacedAlleleDiv();
-                });
             });
             
-            function updateStrainDiv() {
+            function updateStrainDiv(key) {
                 var strainName = '';
                 
-                validate();
-                
-                var newId = $('#strain_key').val();
-                if ((isInteger(newId)) && (newId > 0)) {
-                    var strain = getStrain($('#strain_key').val());
+                if (((key + '').trim() !== '') && (isInteger(key)) && (key > 0)) {
+                    var strain = getStrain(key);
                     if (strain !== null) {
                         strainName = strain.name;
                     }
                 }
+                
                 // Set strain details
+                $('#strain_key').val(key);
                 $('#strainName').val(strainName);
             }
             
-            function updateAlleleDiv() {
+            function updateAlleleDiv(key) {
                 var alleleName = '';
                 var alleleSymbol = '';
                 
-                validate();
-                
-                var newId = $('#allele_key').val();
-                if ((isInteger(newId)) && (newId > 0)) {
-                    var allele = getAllele($('#allele_key').val());
+                if (((key + '').trim() !== '') && (isInteger(key)) && (key > 0)) {
+                    var allele = getAllele(key);
                     if (allele !== null) {
                         alleleName = allele.name;
                         alleleSymbol = allele.symbol;
@@ -133,15 +118,12 @@
                 $('#alleleSymbol').val(alleleSymbol);
             }
             
-            function updateBackgroundDiv() {
+            function updateBackgroundDiv(key) {
                 var backgroundName = '';
                 var backgroundSymbol = '';
                 
-                validate();
-                
-                var newId = $('#background_key').val();
-                if ((isInteger(newId)) && (newId > 0)) {
-                    var background = getBackground($('#background_key').val());
+                if (((key + '').trim() !== '') && (isInteger(key)) && (key > 0)) {
+                    var background = getBackground(key);
                     if (background !== null) {
                         backgroundName = background.name;
                         backgroundSymbol = background.symbol;
@@ -152,15 +134,12 @@
                 $('#backgroundSymbol').val(backgroundSymbol);
             }
             
-            function updateReplacedAlleleDiv() {
+            function updateReplacedAlleleDiv(key) {
                 var replacedAlleleName = '';
                 var replacedAlleleSymbol = '';
                 
-                validate();
-                
-                var newId = $('#replacedAllele_key').val();
-                if ((isInteger(newId)) && (newId > 0)) {
-                    var replacedAllele = getAllele($('#replacedAllele_key').val());
+                if (((key + '').trim() !== '') && (isInteger(key)) && (key > 0)) {
+                    var replacedAllele = getAllele(key);
                     if (replacedAllele !== null) {
                         replacedAlleleName = replacedAllele.name;
                         replacedAlleleSymbol = replacedAllele.symbol;
@@ -207,20 +186,24 @@
                 var errorCount = 0;
 
                 // STRAIN: Validate strain_key is an int and describes a valid strain.
-                if ((isInteger(newId)) && (newId > 0)) {
-                    var strain = getStrain($('#strain_key').val());
-                    if (strain !== null) {
-                        name = strain.name;
+                if ((newId + '').trim() !== '') {
+                    if ((isInteger(newId)) && (newId > 0)) {
+
+                        var strain = getStrain($('#strain_key').val());
+                        if (strain !== null) {
+                            name = strain.name;
+                        } else {
+                            errorCount++;
+                            errMsg = '<br class="clientError" /><span id="strain_key.errors" class="clientError">Please choose a valid strain.</span>';
+                            $('#strain_key').parent().append(errMsg);
+                        }
                     } else {
                         errorCount++;
                         errMsg = '<br class="clientError" /><span id="strain_key.errors" class="clientError">Please choose a valid strain.</span>';
                         $('#strain_key').parent().append(errMsg);
                     }
-                } else {
-                    errorCount++;
-                    errMsg = '<br class="clientError" /><span id="strain_key.errors" class="clientError">Please choose a valid strain.</span>';
-                    $('#strain_key').parent().append(errMsg);
                 }
+                
                 // Set strain details
                 $('#strainName').val(name);
 
@@ -270,29 +253,6 @@
                     $('#backgroundSymbol').val(symbol);
                 }
 
-                // REPLACED ALLELE: if supplied, validate allele_key is an int and describes a valid allele.
-                newId = $('#replacedAllele_key').val();
-                if ((newId !== undefined) && (newId.length > 0)) {
-                    if ((isInteger(newId)) && (newId > 0)) {
-                        var replacedAllele = getAllele($('#replacedAllele_key').val());
-                        if (replacedAllele !== null) {
-                            name = replacedAllele.name;
-                            symbol = replacedAllele.symbol;
-                        } else {
-                            errorCount++;
-                            errMsg = '<br class="clientError" /><span id="replacedAllele_key.errors" class="clientError">Please choose a valid allele.</span>';
-                            $('#replacedAllele_key').parent().append(errMsg);
-                        }
-                    } else {
-                        errorCount++;
-                        errMsg = '<br class="clientError" /><span id="replacedAllele_key.errors" class="clientError">Please choose a valid allele.</span>';
-                        $('#replacedAllele_key').parent().append(errMsg);
-                    }
-                    // Set replacedAllele details
-                    $('#replacedAlleleName').val(name);
-                    $('#replacedAlleleSymbol').val(symbol);
-                }
-                
                 if (errorCount > 0) {
                     $('.saveButton').attr("disabled", true);
                     return false;
@@ -317,26 +277,112 @@
                 return false;
             }
             
-            function handleDragEnter(e) {
-                this.classList.add('over');
-            }
-            function handleDragLeave(e) {
-                this.classList.remove('over');
-            }
-            function handleDrop(e) {
- //               var gene_key = e.originalEvent.dataTransfer.getData('text');
- //               $('#gene_key').val(gene_key);
- //               updateGeneDiv();
-               
+            
+            // STRAIN DRAG-n-DROP HANDLERS
+            function handleDragEnterStrain(e) {
+                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
+                if (isStrain)
+                    e.preventDefault();
+                
                 return false;
             }
-            function handleDragOver(e) {
-                if (e.preventDefault) {
-                    e.preventDefault();
+            function handleDragLeaveStrain(e) {
+                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
+                if (isStrain) {
+                    this.classList.remove('over');
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
                 }
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
+                
+                return false;
+            }
+            function handleDropStrain(e) {
+                var key = e.originalEvent.dataTransfer.getData('text/strain');
+                if ((key + "").trim().length > 0) {
+                    $('#strain_key').val(key);
+                    updateStrainDiv(key);
+                }
+                
+                return false;
+            }
+            // getData() is not available in this function and breaks drag-n-drop if it is called here.
+            function handleDragOverStrain(e) {
+                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
+                if (isStrain) {
+                    e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                }
             }
             
+            // ALLELE DRAG-n-DROP HANDLERS
+            function handleDragEnterAllele(e) {
+                var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
+                if (isAllele)
+                    e.preventDefault();
+                
+                return false;
+            }
+            function handleDragLeaveAllele(e) {
+                var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
+                if (isAllele) {
+                    this.classList.remove('over');
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                }
+                
+                return false;
+            }
+            function handleDropAllele(e) {
+                var key = e.originalEvent.dataTransfer.getData('text/allele');
+                if ((key + "").trim().length > 0) {
+                    $('#allele_key').val(key);
+                    updateAlleleDiv(key);
+                }
+                
+                return false;
+            }
+            // getData() is not available in this function and breaks drag-n-drop if it is called here.
+            function handleDragOverAllele(e) {
+                var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
+                if (isAllele) {
+                    e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                }
+            }
+            
+            // BACKGROUND DRAG-n-DROP HANDLERS
+            function handleDragEnterBackground(e) {
+                var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
+                if (isBackground)
+                    e.preventDefault();
+                
+                return false;
+            }
+            function handleDragLeaveBackground(e) {
+                var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
+                if (isBackground) {
+                    this.classList.remove('over');
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                }
+                
+                return false;
+            }
+            function handleDropBackground(e) {
+                var key = e.originalEvent.dataTransfer.getData('text/background');
+                if ((key + "").trim().length > 0) {
+                    $('#background_key').val(key);
+                    updateBackgroundDiv(key);
+                }
+                
+                return false;
+            }
+            // getData() is not available in this function and breaks drag-n-drop if it is called here.
+            function handleDragOverBackground(e) {
+                var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
+                if (isBackground) {
+                    e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                }
+            }
+
             function showStrainChooser() {
                  window.open(urlCurationlRoot + "/strainChooser", "_blank", "width = 768, height=406");
 
@@ -420,12 +466,14 @@
         <br />
 
         <form>
-            <input type="hidden" name="filterMutationKey" value="${filter.mutation_key}" />
-            <input type="hidden" name="filterMutationType" value="${filter.mutationType}" />
+            <input type="hidden" name="filterMutationKey"     value="${filter.mutation_key}" />
+            <input type="hidden" name="filterMutationType"    value="${filter.mutationType}" />
             <input type="hidden" name="filterMutationSubtype" value="${filter.mutationSubtype}" />
-            <input type="hidden" name="filterStrainKey" value="${filter.strain_key}" />
-            <input type="hidden" name="filterAlleleKey" value="${filter.allele_key}" />
-            <input type="hidden" name="filterBackgroundKey" value="${filter.background_key}" />
+            <input type="hidden" name="filterStrainKey"       value="${filter.strain_key}" />
+            <input type="hidden" name="filterAlleleKey"       value="${filter.allele_key}" />
+            <input type="hidden" name="filterBackgroundKey"   value="${filter.background_key}" />
+            <input type="hidden" name="filterGeneKey"         value="${filter.gene_key}" />
+            <input type="hidden" name="filterGeneSymbol"      value="${filter.geneSymbol}" />
             
             <table style="border: none">
                 <tr>
@@ -455,20 +503,7 @@
                                             <%-- GENOTYPE --%>
                                             <td><label id="labGenotype">Genotype:</label></td>
                                             <td style="border: 0"><form:textarea name="genotype" value="${mutation.genotype}" path="mutation.genotype" /></td>
-                                            
-                                            <%-- KNOCK-IN ALTER --%>
-                                            <td><label id="labKnockinAlter">Knock-in Alter:</label></td>
-                                            <td style="border: 0"><form:textarea name="knockinAlter" value="${mutation.knockinAlter}" path="mutation.knockinAlter" /></td>
-                                            
-                                            <%-- CAUSE --%>
-                                            <td><label id="labCause">Cause:</label></td>
-                                            <td style="border: 0"><form:textarea name="cause" value="${mutation.cause}" path="mutation.cause" /></td>
-                                            
-                                            <%-- CHROMOSOME ANNOTATED NAME --%>
-                                            <td><label id="labChromosomeAnnotatedName">Chromosome Annotated Name:</label></td>
-                                            <td style="border: 0"><form:textarea name="chromosomeAnnotatedName" value="${mutation.chromosomeAnnotatedName}" path="mutation.chromosomeAnnotatedName" /></td>
-                                        </tr>
-                                        <tr>
+
                                             <%-- DOMINANCE --%>
                                             <td><label id="labDominance">Dominance:</label></td>
                                             <td style="border: 0"><form:input name="dominance" value="${mutation.dominance}" path="mutation.dominance" /></td>
@@ -477,18 +512,14 @@
                                             <td><label id="labSex">Sex:</label></td>
                                             <td style="border: 0"><form:input name="sex" value="${mutation.sex}" path="mutation.sex" /></td>
                                             
-                                            <%-- CHROMOSOME --%>
-                                            <td><label id="labChromosome">Chromosome:</label></td>
-                                            <td style="border: 0"><form:input name="chromosome" value="${mutation.chromosome}" path="mutation.chromosome" /></td>
-                                            
-                                            <%-- CHROMOSOME ANNOTATED DESCRIPTION --%>
-                                            <td><label id="labChromosomeAnnotatedDescription">Chromosome Annotated Description:</label></td>
-                                            <td style="border: 0"><form:textarea name="chromosomeAnnotatedDescription" value="${mutation.chromosomeAnnotatedDescription}" path="mutation.chromosomeAnnotatedDescription" /></td>
+                                            <%-- CAUSE --%>
+                                            <td><label id="labCause">Cause:</label></td>
+                                            <td style="border: 0"><form:textarea name="cause" value="${mutation.cause}" path="mutation.cause" /></td>
                                         </tr>
                                         <tr><td colspan="8">&nbsp;</td></tr>
                                         <tr>
+                                            <%-- STRAIN --%>
                                             <td>
-                                                <%-- STRAIN --%>
                                                 <label>Strain:</label>
                                                 <input alt="Click for strain list." type="image" height="15" width="15" title="Click for strain list."
                                                        src="${pageContext.request.contextPath}/images/geneChooser.jpg"
@@ -496,29 +527,34 @@
                                                 />
                                             </td>
                                             <td colspan="7">
-                                                <div id="divStrain" style="border: 1px solid gray">
+                                                <div id="divStrain" style="border: 1px solid gray" >
                                                     <table>
-                                                        <tr>
-                                                            <%-- STRAIN --%>
-                                                            <td style="width: 150px"><label>Strain Id:</label></td>
-                                                            <td>
-                                                                <form:input id="strain_key" path="mutation.strain_key"
-                                                                            value="${mutation.strain_key}" />
-                                                                <form:errors path="mutation.strain_key" cssClass="error" />
-                                                            </td>
-                                                            <td style="width: 150px"><label>Strain Name:</label></td>
-                                                            <td>
-                                                                <form:textarea id="strainName" path="mutation.strain.name" readonly="true"
-                                                                               value="${mutation.strain.name}" type="text" />
-                                                            </td>
-                                                        </tr>
+                                                        <thead style="border: 1px solid black">
+                                                            <tr>
+                                                                <td colspan="2" style="text-align: center">Id</td>
+                                                                <td style="text-align: center">Name</td>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <c:forEach var="strain" items="${mutation.strains}" varStatus="status">
+                                                                <tr draggable="true">
+                                                                    <td><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me"></td>
+                                                                    <td>
+                                                                        <input name="strainIds" value="${strain.strain_key}" readonly="readonly" />
+                                                                    </td>
+                                                                    <td>
+                                                                        <textarea readonly="readonly" style="width: 300px">${strain.name}"</textarea>
+                                                                    </td>
+                                                                </tr>
+                                                            </c:forEach>
+                                                        </tbody>
                                                     </table>
                                                 </div>
                                             </td>
                                         </tr>
                                         <tr>
+                                            <%-- ALLELE --%>
                                             <td>
-                                                <%-- ALLELE --%>
                                                 <label>Allele:</label>
                                                 <input alt="Click for allele list." type="image" height="15" width="15" title="Click for allele list."
                                                        src="${pageContext.request.contextPath}/images/geneChooser.jpg"
@@ -553,8 +589,8 @@
                                             </td>
                                         </tr>
                                         <tr>
+                                            <%-- BACKGROUND --%>
                                             <td>
-                                                <%-- BACKGROUND --%>
                                                 <label>Background:</label>
                                                 <input alt="Click for background list." type="image" height="15" width="15" title="Click for background list."
                                                        src="${pageContext.request.contextPath}/images/geneChooser.jpg"
@@ -581,41 +617,6 @@
                                                             <td>
                                                                 <form:textarea id="backgroundSymbol" path="mutation.background.symbol" readonly="true"
                                                                             value="${mutation.background.symbol}" type="text" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                <%-- REPLACED ALLELE --%>
-                                                <label>Replaced Allele:</label>
-                                                <input alt="Click for allele list." type="image" height="15" width="15" title="Click for allele list."
-                                                       src="${pageContext.request.contextPath}/images/geneChooser.jpg"
-                                                       onclick="showAlleleChooser();return false;"
-                                                />
-                                            </td>
-                                            <td colspan="7">
-                                                <div id="divReplacedAllele" style="border: 1px solid gray">
-                                                    <table>
-                                                        <tr>
-                                                            <%-- REPLACED ALLELE --%>
-                                                            <td style="width: 150px"><label>Replaced Allele Id:</label></td>
-                                                            <td>
-                                                                <form:input id="replacedAllele_key" path="mutation.replacedAllele_key"
-                                                                            value="${mutation.replacedAllele_key}" />
-                                                                <form:errors path="mutation.replacedAllele_key" cssClass="error" />
-                                                            </td>
-                                                            <td><label>Replaced Allele Name:</label></td>
-                                                            <td>
-                                                                <form:textarea id="replacedAlleleName" path="mutation.replacedAllele.name" readonly="true"
-                                                                            value="${mutation.replacedAllele.name}" type="text" />
-                                                            </td>
-                                                            <td style="width: 160px"><label>Replaced Allele Symbol:</label></td>
-                                                            <td>
-                                                                <form:textarea id="replacedAlleleSymbol" path="mutation.replacedAllele.symbol" readonly="true"
-                                                                            value="${mutation.replacedAllele.symbol}" type="text" />
                                                             </td>
                                                         </tr>
                                                     </table>

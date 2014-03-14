@@ -222,15 +222,15 @@
         <br />
 
         <form>
-            <input type="hidden" name="allele_key" value="${allele.allele_key}" />
+            <input type="hidden" name="allele_key"               value="${allele.allele_key}" />
             
-            <input type="hidden" name="filterAlleleKey" value="${filter.allele_key}" />
-            <input type="hidden" name="filterAlleleName" value="${filter.alleleName}" />
-            <input type="hidden" name="filterAlleleSymbol" value="${filter.alleleSymbol}" />
+            <input type="hidden" name="filterAlleleKey"          value="${filter.allele_key}" />
+            <input type="hidden" name="filterAlleleName"         value="${filter.alleleName}" />
+            <input type="hidden" name="filterAlleleSymbol"       value="${filter.alleleSymbol}" />
             <input type="hidden" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-            <input type="hidden" name="filterGeneKey" value="${filter.gene_key}" />
-            <input type="hidden" name="filterGeneName" value="${filter.geneName}" />
-            <input type="hidden" name="filterGeneSymbol" value="${filter.geneSymbol}" />
+            <input type="hidden" name="filterGeneKey"            value="${filter.gene_key}" />
+            <input type="hidden" name="filterGeneName"           value="${filter.geneName}" />
+            <input type="hidden" name="filterGeneSymbol"         value="${filter.geneSymbol}" />
             <table style="border: none">
                 <tr>
                     <td>
@@ -318,17 +318,6 @@
                     <td style="float: right">
                         <table>
                             <tr>
-                                <%--
-                                <td>
-                                    <div class="buttonAlignment">
-                                        <input type="submit" value="Back"
-                                               formmethod="GET"
-                                               formaction="${pageContext.request.contextPath}/curation/alleleManagementList/showFilter"
-                                               formtarget="alleleManagementList" />
-                                    </div>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                --%>
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="button" value="Clear"

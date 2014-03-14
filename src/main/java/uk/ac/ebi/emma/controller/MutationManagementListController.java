@@ -43,12 +43,14 @@ public class MutationManagementListController {
     /**
      * 'Go' button implementation
      * 
-     * @param filterMutationKey the mutation id search criterion (may be empty)
+     * @param filterMutationKey the mutation primary key search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
      * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
-     * @param filterStrainKey the strain id search criterion (may be empty)
-     * @param filterAlleleKey the allele id search criterion (may be empty)
-     * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param filterStrainKey the strain primary key search criterion (may be empty)
+     * @param filterAlleleKey the allele primary key search criterion (may be empty)
+     * @param filterBackgroundKey the background primary key search criterion (may be empty)
+     * @param filterGeneKey the gene primary key search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
@@ -60,6 +62,8 @@ public class MutationManagementListController {
           , @RequestParam(value="filterStrainKey") String filterStrainKey
           , @RequestParam(value="filterAlleleKey") String filterAlleleKey
           , @RequestParam(value="filterBackgroundKey") String filterBackgroundKey
+          , @RequestParam(value="filterGeneKey") String filterGeneKey
+          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
@@ -69,6 +73,8 @@ public class MutationManagementListController {
         filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
         filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
         filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
+        filter.setGene_key(filterGeneKey != null ? filterGeneKey : "");
+        filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
         
         model.addAttribute("filter", filter);
         
@@ -117,12 +123,14 @@ public class MutationManagementListController {
     /**
      * Displays the form with no results grid. Since this is the entry point to
      * mutation management curation, the filter parameter values are optional.
-     * @param filterMutationKey the mutation id search criterion (may be empty)
+     * @param filterMutationKey the mutation primary key search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
      * @param filterMutationSubtype the mutation subtype search criterion (may be empty)
-     * @param filterStrainKey the strain id search criterion (may be empty)
-     * @param filterAlleleKey the allele id search criterion (may be empty)
-     * @param filterBackgroundKey the background id search criterion (may be empty)
+     * @param filterStrainKey the strain primary key search criterion (may be empty)
+     * @param filterAlleleKey the allele primary key search criterion (may be empty)
+     * @param filterBackgroundKey the background primary key search criterion (may be empty)
+     * @param filterGeneKey the gene primary key search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
      * @param model the data model
      * @return the view to show
      */
@@ -134,6 +142,8 @@ public class MutationManagementListController {
           , @RequestParam(value="filterStrainKey", required=false) String filterStrainKey
           , @RequestParam(value="filterAlleleKey", required=false) String filterAlleleKey
           , @RequestParam(value="filterBackgroundKey", required=false) String filterBackgroundKey
+          , @RequestParam(value="filterGeneKey", required=false) String filterGeneKey
+          , @RequestParam(value="filterGeneSymbol", required=false) String filterGeneSymbol
           , Model model)
     {
         Filter filter = new Filter();
@@ -143,6 +153,8 @@ public class MutationManagementListController {
         filter.setStrain_key(filterStrainKey != null ? filterStrainKey : "");
         filter.setAllele_key(filterAlleleKey != null ? filterAlleleKey : "");
         filter.setBackground_key(filterBackgroundKey != null ? filterBackgroundKey : "");
+        filter.setGene_key(filterGeneKey != null ? filterGeneKey : "");
+        filter.setGeneSymbol(filterGeneSymbol != null ? filterGeneSymbol : "");
         
         model.addAttribute("filter", filter);
         model.addAttribute("showResultsForm", false);

@@ -99,7 +99,7 @@ public class MutationsManager extends AbstractManager {
         try {
             getCurrentSession().beginTransaction();
             mutation = (Mutation)getCurrentSession()
-                    .createQuery("FROM Mutation m WHERE mutation_key = :mutation_key")
+                    .createQuery("FROM Mutation m JOIN FETCH m.strains WHERE m.mutation_key = :mutation_key")
                     .setParameter("mutation_key", mutation_key)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
@@ -221,22 +221,29 @@ public class MutationsManager extends AbstractManager {
      * @throws NumberFormatException if ids are not numeric (commas and whitespace are OK)
      */
     public List<Mutation> getFilteredMutationsList(Filter filter) throws NumberFormatException {
-        String mutationIdWhere = "";
+        String mutationKeyWhere = "";
         String mutationTypeWhere = "";
         String mutationSubtypeWhere = "";
-        String strainIdWhere = "";
-        String alleleIdWhere = "";
-        String backgroundIdWhere = "";
+        String strainKeyWhere = "";
+        String alleleKeyWhere = "";
+        String backgroundKeyWhere = "";
+        String geneKeyWhere = "";
+        String geneSymbolWhere = "";
         
         List<Mutation> targetList = new ArrayList();
         
-        String queryString = "SELECT * FROM mutations m\nWHERE (1 = 1)\n";     
+        String queryString = "SELECT m.*, GROUP_CONCAT(ms.str_id_str) AS strain_keys\n"
+                           + "FROM mutations m\n"
+                           + "LEFT OUTER JOIN mutations_strains ms ON ms.mut_id = m.id\n"
+                           + "JOIN alleles a ON a.id_allel = m.alls_id_allel\n"
+                           + "JOIN genes g ON g.id_gene = a.gen_id_gene\n"
+                           + "WHERE (1 = 1)\n";     
         
         if ((filter.getMutation_key() != null) && ( ! filter.getMutation_key().isEmpty())) {
             String mutationIds = Utils.cleanIntArray(filter.getMutation_key());
             if (Utils.isValidIntArray(mutationIds)) {
-                mutationIdWhere = "  AND (m.id IN (" + mutationIds + "))\n";
-                queryString += mutationIdWhere;
+                mutationKeyWhere = "  AND (ms.mut_id IN (" + mutationIds + "))\n";
+                queryString += mutationKeyWhere;
             }
         }
         if ((filter.getMutationType() != null) && ( ! filter.getMutationType().isEmpty())) {
@@ -250,26 +257,39 @@ public class MutationsManager extends AbstractManager {
         if ((filter.getStrain_key() != null) && ( ! filter.getStrain_key().isEmpty())) {
             String strainIds = Utils.cleanIntArray(filter.getStrain_key());
             if (Utils.isValidIntArray(strainIds)) {
-                strainIdWhere = "  AND (m.str_id_str in (" + strainIds + "))\n";
-                queryString += strainIdWhere;
+                strainKeyWhere = "  AND (ms.str_id_str IN (" + strainIds + "))\n";
+                queryString += strainKeyWhere;
             }
         }
         if ((filter.getAllele_key() != null) && ( ! filter.getAllele_key().isEmpty())) {
             String alleleIds = Utils.cleanIntArray(filter.getAllele_key());
             if (Utils.isValidIntArray(alleleIds)) {
-                alleleIdWhere = "  AND (m.alls_id_allel in (" + alleleIds + "))\n";
-                queryString += alleleIdWhere;
+                alleleKeyWhere = "  AND (m.alls_id_allel in (" + alleleIds + "))\n";
+                queryString += alleleKeyWhere;
             }
         }
         if ((filter.getBackground_key() != null) && ( ! filter.getBackground_key().isEmpty())) {
             String backgroundIds = Utils.cleanIntArray(filter.getBackground_key());
             if (Utils.isValidIntArray(backgroundIds)) {
-                backgroundIdWhere = "  AND (m.bg_id_bg IN (" + backgroundIds + "))\n";
-                queryString += backgroundIdWhere;
+                backgroundKeyWhere = "  AND (m.bg_id_bg IN (" + backgroundIds + "))\n";
+                queryString += backgroundKeyWhere;
             }
         }
+        if ((filter.getGene_key()!= null) && ( ! filter.getGene_key().isEmpty())) {
+            String geneIds = Utils.cleanIntArray(filter.getGene_key());
+            if (Utils.isValidIntArray(geneIds)) {
+                geneKeyWhere = "  AND (g.id_gene IN (" + geneIds + "))\n";
+                queryString += geneKeyWhere;
+            }
+        }
+        if ((filter.getGeneSymbol() != null) && ( ! filter.getGeneSymbol().isEmpty())) {
+            geneSymbolWhere = "  AND (g.symbol = :geneSymbol)\n";
+            queryString += geneSymbolWhere;
+        }
 
-        queryString += "ORDER BY m.main_type, m.sub_type\n";
+        queryString += 
+                "GROUP BY ms.mut_id\n"
+              + "ORDER BY m.main_type, m.sub_type\n";
         
         try {
             getCurrentSession().beginTransaction();
@@ -279,14 +299,24 @@ public class MutationsManager extends AbstractManager {
                 query.setParameter("mutationType", filter.getMutationType());
             if ( ! mutationSubtypeWhere.isEmpty())
                 query.setParameter("mutationSubtype", filter.getMutationSubtype());
-                
-            targetList = query.addEntity(Mutation.class).list();
+            if ( ! geneSymbolWhere.isEmpty())
+                query.setParameter("geneSymbol", filter.getGeneSymbol());
+            List resultSet = query.addEntity(Mutation.class).addScalar("strain_keys").list();
+            
+            if (resultSet != null) {
+                for (Object result : resultSet) {
+                    Object[] row = (Object[]) result;
+                    Mutation mutation = (Mutation)row[0];
+                    mutation.setStrain_keys((row[1] == null ? "" : row[1].toString()));     // Add strain_keys to transient Mutation instance.
+                    targetList.add(mutation);
+                }
+            }
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
             throw e;
         }
-            
+        
         return targetList;
     }
     
@@ -301,8 +331,6 @@ public class MutationsManager extends AbstractManager {
         
         mutation.setAllele(null);
         mutation.setBackground(null);
-        mutation.setStrain(null);
-        mutation.setReplacedAllele(null);
         
         try {
             getCurrentSession().beginTransaction();
