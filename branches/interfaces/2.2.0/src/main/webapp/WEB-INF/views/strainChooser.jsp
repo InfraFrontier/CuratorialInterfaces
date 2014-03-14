@@ -37,7 +37,7 @@
             
             function handleDragStart(e) {
                 var strain_key = $(this).data('strain_key');
-                e.originalEvent.dataTransfer.setData('text', strain_key);
+                e.originalEvent.dataTransfer.setData('text/strain', strain_key);
             }
             
         </script>

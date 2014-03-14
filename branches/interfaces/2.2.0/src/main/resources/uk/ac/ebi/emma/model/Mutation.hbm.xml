@@ -10,22 +10,42 @@
         
         <many-to-one cascade="none" class="Allele"     name="allele"         column="alls_id_allel"          insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false" />
         <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg" not-null="false"/>
-        <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false"/>
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false"/>
+        -->
+        <!--  12-Mar-2014 (Raffaele) Conflicts with strain_key in mutations_strains. mutations_strains.str_id_str should be used.
         <many-to-one cascade="none" class="Strain"     name="strain"         column="str_id_str"             insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_str" not-null="false"/>
+        -->
+        
+        <!--
+        This is a good, working example of how to map a many-to-many relationship.
+        Notice that, while it uses the mutations_strains table, no mutations_strains
+        entity or .hbm.xml needs to be created or maintained.
+        -->
+        <set name="strains" table="mutations_strains">
+            <key column="mut_id" update="false" />
+            <many-to-many class="Strain" column="str_id_str" not-found="ignore" />
+        </set>
         
         <property column="alls_id_allel"          name="allele_key"/>
-        <property column="alls_id_allel_replaced" name="replacedAllele_key"/>
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <property column="alls_id_allel_replaced" name="replacedAllele_key"/> -->
         <property column="bg_id_bg"               name="background_key"/>
-        <property column="ch_ano_desc"            name="chromosomeAnnotatedDescription"/>
-        <property column="ch_ano_name"            name="chromosomeAnnotatedName"/>
-        <property column="chromosome"             name="chromosome"/>
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <property column="ch_ano_desc"            name="chromosomeAnnotatedDescription"/> -->
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <property column="ch_ano_name"            name="chromosomeAnnotatedName"/> -->
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <property column="chromosome"             name="chromosome"/> -->
         <property column="dominance"              name="dominance"/>
         <property column="genotype"               name="genotype"/>
-        <property column="ki_alter"               name="knockinAlter"/>
+        <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
+            <property column="ki_alter"               name="knockinAlter"/> -->
         <property column="main_type"              name="type"/>
         <property column="mu_cause"               name="cause"/>
         <property column="sex"                    name="sex"/>
-        <property column="str_id_str"             name="strain_key"/>
+        <!-- 12-Mar-2014 (mrelac) This field has been replaced by the strain many-to-one defined above.
+            <property column="str_id_str"             name="strain_key"/> -->
         <property column="sub_type"               name="subtype"/>
         <property column="tm_esline"              name="targetedMutationEsLine"/>
         

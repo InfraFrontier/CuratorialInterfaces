@@ -37,7 +37,7 @@
             
             function handleDragStart(e) {
                 var background_key = $(this).data('background_key');
-                e.originalEvent.dataTransfer.setData('text', background_key);
+                e.originalEvent.dataTransfer.setData('text/background', background_key);
             }
             
         </script>

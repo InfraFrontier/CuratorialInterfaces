@@ -41,7 +41,7 @@
             
             function handleDragStart(e) {
                 var allele_key = $(this).data('allele_key');
-                e.originalEvent.dataTransfer.setData('text', allele_key);
+                e.originalEvent.dataTransfer.setData('text/allele', allele_key);
             }
             
         </script>

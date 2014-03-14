@@ -16,6 +16,7 @@
 
 package uk.ac.ebi.emma.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
 import org.springframework.web.context.request.WebRequest;
@@ -24,7 +25,7 @@ import org.springframework.web.context.request.WebRequest;
  *
  * @author phil, mrelac
  */
-public class Strain {
+public class Strain implements Serializable {
     private Integer strain_key = 0;                                            // primary key (was id_str)
     
     private String additional_owner;                                            // additional owner (comma-separated list of names)
@@ -75,7 +76,7 @@ public class Strain {
     private Set<BiblioStrain>       bibliosStrains;                             // (was setBibliosStrainsDAO)
     private Set<CategoryStrain>     categoriesStrains;                          // (was categoriesStrainsDAO)
     private Set<RtoolStrain>        rtoolsStrains;                              // (was cvDAO. List of countries from cv_country.
-    private Set<MutationStrain>     mutationsStrains;                           // (was mutationsStrainsDAO)
+    private Set<Mutation>           mutations;                                  // (was mutationsStrainsDAO)
     private Set<ProjectStrain>      projectsStrains;                            // (was ProjectsDAO)
     private Set<SourceStrain>       sourcesStrains;                             // (was sources_StrainsDAO)
     private Set<SynonymStrain>      synonymsStrains;                            // (was syn_strainsDAO)
@@ -452,12 +453,12 @@ public class Strain {
         this.rtoolsStrains = rtoolsStrains;
     }
 
-    public Set<MutationStrain> getMutationsStrains() {
-        return mutationsStrains;
+    public Set<Mutation> getMutations() {
+        return mutations;
     }
 
-    public void setMutationsStrains(Set<MutationStrain> mutationsStrains) {
-        this.mutationsStrains = mutationsStrains;
+    public void setMutations(Set<Mutation> mutations) {
+        this.mutations = mutations;
     }
 
     public Set<ProjectStrain> getProjectsStrains() {

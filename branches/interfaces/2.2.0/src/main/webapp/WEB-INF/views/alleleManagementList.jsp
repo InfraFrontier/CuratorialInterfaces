@@ -415,6 +415,7 @@
                                                 </form>
                                             </td>
                                             
+                                            <%-- BOUND MUTATIONS --%>
                                             <c:set var="boundMutations" value="${allele.mutations}" />
                                             <c:set var="boundMutationsCount" value="${fn:length(boundMutations)}" />
 
@@ -432,14 +433,14 @@
                                                     <td>
                                                         <input alt="Delete Allele" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
-                                                               title="Cannot delete allele ID ${allele.allele_key} as it is bound to mutation(s) ${boundMutationKeys}."
+                                                               title="Cannot delete allele ${allele.allele_key} as it is bound to mutation(s) ${boundMutationKeys}."
                                                                class="ui-state-disabled" />
                                                     </td>
                                                 </c:when>
                                                 <c:otherwise>
                                                     <td>
                                                         <%-- DELETE ALLELE --%>
-                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ID ${allele.allele_key}"
+                                                        <input alt="Delete Allele" type="image" height="15" width="15" title="Delete allele ${allele.allele_key}"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
                                                                onclick="deleteAllele(${allele.allele_key}, this)"
                                                                formmethod="POST" />

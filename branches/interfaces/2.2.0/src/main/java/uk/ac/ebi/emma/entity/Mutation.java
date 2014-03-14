@@ -16,22 +16,21 @@
 
 package uk.ac.ebi.emma.entity;
 
+import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
+import javax.persistence.Transient;
 
 /**
  *
  * @author phil, mrelac
  */
-public class Mutation {
+public class Mutation implements Serializable {
     private Integer mutation_key = 0;                                          // primary key (was id_mutation)
     
     private String cause;                                                       // mutation cause (was mu_cause)
-    private String chromosome;                                                  // chromosome
-    private String chromosomeAnnotatedDescription;                              // chromosome annotated description (was ch_ano_desc)
-    private String chromosomeAnnotatedName;                                     // chromosome annotated name (was ch_ano_name)
     private String dominance;                                                   // dominance
     private String genotype;                                                    // genotype
-    private String knockinAlter;                                                // knock-in alter (was ki_alter)
     private String sex;                                                         // sex
     private String subtype;                                                     // subtype (was sub_type)
     private String targetedMutationEsLine;                                      // targeted mutation es cell line (was tm_esline)
@@ -39,15 +38,17 @@ public class Mutation {
     
     // FOREIGN KEYS
     private Integer allele_key;                                                 // foreign key to alleles table (was alls_id_allel)
-    private Integer replacedAllele_key;                                         // foreign key to alleles table for replaced allele (was alls_id_allel_replaced)
     private Integer background_key;                                             // foreign key to backgrounds table (was bg_id_bg)
-    private Integer strain_key;                                                 // foreign key to strains table (was str_id_str)
+    
+    // COLLECTIONS
+    private Set<Strain> strains;
+    
+    @Transient
+    private String strain_keys;                                                 // foreign key(s) to strains table (new for EMMA2) (comma-separated)
 
     // CLASS INSTANCES
     private Allele     allele;                                                  // (was allelesDAO)
     private Background background;                                              // (was backgroundDAO)
-    private Strain     strain;                                                  // (didn't exist before EMMA2)
-    private Allele     replacedAllele;                                          // (didn't exist before EMMA2)
     
     private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
@@ -68,30 +69,6 @@ public class Mutation {
         this.cause = cause;
     }
 
-    public String getChromosome() {
-        return chromosome;
-    }
-
-    public void setChromosome(String chromosome) {
-        this.chromosome = chromosome;
-    }
-
-    public String getChromosomeAnnotatedDescription() {
-        return chromosomeAnnotatedDescription;
-    }
-
-    public void setChromosomeAnnotatedDescription(String chromosomeAnnotatedDescription) {
-        this.chromosomeAnnotatedDescription = chromosomeAnnotatedDescription;
-    }
-
-    public String getChromosomeAnnotatedName() {
-        return chromosomeAnnotatedName;
-    }
-
-    public void setChromosomeAnnotatedName(String chromosomeAnnotatedName) {
-        this.chromosomeAnnotatedName = chromosomeAnnotatedName;
-    }
-
     public String getDominance() {
         return dominance;
     }
@@ -106,14 +83,6 @@ public class Mutation {
 
     public void setGenotype(String genotype) {
         this.genotype = genotype;
-    }
-
-    public String getKnockinAlter() {
-        return knockinAlter;
-    }
-
-    public void setKnockinAlter(String knockinAlter) {
-        this.knockinAlter = knockinAlter;
     }
 
     public String getSex() {
@@ -156,14 +125,6 @@ public class Mutation {
         this.allele_key = allele_key;
     }
 
-    public Integer getReplacedAllele_key() {
-        return replacedAllele_key;
-    }
-
-    public void setReplacedAllele_key(Integer replacedAllele_key) {
-        this.replacedAllele_key = replacedAllele_key;
-    }
-
     public Integer getBackground_key() {
         return background_key;
     }
@@ -172,12 +133,20 @@ public class Mutation {
         this.background_key = background_key;
     }
 
-    public Integer getStrain_key() {
-        return strain_key;
+    public Set<Strain> getStrains() {
+        return strains;
     }
 
-    public void setStrain_key(Integer strain_key) {
-        this.strain_key = strain_key;
+    public void setStrains(Set<Strain> strains) {
+        this.strains = strains;
+    }
+
+    public String getStrain_keys() {
+        return strain_keys;
+    }
+
+    public void setStrain_keys(String strain_keys) {
+        this.strain_keys = strain_keys;
     }
 
     public Allele getAllele() {
@@ -194,22 +163,6 @@ public class Mutation {
 
     public void setBackground(Background background) {
         this.background = background;
-    }
-
-    public Strain getStrain() {
-        return strain;
-    }
-
-    public void setStrain(Strain strain) {
-        this.strain = strain;
-    }
-
-    public Allele getReplacedAllele() {
-        return replacedAllele;
-    }
-
-    public void setReplacedAllele(Allele replacedAllele) {
-        this.replacedAllele = replacedAllele;
     }
 
     public Date getLast_change() {
