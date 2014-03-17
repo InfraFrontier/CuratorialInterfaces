@@ -27,7 +27,6 @@
         <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript" charset="UTF-8"></script>
 
         <script>
-            var geneUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
             var urlRoot = "${pageContext.request.contextPath}/curation/geneChooser";
 
             $(document).ready(function() {
@@ -38,7 +37,7 @@
             
             function handleDragStart(e) {
                 var gene_key = $(this).data('gene_key');
-                e.originalEvent.dataTransfer.setData('text', gene_key);
+                e.originalEvent.dataTransfer.setData('text/gene', gene_key);
             }
             
             function lookupMgi(mgiReference) {
@@ -58,6 +57,7 @@
                     <c:choose>
                         <c:when test="${fn:length(genesList) > 0}">
                             <tr style="border: 1px solid black">
+                                <th>&nbsp;</th>
                                 <th>Gene ID</th>
                                 <th>Gene Name</th>
                                 <th>Gene Symbol</th>
@@ -69,6 +69,11 @@
                 <tbody>
                     <c:forEach var="gene" items="${genesList}" varStatus="status">
                         <tr draggable="true" data-gene_key="${gene.gene_key}">
+                            <td style="border: 1px solid gray"><img alt="Drag Handle"
+                                src="${pageContext.request.contextPath}/images/draghandle.png"
+                                height="15" width="15"
+                                title="Drag me">
+                            </td>
                             <td style="border: 1px solid black">${gene.gene_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.symbol)}</td>
