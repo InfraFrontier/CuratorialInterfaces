@@ -531,20 +531,17 @@
                                                     <table>
                                                         <thead style="border: 1px solid black">
                                                             <tr>
-                                                                <td colspan="2" style="text-align: center">Id</td>
+                                                                <td>&nbsp;</td>
+                                                                <td style="text-align: center">Id</td>
                                                                 <td style="text-align: center">Name</td>
                                                             </tr>
                                                         </thead>
                                                         <tbody>
                                                             <c:forEach var="strain" items="${mutation.strains}" varStatus="status">
-                                                                <tr draggable="true">
-                                                                    <td><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me"></td>
-                                                                    <td>
-                                                                        <input name="strainIds" value="${strain.strain_key}" readonly="readonly" />
-                                                                    </td>
-                                                                    <td>
-                                                                        <textarea readonly="readonly" style="width: 300px">${strain.name}"</textarea>
-                                                                    </td>
+                                                                <tr draggable="true" style="border: 1px solid gray">
+                                                                    <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>
+                                                                    <td style="border: 1px solid gray">${strain.strain_key}</td>
+                                                                    <td style="border: 1px solid gray">${strain.name}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </tbody>

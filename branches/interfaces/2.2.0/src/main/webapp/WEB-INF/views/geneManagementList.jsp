@@ -250,7 +250,7 @@
             
             function handleDragStart(e) {
                 var gene_key = $(this).data('gene_key');
-                e.originalEvent.dataTransfer.setData('text', gene_key);
+                e.originalEvent.dataTransfer.setData('text/gene', gene_key);
             }
 
         </script>

@@ -33,8 +33,8 @@
 
             .errorblock {
                     color: #000;
-                    background-color: #ffEEEE;
-                    border: 3px solid #ff0000;
+                    background-color: #FFEEEE;
+                    border: 3px solid #FF0000;
                     padding: 8px;
                     margin: 16px;
             }
@@ -44,7 +44,7 @@
             }
             
             #divGene.over {
-                background: #cc99ff;
+                background: #EED4EE;
             }
             
         </style>
@@ -58,11 +58,11 @@
                 clearErrors();
  
                 $('#divGene')
-                    .on('dragenter', handleDragEnter)
+           //         .on('dragenter', handleDragEnter)
                     .on('dragover',  handleDragOver)
                     .on('dragleave', handleDragLeave)
                     .on('drop',      handleDrop)
-                    .on('dragend',   handleDragLeave);
+       //             .on('dragend',   handleDragEnd);
                 $('#gene_key').on('change', function(e) {
                     updateGeneDiv();
                 });
@@ -172,23 +172,28 @@
             }
             
             function handleDragEnter(e) {
-                this.classList.add('over');
+             $(this).addClass('over');
             }
             function handleDragLeave(e) {
-                this.classList.remove('over');
+                $(this).removeClass('over');
+            }
+            function handleDragOver(e) {
+                $('#divGene').addClass('over');
+                e.preventDefault();
+                
+                e.originalEvent.dataTransfer.dropEffect = 'copy';
+            }
+            function handleDragEnd(e) {
+                
+                $('#divGene').removeClass('over');
             }
             function handleDrop(e) {
-                var gene_key = e.originalEvent.dataTransfer.getData('text');
+                $('#divGene').removeClass('over');
+                var gene_key = e.originalEvent.dataTransfer.getData('text/gene');
                 $('#gene_key').val(gene_key);
                 updateGeneDiv();
                
                 return false;
-            }
-            function handleDragOver(e) {
-                if (e.preventDefault) {
-                    e.preventDefault();
-                }
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
             }
 
             function showGeneChooser() {
