@@ -63,7 +63,7 @@ public class AlleleValidator implements Validator {
         Utils.validateMaxFieldLengths(allele, "alleles", errors);
         
         // Make sure allele is bound to an existing gene.
-        Integer pk = extractAndValidateGeneKey(allele);
+        Integer pk = extractAndValidateGeneKey(allele.getGene_key());
         if (pk == null) {
             errors.rejectValue("gene.gene_key", null, "Please choose a valid gene.");
         }
@@ -75,13 +75,10 @@ public class AlleleValidator implements Validator {
     /**
      * Extract and validate gene key from allele. If gene key doesn't identify
      * a valid gene, null is returned; otherwise the key (always > 0) is returned.
-     * @param allele the allele to query
+     * @param gene_key the gene primary key to query
      * @return the gene's primary key, if found and valid; null otherwise
      */
-    private Integer extractAndValidateGeneKey(Allele allele) {
-        if (allele.getGene() == null)
-            return null;
-        Integer gene_key = allele.getGene().getGene_key();
+    private Integer extractAndValidateGeneKey(Integer gene_key) {
         if ((gene_key == null) || (gene_key <= 0))
             return null;
         Gene gene = genesManager.getGene(gene_key);
