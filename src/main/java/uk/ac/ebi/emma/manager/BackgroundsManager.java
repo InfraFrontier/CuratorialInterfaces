@@ -36,7 +36,10 @@ public class BackgroundsManager extends AbstractManager {
      * @return the <code>Background</code> object matching <code>id_background</code>.
      * @throws HibernateException if a hibernate error occurs
      */
-    public Background getBackground(int background_key) throws HibernateException {
+    public Background getBackground(Integer background_key) throws HibernateException {
+        if (background_key == null)
+            return null;
+        
         Background background = null;
         try {
             getCurrentSession().beginTransaction();
