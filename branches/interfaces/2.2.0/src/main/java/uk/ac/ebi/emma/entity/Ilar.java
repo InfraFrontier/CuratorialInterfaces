@@ -20,7 +20,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil
  */
 public class Ilar {
-    private Integer ilar_key = 0;                                              // primary key (was id)
+    private Integer ilar_key = null;                                            // primary key (was id)
     
     private String investigator;
     private String labcode;

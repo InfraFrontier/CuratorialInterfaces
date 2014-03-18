@@ -21,7 +21,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class CvProject {
-    private Integer cvProject_key = 0;                                         // primary key (was id)
+    private Integer cvProject_key = null;                                       // primary key (was id)
     
     private String code;
     private String description;

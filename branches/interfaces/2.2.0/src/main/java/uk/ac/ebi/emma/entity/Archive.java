@@ -20,7 +20,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class Archive {
-    private Integer archive_key = 0;                                           // primary key (was id)
+    private Integer archive_key = null;                                         // primary key (was id)
 
     private String archived;
     private String archiving_method_id;
@@ -43,10 +43,10 @@ public class Archive {
     private String wt_rederiv_started;
     
     // FOREIGN KEYS
-    private Integer backgroundFemale_key;                                      // foreign key to backgrounds table for females (was female_bg_id)
-    private Integer laboratory_key;                                            // foreign key to laboratories table (was lab_id_labo)
-    private Integer backgroundMale_key;                                        // foreign key to backgrounds table for females (was male_bg_id
-    private Integer strain_key;                                                // foreign key to strains table (was str_id_str)
+    private Integer backgroundFemale_key = null;                                // foreign key to backgrounds table for females (was female_bg_id)
+    private Integer laboratory_key = null;                                      // foreign key to laboratories table (was lab_id_labo)
+    private Integer backgroundMale_key = null;                                  // foreign key to backgrounds table for females (was male_bg_id
+    private Integer strain_key = null;                                          // foreign key to strains table (was str_id_str)
 
     // CLASS INSTANCES
     private CvArchivingMethod archivingMethod;                                  // (was cvamDAO)

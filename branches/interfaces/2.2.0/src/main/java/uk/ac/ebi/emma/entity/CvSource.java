@@ -21,7 +21,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class CvSource {
-    private Integer cvSource_key;                                              // primary key (was id)
+    private Integer cvSource_key = null;                                        // primary key (was id)
     
     private String code;
     private String description;

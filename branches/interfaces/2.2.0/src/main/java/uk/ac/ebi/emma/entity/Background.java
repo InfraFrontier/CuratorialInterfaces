@@ -23,7 +23,7 @@ import java.util.Date;
  * @author mrelac
  */
 public class Background {
-    private Integer background_key = 0;                                        // primary key (was id_bg)
+    private Integer background_key = null;                                      // primary key (was id_bg)
 
     private String curated;
     private String inbred;

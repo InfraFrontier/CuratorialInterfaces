@@ -21,7 +21,7 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class CvArchivingMethod {
-    private Integer cvArchivingMethod_key = 0;                                 // primary key (was id)
+    private Integer cvArchivingMethod_key = null;                               // primary key (was id)
     
     private String description;
 

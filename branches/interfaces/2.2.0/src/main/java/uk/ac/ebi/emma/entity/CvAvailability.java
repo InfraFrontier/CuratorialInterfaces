@@ -22,7 +22,7 @@ package uk.ac.ebi.emma.entity;
  */
 public class CvAvailability {
     
-    private Integer cvAvailability_key = 0;                                    // primary key (was id)
+    private Integer cvAvailability_key = null;                                  // primary key (was id)
     
     private String code;
     private String description;

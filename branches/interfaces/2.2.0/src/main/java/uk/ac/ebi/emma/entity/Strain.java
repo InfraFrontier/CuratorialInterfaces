@@ -26,7 +26,7 @@ import org.springframework.web.context.request.WebRequest;
  * @author phil, mrelac
  */
 public class Strain implements Serializable {
-    private Integer strain_key = 0;                                            // primary key (was id_str)
+    private Integer strain_key = null;                                          // primary key (was id_str)
     
     private String additional_owner;                                            // additional owner (comma-separated list of names)
     private String available_to_order;                                          // available to order
@@ -63,13 +63,13 @@ public class Strain implements Serializable {
     private String str_type;                                                    // strain type
     
     // FOREIGN KEYS
-    private Integer archive_key;                                               // foreign key to archive table (was archive_id)
-    private Integer background_key;                                            // foreign key to backgrounds table (was bg_id_bg)
-    private Integer personShippingContact_key;                                 // foreign key to people table for shipping contact (was per_id_per_contact)
-    private Integer personCreator_key;                                         // foreign key to people table for strain creator/PI (was per_id_per)
-    private Integer personSubmitter_key;                                       // foreign key to people table for submitter (was per_id_per_sub)
-    private Integer residue_key;                                               // foreign key to residues table (was res_id)
-    private Integer submission_key;                                            // foreign key to submissions table (was sub_id_sub)
+    private Integer archive_key = null;                                         // foreign key to archive table (was archive_id)
+    private Integer background_key = null;                                      // foreign key to backgrounds table (was bg_id_bg)
+    private Integer personShippingContact_key = null;                           // foreign key to people table for shipping contact (was per_id_per_contact)
+    private Integer personCreator_key = null;                                   // foreign key to people table for strain creator/PI (was per_id_per)
+    private Integer personSubmitter_key = null;                                 // foreign key to people table for submitter (was per_id_per_sub)
+    private Integer residue_key = null;                                         // foreign key to residues table (was res_id)
+    private Integer submission_key = null;                                      // foreign key to submissions table (was sub_id_sub)
     
     // COLLECTIONS
     private Set<AvailabilityStrain> availabilitiesStrains;                      // (was AvailabilitiesStrainsDAO)

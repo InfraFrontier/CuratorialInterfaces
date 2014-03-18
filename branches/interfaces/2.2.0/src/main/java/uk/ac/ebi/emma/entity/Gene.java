@@ -26,7 +26,7 @@ import javax.persistence.Transient;
  */
 public class Gene {
     
-    private Integer gene_key = 0;                                              // primary key (was id_gene)
+    private Integer gene_key = null;                                            // primary key (was id_gene)
     
     private Integer centimorgan;
     private String chromosome;

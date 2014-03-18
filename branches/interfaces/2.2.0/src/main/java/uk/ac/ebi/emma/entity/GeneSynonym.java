@@ -23,7 +23,7 @@ import javax.persistence.Transient;
  * @author mrelac
  */
 public class GeneSynonym {
-    private Integer geneSynonym_key;                                           // primary key (was id_syn)
+    private Integer geneSynonym_key = null;                                     // primary key (was id_syn)
     
     // CLASS INSTANCES
     private Gene gene;                                                          // (was genes)

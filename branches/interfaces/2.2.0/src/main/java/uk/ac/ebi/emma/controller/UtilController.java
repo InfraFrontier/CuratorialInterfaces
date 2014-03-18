@@ -81,6 +81,7 @@ public class UtilController {
         if (gene != null) {
             // Null out collection, as jackson throws infinite recursion exception trying to map parent <--> child references.
             gene.setAlleles(null);
+            gene.setSynonyms(null);
         }
         
         return gene;
@@ -127,7 +128,7 @@ public class UtilController {
         } else {
             logger.debug("No background found matching background_key " + background_key);
         }
-         
+        
         return background;
     }
     

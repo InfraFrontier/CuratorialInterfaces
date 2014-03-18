@@ -23,7 +23,7 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class Person {
-    private Integer person_key = 0;                                            // primary key (was id_per)
+    private Integer person_key = null;                                          // primary key (was id_per)
     
     private String email;
     private String fax;
@@ -33,8 +33,8 @@ public class Person {
     private String title;
     
     // FOREIGN KEYS
-    private Integer ilar_key;                                                  // foreign key to ilar table (was id_ilar)
-    private Integer laboratory_key;                                            // foreign key to laboratories table (was lab_id_labo)
+    private Integer ilar_key = null;                                            // foreign key to ilar table (was id_ilar)
+    private Integer laboratory_key = null;                                      // foreign key to laboratories table (was lab_id_labo)
     
     // CLASS INSTANCES
     private Ilar ilar;                                                          // (was ilarDAO)
