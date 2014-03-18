@@ -24,7 +24,7 @@ import java.util.Date;
  */
 public class Category {
 
-    private Integer category_key = 0;                                          // primary key (was id_cat)
+    private Integer category_key = null;                                        // primary key (was id_cat)
     
     private String curated;
     private String description;

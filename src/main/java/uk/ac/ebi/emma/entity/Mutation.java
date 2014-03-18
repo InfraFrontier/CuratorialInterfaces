@@ -26,7 +26,7 @@ import javax.persistence.Transient;
  * @author phil, mrelac
  */
 public class Mutation implements Serializable {
-    private Integer mutation_key = 0;                                          // primary key (was id_mutation)
+    private Integer mutation_key = null;                                        // primary key (was id_mutation)
     
     private String cause;                                                       // mutation cause (was mu_cause)
     private String dominance;                                                   // dominance
@@ -37,8 +37,8 @@ public class Mutation implements Serializable {
     private String type;                                                        // type (was main_type)
     
     // FOREIGN KEYS
-    private Integer allele_key;                                                 // foreign key to alleles table (was alls_id_allel)
-    private Integer background_key;                                             // foreign key to backgrounds table (was bg_id_bg)
+    private Integer allele_key = null;                                          // foreign key to alleles table (was alls_id_allel)
+    private Integer background_key = null;                                      // foreign key to backgrounds table (was bg_id_bg)
     
     // COLLECTIONS
     private Set<Strain> strains;

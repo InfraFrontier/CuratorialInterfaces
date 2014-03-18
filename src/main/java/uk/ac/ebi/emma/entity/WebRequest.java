@@ -22,7 +22,7 @@ package uk.ac.ebi.emma.entity;
  */
 public class WebRequest {
 
-    private Integer webRequest_key = 0;                                        // primary key (was id_req)
+    private Integer webRequest_key = null;                                      // primary key (was id_req)
     
     private String all_paperwork_date;
     private String common_name_s;

@@ -24,8 +24,8 @@ import java.io.Serializable;
  */
 public class CategoryStrain implements Serializable {
 
-    private Integer category_key = 0;                                          // first half of primary key (foreign key to categories table) (was cat_id_cat)
-    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer category_key = null;                                        // first half of primary key (foreign key to categories table) (was cat_id_cat)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private Category category;                                                  // (was categoriesDAO)

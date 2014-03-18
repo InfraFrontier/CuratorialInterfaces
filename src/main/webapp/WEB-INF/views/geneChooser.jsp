@@ -31,8 +31,8 @@
 
             $(document).ready(function() {
                 $('#tabResults > tbody > tr')
-                    .on('dragstart', handleDragStart)
-                $('#tabResults').dataTable()
+                    .on('dragstart', handleDragStart);
+                $('#tabResults').dataTable();
             });
             
             function handleDragStart(e) {
@@ -72,7 +72,8 @@
                             <td style="border: 1px solid gray"><img alt="Drag Handle"
                                 src="${pageContext.request.contextPath}/images/draghandle.png"
                                 height="15" width="15"
-                                title="Drag me">
+                                title="Drag me"
+                                draggable="false">
                             </td>
                             <td style="border: 1px solid black">${gene.gene_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(gene.name)}</td>

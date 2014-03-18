@@ -23,8 +23,8 @@ import java.io.Serializable;
  * @author phil, mrelac
  */
 public class AvailabilityStrain implements Serializable {
-    private Integer cvAvailibility_key = 0;                                    // first half of primary key (foreign key to cv_availibilities table) (was avail_id)
-    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer cvAvailibility_key = null;                                  // first half of primary key (foreign key to cv_availibilities table) (was avail_id)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private CvAvailability availability;                                        // (was cvavailDAO)

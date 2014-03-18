@@ -21,26 +21,26 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class LaboratoryStrain {
-    private int laboratory_key = 0;                                            // first half of primary key (foreign key to laboratories table) (was lab_id_labo)
-    private int strain_key = 0;                                                // second half of primary key (foreign key to strains table) (was strain_key)
+    private Integer laboratory_key = null;                                      // first half of primary key (foreign key to laboratories table) (was lab_id_labo)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was strain_key)
     
     // CLASS INSTANCES
     private Laboratory laboratory;                                              // (was labsDAO)
     private Strain     strain;                                                  // (was strainsDAO)
 
-    public int getLaboratory_key() {
+    public Integer getLaboratory_key() {
         return laboratory_key;
     }
 
-    public void setLaboratory_key(int laboratory_key) {
+    public void setLaboratory_key(Integer laboratory_key) {
         this.laboratory_key = laboratory_key;
     }
 
-    public int getStrain_key() {
+    public Integer getStrain_key() {
         return strain_key;
     }
 
-    public void setStrain_key(int strain_key) {
+    public void setStrain_key(Integer strain_key) {
         this.strain_key = strain_key;
     }
 
@@ -59,5 +59,5 @@ public class LaboratoryStrain {
     public void setStrain(Strain strain) {
         this.strain = strain;
     }
-    
+
 }

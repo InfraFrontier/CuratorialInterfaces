@@ -31,7 +31,7 @@ import uk.ac.ebi.emma.util.Utils;
  *   JdbcTemplate getter/setter, and Serializable attribute.
  */
 public class Biblio implements RowMapper {
-    private Integer biblio_key = 0;                                            // primary key (was id_biblio)
+    private Integer biblio_key = null;                                          // primary key (was id_biblio)
 
     private String author1;
     private String author2;

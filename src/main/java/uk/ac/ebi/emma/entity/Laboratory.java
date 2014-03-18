@@ -23,7 +23,7 @@ import java.util.Date;
  * @author phil, mrelac
  */
 public class Laboratory {
-    private Integer laboratory_key = 0;                                        // primary key (was id_labo)
+    private Integer laboratory_key = null;                                      // primary key (was id_labo)
     
     private String addr_line_1;
     private String addr_line_2;

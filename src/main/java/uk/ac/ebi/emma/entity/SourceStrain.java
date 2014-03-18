@@ -21,11 +21,11 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class SourceStrain {
-    private Integer strain_key = 0;                                             // first half of primary key (foreign key to strains table) (was str_id_str)
-    private Integer cvSource_key;                                               // second half of primary key (foreign key to cv_sources table) (was sour_id)
+    private Integer strain_key = null;;                                         // first half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer cvSource_key = null;                                        // second half of primary key (foreign key to cv_sources table) (was sour_id)
 
     // FOREIGN KEYS
-    private Integer laboratory_key;                                             // foreign key to laboratories table (was lab_id_labo)
+    private Integer laboratory_key = null;                                      // foreign key to laboratories table (was lab_id_labo)
 
     // CLASS INSTANCES
     private Laboratory laboratory;                                              // (was labsDAO)

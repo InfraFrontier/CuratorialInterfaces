@@ -21,8 +21,8 @@ package uk.ac.ebi.emma.entity;
  * @author phil, mrelac
  */
 public class BiblioStrain {
-    private Integer biblio_key = 0;                                            // first half of primary key (foreign key to biblios table) (was bib_id_biblio)
-    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer biblio_key = null;                                          // first half of primary key (foreign key to biblios table) (was bib_id_biblio)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private Biblio biblio;                                                      // (was bibliosDAO)

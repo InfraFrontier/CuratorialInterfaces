@@ -22,8 +22,8 @@ package uk.ac.ebi.emma.entity;
  */
 public class ProjectStrain {
 
-    private Integer cvProject_key = 0;                                         // first half of primary key (foreign key to cv_projects table) (was project_id)
-    private Integer strain_key = 0;                                            // second half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer cvProject_key = null;                                       // first half of primary key (foreign key to cv_projects table) (was project_id)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private CvProject cvProject;                                                // (was cvProjectsDAO)

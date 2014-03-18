@@ -26,26 +26,26 @@ import java.io.Serializable;
  */
 public class RtoolStrain implements Serializable {
 
-    private int cvRtool_key;                                                   // first half of primary key (foreign key to cv_rtools table) (was rtls_id)
-    private int strain_key;                                                    // second half of primary key (foreign key to strains table) (was str_id_str)
+    private Integer cvRtool_key = null;                                         // first half of primary key (foreign key to cv_rtools table) (was rtls_id)
+    private Integer strain_key = null;                                          // second half of primary key (foreign key to strains table) (was str_id_str)
     
     // CLASS INSTANCES
     private CvRtool cvRtool;                                                    // (was cvrtoolsDAO)
     private Strain  strain;                                                     // (was strainsDAO)
 
-    public int getCvRtool_key() {
+    public Integer getCvRtool_key() {
         return cvRtool_key;
     }
 
-    public void setCvRtool_key(int cvRtool_key) {
+    public void setCvRtool_key(Integer cvRtool_key) {
         this.cvRtool_key = cvRtool_key;
     }
 
-    public int getStrain_key() {
+    public Integer getStrain_key() {
         return strain_key;
     }
 
-    public void setStrain_key(int strain_key) {
+    public void setStrain_key(Integer strain_key) {
         this.strain_key = strain_key;
     }
 

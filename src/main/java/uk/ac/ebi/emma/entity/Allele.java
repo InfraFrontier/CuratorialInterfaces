@@ -25,14 +25,14 @@ import java.util.Set;
  */
 public class Allele {
     
-    private Integer allele_key = 0;                                            // primary key (was id_allele)
+    private Integer allele_key = null;                                          // primary key (was id_allele)
     
     private String mgiReference;                                                // (was mgiReference)
     private String name;
     private String symbol;
     
     // FOREIGN KEYS
-    private Integer gene_key;                                                  // foreign key to genes table
+    private Integer gene_key = null;                                            // foreign key to genes table
     
     // COLLECTIONS
     private Set<Mutation> mutations;                                            // foreign key to mutations table
