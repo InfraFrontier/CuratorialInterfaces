@@ -65,7 +65,10 @@ public class AllelesManager extends AbstractManager {
      * @param allele_key the allele primary key to match
      * @return the <code>Allele</code> object matching <code>allele_key</code>.
      */
-    public Allele getAllele(int allele_key) {
+    public Allele getAllele(Integer allele_key) {
+        if (allele_key == null)
+            return null;
+        
         Allele allele = null;
         try {
             getCurrentSession().beginTransaction();

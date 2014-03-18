@@ -94,7 +94,10 @@ public class MutationsManager extends AbstractManager {
      * @return the <code>Mutation</code> matching <code>mutation_key</code>.
      * @throws HibernateException if a hibernate error occurs
      */
-    public Mutation getMutation(int mutation_key) throws HibernateException {
+    public Mutation getMutation(Integer mutation_key) throws HibernateException {
+        if (mutation_key == null)
+            return null;
+        
         Mutation mutation = null;
         try {
             getCurrentSession().beginTransaction();

@@ -38,7 +38,10 @@ public class StrainsManager extends AbstractManager {
      * @deprecated This method is really slow thanks to hibernate and/or misconfiguration. Use getStrainName if you want just the id and name.
      */
     @Deprecated
-    public Strain getStrain(int strain_key) throws HibernateException {
+    public Strain getStrain(Integer strain_key) throws HibernateException {
+        if (strain_key == null)
+            return null;
+        
         Strain strain = null;
         try {
             getCurrentSession().beginTransaction();

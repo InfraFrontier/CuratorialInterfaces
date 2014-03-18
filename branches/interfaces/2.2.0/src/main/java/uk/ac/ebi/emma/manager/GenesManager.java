@@ -333,7 +333,10 @@ public class GenesManager extends AbstractManager {
      * @return the <code>Gene</code> object matching <code>gene_key</code>.
      * @throws HibernateException if a hibernate error occurs
      */
-    public Gene getGene(int gene_key) throws HibernateException {
+    public Gene getGene(Integer gene_key) throws HibernateException {
+        if (gene_key == null)
+            return null;
+        
         Gene gene = null;
         try {
             getCurrentSession().beginTransaction();
