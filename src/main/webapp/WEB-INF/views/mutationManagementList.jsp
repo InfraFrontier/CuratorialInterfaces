@@ -57,7 +57,7 @@
                 clearErrors();
                 
                 $('.filterComponent').each(function (index, element) {
-                    $(element).on('keyup blur', function(event) {
+                    $(element).on('keyup change blur', function(event) {
                         updateFilter(element);
                     });
                 });

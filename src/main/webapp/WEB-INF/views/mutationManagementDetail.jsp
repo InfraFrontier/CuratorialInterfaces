@@ -19,8 +19,10 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery-ui.css" />
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/css/jquery.dataTables.css" />
         <script src="${pageContext.request.contextPath}/js/jquery-1.11.0.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/jquery-ui.min.js" type="text/javascript" charset="UTF-8"></script>
+        <script src="${pageContext.request.contextPath}/js/jquery.dataTables.min.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/json2.js" type="text/javascript" charset="UTF-8"></script>
         <script src="${pageContext.request.contextPath}/js/utils.js" type="text/javascript" charset="UTF-8"></script>
         <style>
@@ -43,8 +45,17 @@
                 text-align: right;
             }
             
-            #divGene.over {
-                background: #cc99ff;
+            #divStrain.over {
+                background: #FFFFCC;
+            }
+            #divStrain {
+                min-height: 48px;       // Same size as allele and background divs.
+            }
+            #divAllele.over {
+                background: #CCFFCC;
+            }
+            #divBackground.over {
+                background: #CCFFFF;
             }
             
         </style>
@@ -52,39 +63,48 @@
         <script>
             var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
-            
+            var tabStrain;
+                    
             $(document).ready(function() {
                 setMaxlengths();
                 clearErrors();
  
                 $('#divStrain')
-                    .on('dragenter', handleDragEnterStrain)
                     .on('dragover',  handleDragOverStrain)
                     .on('dragleave', handleDragLeaveStrain)
-                    .on('drop',      handleDropStrain)
-                    .on('dragend',   handleDragLeaveStrain);
+                    .on('drop',      handleDropStrain);
                 $('#strain_key').on('change', function(e) {
                     updateStrainDiv($('#strain_key').val());
                 });
                 $('#divAllele')
-                    .on('dragenter', handleDragEnterAllele)
                     .on('dragover',  handleDragOverAllele)
                     .on('dragleave', handleDragLeaveAllele)
-                    .on('drop',      handleDropAllele)
-                    .on('dragend',   handleDragLeaveAllele);
+                    .on('drop',      handleDropAllele);
                 $('#allele_key').on('change', function(e) {
                     updateAlleleDiv();
                 });
  
                 $('#divBackground')
-                    .on('dragenter', handleDragEnterBackground)
                     .on('dragover',  handleDragOverBackground)
                     .on('dragleave', handleDragLeaveBackground)
-                    .on('drop',      handleDropBackground)
-                    .on('dragend',   handleDragLeaveBackground);
+                    .on('drop',      handleDropBackground);
                 $('#background_key').on('change', function(e) {
                     updateBackgroundDiv();
                 });
+                
+                tabStrain = $('#tabStrain').dataTable(
+                    {
+                        "bPaginate": false,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bSort": true,
+                        "bInfo": false,
+                        "bAutoWidth": false
+                    }
+                );
+        
+                $('#tabStrain > tbody > tr')
+                    .on('dragstart', handleDragStartStrain);
             });
             
             function updateStrainDiv(key) {
@@ -134,22 +154,6 @@
                 $('#backgroundSymbol').val(backgroundSymbol);
             }
             
-            function updateReplacedAlleleDiv(key) {
-                var replacedAlleleName = '';
-                var replacedAlleleSymbol = '';
-                
-                if (((key + '').trim() !== '') && (isInteger(key)) && (key > 0)) {
-                    var replacedAllele = getAllele(key);
-                    if (replacedAllele !== null) {
-                        replacedAlleleName = replacedAllele.name;
-                        replacedAlleleSymbol = replacedAllele.symbol;
-                    }
-                }
-                // Set replacedAllele details
-                $('#replacedAlleleName').val(replacedAlleleName);
-                $('#replacedAlleleSymbol').val(replacedAlleleSymbol);
-            }
-
             function setMaxlengths() {
                 // Set table field maximum lengths.
                 $.ajax({
@@ -170,7 +174,7 @@
                       $('#chromosome').attr("maxLength", data['chromosome']);
                       $('#chromosomeAnnotatedDescription').attr("maxLength", data['ch_ano_desc']);
                     }
-                  , fail: function(data) { alert(data); }
+                  , fail: function(data) { alert('setMaxLengths() failed: ' + data); }
                 });
             }
 
@@ -279,108 +283,168 @@
             
             
             // STRAIN DRAG-n-DROP HANDLERS
-            function handleDragEnterStrain(e) {
-                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
-                if (isStrain)
-                    e.preventDefault();
-                
-                return false;
-            }
-            function handleDragLeaveStrain(e) {
-                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
-                if (isStrain) {
-                    this.classList.remove('over');
-                    e.originalEvent.dataTransfer.dropEffect = 'none';
-                }
-                
-                return false;
-            }
-            function handleDropStrain(e) {
-                var key = e.originalEvent.dataTransfer.getData('text/strain');
-                if ((key + "").trim().length > 0) {
-                    $('#strain_key').val(key);
-                    updateStrainDiv(key);
-                }
-                
-                return false;
+            
+            function handleDragStartStrain(e) {
+                var strain_key = $(this).data('strain_key');
+                e.originalEvent.dataTransfer.setData('text/mut_strain', strain_key);
+                $('#divStrain')
+                        .data('strain_key', strain_key);
             }
             // getData() is not available in this function and breaks drag-n-drop if it is called here.
             function handleDragOverStrain(e) {
                 var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
                 if (isStrain) {
+                    $('#divStrain').addClass('over');
                     e.preventDefault();
                     e.originalEvent.dataTransfer.dropEffect = 'copy';
+                } else {
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
                 }
+                
+                return false;
+            }
+            function handleDragLeaveStrain(e) {
+                if (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0) {               // (from strain chooser)
+                    $(this).removeClass('over');
+                } else if (e.originalEvent.dataTransfer.types.indexOf('text/mut_strain') >= 0) {    // (from within divStrain)
+                    var strain_key = $('#divStrain').data('strain_key');
+                    var mutation_key = $('#mutation_key').val();
+                    
+                    // Remove row from mutations_strains.
+                    
+                    // Find the row to remove, then remove it from the view.
+                    var data = tabStrain.fnGetData();
+                    var index = 0;
+                    for (index = 0; index < data.length; index++) {
+                        var row = data[index];
+                        if (row[1] + "" === strain_key + "") {
+                            tabStrain.fnDeleteRow(index);
+                            break;
+                        }
+                    }
+                }
+                
+                return false;
+            }
+            function handleDropStrain(e) {
+                var isStrain = (e.originalEvent.dataTransfer.types.indexOf('text/strain') >= 0);
+                if (isStrain) {
+                    $('#divStrain').removeClass('over');
+                    var strain_key = e.originalEvent.dataTransfer.getData('text/strain');
+                    $('#strain_key').val(strain_key);
+                    addToStrainDiv(strain_key);
+                }
+                
+                return false;
+            }
+            function addToStrainDiv(strain_key) {
+                var strain = getStrain(strain_key);
+                if ((strain !== undefined) && (keyToRownum(strain_key) < 0)) {
+                    $('#tabStrainHeading').css('display', 'table-row');
+                    var markup =
+                            '<tr draggable="true" data-strain_key="' + strain.strain_key + '" style="border: 1px solid gray">\n'
+                          + '   <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>\n'
+                          + '   <td style="border: 1px solid gray">' + strain.strain_key + '</td>\n'
+                          + '   <td style="border: 1px solid gray">' + scrub(strain.name) + '</td>\n'
+                          + '</tr>\n';
+                    $('#tabStrain > tbody > tr:last').after(markup);            // Add the new row.
+                    $('#tabStrain > tbody > tr:last')
+                        .on('dragstart', handleDragStartStrain);                // Bind the strain drag handler to get the strain_key.
+                    
+                    // Keep the dataTable's model in sync with what's shown.
+                    tabStrain.fnDestroy();
+                    tabStrain = $('#tabStrain').dataTable(
+                        {
+                            "bPaginate": false,
+                            "bLengthChange": false,
+                            "bFilter": true,
+                            "bSort": true,
+                            "bInfo": false,
+                            "bAutoWidth": false
+                        });
+                }
+                
+            }
+            
+            // Searches tabStrain for key in column 1. Returns 0-relative offset
+            // if found; -1 otherwise.
+            function keyToRownum(key) {
+                var data = tabStrain.fnGetData();
+                for (var i = 0; i < data.length; i++) {
+                    var trKey = data[i][1];
+                    if (key + "" === trKey + "")
+                        return i;
+                }
+                
+                return -1;
             }
             
             // ALLELE DRAG-n-DROP HANDLERS
-            function handleDragEnterAllele(e) {
+            // getData() is not available in this function and breaks drag-n-drop if it is called here.
+            function handleDragOverAllele(e) {
                 var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
-                if (isAllele)
+                if (isAllele) {
+                    $('#divAllele').addClass('over');
                     e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                } else {
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                }
                 
                 return false;
             }
             function handleDragLeaveAllele(e) {
                 var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
                 if (isAllele) {
-                    this.classList.remove('over');
-                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                    $(this).removeClass('over');
                 }
                 
                 return false;
             }
             function handleDropAllele(e) {
-                var key = e.originalEvent.dataTransfer.getData('text/allele');
-                if ((key + "").trim().length > 0) {
-                    $('#allele_key').val(key);
-                    updateAlleleDiv(key);
+                var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
+                if (isAllele) {
+                    $('#divAllele').removeClass('over');
+                    var allele_key = e.originalEvent.dataTransfer.getData('text/allele');
+                    $('#allele_key').val(allele_key);
+                    updateAlleleDiv(allele_key);
                 }
                 
                 return false;
             }
-            // getData() is not available in this function and breaks drag-n-drop if it is called here.
-            function handleDragOverAllele(e) {
-                var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
-                if (isAllele) {
-                    e.preventDefault();
-                    e.originalEvent.dataTransfer.dropEffect = 'copy';
-                }
-            }
             
             // BACKGROUND DRAG-n-DROP HANDLERS
-            function handleDragEnterBackground(e) {
+            // getData() is not available in this function and breaks drag-n-drop if it is called here.
+            function handleDragOverBackground(e) {
                 var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
-                if (isBackground)
+                if (isBackground) {
+                    $('#divBackground').addClass('over');
                     e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                } else {
+                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                }
                 
                 return false;
             }
             function handleDragLeaveBackground(e) {
                 var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
                 if (isBackground) {
-                    this.classList.remove('over');
-                    e.originalEvent.dataTransfer.dropEffect = 'none';
+                    $(this).removeClass('over');
                 }
                 
                 return false;
             }
             function handleDropBackground(e) {
-                var key = e.originalEvent.dataTransfer.getData('text/background');
-                if ((key + "").trim().length > 0) {
-                    $('#background_key').val(key);
-                    updateBackgroundDiv(key);
+                var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
+                if (isBackground) {
+                    $('#divBackground').removeClass('over');
+                    var background_key = e.originalEvent.dataTransfer.getData('text/background');
+                    $('#background_key').val(background_key);
+                    updateBackgroundDiv(background_key);
                 }
                 
                 return false;
-            }
-            // getData() is not available in this function and breaks drag-n-drop if it is called here.
-            function handleDragOverBackground(e) {
-                var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
-                if (isBackground) {
-                    e.preventDefault();
-                    e.originalEvent.dataTransfer.dropEffect = 'copy';
-                }
             }
 
             function showStrainChooser() {
@@ -413,7 +477,7 @@
                         strain = data;
                     }
                     , fail: function(data) {
-                        alert(data);
+                        alert('getStrain(' + id + ') failed: ' + data);
                     }
                 });
                 
@@ -431,7 +495,7 @@
                         background = data;
                     }
                     , fail: function(data) {
-                        alert(data);
+                        alert('getBackground(' + id + ') failed: ' + data);
                     }
                 });
                 
@@ -449,7 +513,7 @@
                         allele = data;
                     }
                     , fail: function(data) {
-                        alert(data);
+                        alert('getAllele(' + id + ') failed: ' + data);
                     }
                 });
                 
@@ -528,20 +592,30 @@
                                             </td>
                                             <td colspan="7">
                                                 <div id="divStrain" style="border: 1px solid gray" >
-                                                    <table>
-                                                        <thead style="border: 1px solid black">
-                                                            <tr>
-                                                                <td>&nbsp;</td>
-                                                                <td style="text-align: center">Id</td>
-                                                                <td style="text-align: center">Name</td>
-                                                            </tr>
+                                                    <table id="tabStrain">
+                                                        <thead style="border: 1px solid black">  
+                                                            <c:choose>
+                                                                <c:when test="${ not empty mutation.strains}"> 
+                                                                    <tr id="tabStrainHeading">
+                                                                        <td>&nbsp;</td>
+                                                                        <td style="text-align: center">Id</td>
+                                                                        <td style="text-align: center">Name</td>
+                                                                    </tr>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <tr id="tabStrainHeading">
+                                                                        <td>&nbsp;</td>
+                                                                        <td>&nbsp;</td>
+                                                                        <td>&nbsp;</td>
+                                                                </c:otherwise>
+                                                            </c:choose>
                                                         </thead>
                                                         <tbody>
                                                             <c:forEach var="strain" items="${mutation.strains}" varStatus="status">
-                                                                <tr draggable="true" style="border: 1px solid gray">
+                                                                <tr draggable="true" data-strain_key="${strain.strain_key}" data-mutation_key="${mutation.mutation_key}" style="border: 1px solid gray">
                                                                     <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>
                                                                     <td style="border: 1px solid gray">${strain.strain_key}</td>
-                                                                    <td style="border: 1px solid gray">${strain.name}</td>
+                                                                    <td style="border: 1px solid gray">${fn:escapeXml(strain.name)}</td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </tbody>

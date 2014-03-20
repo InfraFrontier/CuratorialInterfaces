@@ -110,7 +110,6 @@ public class AlleleManagementDetailController {
         Allele allele = allelesManager.getAllele(allele_key);
         if (allele == null) {
             allele = new Allele();
-            allele.setAllele_key(null);
         }
         
         model.addAttribute("allele", allele);
@@ -166,6 +165,7 @@ public class AlleleManagementDetailController {
         }
         
         try {
+            allele.getGene().setGene_key(allele.getGene_key());
             allelesManager.save(allele);
         } catch (PersistFailedException pfe) {
             errors.reject(null, pfe.getLocalizedMessage());
@@ -182,41 +182,6 @@ public class AlleleManagementDetailController {
                 + "&filterGeneName=" + filterGeneName
                 + "&filterGeneSymbol=" + filterGeneSymbol;
     }
-    
-//    /**
-//     * Show the list form with saved filter values.
-//     * 
-//     * @param filterAlleleKey
-//     * @param filterAlleleName
-//     * @param filterAlleleSymbol
-//     * @param filterAlleleMgiReference
-//     * @param filterGeneKey
-//     * @param filterGeneName
-//     * @param filterGeneSymbol
-//     * @param model the filter data, saved above in edit().
-//     * @return redirected view to same gene detail data.
-//     */
-//    @RequestMapping(value="/showList", method=RequestMethod.GET)
-//    public String showList(
-//            @RequestParam(value="filterAlleleKey") String filterAlleleKey
-//          , @RequestParam(value="filterAlleleName") String filterAlleleName
-//          , @RequestParam(value="filterAlleleSymbol") String filterAlleleSymbol
-//          , @RequestParam(value="filterAlleleMgiReference") String filterAlleleMgiReference
-//          , @RequestParam(value="filterGeneKey") String filterGeneKey
-//          , @RequestParam(value="filterGeneName") String filterGeneName
-//          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
-//            
-//          , Model model) 
-//    {
-//        return "redirect:/curation/alleleManagementList/showFilter"
-//                + "?filterAlleleKey=" + filterAlleleKey
-//                + "&filterAlleleName=" + filterAlleleName
-//                + "&filterAlleleSymbol=" + filterAlleleSymbol
-//                + "&filterAlleleMgiReference=" + filterAlleleMgiReference
-//                + "&filterGeneKey=" + filterGeneKey
-//                + "&filterGeneName=" + filterGeneName
-//                + "&filterGeneSymbol=" + filterGeneSymbol;
-//    }
     
     
     // PRIVATE METHODS

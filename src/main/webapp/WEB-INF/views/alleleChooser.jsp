@@ -31,8 +31,8 @@
 
             $(document).ready(function() {
                 $('#tabResults > tbody > tr')
-                    .on('dragstart', handleDragStart)
-                $('#tabResults').dataTable()
+                    .on('dragstart', handleDragStart);
+                $('#tabResults').dataTable();
             });
             
             function lookupMgi(mgiReference) {
@@ -57,6 +57,7 @@
                     <c:choose>
                         <c:when test="${fn:length(allelesList) > 0}">
                             <tr style="border: 1px solid black">
+                                <th>&nbsp;</th>
                                 <th>Allele ID</th>
                                 <th>Allele Name</th>
                                 <th>Allele Symbol</th>
@@ -68,6 +69,12 @@
                 <tbody>
                     <c:forEach var="allele" items="${allelesList}" varStatus="status">
                         <tr draggable="true" data-allele_key="${allele.allele_key}">
+                            <td style="border: 1px solid gray"><img alt="Drag Handle"
+                                src="${pageContext.request.contextPath}/images/draghandle.png"
+                                height="15" width="15"
+                                title="Drag me"
+                                draggable="false">
+                            </td>
                             <td style="border: 1px solid black">${allele.allele_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
