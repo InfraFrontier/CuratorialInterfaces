@@ -53,6 +53,7 @@
                     <c:choose>
                         <c:when test="${fn:length(backgroundsList) > 0}">
                             <tr style="border: 1px solid black">
+                                <th>&nbsp;</th>
                                 <th>Background ID</th>
                                 <th>Background Name</th>
                                 <th>Background Symbol</th>
@@ -63,6 +64,12 @@
                 <tbody>
                     <c:forEach var="background" items="${backgroundsList}" varStatus="status">
                         <tr draggable="true" data-background_key="${background.background_key}">
+                            <td style="border: 1px solid gray"><img alt="Drag Handle"
+                                src="${pageContext.request.contextPath}/images/draghandle.png"
+                                height="15" width="15"
+                                title="Drag me"
+                                draggable="false">
+                            </td>
                             <td style="border: 1px solid black">${background.background_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(background.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(background.symbol)}</td>

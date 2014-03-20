@@ -102,7 +102,7 @@ public class MutationsManager extends AbstractManager {
         try {
             getCurrentSession().beginTransaction();
             mutation = (Mutation)getCurrentSession()
-                    .createQuery("FROM Mutation m JOIN FETCH m.strains WHERE m.mutation_key = :mutation_key")
+                    .createQuery("FROM Mutation m LEFT JOIN FETCH m.strains WHERE m.mutation_key = :mutation_key")
                     .setParameter("mutation_key", mutation_key)
                     .uniqueResult();
             getCurrentSession().getTransaction().commit();
@@ -245,7 +245,7 @@ public class MutationsManager extends AbstractManager {
         if ((filter.getMutation_key() != null) && ( ! filter.getMutation_key().isEmpty())) {
             String mutationIds = Utils.cleanIntArray(filter.getMutation_key());
             if (Utils.isValidIntArray(mutationIds)) {
-                mutationKeyWhere = "  AND (ms.mut_id IN (" + mutationIds + "))\n";
+                mutationKeyWhere = "  AND (m.id IN (" + mutationIds + "))\n";
                 queryString += mutationKeyWhere;
             }
         }
@@ -260,7 +260,7 @@ public class MutationsManager extends AbstractManager {
         if ((filter.getStrain_key() != null) && ( ! filter.getStrain_key().isEmpty())) {
             String strainIds = Utils.cleanIntArray(filter.getStrain_key());
             if (Utils.isValidIntArray(strainIds)) {
-                strainKeyWhere = "  AND (ms.str_id_str IN (" + strainIds + "))\n";
+                strainKeyWhere = "  AND (m.str_id_str IN (" + strainIds + "))\n";
                 queryString += strainKeyWhere;
             }
         }

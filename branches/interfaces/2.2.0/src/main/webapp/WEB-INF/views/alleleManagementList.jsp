@@ -40,8 +40,8 @@
         </style>
 
         <script>
-            var geneUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
-            var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
+            var geneListUrlRoot = "${pageContext.request.contextPath}/curation/geneManagementList";
+            var alleleListUrlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
             var alleleKeys = null;
 
             $(document).ready(function() {
@@ -55,7 +55,7 @@
                 clearErrors();
                 
                 $('.filterComponent').each(function (index, element) {
-                    $(element).on('keyup change', function(event) {
+                    $(element).on('keyup change blur', function(event) {
                         updateFilter(element);
                     });
                 });
@@ -95,12 +95,10 @@
             }
 
             function populateFilterAutocompletes() {
-                var urlRoot = "${pageContext.request.contextPath}/curation/alleleManagementList";
-
                 $("#filterAlleleName").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: urlRoot + "/getAlleleNames"
+                            url: alleleListUrlRoot + "/getAlleleNames"
                             , dataType: "json"
                             , data: {filterTerm: request.term}
                             , success: function(data) {
@@ -116,7 +114,7 @@
                 $("#filterAlleleSymbol").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: urlRoot + "/getAlleleSymbols",
+                            url: alleleListUrlRoot + "/getAlleleSymbols",
                             dataType: "json",
                             data: {filterTerm: request.term},
                             success: function(data) {
@@ -132,7 +130,7 @@
                 $("#filterGeneName").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: geneUrlRoot + "/getGeneNames"
+                            url: geneListUrlRoot + "/getGeneNames"
                             , dataType: "json"
                             , data: {filterTerm: request.term}
                             , success: function(data) {
@@ -148,7 +146,7 @@
                 $("#filterGeneSymbol").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: geneUrlRoot + "/getGeneSymbols",
+                            url: geneListUrlRoot + "/getGeneSymbols",
                             dataType: "json",
                             data: {filterTerm: request.term},
                             success: function(data) {
@@ -164,7 +162,7 @@
                 $("#filterAlleleMgiReference").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: urlRoot + "/getMgiReferences",
+                            url: alleleListUrlRoot + "/getMgiReferences",
                             dataType: "json",
                             data: {filterTerm: request.term},
                             success: function(data) {
@@ -212,7 +210,7 @@
 
             function deleteAllele(id, deleteIcon) {
                 $.ajax({
-                    url: urlRoot + "/deleteAllele"
+                    url: alleleListUrlRoot + "/deleteAllele"
                     , dataType: "json"
                     , async: false
                     , data: {'allele_key': id}
@@ -288,7 +286,7 @@
         
         <form:form method="get" modelAttribute="filter">
             <%-- NEW ALLELE --%>
-            <input type="hidden" name="allele_key" value="0" />
+            <input type="hidden" name="allele_key" value="" />
             
             <input type="hidden" id="filterAlleleKeyNew"          name="filterAlleleKey"          class="filterComponent" value="${filter.allele_key}" />
             <input type="hidden" id="filterAlleleNameNew"         name="filterAlleleName"         class="filterComponent" value="${filter.alleleName}" />
@@ -458,14 +456,14 @@
                                 <form>
                                     <c:choose>
                                         <c:when test="${boundMutationsCount eq 0}">
-                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey="
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
                                                target="mutationManagementList"
                                                title="Edit mutations">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
                                         <c:otherwise>
-                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationKey=${boundMutationKeys}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey="
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationKey=${boundMutationKeys}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
                                                target="mutationManagementList"
                                                title="Edit mutation(s) ${boundMutationKeys}">
                                                 ${boundMutationKeys}

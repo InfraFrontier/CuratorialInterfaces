@@ -53,6 +53,7 @@
                     <c:choose>
                         <c:when test="${fn:length(strainsList) > 0}">
                             <tr style="border: 1px solid black">
+                                <th>&nbsp;</th>
                                 <th>Strain ID</th>
                                 <th>Strain Name</th>
                             </tr>
@@ -62,6 +63,12 @@
                 <tbody>
                     <c:forEach var="strain" items="${strainsList}" varStatus="status">
                         <tr draggable="true" data-strain_key="${strain.strain_key}">
+                            <td style="border: 1px solid gray"><img alt="Drag Handle"
+                                src="${pageContext.request.contextPath}/images/draghandle.png"
+                                height="15" width="15"
+                                title="Drag me"
+                                draggable="false">
+                            </td>
                             <td style="border: 1px solid black">${strain.strain_key}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(strain.name)}</td>
                         </tr>

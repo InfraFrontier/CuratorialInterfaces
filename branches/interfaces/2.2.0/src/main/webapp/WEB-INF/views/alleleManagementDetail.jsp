@@ -171,28 +171,34 @@
                 return false;
             }
             
-            function handleDragEnter(e) {
-             $(this).addClass('over');
+            function handleDragOver(e) {
+                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
+                if (isGene) {
+                    $('#divGene').addClass('over');
+                    e.preventDefault();
+                    e.originalEvent.dataTransfer.dropEffect = 'copy';
+                }
+                
+                return false;
             }
             function handleDragLeave(e) {
-                $(this).removeClass('over');
-            }
-            function handleDragOver(e) {
-                $('#divGene').addClass('over');
-                e.preventDefault();
+                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
+                if (isGene) {
+                    $(this).removeClass('over');
+                }
                 
-                e.originalEvent.dataTransfer.dropEffect = 'copy';
+                return false;
             }
-            function handleDragEnd(e) {
-                
-                $('#divGene').removeClass('over');
-            }
+            
             function handleDrop(e) {
-                $('#divGene').removeClass('over');
-                var gene_key = e.originalEvent.dataTransfer.getData('text/gene');
-                $('#gene_key').val(gene_key);
-                updateGeneDiv();
-               
+                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
+                if (isGene) {
+                    $('#divGene').removeClass('over');
+                    var gene_key = e.originalEvent.dataTransfer.getData('text/gene');
+                    $('#gene_key').val(gene_key);
+                    updateGeneDiv();
+                }
+                
                 return false;
             }
 
@@ -294,7 +300,7 @@
                                                         <tr>
                                                             <td><label>Gene Id:</label></td>
                                                             <td>
-                                                                <form:input id="gene_key" path="allele.gene.gene_key" placeholder="Required field"
+                                                                <form:input id="gene_key" path="allele.gene_key" placeholder="Required field"
                                                                             value="${allele.gene.gene_key}" />
                                                                 <form:errors path="allele.gene.gene_key" cssClass="error" />
                                                             </td>
