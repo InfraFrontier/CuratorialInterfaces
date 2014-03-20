@@ -300,7 +300,10 @@
                     var markup =
                             '<tr draggable="true" data-strain_key="' + strain.strain_key + '" style="border: 1px solid gray">\n'
                           + '   <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>\n'
-                          + '   <td style="border: 1px solid gray">' + strain.strain_key + '</td>\n'
+                          + '   <td style="border: 1px solid gray">\n'
+                          +         strain.strain_key + '\n'
+                          + '       <input type="hidden" name="strains" value="' + strain.strain_key + '" />'
+                          + '</td>'
                           + '   <td style="border: 1px solid gray">' + scrub(strain.name) + '</td>\n'
                           + '</tr>\n';
                     $('#tabStrain > tbody > tr:last').after(markup);            // Add the new row.
@@ -563,6 +566,7 @@
                                                                         <td>&nbsp;</td>
                                                                         <td>&nbsp;</td>
                                                                         <td>&nbsp;</td>
+                                                                    </tr>
                                                                 </c:otherwise>
                                                             </c:choose>
                                                         </thead>
@@ -570,7 +574,10 @@
                                                             <c:forEach var="strain" items="${mutation.strains}" varStatus="status">
                                                                 <tr draggable="true" data-strain_key="${strain.strain_key}" data-mutation_key="${mutation.mutation_key}" style="border: 1px solid gray">
                                                                     <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>
-                                                                    <td style="border: 1px solid gray">${strain.strain_key}</td>
+                                                                    <td style="border: 1px solid gray">
+                                                                        ${strain.strain_key}    <%-- This must be dataTable cell[1] or the dataTable index reference must be changed to match the new index. --%>
+                                                                        <input type="hidden" name="strains" value="${strain.strain_key}" />
+                                                                    </td>
                                                                     <td style="border: 1px solid gray">${fn:escapeXml(strain.name)}</td>
                                                                 </tr>
                                                             </c:forEach>
