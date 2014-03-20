@@ -107,7 +107,6 @@ public class MutationManagementDetailController {
      * @param errors the Errors binding result object
      * 
      * @param mutation_key the allele primary key
-     * @param strain_key the allele primary key
      * @param allele_key the allele primary key
      * @param background_key the allele primary key
      * 
@@ -127,7 +126,6 @@ public class MutationManagementDetailController {
             @Valid Mutation mutation, Errors errors
           
           , @RequestParam(value="mutation_key") Integer mutation_key
-          , @RequestParam(value="strain_key") Integer strain_key
           , @RequestParam(value="allele_key") Integer allele_key
           , @RequestParam(value="background_key") Integer background_key
             

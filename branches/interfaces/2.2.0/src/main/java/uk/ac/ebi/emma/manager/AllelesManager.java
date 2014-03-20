@@ -101,6 +101,7 @@ public class AllelesManager extends AbstractManager {
                     .createSQLQuery("SELECT id_allel AS allele_key, name, alls_form AS symbol, mgi_ref AS mgiReference FROM alleles WHERE id_allel = :allele_key")
                     .setParameter("allele_key", allele_key)
                     .uniqueResult();
+            getCurrentSession().getTransaction().commit();
             
             Object[] row = (Object[])o;
             Integer id = (Integer)row[0];
@@ -113,8 +114,6 @@ public class AllelesManager extends AbstractManager {
             allele.setName(name);
             allele.setSymbol(symbol);
             allele.setMgiReference(mgiReference);
-
-            getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
             throw e;
