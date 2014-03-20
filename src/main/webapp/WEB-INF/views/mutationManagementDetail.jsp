@@ -74,14 +74,18 @@
                     .on('dragleave', handleDragLeaveStrain)
                     .on('drop',      handleDropStrain);
                 $('#strain_key').on('change', function(e) {
-                    updateStrainDiv($('#strain_key').val());
+                    if (validate()) {
+                        updateStrainDiv($('#strain_key').val());
+                    }
                 });
                 $('#divAllele')
                     .on('dragover',  handleDragOverAllele)
                     .on('dragleave', handleDragLeaveAllele)
                     .on('drop',      handleDropAllele);
                 $('#allele_key').on('change', function(e) {
-                    updateAlleleDiv();
+                    if (validate()) {
+                        updateAlleleDiv($('#allele_key').val());
+                    }
                 });
  
                 $('#divBackground')
@@ -89,7 +93,9 @@
                     .on('dragleave', handleDragLeaveBackground)
                     .on('drop',      handleDropBackground);
                 $('#background_key').on('change', function(e) {
-                    updateBackgroundDiv();
+                    if (validate()) {
+                        updateBackgroundDiv($('#background_key').val());
+                    }
                 });
                 
                 tabStrain = $('#tabStrain').dataTable(
@@ -180,81 +186,31 @@
 
             // Allele is a required field. Strain, Background, and Replaced Allele are optional but, if specified, must
             // be valid.
+            // Returns true if valid; false otherwise.
             function validate() {
                 clearErrors();
                 
                 var errMsg = '';
-                var newId = $('#strain_key').val();
-                var name = '';
-                var symbol = '';
+                var newId;
+                var key;
                 var errorCount = 0;
 
-                // STRAIN: Validate strain_key is an int and describes a valid strain.
-                if ((newId + '').trim() !== '') {
-                    if ((isInteger(newId)) && (newId > 0)) {
-
-                        var strain = getStrain($('#strain_key').val());
-                        if (strain !== null) {
-                            name = strain.name;
-                        } else {
-                            errorCount++;
-                            errMsg = '<br class="clientError" /><span id="strain_key.errors" class="clientError">Please choose a valid strain.</span>';
-                            $('#strain_key').parent().append(errMsg);
-                        }
-                    } else {
-                        errorCount++;
-                        errMsg = '<br class="clientError" /><span id="strain_key.errors" class="clientError">Please choose a valid strain.</span>';
-                        $('#strain_key').parent().append(errMsg);
-                    }
-                }
-                
-                // Set strain details
-                $('#strainName').val(name);
-
-                // ALLELE: if supplied, validate allele_key is an int and describes a valid allele.
+                // ALLELE: Required. key must describe a valid allele.
                 newId = $('#allele_key').val();
-                if ((newId !== undefined) && (newId.length > 0)) {
-                    if ((isInteger(newId)) && (newId > 0)) {
-                        var allele = getAllele($('#allele_key').val());
-                        if (allele !== null) {
-                            name = allele.name;
-                            symbol = allele.symbol;
-                        } else {
-                            errorCount++;
-                            errMsg = '<br class="clientError" /><span id="allele_key.errors" class="clientError">Please choose a valid allele.</span>';
-                            $('#allele_key').parent().append(errMsg);
-                        }
-                    } else {
-                        errorCount++;
-                        errMsg = '<br class="clientError" /><span id="allele_key.errors" class="clientError">Please choose a valid allele.</span>';
-                        $('#allele_key').parent().append(errMsg);
-                    }
-                    // Set allele details
-                    $('#alleleName').val(name);
-                    $('#alleleSymbol').val(symbol);
+                key = getAllele(newId);
+                if (key === null) {
+                    errorCount++;
+                    errMsg = '<br class="clientError" /><span id="allele_key.errors" class="clientError">Please choose a valid allele.</span>';
+                    $('#allele_key').parent().append(errMsg);
                 }
 
-                // BACKGROUND if supplied, validate background_key is an int and describes a valid background.
+                // BACKGROUND if supplied, validate background_key must describe a valid background.
                 newId = $('#background_key').val();
-                if ((newId !== undefined) && (newId.length > 0)) {
-                    if ((isInteger(newId)) && (newId > 0)) {
-                        var background = getBackground($('#background_key').val());
-                        if (background !== null) {
-                            name = background.name;
-                            symbol = background.symbol;
-                        } else {
-                            errorCount++;
-                            errMsg = '<br class="clientError" /><span id="background_key.errors" class="clientError">Please choose a valid background.</span>';
-                            $('#background_key').parent().append(errMsg);
-                        }
-                    } else {
+                key = getBackground(newId);
+                if (key === null) {
                         errorCount++;
                         errMsg = '<br class="clientError" /><span id="background_key.errors" class="clientError">Please choose a valid background.</span>';
                         $('#background_key').parent().append(errMsg);
-                    }
-                    // Set background details
-                    $('#backgroundName').val(name);
-                    $('#backgroundSymbol').val(symbol);
                 }
 
                 if (errorCount > 0) {

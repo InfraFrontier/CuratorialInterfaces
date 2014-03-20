@@ -75,6 +75,7 @@ public class StrainsManager extends AbstractManager {
                     .createSQLQuery("SELECT id_str AS strain_key, name FROM strains WHERE id_str = :strain_key")
                     .setParameter("strain_key", strain_key)
                     .uniqueResult();
+            getCurrentSession().getTransaction().commit();
             
             Object[] row = (Object[])o;
             Integer id = (Integer)row[0];
@@ -83,7 +84,6 @@ public class StrainsManager extends AbstractManager {
             strain.setStrain_key(id);
             strain.setName(name);
 
-            getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
             throw e;

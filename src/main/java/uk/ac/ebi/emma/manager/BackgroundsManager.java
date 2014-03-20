@@ -73,6 +73,7 @@ public class BackgroundsManager extends AbstractManager {
                     .createSQLQuery("SELECT id_bg AS background_key, name, symbol FROM backgrounds WHERE id_bg = :background_key")
                     .setParameter("background_key", background_key)
                     .uniqueResult();
+            getCurrentSession().getTransaction().commit();
             
             Object[] row = (Object[])o;
             Integer id = (Integer)row[0];
@@ -82,8 +83,6 @@ public class BackgroundsManager extends AbstractManager {
             background.setBackground_key(id);
             background.setName(name);
             background.setSymbol(symbol);
-
-            getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();
             throw e;
