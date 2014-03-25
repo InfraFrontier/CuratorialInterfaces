@@ -204,8 +204,8 @@
                 $('#divResults').css('display', resultsFormDisplayAttribute);
             }
 
-            function lookupMgi(mgiReference) {
-                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "MgiWindow");
+            function lookupMgiAllele(mgiReference) {
+                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "mgiAlleleReference");
             }
 
             function deleteAllele(id, deleteIcon) {
@@ -473,16 +473,16 @@
                                 </form>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgiReference)}');">
+                                <a href="javascript:lookupMgiAllele('${fn:escapeXml(allele.mgiReference)}');">
                                     ${fn:escapeXml(allele.mgiReference)}
                                 </a>
                             </td>
                             
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?filterGeneKey=${allele.gene.gene_key}&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
+                                <a href="${pageContext.request.contextPath}/curation/geneManagementList/go?filterGeneKey=${allele.gene_key}&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
                                    target="geneManagementList"
-                                   title="Edit gene ${allele.gene.gene_key}">
-                                    ${allele.gene.gene_key}
+                                   title="Edit gene ${allele.gene_key}">
+                                    ${allele.gene_key}
                                 </a>
                             </td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.gene.name)}</td>
