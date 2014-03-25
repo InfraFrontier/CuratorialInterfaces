@@ -38,8 +38,8 @@
         Notice that, while it uses the mutations_strains table, no mutations_strains
         entity or .hbm.xml needs to be created or maintained.
         -->
-        <set name="mutations" table="mutations_strains">
-            <key column="str_id_str" update="false" />
+        <set name="mutations" table="mutations_strains" cascade="none">
+            <key column="str_id_str" update="false" on-delete="noaction"/>
             <many-to-many class="Mutation" column="mut_id" not-found="ignore" />
         </set>
         

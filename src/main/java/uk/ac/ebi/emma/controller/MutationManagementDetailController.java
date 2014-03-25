@@ -20,6 +20,7 @@
 
 package uk.ac.ebi.emma.controller;
 
+import java.util.LinkedHashSet;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Mutation;
+import uk.ac.ebi.emma.entity.Strain;
 import uk.ac.ebi.emma.manager.MutationsManager;
+import uk.ac.ebi.emma.manager.StrainsManager;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.validator.MutationValidator;
 
@@ -46,6 +49,8 @@ public class MutationManagementDetailController {
     protected final Logger logger = Logger.getLogger(this.getClass());
     @Autowired
     private final MutationsManager mutationsManager = new MutationsManager();
+    @Autowired
+    private final StrainsManager strainsManager = new StrainsManager();
     
     @Autowired
     private MutationValidator validator;
@@ -109,6 +114,7 @@ public class MutationManagementDetailController {
      * @param mutation_key the allele primary key
      * @param allele_key the allele primary key
      * @param background_key the allele primary key
+     * @param strain_keys the collection of strain keys (may be empty or null)
      * 
      * @param filterMutationKey the mutation id search criterion (may be empty)
      * @param filterMutationType the mutation type search criterion (may be empty)
@@ -128,6 +134,7 @@ public class MutationManagementDetailController {
           , @RequestParam(value="mutation_key") Integer mutation_key
           , @RequestParam(value="allele_key") Integer allele_key
           , @RequestParam(value="background_key") Integer background_key
+          , @RequestParam(value = "strain_keys") String[] strain_keys
             
           , @RequestParam(value="filterMutationKey") String filterMutationKey
           , @RequestParam(value="filterMutationType") String filterMutationType
@@ -140,11 +147,19 @@ public class MutationManagementDetailController {
             
           , Model model) 
     {
-        // Load the primary key and the foreign keys.
+        // Load the primary key, the foreign keys, and the strain key collection.
         mutation.setMutation_key(mutation_key);
         mutation.setAllele_key(allele_key);
         mutation.setBackground_key(background_key);
-        
+        mutation.setStrains(new LinkedHashSet());
+        if (strain_keys != null) {
+            for (String sStrain_key : strain_keys) {
+                int strain_key = Integer.parseInt(sStrain_key);
+                Strain strain = strainsManager.getStrain(strain_key);
+                mutation.getStrains().add(strain);
+            }
+        }
+       
         // Load up the model in case we have to redisplay the detail form.
         // Save the filter info and add to model.
         Filter filter = buildFilter(filterMutationKey, filterMutationType, filterMutationSubtype, filterStrainKey,

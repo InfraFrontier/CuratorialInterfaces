@@ -9,7 +9,7 @@
         </id>
         
         <many-to-one cascade="none" class="Allele"     name="allele"         column="alls_id_allel"          insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false" />
-        <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg" not-null="false"/>
+        <many-to-one cascade="all"  class="Background" name="background"     column="bg_id_bg"               insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_bg"    not-null="false"/>
         <!--  12-Mar-2014 (Raffaele) NOT NEEDED.
             <many-to-one cascade="none" class="Allele"     name="replacedAllele" column="alls_id_allel_replaced" insert="false" lazy="false" not-found="ignore" update="false" foreign-key="id_allel" not-null="false"/>
         -->
@@ -22,8 +22,8 @@
         Notice that, while it uses the mutations_strains table, no mutations_strains
         entity or .hbm.xml needs to be created or maintained.
         -->
-        <set name="strains" table="mutations_strains">
-            <key column="mut_id" update="false" />
+        <set name="strains" table="mutations_strains" cascade="none">
+            <key column="mut_id" update="false" on-delete="noaction" />
             <many-to-many class="Strain" column="str_id_str" not-found="ignore" />
         </set>
         
