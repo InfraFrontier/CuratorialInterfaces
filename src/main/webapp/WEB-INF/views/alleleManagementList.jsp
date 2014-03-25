@@ -60,6 +60,8 @@
                     });
                 });
                 
+                $('#tabResults > tbody > tr')
+                    .on('dragstart', handleDragStart);
                 $('#tabResults').dataTable();
             });
 
@@ -276,6 +278,11 @@
                 clearErrors();
                 return false;
             }
+            
+            function handleDragStart(e) {
+                var allele_key = $(this).data('allele_key');
+                e.originalEvent.dataTransfer.setData('text/allele', allele_key);
+            }
 
         </script>
         <title>Allele Management - list</title>
@@ -389,7 +396,7 @@
                 </thead>
                 <tbody>
                     <c:forEach var="allele" items="${filteredAllelesList}" varStatus="status">
-                        <tr>
+                        <tr draggable="true" data-allele_key="${allele.allele_key}">
                             <td style="border: 1px solid black">
                                 <table>
                                     <thead></thead>
