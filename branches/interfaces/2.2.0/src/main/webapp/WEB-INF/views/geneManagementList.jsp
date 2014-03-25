@@ -175,7 +175,7 @@
             }
 
             function lookupMgi(id) {
-                window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
+                window.open("http://www.informatics.jax.org/marker/MGI:" + id, "MgiWindow");
             }
 
             function lookupEnsembl(id) {

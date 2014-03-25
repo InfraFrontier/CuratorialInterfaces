@@ -41,7 +41,7 @@
             }
             
             function lookupMgi(mgiReference) {
-                window.open("http://www.informatics.jax.org/marker?id=MGI:" + mgiReference, "MgiWindow");
+                window.open("http://www.informatics.jax.org/marker/MGI:" + mgiReference, "MgiWindow");
             }
             
         </script>
