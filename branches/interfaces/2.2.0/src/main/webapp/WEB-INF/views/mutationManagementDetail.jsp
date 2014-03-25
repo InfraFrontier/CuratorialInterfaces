@@ -298,13 +298,12 @@
                 if ((strain !== undefined) && (keyToRownum(strain_key) < 0)) {
                     $('#tabStrainHeading').css('display', 'table-row');
                     var markup =
-                            '<tr draggable="true" data-strain_key="' + strain.strain_key + '" style="border: 1px solid gray">\n'
-                          + '   <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>\n'
-                          + '   <td style="border: 1px solid gray">\n'
-                          +         strain.strain_key + '\n'
-                          + '       <input type="hidden" name="strains" value="' + strain.strain_key + '" />'
-                          + '</td>'
-                          + '   <td style="border: 1px solid gray">' + scrub(strain.name) + '</td>\n'
+                             '<tr draggable="true" data-strain_key="' + strain.strain_key + '" style="border: 1px solid gray">\n'
+                           + '   <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>\n'
+                                 <%-- This must be dataTable cell[1] or the dataTable index reference must be changed to match the new index. --%>
+                           + '   <td style="border: 1px solid gray">' + strain.strain_key + '</td>\n'
+                           + '   <td style="border: 1px solid gray">' + scrub(strain.name) + '</td>\n'
+                           + '   <td style="display: none"><input name="strain_keys" type="hidden" value="' + strain.strain_key + '" /></td>\n'
                           + '</tr>\n';
                     $('#tabStrain > tbody > tr:last').after(markup);            // Add the new row.
                     $('#tabStrain > tbody > tr:last')
@@ -559,6 +558,7 @@
                                                                         <td>&nbsp;</td>
                                                                         <td style="text-align: center">Id</td>
                                                                         <td style="text-align: center">Name</td>
+                                                                    <td style="display: none"></td>
                                                                     </tr>
                                                                 </c:when>
                                                                 <c:otherwise>
@@ -566,6 +566,7 @@
                                                                         <td>&nbsp;</td>
                                                                         <td>&nbsp;</td>
                                                                         <td>&nbsp;</td>
+                                                                    <td style="display: none"></td>
                                                                     </tr>
                                                                 </c:otherwise>
                                                             </c:choose>
@@ -574,11 +575,10 @@
                                                             <c:forEach var="strain" items="${mutation.strains}" varStatus="status">
                                                                 <tr draggable="true" data-strain_key="${strain.strain_key}" data-mutation_key="${mutation.mutation_key}" style="border: 1px solid gray">
                                                                     <td style="border: 1px solid gray"><img alt="Drag Handle" src="${pageContext.request.contextPath}/images/draghandle.png" height="15" width="15" title="Drag me" draggable="false"></td>
-                                                                    <td style="border: 1px solid gray">
-                                                                        ${strain.strain_key}    <%-- This must be dataTable cell[1] or the dataTable index reference must be changed to match the new index. --%>
-                                                                        <input type="hidden" name="strains" value="${strain.strain_key}" />
-                                                                    </td>
+                                                                    <%-- This must be dataTable cell[1] or the dataTable index reference must be changed to match the new index. --%>
+                                                                    <td style="border: 1px solid gray">${strain.strain_key}</td>
                                                                     <td style="border: 1px solid gray">${fn:escapeXml(strain.name)}</td>
+                                                                    <td style="display: none"><input name="strain_keys" type="hidden" value="${strain.strain_key}" /></td>
                                                                 </tr>
                                                             </c:forEach>
                                                         </tbody>
