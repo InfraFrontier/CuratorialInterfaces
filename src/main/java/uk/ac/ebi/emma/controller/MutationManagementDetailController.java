@@ -134,7 +134,7 @@ public class MutationManagementDetailController {
           , @RequestParam(value="mutation_key") Integer mutation_key
           , @RequestParam(value="allele_key") Integer allele_key
           , @RequestParam(value="background_key") Integer background_key
-          , @RequestParam(value = "strain_keys") String[] strain_keys
+          , @RequestParam(value = "strain_keys", required = false) String[] strain_keys
             
           , @RequestParam(value="filterMutationKey") String filterMutationKey
           , @RequestParam(value="filterMutationType") String filterMutationType

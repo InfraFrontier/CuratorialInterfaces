@@ -83,9 +83,8 @@
                     .on('dragleave', handleDragLeaveAllele)
                     .on('drop',      handleDropAllele);
                 $('#allele_key').on('change', function(e) {
-                    if (validate()) {
-                        updateAlleleDiv($('#allele_key').val());
-                    }
+                   updateAlleleDiv($('#allele_key').val());
+                   validate();
                 });
  
                 $('#divBackground')
@@ -93,9 +92,8 @@
                     .on('dragleave', handleDragLeaveBackground)
                     .on('drop',      handleDropBackground);
                 $('#background_key').on('change', function(e) {
-                    if (validate()) {
-                        updateBackgroundDiv($('#background_key').val());
-                    }
+                   updateBackgroundDiv($('#background_key').val());
+                   validate();
                 });
                 
                 tabStrain = $('#tabStrain').dataTable(
@@ -639,6 +637,7 @@
                                                             <td style="width: 150px"><label>Background Id:</label></td>
                                                             <td>
                                                                 <form:input id="background_key" path="mutation.background_key"
+                                                                            placeholder="Required field"
                                                                             value="${mutation.background_key}" />
                                                                 <form:errors path="mutation.background_key" cssClass="error" />
                                                             </td>
