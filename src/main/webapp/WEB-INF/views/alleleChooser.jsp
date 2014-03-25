@@ -36,7 +36,7 @@
             });
             
             function lookupMgi(mgiReference) {
-                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "MgiWindow");
+                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "mgiAlleleReference");
             }
             
             function handleDragStart(e) {
@@ -79,7 +79,7 @@
                             <td style="border: 1px solid black">${fn:escapeXml(allele.name)}</td>
                             <td style="border: 1px solid black">${fn:escapeXml(allele.symbol)}</td>
                             <td style="border: 1px solid black">
-                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgiReference)}');" target="mgiReference">
+                                <a href="javascript:lookupMgi('${fn:escapeXml(allele.mgiReference)}');">
                                     ${fn:escapeXml(allele.mgiReference)}
                                 </a>
                             </td>

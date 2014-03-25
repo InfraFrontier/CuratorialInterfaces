@@ -92,7 +92,7 @@
             
             function lookupMGI(mgiReference) {
                 var id = $('#mgiReference').val();
-                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "MgiWindow");
+                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "mgiAlleleReference");
             }
             
             function setMaxlengths() {
