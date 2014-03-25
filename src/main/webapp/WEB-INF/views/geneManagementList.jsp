@@ -268,11 +268,13 @@
             <input type="hidden" id="filterGeneNameNew"         name="filterGeneName"         class="filterComponent" value="${filter.geneName}" />
             <input type="hidden" id="filterGeneSymbolNew"       name="filterGeneSymbol"       class="filterComponent" value="${filter.geneSymbol}" />
             <input type="hidden" id="filterChromosomeNew"       name="filterChromosome"       class="filterComponent" value="${filter.chromosome}" />
-            <input type="hidden" id="filterGeneMgiReferenceNew" name="filterGeneMgiReference" class="filterComponent" value="${filter.geneMgiReference}" />
-            <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
-                   formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/geneManagementDetail/edit"
-                   formtarget="geneManagementDetail"/>
+            <input type="hidden" id="filterGeneMgiReferenceNew" name="filterGeneMgiReference" class="filterComponent" value="${filter.geneMgiReference}" />                                    
+            <a href="${pageContext.request.contextPath}/curation/geneManagementDetail/edit?gene_key=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
+               style="margin-left: 420px"
+               target="geneManagementDetail"
+                title="Add new gene">
+                 New
+            </a>
         </form:form>
         
         <form:form modelAttribute="filter" method="get">

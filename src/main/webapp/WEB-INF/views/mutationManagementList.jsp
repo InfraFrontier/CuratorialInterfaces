@@ -252,9 +252,12 @@
             <input type="hidden" id="filterBackgroundKeyNew"    name="filterBackgroundKey"   class="filterComponent" value="${filter.background_key}" />
             <input type="hidden" id="filterGeneKeyNew"          name="filterGeneKey"         class="filterComponent" value="${filter.gene_key}" />
             <input type="hidden" id="filterGeneSymbolNew"       name="filterGeneSymbol"      class="filterComponent" value="${filter.geneSymbol}" />
-            <input type="submit" value="New" style="margin-left: 450px; margin-bottom: 5px" tabindex="1"
-                   formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit" />
+            <a href="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit?mutation_key=&amp;filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
+               style="margin-left: 680px"
+               target="mutationManagementDetail"
+               title="Add new mutation">
+                New
+            </a>
         </form:form>
         
         <form:form modelAttribute="filter" method="get">
