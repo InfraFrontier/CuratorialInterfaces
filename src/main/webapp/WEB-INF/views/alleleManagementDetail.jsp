@@ -90,9 +90,9 @@
                 $('#geneSymbol').val(geneSymbol);
             }
             
-            function lookupMGI() {
+            function lookupMGI(mgiReference) {
                 var id = $('#mgiReference').val();
-                window.open("http://www.informatics.jax.org/marker?id=MGI:" + id, "MgiWindow");
+                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "MgiWindow");
             }
             
             function setMaxlengths() {
@@ -272,7 +272,7 @@
                                             <%-- MGI REFERENCE --%>
                                             <td>
                                                 <form:label for="mgiReference" path="allele.mgiReference">
-                                                    <a href="javascript:lookupMGI();">
+                                                    <a href="javascript:lookupMGI('${fn:escapeXml(allele.mgiReference)}');">
                                                         MGI reference:
                                                     </a>
                                                 </form:label>
