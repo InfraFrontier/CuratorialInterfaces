@@ -295,10 +295,12 @@
             <input type="hidden" id="filterGeneKeyNew"            name="filterGeneKey"            class="filterComponent" value="${filter.gene_key}" />
             <input type="hidden" id="filterGeneNameNew"           name="filterGeneName"           class="filterComponent" value="${filter.geneName}" />
             <input type="hidden" id="filterGeneSymbolNew"         name="filterGeneSymbol"         class="filterComponent" value="${filter.geneSymbol}" />
-            <input type="submit" value="New" style="margin-left: 420px; margin-bottom: 5px"
-                   formmethod="get"
-                   formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit"
-                   formtarget="alleleManagementDetail" />
+            <a href="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit?allele_key=&amp;filterAlleleKey=&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
+               style="margin-left: 420px"
+               target="alleleManagementDetail"
+               title="Add new allele">
+                New
+            </a>
         </form:form>
         
         <form:form modelAttribute="filter" method="get">
