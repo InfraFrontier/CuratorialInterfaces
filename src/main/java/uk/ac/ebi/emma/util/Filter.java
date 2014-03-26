@@ -34,6 +34,10 @@ public class Filter {
     private String alleleName;
     private String alleleSymbol;
     private String background_key;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String backgroundName;
+    private String backgroundSymbol;
+    private String backgroundIsCurated;
+    private String backgroundIsInbred;
     private String chromosome;
     private String gene_key;       // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String geneMgiReference;
@@ -50,6 +54,10 @@ public class Filter {
         this.alleleName = "";
         this.alleleSymbol = "";
         this.background_key = "";
+        this.backgroundName = "";
+        this.backgroundSymbol = "";
+        this.backgroundIsCurated = "";
+        this.backgroundIsInbred = "";
         this.chromosome = "";
         this.gene_key = "";
         this.geneMgiReference = "";
@@ -72,6 +80,10 @@ public class Filter {
         this.alleleName = request.getParameter("alleleName") == null ? "" : request.getParameter("alleleName");
         this.alleleSymbol = request.getParameter("alleleSymbol") == null ? "" : request.getParameter("alleleSymbol");
         this.background_key = request.getParameter("background_key") == null ? "" : request.getParameter("background_key");
+        this.backgroundName = request.getParameter("backgroundName") == null ? "" : request.getParameter("backgroundName");
+        this.backgroundSymbol = request.getParameter("backgroundSymbol") == null ? "" : request.getParameter("backgroundSymbol");
+        this.backgroundIsCurated = request.getParameter("backgroundIsCurated") == null ? "" : request.getParameter("backgroundIsCurated");
+        this.backgroundIsInbred = request.getParameter("backgroundIsInbred") == null ? "" : request.getParameter("backgroundIsInbred");
         this.chromosome = request.getParameter("chromosome") == null ? "" : request.getParameter("chromosome");
         this.gene_key = request.getParameter("gene_key") == null ? "" : request.getParameter("gene_key");
         this.geneMgiReference = request.getParameter("geneMgiReference") == null ? "" : request.getParameter("geneMgiReference");
@@ -102,6 +114,14 @@ public class Filter {
             builder.addParameter("alleleSymbol", alleleSymbol);
         if ( ! background_key.isEmpty())
             builder.addParameter("background_key", background_key);
+        if ( ! backgroundName.isEmpty())
+            builder.addParameter("backgroundName", backgroundName);
+        if ( ! backgroundSymbol.isEmpty())
+            builder.addParameter("backgroundSymbol", backgroundSymbol);
+        if ( ! backgroundIsCurated.isEmpty())
+            builder.addParameter("backgroundisCurated", backgroundIsCurated);
+        if ( ! backgroundIsInbred.isEmpty())
+            builder.addParameter("backgroundisInbred", backgroundIsInbred);
         if ( ! chromosome.isEmpty())
             builder.addParameter("chromosome", chromosome);
         if ( ! gene_key.isEmpty())
@@ -169,6 +189,38 @@ public class Filter {
 
     public void setBackground_key(String background_key) {
         this.background_key = background_key;
+    }
+
+    public String getBackgroundName() {
+        return backgroundName;
+    }
+
+    public void setBackgroundName(String backgroundName) {
+        this.backgroundName = backgroundName;
+    }
+
+    public String getBackgroundSymbol() {
+        return backgroundSymbol;
+    }
+
+    public void setBackgroundSymbol(String backgroundSymbol) {
+        this.backgroundSymbol = backgroundSymbol;
+    }
+
+    public String getBackgroundIsCurated() {
+        return backgroundIsCurated;
+    }
+
+    public void setBackgroundIsCurated(String backgroundIsCurated) {
+        this.backgroundIsCurated = backgroundIsCurated;
+    }
+
+    public String getBackgroundIsInbred() {
+        return backgroundIsInbred;
+    }
+
+    public void setBackgroundIsInbred(String backgroundIsInbred) {
+        this.backgroundIsInbred = backgroundIsInbred;
     }
 
     public String getChromosome() {
@@ -242,8 +294,5 @@ public class Filter {
     public void setStrain_key(String strain_key) {
         this.strain_key = strain_key;
     }
-    
-    
-    
     
 }

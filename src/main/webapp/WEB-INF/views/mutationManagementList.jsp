@@ -442,8 +442,7 @@
                                 </c:choose>
                             </td>
                             <td style="border: 1px solid black">
-<!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! ADD BACKGROUND FILTERS ONCE BACKGROUND SCREEN IS WRITTEN. FIXME FIXME FIXME -->
-                                <a href="${pageContext.request.contextPath}/curation/backgroundManagementList/go?filterBackgroundKey=${mutation.background_key}"
+                                <a href="${pageContext.request.contextPath}/curation/backgroundManagementList/go?filterBackgroundKey=${mutation.background_key}&amp;filterBackgroundName=&amp;filterBackgroundSymbol=&amp;filterBackgroundIsCurated=&amp;filterBackgroundIsInbred="
                                    target="backgroundManagementList"
                                    title="Edit background ${mutation.background_key}">
                                     ${mutation.background_key}

@@ -17,5 +17,8 @@
        <br />
        <a href="curation/mutationManagementList/showFilter" target="mutationManagementList">Mutation Management</a>
        <br />
+       <br />
+       <a href="curation/backgroundManagementList/showFilter" target="backgroundManagementList">Background Management</a>
+       <br />
     </body>
 </html>

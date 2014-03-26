@@ -7,6 +7,13 @@
             <generator class="native"/>
         </id>
         
+        <set name="mutations" table="mutations"    lazy="false" cascade="none" order-by="id">
+            <key>
+                <column name="bg_id_bg" />
+            </key>
+            <one-to-many class="Mutation" />
+        </set>
+        
         <property column="curated"     name="curated"/>
         <property column="inbred"      name="inbred"/>
         <property column="name"        name="name"/>
