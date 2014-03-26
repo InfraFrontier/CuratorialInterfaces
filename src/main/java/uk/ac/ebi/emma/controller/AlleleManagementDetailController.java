@@ -47,29 +47,11 @@ import uk.ac.ebi.emma.validator.AlleleValidator;
 @RequestMapping("/alleleManagementDetail")
 public class AlleleManagementDetailController {
     @Autowired
-    private final GenesManager genesManager = new GenesManager();
-    @Autowired
     private final AllelesManager allelesManager = new AllelesManager();
     
     @Autowired
     private AlleleValidator validator;
 
-    /**
-     * Return the full list of genes
-     * @param model the Genes list data model
-     * 
-     * @return the full list of genes
-     */
-    @RequestMapping(method=RequestMethod.GET)
-    @ModelAttribute
-    public String initialize(Model model)
-    {
-        List<Gene> genesList = genesManager.getGenes();
-        model.addAttribute("genesList", genesList);
-        
-        return "alleleManagementDetail";
-    }
-    
     /**
      * 'Edit/New Allele' icon implementation
      * 
