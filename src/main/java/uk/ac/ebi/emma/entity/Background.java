@@ -18,6 +18,7 @@ package uk.ac.ebi.emma.entity;
 
 import java.util.Date;
 import java.util.Set;
+import javax.persistence.Transient;
 
 /**
  *
@@ -33,8 +34,8 @@ public class Background {
     private String species;
     private String symbol;
     
-    // COLLECTIONS
-    private Set<Mutation> mutations;
+    @Transient
+    private String mutation_keys;                                               // foreign key(s) to mutations table (new for EMMA2) (comma-separated)
     
     private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
@@ -95,12 +96,12 @@ public class Background {
         this.symbol = symbol;
     }
 
-    public Set<Mutation> getMutations() {
-        return mutations;
+    public String getMutation_keys() {
+        return mutation_keys;
     }
 
-    public void setMutations(Set<Mutation> mutations) {
-        this.mutations = mutations;
+    public void setMutation_keys(String mutation_keys) {
+        this.mutation_keys = mutation_keys;
     }
 
     public Date getLast_change() {

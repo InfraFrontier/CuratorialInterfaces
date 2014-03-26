@@ -188,8 +188,9 @@ public class BackgroundsManager extends AbstractManager {
         
         List<Background> targetList = new ArrayList();
         
-        String queryString = "SELECT b.*\n"
+        String queryString = "SELECT b.*, GROUP_CONCAT(m.id) AS mutation_keys\n"
                            + "FROM backgrounds b\n"
+                           + "LEFT OUTER JOIN mutations m ON m.bg_id_bg = b.id_bg\n"
                            + "WHERE (1 = 1)\n";     
         
         if ((filter.getBackground_key() != null) && ( ! filter.getBackground_key().isEmpty())) {
@@ -255,7 +256,20 @@ public class BackgroundsManager extends AbstractManager {
             if ( ! backgroundSymbolWhere.isEmpty())
                 query.setParameter("backgroundSymbol", "%" + filter.getBackgroundSymbol() + "%");
             
-            targetList = query.addEntity(Background.class).list();
+
+            List resultSet = query.addEntity(Background.class).addScalar("mutation_keys").list();
+            
+            if (resultSet != null) {
+                for (Object result : resultSet) {
+                    // Fetch any bound mutations.
+                    Object[] row = (Object[]) result;
+                    Background background = (Background)row[0];
+                    if (background != null) {
+                        background.setMutation_keys((row[1] == null ? "" : row[1].toString()));     // Add mutation_keys to transient Mutation instance.
+                        targetList.add(background);
+                    }
+                }
+            }
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
             getCurrentSession().getTransaction().rollback();

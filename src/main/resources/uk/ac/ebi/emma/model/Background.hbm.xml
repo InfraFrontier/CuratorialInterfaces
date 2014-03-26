@@ -6,14 +6,15 @@
         <id column="id_bg" name="background_key">
             <generator class="native"/>
         </id>
-        
+        <!--
+        THIS KILLS PERFORMANCE. CURRENTLY ALL WE NEED ARE ANY BOUND MUTATION KEYS.
         <set name="mutations" table="mutations"    lazy="false" cascade="none" order-by="id">
             <key>
                 <column name="bg_id_bg" />
             </key>
             <one-to-many class="Mutation" />
         </set>
-        
+        -->
         <property column="curated"     name="curated"/>
         <property column="inbred"      name="inbred"/>
         <property column="name"        name="name"/>
