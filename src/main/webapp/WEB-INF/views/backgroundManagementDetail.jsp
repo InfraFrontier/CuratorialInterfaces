@@ -50,62 +50,29 @@
         </style>
         
         <script>
-            var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
             
             $(document).ready(function() {
                 setMaxlengths();
                 clearErrors();
  
-                $('#divGene')
-           //         .on('dragenter', handleDragEnter)
-                    .on('dragover',  handleDragOver)
-                    .on('dragleave', handleDragLeave)
-                    .on('drop',      handleDrop)
-       //             .on('dragend',   handleDragEnd);
-                $('#gene_key').on('change', function(e) {
-                    updateGeneDiv();
-                });
-                $('#alleleName').on('keyup', function(e) {
+                $('#backgroundName').on('keyup', function(e) {
                     validate();
                 });
             });
-            
-            function updateGeneDiv() {
-                var geneName = '';
-                var geneSymbol = '';
-                
-                validate();
-                
-                var newGeneId = $('#gene_key').val();
-                if ((isInteger(newGeneId)) && (newGeneId > 0)) {
-                    var gene = getGene($('#gene_key').val());
-                    if (gene !== null) {
-                        geneName = gene.name;
-                        geneSymbol = gene.symbol;
-                    }
-                }
-                // Set gene details
-                $('#geneName').val(geneName);
-                $('#geneSymbol').val(geneSymbol);
-            }
-            
-            function lookupMGI(mgiReference) {
-                var id = $('#mgiReference').val();
-                window.open("http://www.informatics.jax.org/allele/MGI:" + mgiReference + "?page=alleleDetail&id=MGI:" + mgiReference, "mgiAlleleReference");
-            }
             
             function setMaxlengths() {
                 // Set table field maximum lengths.
                 $.ajax({
                     url: urlUtilRoot + "/getFieldLengths"
                   , async: false
-                  , data: { tablename: 'alleles' }
+                  , data: { tablename: 'backgrounds' }
                   , dataType: "json"
                   , success: function( data ) {
-                      $('#alleleSymbol').attr("maxLength", data['alls_form']);
                       $('#alleleName').attr("maxLength", data['name']);
-                      $('#mgiReference').attr("maxLength", data['mgi_ref']);
+                      $('#alleleSymbol').attr("maxLength", data['symbol']);
+                      $('#species').attr("maxLength", data['species']);
+                      $('#notes').attr("maxLength", data['notes']);
                     }
                 });
             }
@@ -114,38 +81,15 @@
                 clearErrors();
                 
                 var errMsg = '';
-                var newGene_key = $('#gene_key').val();
-                var geneName = '';
-                var geneSymbol = '';
                 var errorCount = 0;
                 
-                // Validate allele name is not empty.
-                var alleleName = $('#alleleName').val().trim();
-                if (alleleName.length === 0) {
+                // Validate background name is not empty.
+                var backgroundName = $('#backgroundName').val().trim();
+                if (backgroundName.length === 0) {
                     errorCount++;
-                    errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a name.</span>';
-                    $('#alleleName').parent().append(errMsg);
+                    errMsg = '<br class="clientError" /><span id="background_key.errors" class="clientError">Please choose a name.</span>';
+                    $('#backgroundName').parent().append(errMsg);
                 }
-                
-                // Validate gene_key is an int and describes a valid gene.
-                if ((isInteger(newGene_key)) && (newGene_key > 0)) {
-                    var gene = getGene($('#gene_key').val());
-                    if (gene !== null) {
-                        geneName = gene.name;
-                        geneSymbol = gene.symbol;
-                    } else {
-                        errorCount++;
-                        errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a valid gene.</span>';
-                        $('#gene_key').parent().append(errMsg);
-                    }
-                } else {
-                    errorCount++;
-                    errMsg = '<br class="clientError" /><span id="gene_key.errors" class="clientError">Please choose a valid gene.</span>';
-                    $('#gene_key').parent().append(errMsg);
-                }
-                // Set gene details
-                $('#geneName').val(geneName);
-                $('#geneSymbol').val(geneSymbol);
                 
                 if (errorCount > 0) {
                     $('.saveButton').attr("disabled", true);
@@ -164,159 +108,86 @@
             }
             
             function clearInputs() {
-                $('#tabAlleleDetail :input').val('');
+                $('#tabBackgroundDetail :input').val('');
                 clearErrors();
                 $('.error').remove();
                 
                 return false;
             }
-            
-            function handleDragOver(e) {
-                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
-                if (isGene) {
-                    $('#divGene').addClass('over');
-                    e.preventDefault();
-                    e.originalEvent.dataTransfer.dropEffect = 'copy';
-                }
-                
-                return false;
-            }
-            function handleDragLeave(e) {
-                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
-                if (isGene) {
-                    $(this).removeClass('over');
-                }
-                
-                return false;
-            }
-            
-            function handleDrop(e) {
-                var isGene = (e.originalEvent.dataTransfer.types.indexOf('text/gene') >= 0);
-                if (isGene) {
-                    $('#divGene').removeClass('over');
-                    var gene_key = e.originalEvent.dataTransfer.getData('text/gene');
-                    $('#gene_key').val(gene_key);
-                    updateGeneDiv();
-                }
-                
-                return false;
-            }
 
-            function showGeneChooser() {
-                 window.open(urlCurationlRoot + "/geneChooser", "_blank", "width = 768, height=406");
-
-                 return false;
-            }
-
-            function getGene(id) {
-                var gene = null;
-                $.ajax({
-                      url:      urlUtilRoot + "/getGene"
-                    , dataType: "json"
-                    , async:    false
-                    , data:     {'gene_key': id}
-                    , success:  function(data) {
-                        gene = data;
-                    }
-                });
-                
-                return gene;
-            }
         </script>
         
-        <title>Allele Management - add/edit</title>
+        <title>Background Management - add/edit</title>
     </head>
     <body>
-        <h2>Allele Management - add/edit</h2>
+        <h2>Background Management - add/edit</h2>
         <span id="loginHeader">Logged in as user "${loggedInUser}"</span>
 
         <br />
 
         <form>
-            <input type="hidden" name="allele_key"               value="${allele.allele_key}" />
+            <input type="hidden" name="background_key"            value="${background.background_key}" />
             
-            <input type="hidden" name="filterAlleleKey"          value="${filter.allele_key}" />
-            <input type="hidden" name="filterAlleleName"         value="${filter.alleleName}" />
-            <input type="hidden" name="filterAlleleSymbol"       value="${filter.alleleSymbol}" />
-            <input type="hidden" name="filterAlleleMgiReference" value="${filter.alleleMgiReference}" />
-            <input type="hidden" name="filterGeneKey"            value="${filter.gene_key}" />
-            <input type="hidden" name="filterGeneName"           value="${filter.geneName}" />
-            <input type="hidden" name="filterGeneSymbol"         value="${filter.geneSymbol}" />
+            <input type="hidden" name="filterBackgroundKey"       value="${filter.background_key}" />
+            <input type="hidden" name="filterBackgroundName"      value="${filter.backgroundName}" />
+            <input type="hidden" name="filterBackgroundSymbol"    value="${filter.backgroundSymbol}" />
+            <input type="hidden" name="filterBackgroundIsCurated" value="${filter.backgroundIsCurated}" />
+            <input type="hidden" name="filterBackgroundIsInbred"  value="${filter.backgroundIsInbred}" />
+            
             <table style="border: none">
                 <tr>
                     <td>
                         <table style="border: 1px solid black">
                             <tr>
                                 <td>
-                                    <table id="tabAlleleDetail" style="border: none">
+                                    <table id="tabBackgroundDetail" style="border: none">
                                         <tr>
-                                            <%-- ALLELE ID --%>
-                                            <td><label id="labAlleleId">Allele ID:</label></td>
-                                            <td style="border: 0"><form:input name="allele_key" value="${allele.allele_key}" readonly="true" path="allele.allele_key" /></td>
+                                            <%-- BACKGROUND ID --%>
+                                            <td><label id="labBackgroundId">Background ID:</label></td>
+                                            <td style="border: 0"><form:input name="background_key" value="${background.background_key}" readonly="true" path="background.background_key" /></td>
                                             
-                                            <%-- ALLELE NAME --%>
-                                            <td><form:label for="alleleName" path="allele.name" >Allele name:</form:label></td>
+                                            <%-- BACKGROUND NAME --%>
+                                            <td><form:label for="backgroundName" path="background.name" >Background name:</form:label></td>
                                             <td>
-                                                <form:textarea id="alleleName" path="allele.name" value="${allele.name}" placeholder="Required field" />
-                                                <form:errors path="allele.name" cssClass="error" />
+                                                <form:textarea id="backgroundName" path="background.name" value="${background.name}" placeholder="Required field" />
+                                                <form:errors path="background.name" cssClass="error" />
                                             </td>
                                             
-                                            <%-- ALLELE SYMBOL --%>
-                                            <td><form:label for="alleleSymbol" path="allele.symbol">Allele symbol:</form:label></td>
+                                            <%-- BACKGROUND SYMBOL --%>
+                                            <td><form:label for="backgroundSymbol" path="background.symbol">Background symbol:</form:label></td>
                                             <td>
-                                                <form:textarea id="alleleSymbol" path="allele.symbol" value="${allele.symbol}" />
+                                                <form:textarea id="backgroundSymbol" path="background.symbol" value="${background.symbol}" />
                                                 <br />
-                                                <form:errors path="allele.symbol" cssClass="error" />
-                                            </td>
-                                            
-                                            <%-- MGI REFERENCE --%>
-                                            <td>
-                                                <form:label for="mgiReference" path="allele.mgiReference">
-                                                    <a href="javascript:lookupMGI('${fn:escapeXml(allele.mgiReference)}');">
-                                                        MGI reference:
-                                                    </a>
-                                                </form:label>
-                                            </td>
-                                            <td>
-                                                <form:input id="mgiReference" path="allele.mgiReference" value="${allele.mgiReference}" />
-                                                <br />
-                                                <form:errors path="allele.mgiReference" cssClass="error" />
+                                                <form:errors path="background.symbol" cssClass="error" />
                                             </td>
                                         </tr>
-                                        <tr><td colspan="8">&nbsp;</td></tr>
                                         <tr>
+                                            <%-- INBRED --%>
+                                            <td><label>Inbred:</label></td>
                                             <td>
-                                                
-                                            <%-- GENE --%>
-                                                <label>Gene:</label>
-                                                <input alt="Click for gene list." type="image" height="15" width="15" title="Click for gene list."
-                                                       src="${pageContext.request.contextPath}/images/geneChooser.jpg"
-                                                       onclick="showGeneChooser();return false;"
-                                                />
+                                                <form:radiobutton id="inbredYes" path="background.inbred" value="Y" />Yes
+                                                <form:radiobutton id="inbredNo"  path="background.inbred" value="N" />No
                                             </td>
-                                            <td colspan="7">
-                                                <div id="divGene" style="border: 1px solid gray">
-                                                    <table>
-                                                        <tr>
-                                                            <td><label>Gene Id:</label></td>
-                                                            <td>
-                                                                <form:input id="gene_key" path="allele.gene_key" placeholder="Required field"
-                                                                            value="${allele.gene.gene_key}" />
-                                                                <form:errors path="allele.gene.gene_key" cssClass="error" />
-                                                            </td>
-                                                            <td><label>Gene Name:</label></td>
-                                                            <td>
-                                                                <form:textarea id="geneName" path="allele.gene.name" readonly="true"
-                                                                            value="${allele.gene.name}" type="text" />
-                                                            </td>
-                                                            <td><label>Gene Symbol</label></td>
-                                                            <td>
-                                                                <form:textarea id="geneSymbol" path="allele.gene.symbol" readonly="true"
-                                                                            value="${allele.gene.symbol}" type="text" />
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                </div>
+                                            
+                                            <%-- SPECIES --%>
+                                            <td><form:label for="species" path="background.species" >Species:</form:label></td>
+                                            <td>
+                                                <form:textarea id="species" path="background.species" value="${background.species}" />
+                                                <form:errors path="background.species" cssClass="error" />
+                                            </td>
+                        
+                                            <%-- CURATED --%>
+                                            <td><label>Curated:</label></td>
+                                            <td>
+                                                <form:radiobutton id="curatedYes" path="background.curated" value="Y" />Yes
+                                                <form:radiobutton id="curatedNo"  path="background.curated" value="N" />No
+                                            </td>
+                                        <tr>
+                                            <%-- NOTES --%>
+                                            <td><label>Notes:</label></td>
+                                            <td colspan="5">
+                                                <form:textarea id="notes" path="background.notes"
+                                                               value="${background.notes}" type="text" />
                                             </td>
                                         </tr>
                                     </table>
@@ -340,7 +211,7 @@
                                     <div class="buttonAlignment">
                                         <input type="submit" value="Save" class="saveButton"
                                                formmethod="POST"
-                                               formaction="${pageContext.request.contextPath}/curation/alleleManagementDetail/save"
+                                               formaction="${pageContext.request.contextPath}/curation/backgroundManagementDetail/save"
                                                onclick="validate();" />
                                     </div>
                                 </td>
