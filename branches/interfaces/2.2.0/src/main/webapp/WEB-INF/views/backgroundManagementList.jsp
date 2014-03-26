@@ -365,20 +365,9 @@
                                             </td>
                                             
                                             <%-- BOUND MUTATIONS --%>
-                                            <c:set var="boundMutations" value="${background.mutations}" />
-                                            <c:set var="boundMutationsCount" value="${fn:length(boundMutations)}" />
-
-                                            <c:set var="boundMutationKeys" value="" />
-                                            <c:forEach var="mutation" items="${boundMutations}" varStatus="status">
-                                                <c:if test="${status.index == 0}">
-                                                    <c:set var="boundMutationKeys" value="${mutation.mutation_key}" scope="page" />
-                                                </c:if>
-                                                <c:if test="${status.index > 0}">
-                                                    <c:set var="boundMutationKeys" value="${boundMutationKeys}, ${mutation.mutation_key}" />
-                                                </c:if>
-                                            </c:forEach>
+                                            <c:set var="boundMutationKeys" value="${background.mutation_keys}" />
                                             <c:choose>
-                                                <c:when test="${boundMutationsCount > 0}">
+                                                <c:when test="${not empty boundMutationKeys}">
                                                     <td>
                                                         <input alt="Delete Background" type="image" height="15" width="15" disabled="disabled"
                                                                src="${pageContext.request.contextPath}/images/delete.jpg"
@@ -406,19 +395,26 @@
                             <td style="border: 1px solid black">
                                 <form>
                                     <c:choose>
-                                        <c:when test="${boundMutationsCount eq 0}">
+                                        <c:when test="${empty boundMutationKeys}">
                                             <a href="${pageContext.request.contextPath}/curation/mutationManagementList/showFilter?filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
                                                target="mutationManagementList"
                                                title="Edit mutations">
                                                 <i>None</i>
                                             </a>
                                         </c:when>
-                                        <c:otherwise>
+                                        <c:when test="${fn:length(boundMutationKeys) <= 10}">
                                             <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationKey=${boundMutationKeys}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
                                                target="mutationManagementList"
                                                title="Edit mutation(s) ${boundMutationKeys}">
                                                 ${boundMutationKeys}
-                                            </a>   
+                                            </a>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <a href="${pageContext.request.contextPath}/curation/mutationManagementList/go?filterMutationKey=${boundMutationKeys}&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
+                                               target="mutationManagementList"
+                                               title="Edit mutation(s) ${boundMutationKeys}">
+                                                ${fn:substring(boundMutationKeys, 0, 10)} ...
+                                            </a>
                                         </c:otherwise>
                                     </c:choose>
                                 </form>
