@@ -262,9 +262,6 @@
                     $(this).removeClass('over');
                 } else if (e.originalEvent.dataTransfer.types.indexOf('text/mut_strain') >= 0) {    // (from within divStrain)
                     var strain_key = $('#divStrain').data('strain_key');
-                    var mutation_key = $('#mutation_key').val();
-                    
-                    // Remove row from mutations_strains.
                     
                     // Find the row to remove, then remove it from the view.
                     var data = tabStrain.fnGetData();
