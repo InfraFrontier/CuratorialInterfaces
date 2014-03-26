@@ -17,6 +17,7 @@
 package uk.ac.ebi.emma.entity;
 
 import java.util.Date;
+import java.util.Set;
 
 /**
  *
@@ -31,6 +32,9 @@ public class Background {
     private String notes;
     private String species;
     private String symbol;
+    
+    // COLLECTIONS
+    private Set<Mutation> mutations;
     
     private Date   last_change;                                                 // date last changed
     private String username;                                                    // changed by username
@@ -89,6 +93,14 @@ public class Background {
 
     public void setSymbol(String symbol) {
         this.symbol = symbol;
+    }
+
+    public Set<Mutation> getMutations() {
+        return mutations;
+    }
+
+    public void setMutations(Set<Mutation> mutations) {
+        this.mutations = mutations;
     }
 
     public Date getLast_change() {
