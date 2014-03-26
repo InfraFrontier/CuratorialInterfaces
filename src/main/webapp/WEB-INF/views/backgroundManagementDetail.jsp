@@ -110,6 +110,7 @@
             function clearInputs() {
                 $('#tabBackgroundDetail :input').val('');
                 clearErrors();
+                $(':radio').prop('checked', false);
                 $('.error').remove();
                 
                 return false;
