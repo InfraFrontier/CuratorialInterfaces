@@ -355,6 +355,7 @@
                 return false;
             }
             function handleDropAllele(e) {
+                clearErrors();
                 var isAllele = (e.originalEvent.dataTransfer.types.indexOf('text/allele') >= 0);
                 if (isAllele) {
                     $('#divAllele').removeClass('over');
@@ -389,6 +390,7 @@
                 return false;
             }
             function handleDropBackground(e) {
+                clearErrors();
                 var isBackground = (e.originalEvent.dataTransfer.types.indexOf('text/background') >= 0);
                 if (isBackground) {
                     $('#divBackground').removeClass('over');
