@@ -17,11 +17,13 @@
 package uk.ac.ebi.emma.manager;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Component;
+import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Background;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
@@ -331,6 +333,26 @@ public class BackgroundsManager extends AbstractManager {
         }
             
         return targetList;
+    }
+
+    /**
+     * Saves the given <code>Background</code> instance
+     * @param background the <code>Background</code> instance to be saved
+     * @throws PersistFailedException if save fails
+     */
+    public void save(Background background) throws PersistFailedException {
+        // Set the timestamp and username for every dirty BackgroundSynonym.
+        Date now = new Date();
+        background.setLast_change(now);
+        background.setUsername(username);
+        try {
+            getCurrentSession().beginTransaction();
+            getCurrentSession().saveOrUpdate(background);
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw new PersistFailedException("Failed to save background. Reason: " + e.getLocalizedMessage());
+        }
     }
     
 }
