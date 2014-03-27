@@ -250,6 +250,7 @@
             <input type="hidden" id="filterBackgroundIsInbredNew"     name="filterBackgroundIsInbred"     class="filterComponent" value="${filter.backgroundIsInbred}" />
             <a href="${pageContext.request.contextPath}/curation/backgroundManagementDetail/edit?background_key=&amp;filterBackgroundKey=&amp;filterBackgroundName=&amp;filterBackgroundSymbol=&amp;filterBackgroundIsCurated=&amp;filterBackgroundIsInbred="
                style="margin-left: 490px"
+               tabindex="12"
                target="backgroundManagementDetail"
                title="Add new background">
                 New
@@ -271,41 +272,42 @@
                     <tr>
                         <td colspan="4" style="text-align: right">
                             <%-- CLEAR FILTER --%>
-                            <input type="button" value="Clear Filter" onclick="clearFilter();"/>
+                            <input type="button" value="Clear Filter" onclick="clearFilter();" tabindex="10" />
                             &nbsp;&nbsp;&nbsp;
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
                                    formaction="${pageContext.request.contextPath}/curation/backgroundManagementList/go"
-                                   formtarget="backgroundManagementList" />
+                                   formtarget="backgroundManagementList"
+                                   tabindex="11" />
                         </td>
                     </tr>
                 </tfoot>
                 <tbody>
                     <tr>
                         <td><form:label path="background_key">Background ID:</form:label></td>
-                        <td><form:input id="filterBackgroundKey"             class="filterComponent" path="background_key" /></td>
+                        <td><form:input id="filterBackgroundKey"             class="filterComponent" path="background_key" tabindex="1" /></td>
                         
                         <td><form:label path="backgroundIsCurated">Curated:</form:label></td>
                         <td>
-                            <form:radiobutton id="filterCuratedYes"          class="filterComponent" path="backgroundIsCurated" value="Y" />Yes
-                            <form:radiobutton id="filterCuratedNo"           class="filterComponent" path="backgroundIsCurated" value="N" />No
-                            <form:radiobutton id="filterCuratedNotSpecified" class="filterComponent" path="backgroundIsCurated" value="NS"  />Not specified
+                            <form:radiobutton id="filterCuratedYes"          class="filterComponent" path="backgroundIsCurated" value="Y"  tabindex="4" />Yes
+                            <form:radiobutton id="filterCuratedNo"           class="filterComponent" path="backgroundIsCurated" value="N"  tabindex="5" />No
+                            <form:radiobutton id="filterCuratedNotSpecified" class="filterComponent" path="backgroundIsCurated" value="NS" tabindex="6"  />Not specified
                         </td>
                     </tr>
                     <tr>
                         <td><form:label path="backgroundName">Background name:</form:label></td>
-                        <td><form:input id="filterBackgroundName" class="filterComponent" path="backgroundName" /></td>
+                        <td><form:input id="filterBackgroundName" class="filterComponent" path="backgroundName" tabindex="2" /></td>
                         
                         <td><form:label path="backgroundIsInbred">Inbred:</form:label></td>
                         <td>
-                            <form:radiobutton id="filterInbredYes"          class="filterComponent" path="backgroundIsInbred" value="Y" />Yes
-                            <form:radiobutton id="filterInbredNo"           class="filterComponent" path="backgroundIsInbred" value="N" />No
-                            <form:radiobutton id="filterInbredNotSpecified" class="filterComponent" path="backgroundIsInbred" value="NS"  />Not specified
+                            <form:radiobutton id="filterInbredYes"          class="filterComponent" path="backgroundIsInbred" value="Y"  tabindex="7" />Yes
+                            <form:radiobutton id="filterInbredNo"           class="filterComponent" path="backgroundIsInbred" value="N"  tabindex="8"/>No
+                            <form:radiobutton id="filterInbredNotSpecified" class="filterComponent" path="backgroundIsInbred" value="NS" tabindex="9"  />Not specified
                         </td>
                     </tr>
                     <tr>
                         <td><form:label path="backgroundSymbol">Background symbol:</form:label></td>
-                        <td colspan="3"><form:input id="filterBackgroundSymbol" class="filterComponent" path="backgroundSymbol" /></td>
+                        <td colspan="3"><form:input id="filterBackgroundSymbol" class="filterComponent" path="backgroundSymbol" tabindex="3" /></td>
                     </tr>
                 </tbody>
             </table>

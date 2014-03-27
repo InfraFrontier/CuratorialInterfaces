@@ -305,6 +305,7 @@
             <a href="${pageContext.request.contextPath}/curation/alleleManagementDetail/edit?allele_key=&amp;filterAlleleKey=&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol="
                style="margin-left: 420px"
                target="alleleManagementDetail"
+               tabindex="10"
                title="Add new allele">
                 New
             </a>
@@ -327,10 +328,11 @@
                     <tr>
                         <td colspan="4" style="text-align: right">
                             <%-- CLEAR FILTER --%>
-                            <input type="button" value="Clear Filter" onclick="clearFilter();"/>
+                            <input type="button" value="Clear Filter" onclick="clearFilter();" tabindex="8" />
                             &nbsp;&nbsp;&nbsp;
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
+                                   tabindex="9"
                                    formaction="${pageContext.request.contextPath}/curation/alleleManagementList/go"
                                    formtarget="alleleManagementList" />
                         </td>
@@ -339,28 +341,28 @@
                 <tbody>
                     <tr>
                         <td><form:label path="allele_key">Allele ID:</form:label></td>
-                        <td><form:input id="filterAlleleKey" class="filterComponent" path="allele_key" /></td>
+                        <td><form:input id="filterAlleleKey" class="filterComponent" path="allele_key" tabindex="1" /></td>
                         
                         <td><form:label path="gene_key">Gene ID:</form:label></td>
-                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" /></td>
+                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" tabindex="5" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleName">Allele name:</form:label></td>
-                        <td><form:input id="filterAlleleName" class="filterComponent" path="alleleName" /></td>
+                        <td><form:input id="filterAlleleName" class="filterComponent" path="alleleName" tabindex="2" /></td>
                         
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" /></td>
+                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" tabindex="6" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleSymbol">Allele symbol:</form:label></td>
-                        <td><form:input id="filterAlleleSymbol" class="filterComponent" path="alleleSymbol" /></td>
+                        <td><form:input id="filterAlleleSymbol" class="filterComponent" path="alleleSymbol" tabindex="3" /></td>
                         
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" /></td>
+                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="7" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="alleleMgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="filterAlleleMgiReference" class="filterComponent" path="alleleMgiReference" /></td>
+                        <td><form:input id="filterAlleleMgiReference" class="filterComponent" path="alleleMgiReference" tabindex="4" /></td>
                         <td colspan="2"></td>
                     </tr>
                 </tbody>

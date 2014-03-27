@@ -272,7 +272,8 @@
             <a href="${pageContext.request.contextPath}/curation/geneManagementDetail/edit?gene_key=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
                style="margin-left: 420px"
                target="geneManagementDetail"
-                title="Add new gene">
+               tabindex="8"
+               title="Add new gene">
                  New
             </a>
         </form:form>
@@ -291,10 +292,11 @@
                     <tr>
                         <td colspan="4" style="text-align: right">
                             <%-- CLEAR FILTER --%>
-                            <input type="button" value="Clear Filter" onclick="clearFilter();"/>
+                            <input type="button" value="Clear Filter" onclick="clearFilter();" tabindex="6" />
                             &nbsp;&nbsp;&nbsp;
                             <%-- GO --%>
                             <input type="submit" id="go" value="Go"
+                                   tabindex="7"
                                    formaction="${pageContext.request.contextPath}/curation/geneManagementList/go"
                                    formtarget="geneManagementList" />
                         </td>
@@ -304,20 +306,20 @@
                     <%-- FILTER --%>
                     <tr>
                         <td><form:label path="gene_key">Gene ID:</form:label></td>
-                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" onkeyup="updateFilter(this);" /></td>
+                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" onkeyup="updateFilter(this);" tabindex="1" /></td>
                         
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
-                        <td><form:input id="filterChromosome" class="filterComponent" path="chromosome" /></td>
+                        <td><form:input id="filterChromosome" class="filterComponent" path="chromosome" tabindex="4" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" /></td>
+                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" tabindex="2" /></td>
                         <td><form:label path="geneMgiReference">MGI reference:</form:label></td>
-                        <td><form:input id="filterGeneMgiReference" class="filterComponent" path="geneMgiReference" /></td>
+                        <td><form:input id="filterGeneMgiReference" class="filterComponent" path="geneMgiReference" tabindex="5" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" /></td>
+                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="3" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
