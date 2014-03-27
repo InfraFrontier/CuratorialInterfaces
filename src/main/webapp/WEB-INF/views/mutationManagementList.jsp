@@ -426,9 +426,7 @@
                                                 <c:forEach var="strainKey" items="${fn:split(boundStrainKeys, ',')}" varStatus="status">
                                                     <tr>
                                                         <td>
-                                               
-<!-- FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME !!!!!!!!!!! DEV URL IS HARD CODED!!!!!!!  FIXME FIXME FIXME -->
-                                                            <a href="https://dev.infrafrontier.eu/emma/interfaces/strainsUpdateInterface.emma?EditStrain=${strainKey}"
+                                                            <a href="${emmaContextPath}/strainsUpdateInterface.emma?EditStrain=${strainKey}"
                                                                target="strainEdit"
                                                                title="Edit strain ${strainKey}">
                                                                 ${strainKey}

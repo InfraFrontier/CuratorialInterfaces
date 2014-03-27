@@ -17,6 +17,7 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.List;
+import org.apache.log4j.Logger;
 import org.json.simple.JSONObject;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.entity.Mutation;
 import uk.ac.ebi.emma.manager.MutationsManager;
 import uk.ac.ebi.emma.util.Filter;
+import uk.ac.ebi.emma.util.Utils;
 
 /**
  *
@@ -38,8 +40,9 @@ import uk.ac.ebi.emma.util.Filter;
 @Controller
 @RequestMapping("/mutationManagementList")
 public class MutationManagementListController {
+    protected final Logger logger = Logger.getLogger(this.getClass());
     private final MutationsManager mutationsManager = new MutationsManager();
-    
+
     /**
      * 'Go' button implementation
      * 
@@ -82,7 +85,8 @@ public class MutationManagementListController {
         model.addAttribute("filteredMutationsList", filteredMutationsList);
         model.addAttribute("showResultsForm", true);
         model.addAttribute("resultsCount", filteredMutationsList.size());
-    
+        model.addAttribute("emmaContextPath", Utils.getEmmaContextPath());
+        
         return "mutationManagementList";
     }
     
@@ -193,4 +197,9 @@ public class MutationManagementListController {
     public List<String> getMutationSubtypes() {
         return mutationsManager.getMutationSubtypes();
     }
+    
+    
+    // PRIVATE METHODS
+    
+
 }
