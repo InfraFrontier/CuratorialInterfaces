@@ -238,6 +238,34 @@ public class Utils {
         
         return retVal;
     }
+    
+    /**
+     * Return the context path of the legacy emma application using the default
+     * application properites file <code>/app-config.properties</code>.
+     * 
+     * @return the context path of the legacy emma application as configured in
+     * <code>/app-config.properties</code>.
+     */
+    public static String getEmmaContextPath() {
+        return getEmmaContextPath("/app-config.properties");
+    }
+    
+    /**
+     * Return the context path of the legacy emma application.
+     * @param filename the properties filename
+     * @return the context path of the legacy emma application.
+     */
+    public static String getEmmaContextPath(String filename) {
+        String emmaContextPath = "";
+        Resource resource = new ClassPathResource(filename);
+        try {
+            Properties emmaContextProperties = PropertiesLoaderUtils.loadProperties(resource);
+            emmaContextPath = emmaContextProperties.getProperty("emmaContextPath");
+        } catch (IOException e) {
+            logger.error("Unable to load application configuration properties file '" + filename + "'");
+        }
+        return emmaContextPath;
+    }
 
     /**
      * Given a <code>ResultSet</code> and a column name containing a [possibly
