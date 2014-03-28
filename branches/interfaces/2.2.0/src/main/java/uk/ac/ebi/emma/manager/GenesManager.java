@@ -291,6 +291,136 @@ public class GenesManager extends AbstractManager {
             
         return targetList;
     }
+    
+    /**
+     * Returns a distinct list of centimorgans suitable for autocomplete sourcing.
+     * @return a list of centimorgans suitable for autocomplete sourcing.
+     */
+    public List<String> getCentimorgans() throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT centimorgan FROM genes ORDER BY centimorgan")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of cytobands suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the cytobands name (used in sql LIKE clause)
+     * @return a list of cytobands suitable for autocomplete sourcing.
+     */
+    public List<String> getCytobands(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT cytoband FROM genes WHERE cytoband LIKE :cytoband ORDER BY cytoband")
+                    .setParameter("cytoband", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of plasmid constructs suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the plasmid constructs name (used in sql LIKE clause)
+     * @return a list of plasmid constructs suitable for autocomplete sourcing.
+     */
+    public List<String> getPlasmidConstructs(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT plasmid_construct FROM genes WHERE plasmid_construct LIKE :plasmidConstruct ORDER BY plasmid_construct")
+                    .setParameter("plasmidConstruct", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of promoters suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the promoters name (used in sql LIKE clause)
+     * @return a list of promoters suitable for autocomplete sourcing.
+     */
+    public List<String> getPromoters(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT promoter FROM genes WHERE promoter LIKE :promoter ORDER BY promoter")
+                    .setParameter("promoter", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of founder line numbers suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the founder line numbers name (used in sql LIKE clause)
+     * @return a list of founder line numbers suitable for autocomplete sourcing.
+     */
+    public List<String> getFounderLineNumbers(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT founder_line_number FROM genes WHERE founder_line_number LIKE :founderlinenumber ORDER BY founder_line_number")
+                    .setParameter("founderlinenumber", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of speciess suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the speciess name (used in sql LIKE clause)
+     * @return a list of speciess suitable for autocomplete sourcing.
+     */
+    public List<String> getSpecies(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT species FROM genes WHERE species LIKE :species ORDER BY species")
+                    .setParameter("species", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
 
     /**
      * Returns a distinct filtered list of gene mgi references suitable for autocomplete

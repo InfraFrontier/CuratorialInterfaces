@@ -313,6 +313,28 @@ public class BackgroundsManager extends AbstractManager {
             
         return targetList;
     }
+    
+    /**
+     * Returns a distinct list of speciess suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the speciess name (used in sql LIKE clause)
+     * @return a list of speciess suitable for autocomplete sourcing.
+     */
+    public List<String> getSpecies(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT species FROM backgrounds WHERE species LIKE :species ORDER BY species")
+                    .setParameter("species", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
 
     /**
      * Returns a distinct filtered list of background symbols suitable for autocomplete

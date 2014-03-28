@@ -50,11 +50,13 @@
         </style>
         
         <script>
+            var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
             
             $(document).ready(function() {
                 setMaxlengths();
                 clearErrors();
+                populateFilterAutocompletes();
  
                 $('#backgroundName').on('keyup', function(e) {
                     validate();
@@ -115,7 +117,24 @@
                 
                 return false;
             }
-
+            
+            function populateFilterAutocompletes() {
+                $("#species").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/backgroundManagementDetail/getSpecies"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+            }
         </script>
         
         <title>Background Management - add/edit</title>

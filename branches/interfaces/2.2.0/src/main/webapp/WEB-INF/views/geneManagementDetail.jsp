@@ -45,9 +45,10 @@
         
         <script>
             var urlUtilRoot = "${pageContext.request.contextPath}/curation/util";
-            var urlRoot = "${pageContext.request.contextPath}/curation/geneManagementDetail";
+            var urlCurationlRoot = "${pageContext.request.contextPath}/curation";
             
             $(document).ready(function() {
+                populateFilterAutocompletes();
                 setSynonymHeadings();
                 setMaxlengths();
                 clearErrors();
@@ -176,6 +177,117 @@
                 return false;
             }
             
+            function populateFilterAutocompletes() {
+                $("#chromosome").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getChromosomes"
+                            , dataType: "json"
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#centimorgan").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getCentimorgans"
+                            , dataType: "json"
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#cytoband").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getCytobands"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#plasmidConstruct").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getPlasmidConstructs"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#promoter").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getPromoters"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#founderLineNumber").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getFounderLineNumbers"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#species").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getSpecies"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+            }
         </script>
         
         <title>Gene Management - add/edit</title>
