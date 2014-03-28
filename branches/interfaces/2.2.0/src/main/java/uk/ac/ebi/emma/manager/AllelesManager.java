@@ -237,10 +237,11 @@ public class AllelesManager extends AbstractManager {
      * <li>allele ID</li>
      * <li>allele name</li>
      * <li>allele symbol</li>
-     * <li>Allele MGI reference</li></ul>
+     * <li>allele MGI reference</li>
      * <li>gene ID</li>
      * <li>gene name</li>
-     * <li>gene symbol</li>,
+     * <li>gene symbol</li>
+     * <li>gene MGI reference</li></ul>
      * this method performs a query, ANDing all non-empty fields in a WHERE
      * clause against the alleles table (joined to the genes table for gene name
      * and gene symbol). The result is a <code>List&lt;Allele&gt;</code> of
@@ -254,10 +255,11 @@ public class AllelesManager extends AbstractManager {
         String alleleIdWhere = "";
         String alleleNameWhere = "";
         String alleleSymbolWhere = "";
+        String alleleMgiReferenceWhere = "";
         String geneIdWhere = "";
         String geneNameWhere = "";
         String geneSymbolWhere = "";
-        String alleleMgiReferenceWhere = "";
+        String geneMgiReferenceWhere = "";
         List<Allele> targetList = new ArrayList();
         
         String queryString = "SELECT * FROM alleles a\nJOIN genes g ON g.id_gene = a.gen_id_gene\nWHERE (1 = 1)\n";
@@ -280,6 +282,10 @@ public class AllelesManager extends AbstractManager {
         if ((filter.getAlleleMgiReference()!= null) && ( ! filter.getAlleleMgiReference().isEmpty())) {
             alleleMgiReferenceWhere = "  AND (a.mgi_ref LIKE :alleleMgiReference)\n";
             queryString += alleleMgiReferenceWhere;
+        }
+        if ((filter.getGeneMgiReference()!= null) && ( ! filter.getGeneMgiReference().isEmpty())) {
+            geneMgiReferenceWhere = "  AND (g.mgi_ref LIKE :geneMgiReference)\n";
+            queryString += geneMgiReferenceWhere;
         }
         if ((filter.getGene_key() != null) && ( ! filter.getGene_key().isEmpty())) {
             String geneIds = Utils.cleanIntArray(filter.getGene_key());
@@ -307,6 +313,8 @@ public class AllelesManager extends AbstractManager {
                 query.setParameter("alleleSymbol", "%" + filter.getAlleleSymbol() + "%");
             if ( ! alleleMgiReferenceWhere.isEmpty())
                 query.setParameter("alleleMgiReference", "%" + filter.getAlleleMgiReference()+ "%");
+            if ( ! geneMgiReferenceWhere.isEmpty())
+                query.setParameter("geneMgiReference", "%" + filter.getGeneMgiReference()+ "%");
             if ( ! geneNameWhere.isEmpty())
                 query.setParameter("geneName", "%" + filter.getGeneName() + "%");
             if ( ! geneSymbolWhere.isEmpty())

@@ -447,7 +447,7 @@
                                 </a>
                             </td>
                             <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.allele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterGeneKey="
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.allele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterGeneKey="
                                    target="alleleManagementList"
                                    title="Edit allele ${mutation.allele_key}">
                                     ${mutation.allele_key}

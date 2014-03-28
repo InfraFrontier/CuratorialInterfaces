@@ -237,8 +237,11 @@ public class MutationsManager extends AbstractManager {
      * <li>mutation type</li>
      * <li>mutation subtype</li>
      * <li>strain ID (may be a comma-separated list)</li>
-     * <li>background ID (may be a comma-separated list)</li>
      * <li>allele ID (may be a comma-separated list)</li>
+     * <li>background ID (may be a comma-separated list)</li>
+     * <li>gene ID (may be a comma-separated list)</li>
+     * <li>gene symbol</li>
+     * 
      * this method performs a query, ANDing all non-empty fields in a WHERE
      * clause against the mutations table (joined to the strains, alleles, and
      * backgrounds tables for strain, allele, and background Ids).
