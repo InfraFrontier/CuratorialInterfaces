@@ -40,6 +40,7 @@
     <mapping resource="uk/ac/ebi/emma/model/CvProject.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/CvRtool.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/CvSource.hbm.xml"/>
+    <mapping resource="uk/ac/ebi/emma/model/EsCellLine.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Gene.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/GeneSynonym.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Ilar.hbm.xml"/>
