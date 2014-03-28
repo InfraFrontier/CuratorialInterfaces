@@ -258,7 +258,6 @@ public class MutationManagementDetailController {
     }
 
     
-    
     // GETTERS
 
     
@@ -267,13 +266,88 @@ public class MutationManagementDetailController {
      * autocomplete sourcing.
      * 
      * @param filterTerm the filter term for the es cell type name (used in sql LIKE clause)
-     * @return a <code>List&lt;String&gt;</code> of distinct targetd mutation
+     * @return a <code>List&lt;EsCellLine&gt;</code> of distinct targetd mutation
      * ES types filtered by <code>filterTerm</code> suitable for autocomplete sourcing.
-     * */
+     */
     @RequestMapping(value = "/getEsCellTypes"
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<EsCellLine> getEsCellTypes(@RequestParam String filterTerm) {
         return mutationsManager.getEsCellTypes(filterTerm);
+    }
+    
+    /**
+     * Returns a distinct filtered list of types suitable for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of types suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getTypes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getTypes() {
+        return mutationsManager.getTypes();
+    }
+    
+    /**
+     * Returns a distinct filtered list of subtypes suitable for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of subtypes suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getSubtypes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getSubtypes() {
+        return mutationsManager.getSubtypes();
+    }
+    
+    /**
+     * Returns a distinct filtered list of genotypes suitable for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the genotype name (used in sql LIKE clause)
+     * @return a <code>List&lt;String&gt;</code> of genotypes suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getGenotypes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getGenotypes(@RequestParam String filterTerm) {
+        return mutationsManager.getGenotypes(filterTerm);
+    }
+    
+    /**
+     * Returns a distinct filtered list of dominance names suitable for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the dominance names (used in sql LIKE clause)
+     * @return a <code>List&lt;String&gt;</code> of dominance names suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getDominance"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getDominance(@RequestParam String filterTerm) {
+        return mutationsManager.getDominance(filterTerm);
+    }
+    
+    /**
+     * Returns a distinct filtered list of sex suitable for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of sex suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getSex"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getSex() {
+        return mutationsManager.getSex();
+    }
+    
+    /**
+     * Returns a distinct filtered list of causes suitable for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the causes (used in sql LIKE clause)
+     * @return a <code>List&lt;String&gt;</code> of causes suitable for autocomplete sourcing.
+     */
+    @RequestMapping(value = "/getCauses"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getCauses(@RequestParam String filterTerm) {
+        return mutationsManager.getCauses(filterTerm);
     }
 }

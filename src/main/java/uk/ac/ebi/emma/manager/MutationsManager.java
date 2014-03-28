@@ -89,7 +89,7 @@ public class MutationsManager extends AbstractManager {
     }
     
     /**
-     * Returns a list of es cell types suitable for autocomplete sourcing. The
+     * Returns a distinct list of es cell types suitable for autocomplete sourcing. The
      * values are taken from the es_cell_lines table
      * @param filterTerm the filter term for the es cell type name (used in sql LIKE clause)
      * @return a list of es cell types suitable for autocomplete sourcing. The
@@ -100,8 +100,74 @@ public class MutationsManager extends AbstractManager {
         try {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
-                    .createQuery("FROM EsCellLine WHERE name LIKE :name")
+                    .createQuery("FROM EsCellLine WHERE name LIKE :name ORDER BY name")
                     .setParameter("name", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of genotypes suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the genotype name (used in sql LIKE clause)
+     * @return a list of genotypes suitable for autocomplete sourcing.
+     */
+    public List<String> getGenotypes(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT genotype FROM mutations WHERE genotype LIKE :genotype ORDER BY genotype")
+                    .setParameter("genotype", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of causes suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the causes (used in sql LIKE clause)
+     * @return a list of causes suitable for autocomplete sourcing.
+     */
+    public List<String> getCauses(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT mu_cause FROM mutations WHERE mu_cause LIKE :mu_cause ORDER BY mu_cause")
+                    .setParameter("mu_cause", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
+    }
+    
+    /**
+     * Returns a distinct list of dominance names suitable for autocomplete sourcing.
+     * @param filterTerm the filter term for the dominance name (used in sql LIKE clause)
+     * @return a list of dominance names suitable for autocomplete sourcing.
+     */
+    public List<String> getDominance(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT dominance FROM mutations WHERE dominance LIKE :dominance ORDER BY dominance")
+                    .setParameter("dominance", "%" + filterTerm + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -161,70 +227,6 @@ public class MutationsManager extends AbstractManager {
         }
         
         return mutations;
-    }
-    
-    /**
-     * Returns a <code>List&lt;String&gt;</code> of distinct mutation subtypes suitable
-     * for autocomplete sourcing.
-     * 
-     * @return a <code>List&lt;String&gt;</code> of distinct mutation subtypes suitable
-     *         for autocomplete sourcing.
-     */
-    public List<String> getMutationSubtypes() {
-        List<String> targetList = new ArrayList();
-        List sourceList = null;
-        try {
-            getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession()
-                    .createSQLQuery("SELECT DISTINCT sub_type FROM mutations ORDER BY sub_type")
-                    .list();
-            getCurrentSession().getTransaction().commit();
-        } catch (HibernateException e) {
-            getCurrentSession().getTransaction().rollback();
-            throw e;
-        }
-
-        if (sourceList != null) {
-            Iterator iterator = sourceList.iterator();
-            while (iterator.hasNext()) {
-                String value = (String)iterator.next();
-                targetList.add(value);
-            }
-        }
-            
-        return targetList;
-    }
-    
-    /**
-     * Returns a <code>List&lt;String&gt;</code> of distinct mutation types suitable
-     * for autocomplete sourcing.
-     * 
-     * @return a <code>List&lt;String&gt;</code> of distinct mutation types suitable
-     *         for autocomplete sourcing.
-     */
-    public List<String> getMutationTypes() {
-        List<String> targetList = new ArrayList();
-        List sourceList = null;
-        try {
-            getCurrentSession().beginTransaction();
-            sourceList = getCurrentSession()
-                    .createSQLQuery("SELECT DISTINCT main_type FROM mutations ORDER BY main_type")
-                    .list();
-            getCurrentSession().getTransaction().commit();
-        } catch (HibernateException e) {
-            getCurrentSession().getTransaction().rollback();
-            throw e;
-        }
-
-        if (sourceList != null) {
-            Iterator iterator = sourceList.iterator();
-            while (iterator.hasNext()) {
-                String value = (String)iterator.next();
-                targetList.add(value);
-            }
-        }
-            
-        return targetList;
     }
     
     /**
@@ -345,6 +347,102 @@ public class MutationsManager extends AbstractManager {
             throw e;
         }
         
+        return targetList;
+    }
+    
+    /**
+     * Returns a <code>List&lt;String&gt;</code> of distinct sex suitable
+     * for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of distinct sex suitable
+     *         for autocomplete sourcing.
+     */
+    public List<String> getSex() {
+        List<String> targetList = new ArrayList();
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT sex FROM mutations ORDER BY sex")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        if (sourceList != null) {
+            Iterator iterator = sourceList.iterator();
+            while (iterator.hasNext()) {
+                String value = (String)iterator.next();
+                targetList.add(value);
+            }
+        }
+            
+        return targetList;
+    }
+    
+    /**
+     * Returns a <code>List&lt;String&gt;</code> of distinct mutation subtypes suitable
+     * for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of distinct mutation subtypes suitable
+     *         for autocomplete sourcing.
+     */
+    public List<String> getSubtypes() {
+        List<String> targetList = new ArrayList();
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT sub_type FROM mutations ORDER BY sub_type")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        if (sourceList != null) {
+            Iterator iterator = sourceList.iterator();
+            while (iterator.hasNext()) {
+                String value = (String)iterator.next();
+                targetList.add(value);
+            }
+        }
+            
+        return targetList;
+    }
+    
+    /**
+     * Returns a <code>List&lt;String&gt;</code> of distinct mutation types suitable
+     * for autocomplete sourcing.
+     * 
+     * @return a <code>List&lt;String&gt;</code> of distinct mutation types suitable
+     *         for autocomplete sourcing.
+     */
+    public List<String> getTypes() {
+        List<String> targetList = new ArrayList();
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT main_type FROM mutations ORDER BY main_type")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        if (sourceList != null) {
+            Iterator iterator = sourceList.iterator();
+            while (iterator.hasNext()) {
+                String value = (String)iterator.next();
+                targetList.add(value);
+            }
+        }
+            
         return targetList;
     }
     

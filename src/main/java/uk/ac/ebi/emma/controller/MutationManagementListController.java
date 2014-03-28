@@ -181,7 +181,7 @@ public class MutationManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getMutationTypes() {
-        return mutationsManager.getMutationTypes();
+        return mutationsManager.getTypes();
     }    
     
     /**
@@ -195,7 +195,7 @@ public class MutationManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getMutationSubtypes() {
-        return mutationsManager.getMutationSubtypes();
+        return mutationsManager.getSubtypes();
     }
     
     
