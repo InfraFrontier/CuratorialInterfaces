@@ -67,6 +67,7 @@
                     
             $(document).ready(function() {
                 setMaxlengths();
+                populateFilterAutocompletes();
                 clearErrors();
  
                 $('#divStrain')
@@ -110,6 +111,23 @@
                 $('#tabStrain > tbody > tr')
                     .on('dragstart', handleDragStartStrain);
             });
+            
+            function populateFilterAutocompletes() {
+                $("#targetedMutationEsLine").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: urlCurationlRoot + "/mutationManagementDetail/getEsCellTypes"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item.name};
+                                }));
+                            }
+                        });
+                    }
+                });
+            }
             
             function updateStrainDiv(key) {
                 var strainName = '';
@@ -516,7 +534,7 @@
                                             
                                             <%-- TARGETED MUTATION ES LINE --%>
                                             <td><label id="labTargetedMutationEsLine">Targeted Mutation ES Line:</label></td>
-                                            <td style="border: 0"><form:textarea name="targetedMutationEsLine" value="${mutation.targetedMutationEsLine}" path="mutation.targetedMutationEsLine" /></td>
+                                            <td style="border: 0"><form:textarea id="targetedMutationEsLine" name="targetedMutationEsLine" value="${mutation.targetedMutationEsLine}" path="mutation.targetedMutationEsLine" /></td>
                                         </tr>
                                         <tr>
                                             <%-- GENOTYPE --%>

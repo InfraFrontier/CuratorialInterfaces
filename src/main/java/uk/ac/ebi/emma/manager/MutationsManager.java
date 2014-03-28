@@ -27,6 +27,7 @@ import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
 import org.springframework.stereotype.Component;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
+import uk.ac.ebi.emma.entity.EsCellLine;
 import uk.ac.ebi.emma.entity.Mutation;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
@@ -85,6 +86,30 @@ public class MutationsManager extends AbstractManager {
         }
         
         return count;
+    }
+    
+    /**
+     * Returns a list of es cell types suitable for autocomplete sourcing. The
+     * values are taken from the es_cell_lines table
+     * @param filterTerm the filter term for the es cell type name (used in sql LIKE clause)
+     * @return a list of es cell types suitable for autocomplete sourcing. The
+     * values are taken from the es_cell_lines table
+     */
+    public List<EsCellLine> getEsCellTypes(String filterTerm) throws HibernateException {
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createQuery("FROM EsCellLine WHERE name LIKE :name")
+                    .setParameter("name", "%" + filterTerm + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        return sourceList;
     }
     
     /**

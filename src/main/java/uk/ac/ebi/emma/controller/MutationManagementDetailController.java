@@ -21,6 +21,7 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import javax.validation.Valid;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,9 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
+import uk.ac.ebi.emma.entity.EsCellLine;
 import uk.ac.ebi.emma.entity.Mutation;
 import uk.ac.ebi.emma.entity.Strain;
 import uk.ac.ebi.emma.manager.MutationsManager;
@@ -253,10 +256,24 @@ public class MutationManagementDetailController {
         
         return filter;
     }
-    
-    
-    // GETTERS AND SETTERS
-    
 
+    
+    
+    // GETTERS
 
+    
+    /**
+     * Returns a distinct filtered list of targetd mutation ES types suitable for
+     * autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the es cell type name (used in sql LIKE clause)
+     * @return a <code>List&lt;String&gt;</code> of distinct targetd mutation
+     * ES types filtered by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getEsCellTypes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<EsCellLine> getEsCellTypes(@RequestParam String filterTerm) {
+        return mutationsManager.getEsCellTypes(filterTerm);
+    }
 }
