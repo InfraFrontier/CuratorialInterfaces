@@ -172,7 +172,7 @@ public class GeneManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getGeneNames(@RequestParam String filterTerm) {
-        return genesManager.getNames(filterTerm);
+        return genesManager.getNames(filterTerm.trim());
     }    
     
     /**
@@ -187,7 +187,7 @@ public class GeneManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getGeneSymbols(@RequestParam String filterTerm) {
-        return genesManager.getSymbols(filterTerm);
+        return genesManager.getSymbols(filterTerm.trim());
     }
 
     /**
@@ -203,7 +203,7 @@ public class GeneManagementListController {
     )
     @ResponseBody
     public List<String> getMgiReferences(@RequestParam String filterTerm) {
-        return genesManager.getMGIReferences(filterTerm);
+        return genesManager.getMGIReferences(filterTerm.trim());
     }
 
     

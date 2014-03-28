@@ -170,7 +170,7 @@ public class AlleleManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getAlleleNames(@RequestParam String filterTerm) {
-        return allelesManager.getNames(filterTerm);
+        return allelesManager.getNames(filterTerm.trim());
     }    
     
     /**
@@ -185,7 +185,7 @@ public class AlleleManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getAlleleSymbols(@RequestParam String filterTerm) {
-        return allelesManager.getSymbols(filterTerm);
+        return allelesManager.getSymbols(filterTerm.trim());
     }
     
     /**
@@ -201,7 +201,7 @@ public class AlleleManagementListController {
     )
     @ResponseBody
     public List<String> getMgiReferences(@RequestParam String filterTerm) {
-        return allelesManager.getMGIReferences(filterTerm);
+        return allelesManager.getMGIReferences(filterTerm.trim());
     }
 
     

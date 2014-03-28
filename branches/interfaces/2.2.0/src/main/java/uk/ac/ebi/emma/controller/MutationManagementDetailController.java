@@ -273,7 +273,7 @@ public class MutationManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<EsCellLine> getEsCellTypes(@RequestParam String filterTerm) {
-        return mutationsManager.getEsCellTypes(filterTerm);
+        return mutationsManager.getEsCellTypes(filterTerm.trim());
     }
     
     /**
@@ -310,7 +310,7 @@ public class MutationManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getGenotypes(@RequestParam String filterTerm) {
-        return mutationsManager.getGenotypes(filterTerm);
+        return mutationsManager.getGenotypes(filterTerm.trim());
     }
     
     /**
@@ -323,7 +323,7 @@ public class MutationManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getDominance(@RequestParam String filterTerm) {
-        return mutationsManager.getDominance(filterTerm);
+        return mutationsManager.getDominance(filterTerm.trim());
     }
     
     /**
@@ -348,6 +348,6 @@ public class MutationManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getCauses(@RequestParam String filterTerm) {
-        return mutationsManager.getCauses(filterTerm);
+        return mutationsManager.getCauses(filterTerm.trim());
     }
 }

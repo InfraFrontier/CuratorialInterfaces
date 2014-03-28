@@ -159,7 +159,7 @@ public class BackgroundManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getBackgroundNames(@RequestParam String filterTerm) {
-        return backgroundManager.getNames(filterTerm);
+        return backgroundManager.getNames(filterTerm.trim());
     }    
     
     /**
@@ -174,7 +174,7 @@ public class BackgroundManagementListController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getBackgroundSymbols(@RequestParam String filterTerm) {
-        return backgroundManager.getSymbols(filterTerm);
+        return backgroundManager.getSymbols(filterTerm.trim());
     }
 
     

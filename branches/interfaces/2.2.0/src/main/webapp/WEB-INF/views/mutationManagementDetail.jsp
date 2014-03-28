@@ -510,6 +510,21 @@
                     }
                 });
                 
+                $("#subtype").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getSubtypes"
+                            , dataType: "json"
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
                 $("#genotype").autocomplete({
                     source: function(request, response) {
                         $.ajax({

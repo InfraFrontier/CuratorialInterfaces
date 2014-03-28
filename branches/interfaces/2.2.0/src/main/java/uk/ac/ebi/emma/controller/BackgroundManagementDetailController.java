@@ -185,6 +185,6 @@ public class BackgroundManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getSpecies(@RequestParam String filterTerm) {
-        return backgroundManager.getSpecies(filterTerm);
+        return backgroundManager.getSpecies(filterTerm.trim());
     }
 }

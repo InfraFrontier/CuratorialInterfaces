@@ -101,7 +101,7 @@ public class MutationsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createQuery("FROM EsCellLine WHERE name LIKE :name ORDER BY name")
-                    .setParameter("name", "%" + filterTerm + "%")
+                    .setParameter("name", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -123,7 +123,7 @@ public class MutationsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT genotype FROM mutations WHERE genotype LIKE :genotype ORDER BY genotype")
-                    .setParameter("genotype", "%" + filterTerm + "%")
+                    .setParameter("genotype", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -145,7 +145,7 @@ public class MutationsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT mu_cause FROM mutations WHERE mu_cause LIKE :mu_cause ORDER BY mu_cause")
-                    .setParameter("mu_cause", "%" + filterTerm + "%")
+                    .setParameter("mu_cause", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -167,7 +167,7 @@ public class MutationsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT dominance FROM mutations WHERE dominance LIKE :dominance ORDER BY dominance")
-                    .setParameter("dominance", "%" + filterTerm + "%")
+                    .setParameter("dominance", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {

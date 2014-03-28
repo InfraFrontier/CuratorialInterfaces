@@ -295,7 +295,7 @@ public class BackgroundsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT name FROM backgrounds WHERE name LIKE :name")
-                    .setParameter("name", "%" + filterTerm + "%")
+                    .setParameter("name", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -325,7 +325,7 @@ public class BackgroundsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT species FROM backgrounds WHERE species LIKE :species ORDER BY species")
-                    .setParameter("species", "%" + filterTerm + "%")
+                    .setParameter("species", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -352,7 +352,7 @@ public class BackgroundsManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT symbol FROM backgrounds WHERE symbol LIKE :symbol")
-                    .setParameter("symbol", "%" + filterTerm + "%")
+                    .setParameter("symbol", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
