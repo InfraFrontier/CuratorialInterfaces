@@ -333,6 +333,41 @@ public class GenesManager extends AbstractManager {
 
         return sourceList;
     }
+
+    /**
+     * Returns a distinct filtered list of ensembl references suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the ensembl reference (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct ensembl references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * @throws HibernateException if a hibernate error occurs
+     */
+    public List<String> getEnsemblReferences(String filterTerm) throws HibernateException {
+        List<String> targetList = new ArrayList();
+        List sourceList = null;
+        try {
+            getCurrentSession().beginTransaction();
+            sourceList = getCurrentSession()
+                    .createSQLQuery("SELECT DISTINCT ensembl_ref FROM genes WHERE ensembl_ref LIKE :ensemblReference ORDER BY ensembl_ref")
+                    .setParameter("ensemblReference", "%" + filterTerm.trim() + "%")
+                    .list();
+            getCurrentSession().getTransaction().commit();
+        } catch (HibernateException e) {
+            getCurrentSession().getTransaction().rollback();
+            throw e;
+        }
+
+        if (sourceList != null) {
+            Iterator iterator = sourceList.iterator();
+            while (iterator.hasNext()) {
+                String ensemblReference = (String)iterator.next();
+                targetList.add(ensemblReference);
+            }
+        }
+            
+        return targetList;
+    }
     
     /**
      * Returns a distinct list of plasmid constructs suitable for autocomplete sourcing.
