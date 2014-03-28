@@ -55,14 +55,13 @@
             
             $(document).ready(function() {
                 setMaxlengths();
+                populateFilterAutocompletes();
                 clearErrors();
  
                 $('#divGene')
-           //         .on('dragenter', handleDragEnter)
                     .on('dragover',  handleDragOver)
                     .on('dragleave', handleDragLeave)
                     .on('drop',      handleDrop)
-       //             .on('dragend',   handleDragEnd);
                 $('#gene_key').on('change', function(e) {
                     updateGeneDiv();
                 });
@@ -222,6 +221,25 @@
                 
                 return gene;
             }
+            
+            function populateFilterAutocompletes() {
+                $("#mgiReference").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/alleleManagementList/getAlleleMgiReferences"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+            }
+            
         </script>
         
         <title>Allele Management - add/edit</title>
@@ -269,11 +287,11 @@
                                                 <form:errors path="allele.symbol" cssClass="error" />
                                             </td>
                                             
-                                            <%-- MGI REFERENCE --%>
+                                            <%-- ALLELE MGI REFERENCE --%>
                                             <td>
                                                 <form:label for="mgiReference" path="allele.mgiReference">
                                                     <a href="javascript:lookupMGI('${fn:escapeXml(allele.mgiReference)}');">
-                                                        MGI reference:
+                                                        Allele MGI reference:
                                                     </a>
                                                 </form:label>
                                             </td>

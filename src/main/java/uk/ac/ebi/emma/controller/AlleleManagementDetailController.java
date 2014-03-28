@@ -101,13 +101,14 @@ public class AlleleManagementDetailController {
      * @param allele the allele instance
      * @param errors the Errors binding result object
      * @param allele_key the actual allele primary key
-     * @param filterAlleleKey
-     * @param filterAlleleName
-     * @param filterAlleleSymbol
-     * @param filterAlleleMgiReference
-     * @param filterGeneKey
-     * @param filterGeneName
-     * @param filterGeneSymbol
+     * @param filterAlleleKey the allele id search criterion (may be empty)
+     * @param filterAlleleName the allele name search criterion (may be empty)
+     * @param filterAlleleSymbol the allele symbol search criterion (may be empty)
+     * @param filterAlleleMgiReference the allele MGI reference search criterion (may be empty)
+     * @param filterGeneKey the gene id search criterion (may be empty)
+     * @param filterGeneName the gene name search criterion (may be empty)
+     * @param filterGeneSymbol the gene symbol search criterion (may be empty)
+     * @param filterGeneMgiReference the gene MGI reference search criterion (may be empty)
      * @param model the filter data, saved above in edit().
      * @return redirected view to same gene detail data.
      */
@@ -124,6 +125,7 @@ public class AlleleManagementDetailController {
           , @RequestParam(value="filterGeneKey") String filterGeneKey
           , @RequestParam(value="filterGeneName") String filterGeneName
           , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
+          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
             
           , Model model) 
     {
@@ -158,7 +160,8 @@ public class AlleleManagementDetailController {
                 + "&filterAlleleMgiReference=" + filterAlleleMgiReference
                 + "&filterGeneKey=" + filterGeneKey
                 + "&filterGeneName=" + filterGeneName
-                + "&filterGeneSymbol=" + filterGeneSymbol;
+                + "&filterGeneSymbol=" + filterGeneSymbol
+                + "&filterGeneMgiReference=" + filterGeneMgiReference;
     }
     
     
