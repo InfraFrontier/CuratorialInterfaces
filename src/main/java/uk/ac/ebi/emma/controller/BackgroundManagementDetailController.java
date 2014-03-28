@@ -20,6 +20,7 @@
 
 package uk.ac.ebi.emma.controller;
 
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -29,6 +30,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Background;
 import uk.ac.ebi.emma.manager.BackgroundsManager;
@@ -170,5 +172,19 @@ public class BackgroundManagementDetailController {
     
     // GETTERS AND SETTERS
     
-
+    
+    /**
+     * Returns a [distinct], unfiltered list of all species suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the species (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all species suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getSpecies"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getSpecies(@RequestParam String filterTerm) {
+        return backgroundManager.getSpecies(filterTerm);
+    }
 }

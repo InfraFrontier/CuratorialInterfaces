@@ -17,6 +17,7 @@
 package uk.ac.ebi.emma.controller;
 
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Gene;
 import uk.ac.ebi.emma.entity.GeneSynonym;
@@ -208,35 +210,6 @@ public class GeneManagementDetailController {
                 + "&filterGeneMgiReference=" + filterGeneMgiReference;
     }
     
-//    /**
-//     * Show the list form with saved filter values.
-//     * 
-//     * @param filterGeneKey
-//     * @param filterGeneName
-//     * @param filterGeneSymbol
-//     * @param filterChromosome
-//     * @param filterGeneMgiReference
-//     * @param model the filter data, saved above in edit().
-//     * @return redirected view to same gene detail data.
-//     */
-//    @RequestMapping(value="/showList", method=RequestMethod.GET)
-//    public String showList(
-//            @RequestParam(value="filterGeneKey") String filterGeneKey
-//          , @RequestParam(value="filterGeneName") String filterGeneName
-//          , @RequestParam(value="filterGeneSymbol") String filterGeneSymbol
-//          , @RequestParam(value="filterChromosome") String filterChromosome
-//          , @RequestParam(value="filterGeneMgiReference") String filterGeneMgiReference
-//            
-//          , Model model) 
-//    {
-//        return "redirect:/curation/geneManagementList/showFilter"
-//                + "?filterGeneKey=" + filterGeneKey
-//                + "&filterGeneName=" + filterGeneName
-//                + "&filterGeneSymbol=" + filterGeneSymbol
-//                + "&filterChromosome=" + filterChromosome
-//                + "&filterGeneMgiReference=" + filterGeneMgiReference;
-//    }
-    
     
     // PRIVATE METHODS
     
@@ -253,8 +226,110 @@ public class GeneManagementDetailController {
     }
     
     
-    // GETTERS AND SETTERS
-    
+    // GETTERS
 
+    
+    /**
+     * Returns a [distinct], unfiltered list of all chromosomes suitable for autocomplete
+     * sourcing.
+     * 
+     * @return a [distinct], unfiltered list of all chromosomes suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getChromosomes"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getChromosomes() {
+        return genesManager.getChromosomes();
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all centimorgans suitable for autocomplete
+     * sourcing.
+     * 
+     * @return a [distinct], unfiltered list of all centimorgans suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getCentimorgans"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getCentimorgans() {
+        return genesManager.getCentimorgans();
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all cytobands suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the cytoband (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all cytobands suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getCytobands"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getCytobands(@RequestParam String filterTerm) {
+        return genesManager.getCytobands(filterTerm);
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all plasmid constructs suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the plasmid construct (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all plasmid constructs suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getPlasmidConstructs"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getPlasmidConstructs(@RequestParam String filterTerm) {
+        return genesManager.getPlasmidConstructs(filterTerm);
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all promoters suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the promoter (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all promoters suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getPromoters"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getPromoters(@RequestParam String filterTerm) {
+        return genesManager.getPromoters(filterTerm);
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all founder line numbers suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the founder line number (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all founder line numbers suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getFounderLineNumbers"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getFounderLineNumbers(@RequestParam String filterTerm) {
+        return genesManager.getFounderLineNumbers(filterTerm);
+    }
+    
+    /**
+     * Returns a [distinct], unfiltered list of all species suitable for autocomplete
+     * sourcing.
+     * 
+     * @param filterTerm the filter term for the species (used in sql LIKE clause)
+     * @return a [distinct], unfiltered list of all species suitable for autocomplete
+     * sourcing.
+     * */
+    @RequestMapping(value = "/getSpecies"
+                  , method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getSpecies(@RequestParam String filterTerm) {
+        return genesManager.getSpecies(filterTerm);
+    }
 }
 
