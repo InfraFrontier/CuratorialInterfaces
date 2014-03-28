@@ -287,6 +287,38 @@
                         });
                     }
                 });
+                
+                $("#mgiReference").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getGeneMgiReferences"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#ensemblReference").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/geneManagementDetail/getEnsemblReferences"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
             }
         </script>
         
@@ -396,7 +428,7 @@
                                                 <form:errors path="gene.species" cssClass="error" />
                                             </td>
                                             
-                                            <%-- MGI REFERENCE --%>
+                                            <%-- GENE MGI REFERENCE --%>
                                             <td>
                                                 <form:label for="mgiReference" path="gene.mgiReference">
                                                     <a href="javascript:lookupMgi();">

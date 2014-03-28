@@ -318,6 +318,38 @@ public class GeneManagementDetailController {
     }
     
     /**
+     * Returns a distinct filtered list of gene MGI references suitable 
+     * for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the gene MGI reference (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct gene MGI references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getGeneMgiReferences"
+                  , method = RequestMethod.GET
+    )
+    @ResponseBody
+    public List<String> getGeneMgiReferences(@RequestParam String filterTerm) {
+        return genesManager.getMGIReferences(filterTerm.trim());
+    }
+    
+    /**
+     * Returns a distinct filtered list of gene Ensembl references suitable 
+     * for autocomplete sourcing.
+     * 
+     * @param filterTerm the filter term for the ensembl reference (used in sql LIKE clause)
+     * @@return a <code>List&lt;String&gt;</code> of distinct ensembl references filtered
+     * by <code>filterTerm</code> suitable for autocomplete sourcing.
+     * */
+    @RequestMapping(value = "/getEnsemblReferences"
+                  , method = RequestMethod.GET
+    )
+    @ResponseBody
+    public List<String> getEnsemblReferences(@RequestParam String filterTerm) {
+        return genesManager.getEnsemblReferences(filterTerm.trim());
+    }
+    
+    /**
      * Returns a [distinct], unfiltered list of all species suitable for autocomplete
      * sourcing.
      * 
