@@ -203,13 +203,15 @@
                     $('#allele_key').parent().append(errMsg);
                 }
 
-                // BACKGROUND if supplied, validate background_key must describe a valid background.
+                // BACKGROUND: if supplied, validate background_key must describe a valid background.
                 newId = $('#background_key').val();
-                key = getBackground(newId);
-                if (key === null) {
-                        errorCount++;
-                        errMsg = '<br class="clientError" /><span id="background_key.errors" class="clientError">Please choose a valid background.</span>';
-                        $('#background_key').parent().append(errMsg);
+                if ((newId != undefined) && (newId.length > 0)) {
+                    key = getBackground(newId);
+                    if (key === null) {
+                            errorCount++;
+                            errMsg = '<br class="clientError" /><span id="background_key.errors" class="clientError">Please choose a valid background.</span>';
+                            $('#background_key').parent().append(errMsg);
+                    }
                 }
 
                 if (errorCount > 0) {
@@ -733,7 +735,6 @@
                                                             <td style="width: 150px"><label>Background Id:</label></td>
                                                             <td>
                                                                 <form:input id="background_key" path="mutation.background_key"
-                                                                            placeholder="Required field"
                                                                             value="${mutation.background_key}" />
                                                                 <form:errors path="mutation.background_key" cssClass="error" />
                                                             </td>
