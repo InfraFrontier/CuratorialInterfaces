@@ -269,7 +269,7 @@ public class GeneManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getCytobands(@RequestParam String filterTerm) {
-        return genesManager.getCytobands(filterTerm);
+        return genesManager.getCytobands(filterTerm.trim());
     }
     
     /**
@@ -284,7 +284,7 @@ public class GeneManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getPlasmidConstructs(@RequestParam String filterTerm) {
-        return genesManager.getPlasmidConstructs(filterTerm);
+        return genesManager.getPlasmidConstructs(filterTerm.trim());
     }
     
     /**
@@ -299,7 +299,7 @@ public class GeneManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getPromoters(@RequestParam String filterTerm) {
-        return genesManager.getPromoters(filterTerm);
+        return genesManager.getPromoters(filterTerm.trim());
     }
     
     /**
@@ -314,7 +314,7 @@ public class GeneManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getFounderLineNumbers(@RequestParam String filterTerm) {
-        return genesManager.getFounderLineNumbers(filterTerm);
+        return genesManager.getFounderLineNumbers(filterTerm.trim());
     }
     
     /**
@@ -329,7 +329,7 @@ public class GeneManagementDetailController {
                   , method = RequestMethod.GET)
     @ResponseBody
     public List<String> getSpecies(@RequestParam String filterTerm) {
-        return genesManager.getSpecies(filterTerm);
+        return genesManager.getSpecies(filterTerm.trim());
     }
 }
 

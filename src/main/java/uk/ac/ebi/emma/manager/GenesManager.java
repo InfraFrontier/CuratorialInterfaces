@@ -206,7 +206,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT name FROM genes WHERE name LIKE :name")
-                    .setParameter("name", "%" + filterTerm + "%")
+                    .setParameter("name", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -241,7 +241,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT symbol FROM genes WHERE symbol LIKE :symbol")
-                    .setParameter("symbol", "%" + filterTerm + "%")
+                    .setParameter("symbol", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -323,7 +323,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT cytoband FROM genes WHERE cytoband LIKE :cytoband ORDER BY cytoband")
-                    .setParameter("cytoband", "%" + filterTerm + "%")
+                    .setParameter("cytoband", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -345,7 +345,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT plasmid_construct FROM genes WHERE plasmid_construct LIKE :plasmidConstruct ORDER BY plasmid_construct")
-                    .setParameter("plasmidConstruct", "%" + filterTerm + "%")
+                    .setParameter("plasmidConstruct", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -367,7 +367,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT promoter FROM genes WHERE promoter LIKE :promoter ORDER BY promoter")
-                    .setParameter("promoter", "%" + filterTerm + "%")
+                    .setParameter("promoter", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -389,7 +389,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT founder_line_number FROM genes WHERE founder_line_number LIKE :founderlinenumber ORDER BY founder_line_number")
-                    .setParameter("founderlinenumber", "%" + filterTerm + "%")
+                    .setParameter("founderlinenumber", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -411,7 +411,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT species FROM genes WHERE species LIKE :species ORDER BY species")
-                    .setParameter("species", "%" + filterTerm + "%")
+                    .setParameter("species", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -438,7 +438,7 @@ public class GenesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT mgi_ref FROM genes WHERE mgi_ref LIKE :mgiReference ORDER BY CAST(mgi_ref AS unsigned) ASC")
-                    .setParameter("mgiReference", "%" + filterTerm + "%")
+                    .setParameter("mgiReference", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {

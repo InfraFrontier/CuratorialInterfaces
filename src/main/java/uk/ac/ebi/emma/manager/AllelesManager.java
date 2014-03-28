@@ -177,7 +177,7 @@ public class AllelesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT name FROM alleles WHERE name LIKE :name")
-                    .setParameter("name", "%" + filterTerm + "%")
+                    .setParameter("name", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -211,7 +211,7 @@ public class AllelesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT alls_form FROM alleles WHERE alls_form LIKE :symbol")
-                    .setParameter("symbol", "%" + filterTerm + "%")
+                    .setParameter("symbol", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
@@ -337,7 +337,7 @@ public class AllelesManager extends AbstractManager {
             getCurrentSession().beginTransaction();
             sourceList = getCurrentSession()
                     .createSQLQuery("SELECT DISTINCT mgi_ref FROM alleles WHERE mgi_ref LIKE :mgiReference ORDER BY CAST(mgi_ref AS unsigned) ASC")
-                    .setParameter("mgiReference", "%" + filterTerm + "%")
+                    .setParameter("mgiReference", "%" + filterTerm.trim() + "%")
                     .list();
             getCurrentSession().getTransaction().commit();
         } catch (HibernateException e) {
