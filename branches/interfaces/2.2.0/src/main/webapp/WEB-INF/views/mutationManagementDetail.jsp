@@ -112,23 +112,6 @@
                     .on('dragstart', handleDragStartStrain);
             });
             
-            function populateFilterAutocompletes() {
-                $("#targetedMutationEsLine").autocomplete({
-                    source: function(request, response) {
-                        $.ajax({
-                            url: urlCurationlRoot + "/mutationManagementDetail/getEsCellTypes"
-                            , dataType: "json"
-                            , data: {filterTerm: request.term}
-                            , success: function(data) {
-                                response($.map(data, function(item) {
-                                    return {label: item.name};
-                                }));
-                            }
-                        });
-                    }
-                });
-            }
-            
             function updateStrainDiv(key) {
                 var strainName = '';
                 
@@ -492,6 +475,102 @@
                 
                 return allele;
             }
+            
+            function populateFilterAutocompletes() {
+                $("#targetedMutationEsLine").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getEsCellTypes"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item.name};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#type").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getTypes"
+                            , dataType: "json"
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#genotype").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getGenotypes"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#dominance").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getDominance"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#sex").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getSex"
+                            , dataType: "json"
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+                
+                $("#cause").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                              minLength: 0
+                            , url: urlCurationlRoot + "/mutationManagementDetail/getCauses"
+                            , dataType: "json"
+                            , data: {filterTerm: request.term}
+                            , success: function(data) {
+                                response($.map(data, function(item) {
+                                    return {label: item};
+                                }));
+                            }
+                        });
+                    }
+                });
+            }
         </script>
         
         <title>Mutation Management - add/edit</title>
@@ -526,11 +605,11 @@
                                             
                                             <%-- TYPE --%>
                                             <td><label id="labType">Type:</label></td>
-                                            <td style="border: 0"><form:input name="type" value="${mutation.type}" path="mutation.type" /></td>
+                                            <td style="border: 0"><form:input id="type" name="type" value="${mutation.type}" path="mutation.type" /></td>
                                             
                                             <%-- SUBTYPE --%>
                                             <td><label id="labSubtype">Subtype:</label></td>
-                                            <td style="border: 0"><form:input name="subtype" value="${mutation.subtype}" path="mutation.subtype" /></td>
+                                            <td style="border: 0"><form:input id="subtype" name="subtype" value="${mutation.subtype}" path="mutation.subtype" /></td>
                                             
                                             <%-- TARGETED MUTATION ES LINE --%>
                                             <td><label id="labTargetedMutationEsLine">Targeted Mutation ES Line:</label></td>
@@ -539,19 +618,19 @@
                                         <tr>
                                             <%-- GENOTYPE --%>
                                             <td><label id="labGenotype">Genotype:</label></td>
-                                            <td style="border: 0"><form:textarea name="genotype" value="${mutation.genotype}" path="mutation.genotype" /></td>
+                                            <td style="border: 0"><form:textarea id="genotype" name="genotype" value="${mutation.genotype}" path="mutation.genotype" /></td>
 
                                             <%-- DOMINANCE --%>
                                             <td><label id="labDominance">Dominance:</label></td>
-                                            <td style="border: 0"><form:input name="dominance" value="${mutation.dominance}" path="mutation.dominance" /></td>
+                                            <td style="border: 0"><form:input id="dominance" name="dominance" value="${mutation.dominance}" path="mutation.dominance" /></td>
                                             
                                             <%-- SEX --%>
                                             <td><label id="labSex">Sex:</label></td>
-                                            <td style="border: 0"><form:input name="sex" value="${mutation.sex}" path="mutation.sex" /></td>
+                                            <td style="border: 0"><form:input id="sex" name="sex" value="${mutation.sex}" path="mutation.sex" /></td>
                                             
                                             <%-- CAUSE --%>
                                             <td><label id="labCause">Cause:</label></td>
-                                            <td style="border: 0"><form:textarea name="cause" value="${mutation.cause}" path="mutation.cause" /></td>
+                                            <td style="border: 0"><form:textarea id="cause" name="cause" value="${mutation.cause}" path="mutation.cause" /></td>
                                         </tr>
                                         <tr><td colspan="8">&nbsp;</td></tr>
                                         <tr>

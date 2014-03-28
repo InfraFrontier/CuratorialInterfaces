@@ -110,7 +110,7 @@
                 $("#filterMutationType").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: mutationListUrlRoot + "/getMutationTypes"
+                            url: mutationListUrlRoot + "/getTypes"
                             , dataType: "json"
                             , success: function(data) {
                                 response($.map(data, function(item) {
@@ -124,7 +124,7 @@
                 $("#filterMutationSubtype").autocomplete({
                     source: function(request, response) {
                         $.ajax({
-                            url: mutationListUrlRoot + "/getMutationSubtypes"
+                            url: mutationListUrlRoot + "/getSubtypes"
                             , dataType: "json"
                             , success: function(data) {
                                 response($.map(data, function(item) {
