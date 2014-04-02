@@ -19,6 +19,8 @@ package uk.ac.ebi.emma.entity;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Set;
+import javax.persistence.Transient;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -32,6 +34,12 @@ import uk.ac.ebi.emma.util.Utils;
  */
 public class Biblio implements RowMapper {
     private Integer biblio_key = null;                                          // primary key (was id_biblio)
+    
+    // COLLECTIONS
+    private Set<Strain> strains;
+    
+    @Transient
+    private String strain_keys;                                                 // foreign key(s) to strains table (new for EMMA2) (comma-separated)
 
     private String author1;
     private String author2;
@@ -87,6 +95,22 @@ public class Biblio implements RowMapper {
 
     public void setBiblio_key(Integer biblio_key) {
         this.biblio_key = biblio_key;
+    }
+
+    public Set<Strain> getStrains() {
+        return strains;
+    }
+    
+    public void setStrains(Set<Strain> strains) {
+        this.strains = strains;
+    }
+
+    public String getStrain_keys() {
+        return strain_keys;
+    }
+
+    public void setStrain_keys(String strain_keys) {
+        this.strain_keys = strain_keys;
     }
 
     public String getAuthor1() {

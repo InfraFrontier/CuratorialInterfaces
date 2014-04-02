@@ -20,5 +20,8 @@
        <br />
        <a href="curation/backgroundManagementList/showFilter" target="backgroundManagementList">Background Management</a>
        <br />
+       <br />
+       <a href="curation/biblioManagementList/showFilter" target="biblioManagementList">Bibliography Management</a>
+       <br />
     </body>
 </html>

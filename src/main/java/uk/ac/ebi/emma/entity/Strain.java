@@ -73,7 +73,7 @@ public class Strain implements Serializable {
     
     // COLLECTIONS
     private Set<AvailabilityStrain> availabilitiesStrains;                      // (was AvailabilitiesStrainsDAO)
-    private Set<BiblioStrain>       bibliosStrains;                             // (was setBibliosStrainsDAO)
+    private Set<Biblio>             biblios;                                    // (was setBibliosStrainsDAO)
     private Set<CategoryStrain>     categoriesStrains;                          // (was categoriesStrainsDAO)
     private Set<RtoolStrain>        rtoolsStrains;                              // (was cvDAO. List of countries from cv_country.
     private Set<Mutation>           mutations;                                  // (was mutationsStrainsDAO)
@@ -429,12 +429,12 @@ public class Strain implements Serializable {
         this.availabilitiesStrains = availabilitiesStrains;
     }
 
-    public Set<BiblioStrain> getBibliosStrains() {
-        return bibliosStrains;
+    public Set<Biblio> getBiblios() {
+        return biblios;
     }
 
-    public void setBibliosStrains(Set<BiblioStrain> bibliosStrains) {
-        this.bibliosStrains = bibliosStrains;
+    public void setBiblios(Set<Biblio> biblios) {
+        this.biblios = biblios;
     }
 
     public Set<CategoryStrain> getCategoriesStrains() {

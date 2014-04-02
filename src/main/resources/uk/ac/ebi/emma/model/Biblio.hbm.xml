@@ -6,6 +6,11 @@
         <id column="id_biblio" name="biblio_key">
             <generator class="native"/>
         </id>
+
+        <set name="strains" table="biblios_strains" cascade="none">
+            <key column="bib_id_biblio" update="false" on-delete="noaction" foreign-key="biblio_key" />
+            <many-to-many class="Strain" column="str_id_str" not-found="ignore" foreign-key="id_str" />
+        </set>
         
         <property column="author1"     name="author1"/>
         <property column="author2"     name="author2"/>

@@ -32,7 +32,6 @@
     <mapping resource="uk/ac/ebi/emma/model/AvailabilityStrain.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Background.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Biblio.hbm.xml"/>
-    <mapping resource="uk/ac/ebi/emma/model/BiblioStrain.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Category.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/CategoryStrain.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/CvArchivingMethod.hbm.xml"/>
@@ -47,7 +46,6 @@
     <mapping resource="uk/ac/ebi/emma/model/Laboratory.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/LaboratoryStrain.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Mutation.hbm.xml"/>
-    <!--       <mapping resource="uk/ac/ebi/emma/model/MutationStrain.hbm.xml"/> -->
     <mapping resource="uk/ac/ebi/emma/model/Person.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/ProjectStrain.hbm.xml"/>
     <mapping resource="uk/ac/ebi/emma/model/Residue.hbm.xml"/>

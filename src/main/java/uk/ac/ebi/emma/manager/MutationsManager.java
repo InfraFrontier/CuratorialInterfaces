@@ -340,8 +340,10 @@ public class MutationsManager extends AbstractManager {
                 for (Object result : resultSet) {
                     Object[] row = (Object[]) result;
                     Mutation mutation = (Mutation)row[0];
-                    mutation.setStrain_keys((row[1] == null ? "" : row[1].toString()));     // Add strain_keys to transient Mutation instance.
-                    targetList.add(mutation);
+                    if (mutation != null) {
+                        mutation.setStrain_keys((row[1] == null ? "" : row[1].toString()));     // Add strain_keys to transient Mutation instance.
+                        targetList.add(mutation);
+                    }
                 }
             }
             getCurrentSession().getTransaction().commit();
