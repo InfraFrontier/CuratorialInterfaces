@@ -21,6 +21,14 @@
         <slf4j.version>1.7.5</slf4j.version>   
     </properties>
 
+    <repositories>
+        <repository>
+            <id>emma-local-repo</id>
+            <name>EMMA local repository</name>
+            <url>file://${project.basedir}/emma-repo/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <!-- MYSQL -->
         <dependency>
@@ -200,6 +208,13 @@
             <artifactId>standard</artifactId>
             <version>1.1.2</version>
             <type>jar</type>
+        </dependency>
+        
+        <!-- EBI PUBMED WEB SERVICE -->
+        <dependency>
+            <groupId>uk.ac.ebi</groupId>
+            <artifactId>cdb-webservice-all</artifactId>
+            <version>3.0.1</version>
         </dependency>
     </dependencies>
 

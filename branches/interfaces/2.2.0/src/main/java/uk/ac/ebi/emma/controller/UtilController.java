@@ -148,7 +148,6 @@ public class UtilController {
             logger.debug("Returning strain id (name) " + strain.getBackground_key() + " (" + strain.getName() + ")");
             // Null out all collections and class instances, as jackson throws infinite recursion exception trying to map parent <--> child references.
             strain.setAvailabilitiesStrains(null);
-            strain.setBibliosStrains(null);
             strain.setCategoriesStrains(null);
             strain.setMutations(null);
             strain.setProjectsStrains(null);

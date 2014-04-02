@@ -14,10 +14,6 @@
             <key column="str_id_str" update="false"/>
             <one-to-many class="AvailabilityStrain" not-found="ignore"/>
         </set>
-        <set lazy="false" name="bibliosStrains" table="biblios_strains">
-            <key column="str_id_str" update="false"/>
-            <one-to-many class="BiblioStrain" not-found="ignore"/>
-        </set>
         <set lazy="false" name="categoriesStrains" table="categories_strains">
             <key column="str_id_str" update="false"/>
             <one-to-many class="CategoryStrain" not-found="ignore"/>
@@ -26,12 +22,6 @@
             <key column="str_id_str" update="false"/>
             <one-to-many class="RtoolStrain" not-found="ignore"/>
         </set>
-        <!--
-        <set lazy="false" name="mutationsStrains" table="mutations_strains">
-            <key column="str_id_str"/>
-            <one-to-many class="MutationStrain" not-found="ignore"/>
-        </set>
-        -->
 
         <!--
         This is a good, working example of how to map a many-to-many relationship.
@@ -41,6 +31,11 @@
         <set name="mutations" table="mutations_strains" cascade="none">
             <key column="str_id_str" update="false" on-delete="noaction"/>
             <many-to-many class="Mutation" column="mut_id" not-found="ignore" />
+        </set>
+        
+        <set name="biblios" table="biblios_strains" cascade="none">
+            <key column="str_id_str" update="false" on-delete="noaction" foreign-key="id_str" />
+            <many-to-many class="Biblio" column="bib_id_biblio" not-found="ignore" foreign-key="id_biblio" />
         </set>
         
         <set lazy="false" name="projectsStrains" table="projects_strains">

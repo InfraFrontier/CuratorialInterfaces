@@ -29,24 +29,30 @@ import org.apache.http.client.utils.URIBuilder;
  * @author mrelac
  */
 public class Filter {
-    private String allele_key;        // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String allele_key;          // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String alleleMgiReference;
     private String alleleName;
     private String alleleSymbol;
-    private String background_key;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String background_key;      // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String backgroundName;
     private String backgroundSymbol;
     private String backgroundIsCurated;
     private String backgroundIsInbred;
+    private String biblio_key;          // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String biblioAuthor1;
+    private String biblioJournal;
+    private String biblioTitle;
+    private String biblioYear;
     private String chromosome;
-    private String gene_key;       // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String gene_key;            // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String geneMgiReference;
     private String geneName;
     private String geneSymbol;
-    private String mutation_key;      // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String mutation_key;        // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     private String mutationType;
     private String mutationSubtype;
-    private String strain_key;    // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
+    private String pubmedId;            // Valid values: null, empty, 1 numeric value.
+    private String strain_key;          // Valid values: null, empty, 1 numeric value, or multiple numeric values separated by a comma and optional whitespace.
     
     public Filter() {
         this.allele_key = "";
@@ -58,6 +64,11 @@ public class Filter {
         this.backgroundSymbol = "";
         this.backgroundIsCurated = "";
         this.backgroundIsInbred = "";
+        this.biblio_key = "";
+        this.biblioAuthor1 = "";
+        this.biblioJournal = "";
+        this.biblioTitle = "";
+        this.biblioYear = "";
         this.chromosome = "";
         this.gene_key = "";
         this.geneMgiReference = "";
@@ -66,6 +77,7 @@ public class Filter {
         this.mutation_key = "";
         this.mutationType = "";
         this.mutationSubtype = "";
+        this.pubmedId = "";
         this.strain_key = "";
     }
     
@@ -84,6 +96,11 @@ public class Filter {
         this.backgroundSymbol = request.getParameter("backgroundSymbol") == null ? "" : request.getParameter("backgroundSymbol");
         this.backgroundIsCurated = request.getParameter("backgroundIsCurated") == null ? "" : request.getParameter("backgroundIsCurated");
         this.backgroundIsInbred = request.getParameter("backgroundIsInbred") == null ? "" : request.getParameter("backgroundIsInbred");
+        this.biblio_key = request.getParameter("biblio_key") == null ? "" : request.getParameter("biblio_key");
+        this.biblioAuthor1 = request.getParameter("biblioAuthor1") == null ? "" : request.getParameter("biblioAuthor1");
+        this.biblioJournal = request.getParameter("biblioJournal") == null ? "" : request.getParameter("biblioJournal");
+        this.biblioTitle = request.getParameter("biblioTitle") == null ? "" : request.getParameter("biblioTitle");
+        this.biblioYear = request.getParameter("biblioYear") == null ? "" : request.getParameter("biblioYear");
         this.chromosome = request.getParameter("chromosome") == null ? "" : request.getParameter("chromosome");
         this.gene_key = request.getParameter("gene_key") == null ? "" : request.getParameter("gene_key");
         this.geneMgiReference = request.getParameter("geneMgiReference") == null ? "" : request.getParameter("geneMgiReference");
@@ -92,6 +109,7 @@ public class Filter {
         this.mutation_key = request.getParameter("mutation_key") == null ? "" : request.getParameter("mutation_key");
         this.mutationType = request.getParameter("mutationType") == null ? "" : request.getParameter("mutationType");
         this.mutationSubtype = request.getParameter("mutationSubtype") == null ? "" : request.getParameter("mutationSubype");
+        this.pubmedId = request.getParameter("pubmedId") == null ? "" : request.getParameter("pubmedId");
         this.strain_key = request.getParameter("strain_key") == null ? "" : request.getParameter("strain_key");
     }
     
@@ -122,6 +140,16 @@ public class Filter {
             builder.addParameter("backgroundisCurated", backgroundIsCurated);
         if ( ! backgroundIsInbred.isEmpty())
             builder.addParameter("backgroundisInbred", backgroundIsInbred);
+        if ( ! biblio_key.isEmpty())
+            builder.addParameter("biblio_key", biblio_key);
+        if ( ! biblioAuthor1.isEmpty())
+            builder.addParameter("biblioAuthor1", biblioAuthor1);
+        if ( ! biblioJournal.isEmpty())
+            builder.addParameter("biblioJournal", biblioJournal);
+        if ( ! biblioTitle.isEmpty())
+            builder.addParameter("biblioTitle", biblioTitle);
+        if ( ! biblioYear.isEmpty())
+            builder.addParameter("biblioYear", biblioYear);
         if ( ! chromosome.isEmpty())
             builder.addParameter("chromosome", chromosome);
         if ( ! gene_key.isEmpty())
@@ -138,6 +166,8 @@ public class Filter {
             builder.addParameter("mutationType", mutationType);
         if ( ! mutationSubtype.isEmpty())
             builder.addParameter("mutationSubtype", mutationSubtype);
+        if ( ! pubmedId.isEmpty())
+            builder.addParameter("pubmedId", pubmedId);
         if ( ! strain_key.isEmpty())
             builder.addParameter("strain_key", strain_key);
         
@@ -150,7 +180,10 @@ public class Filter {
         return query;
     }
     
+    
     // GETTERS AND SETTERS
+    
+    
     public String getAllele_key() {
         return allele_key;
     }
@@ -223,6 +256,46 @@ public class Filter {
         this.backgroundIsInbred = backgroundIsInbred;
     }
 
+    public String getBiblio_key() {
+        return biblio_key;
+    }
+
+    public void setBiblio_key(String biblio_key) {
+        this.biblio_key = biblio_key;
+    }
+
+    public String getBiblioAuthor1() {
+        return biblioAuthor1;
+    }
+
+    public void setBiblioAuthor1(String biblioAuthor1) {
+        this.biblioAuthor1 = biblioAuthor1;
+    }
+
+    public String getBiblioJournal() {
+        return biblioJournal;
+    }
+
+    public void setBiblioJournal(String biblioJournal) {
+        this.biblioJournal = biblioJournal;
+    }
+
+    public String getBiblioTitle() {
+        return biblioTitle;
+    }
+
+    public void setBiblioTitle(String biblioTitle) {
+        this.biblioTitle = biblioTitle;
+    }
+
+    public String getBiblioYear() {
+        return biblioYear;
+    }
+
+    public void setBiblioYear(String biblioYear) {
+        this.biblioYear = biblioYear;
+    }
+
     public String getChromosome() {
         return chromosome;
     }
@@ -287,6 +360,14 @@ public class Filter {
         this.mutationSubtype = mutationSubtype;
     }
 
+    public String getPubmedId() {
+        return pubmedId;
+    }
+
+    public void setPubmedId(String pubmedId) {
+        this.pubmedId = pubmedId;
+    }
+
     public String getStrain_key() {
         return strain_key;
     }
@@ -294,5 +375,5 @@ public class Filter {
     public void setStrain_key(String strain_key) {
         this.strain_key = strain_key;
     }
-    
+
 }

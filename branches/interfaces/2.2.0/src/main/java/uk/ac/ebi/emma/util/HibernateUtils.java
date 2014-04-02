@@ -24,15 +24,13 @@
 
 package uk.ac.ebi.emma.util;
 
-import java.io.IOException;
 import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.support.PropertiesLoaderUtils;
+import org.hibernate.dialect.function.StandardSQLFunction;
+import org.hibernate.type.StringType;
 
 /**
  *
@@ -84,6 +82,12 @@ public class HibernateUtils {
         
         if (hibernateProperties != null)
             configuration.addProperties(hibernateProperties);
+        
+        // ADD MYSQL-SPECIFIC FUNCTIONS
+        configuration.addSqlFunction("group_concat", new StandardSQLFunction("group_concat", StringType.INSTANCE));
+        
+        
+        
         configuration.configure();
         StandardServiceRegistryBuilder builder = new StandardServiceRegistryBuilder()
                                             .applySettings(configuration.getProperties());
