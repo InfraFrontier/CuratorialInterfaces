@@ -270,7 +270,7 @@
             <input type="hidden" id="filterChromosomeNew"       name="filterChromosome"       class="filterComponent" value="${filter.chromosome}" />
             <input type="hidden" id="filterGeneMgiReferenceNew" name="filterGeneMgiReference" class="filterComponent" value="${filter.geneMgiReference}" />                                    
             <a href="${pageContext.request.contextPath}/curation/geneManagementDetail/edit?gene_key=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterChromosome=&amp;filterGeneMgiReference="
-               style="margin-left: 420px"
+               style="margin-left: 460px"
                target="geneManagementDetail"
                tabindex="8"
                title="Add new gene">
@@ -306,20 +306,20 @@
                     <%-- FILTER --%>
                     <tr>
                         <td><form:label path="gene_key">Gene ID:</form:label></td>
-                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" onkeyup="updateFilter(this);" tabindex="1" /></td>
+                        <td><form:textarea id="filterGeneKey" class="filterComponent" path="gene_key" onkeyup="updateFilter(this);" tabindex="1" /></td>
                         
                         <td><form:label path="chromosome">Chromosome:</form:label></td>
                         <td><form:input id="filterChromosome" class="filterComponent" path="chromosome" tabindex="4" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneName">Gene name:</form:label></td>
-                        <td><form:input id="filterGeneName" class="filterComponent" path="geneName" tabindex="2" /></td>
+                        <td><form:textarea id="filterGeneName" class="filterComponent" path="geneName" tabindex="2" /></td>
                         <td><form:label path="geneMgiReference">MGI reference:</form:label></td>
                         <td><form:input id="filterGeneMgiReference" class="filterComponent" path="geneMgiReference" tabindex="5" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="geneSymbol">Gene symbol:</form:label></td>
-                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="3" /></td>
+                        <td><form:textarea id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="3" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>

@@ -397,7 +397,7 @@
                                             <%-- PLASMID CONSTRUCT --%>
                                             <td><form:label for="plasmidConstruct" path="gene.plasmidConstruct">Plasmid construct:</form:label></td>
                                             <td>
-                                                <form:input id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmidConstruct" value="${gene.plasmidConstruct}" />
+                                                <form:textarea id="plasmidConstruct" name="plasmidConstruct" path="gene.plasmidConstruct" value="${gene.plasmidConstruct}" />
                                                 <br />
                                                 <form:errors path="gene.plasmidConstruct" cssClass="error" />
                                             </td>
@@ -405,7 +405,7 @@
                                             <%-- PROMOTER --%>
                                             <td><form:label for="promoter" path="gene.promoter">Promoter:</form:label></td>
                                             <td>
-                                                <form:input id="promoter" name="promoter" path="gene.promoter" value="${gene.promoter}" />
+                                                <form:textarea id="promoter" name="promoter" path="gene.promoter" value="${gene.promoter}" />
                                                 <br />
                                                 <form:errors path="gene.promoter" cssClass="error" />
                                             </td>
@@ -413,7 +413,7 @@
                                             <%-- FOUNDER LINE NUMBER --%>
                                             <td><form:label for="founderLineNumber" path="gene.founderLineNumber">Founder line number:</form:label></td>
                                             <td>
-                                                <form:input id="founderLineNumber" name="founderLineNumber" path="gene.founderLineNumber" value="${gene.founderLineNumber}" />
+                                                <form:textarea id="founderLineNumber" name="founderLineNumber" path="gene.founderLineNumber" value="${gene.founderLineNumber}" />
                                                 <br />
                                                 <form:errors path="gene.founderLineNumber" cssClass="error" />
                                             </td>
@@ -491,10 +491,10 @@
                                                         <input name="synonymIds" readonly="readonly" value="${synonym.geneSynonym_key}" />
                                                     </td>
                                                     <td>
-                                                        <input name="synonymNames" class="synonymName" value="${synonym.name}" onchange="dataChanged(this);" />
+                                                        <textarea name="synonymNames" class="synonymName" onchange="dataChanged(this);">${synonym.name}</textarea>
                                                     </td>
                                                     <td>
-                                                        <input name="synonymSymbols" class="synonymSymbol" value="${synonym.symbol}" onchange="dataChanged(this);" />
+                                                        <textarea name="synonymSymbols" class="synonymSymbol" onchange="dataChanged(this);">${synonym.symbol}</textarea>
                                                     </td>
                                                 </tr>
                                             </c:forEach>

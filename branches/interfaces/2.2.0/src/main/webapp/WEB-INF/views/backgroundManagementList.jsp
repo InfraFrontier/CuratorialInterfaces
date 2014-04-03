@@ -249,7 +249,7 @@
             <input type="hidden" id="filterBackgroundIsCuratedNew"    name="filterBackgroundIsCurated"    class="filterComponent" value="${filter.backgroundIsCurated}" />
             <input type="hidden" id="filterBackgroundIsInbredNew"     name="filterBackgroundIsInbred"     class="filterComponent" value="${filter.backgroundIsInbred}" />
             <a href="${pageContext.request.contextPath}/curation/backgroundManagementDetail/edit?background_key=&amp;filterBackgroundKey=&amp;filterBackgroundName=&amp;filterBackgroundSymbol=&amp;filterBackgroundIsCurated=&amp;filterBackgroundIsInbred="
-               style="margin-left: 490px"
+               style="margin-left: 523px"
                tabindex="12"
                target="backgroundManagementDetail"
                title="Add new background">
@@ -285,7 +285,7 @@
                 <tbody>
                     <tr>
                         <td><form:label path="background_key">Background ID:</form:label></td>
-                        <td><form:input id="filterBackgroundKey"             class="filterComponent" path="background_key" tabindex="1" /></td>
+                        <td><form:textarea id="filterBackgroundKey"             class="filterComponent" path="background_key" tabindex="1" /></td>
                         
                         <td><form:label path="backgroundIsCurated">Curated:</form:label></td>
                         <td>
@@ -296,7 +296,7 @@
                     </tr>
                     <tr>
                         <td><form:label path="backgroundName">Background name:</form:label></td>
-                        <td><form:input id="filterBackgroundName" class="filterComponent" path="backgroundName" tabindex="2" /></td>
+                        <td><form:textarea id="filterBackgroundName" class="filterComponent" path="backgroundName" tabindex="2" /></td>
                         
                         <td><form:label path="backgroundIsInbred">Inbred:</form:label></td>
                         <td>
@@ -307,7 +307,7 @@
                     </tr>
                     <tr>
                         <td><form:label path="backgroundSymbol">Background symbol:</form:label></td>
-                        <td colspan="3"><form:input id="filterBackgroundSymbol" class="filterComponent" path="backgroundSymbol" tabindex="3" /></td>
+                        <td colspan="3"><form:textarea id="filterBackgroundSymbol" class="filterComponent" path="backgroundSymbol" tabindex="3" /></td>
                     </tr>
                 </tbody>
             </table>

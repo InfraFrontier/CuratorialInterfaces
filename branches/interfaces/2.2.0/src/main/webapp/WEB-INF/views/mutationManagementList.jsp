@@ -253,7 +253,7 @@
             <input type="hidden" id="filterGeneKeyNew"          name="filterGeneKey"         class="filterComponent" value="${filter.gene_key}" />
             <input type="hidden" id="filterGeneSymbolNew"       name="filterGeneSymbol"      class="filterComponent" value="${filter.geneSymbol}" />
             <a href="${pageContext.request.contextPath}/curation/mutationManagementDetail/edit?mutation_key=&amp;filterMutationKey=&amp;filterMutationType=&amp;filterMutationSubtype=&amp;filterStrainKey=&amp;filterAlleleKey=&amp;filterBackgroundKey=&amp;filterGeneKey=&amp;filterGeneSymbol="
-               style="margin-left: 680px"
+               style="margin-left: 795px"
                target="mutationManagementDetail"
                title="Add new mutation">
                 New
@@ -291,15 +291,15 @@
                     <tr>
                         <%-- MUTATION ID --%>
                         <td><form:label path="mutation_key">Mutation ID:</form:label></td>
-                        <td><form:input id="filterMutationKey" class="filterComponent" path="mutation_key" tabindex="2" /></td>
+                        <td><form:textarea id="filterMutationKey" class="filterComponent" path="mutation_key" tabindex="2" /></td>
                         
                         <%-- STRAIN ID --%>
                         <td><form:label path="strain_key">Strain ID:</form:label></td>
-                        <td><form:input id="filterStrainKey" class="filterComponent" path="strain_key" tabindex="5" /></td>
+                        <td><form:textarea id="filterStrainKey" class="filterComponent" path="strain_key" tabindex="5" /></td>
                         
                         <%-- GENE ID --%>
                         <td><form:label path="gene_key">Gene ID:</form:label></td>
-                        <td><form:input id="filterGeneKey" class="filterComponent" path="gene_key" tabindex="8" /></td>
+                        <td><form:textarea id="filterGeneKey" class="filterComponent" path="gene_key" tabindex="8" /></td>
                     </tr>
                     <tr>
                         <%-- MUTATION TYPE --%>
@@ -308,11 +308,11 @@
                         
                         <%-- ALLELE ID --%>
                         <td><form:label path="allele_key">Allele ID:</form:label></td>
-                        <td><form:input id="filterAlleleKey" class="filterComponent" path="allele_key" tabindex="6" /></td>
+                        <td><form:textarea id="filterAlleleKey" class="filterComponent" path="allele_key" tabindex="6" /></td>
                         
                         <%-- GENE SYMBOL --%>
                         <td><form:label path="geneSymbol">Gene Symbol:</form:label></td>
-                        <td><form:input id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="9" /></td>
+                        <td><form:textarea id="filterGeneSymbol" class="filterComponent" path="geneSymbol" tabindex="9" /></td>
                     </tr>
                     <tr>
                         <%-- MUTATION SUBTYPE --%>
@@ -321,7 +321,7 @@
                         
                         <%-- BACKGROUND ID --%>
                         <td><form:label path="background_key">Background ID:</form:label></td>
-                        <td><form:input id="filterBackgroundKey" class="filterComponent" path="background_key" tabindex="7" /></td>
+                        <td><form:textarea id="filterBackgroundKey" class="filterComponent" path="background_key" tabindex="7" /></td>
                         <td colspan="2">&nbsp;</td>
                     </tr>
                 </tbody>
