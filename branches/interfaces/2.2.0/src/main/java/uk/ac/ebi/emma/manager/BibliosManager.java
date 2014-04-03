@@ -181,7 +181,6 @@ public class BibliosManager extends AbstractManager {
         queryString += 
                 "GROUP BY b.id_biblio\n"
               + "ORDER BY b.id_biblio DESC\n";
-        logger.debug("query:\n" + queryString);
         try {
             getCurrentSession().beginTransaction();
             SQLQuery query = getCurrentSession().createSQLQuery(queryString);
