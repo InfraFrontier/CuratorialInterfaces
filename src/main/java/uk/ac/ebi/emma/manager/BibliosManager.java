@@ -13,11 +13,13 @@ import java.util.Date;
 import java.util.List;
 import org.hibernate.HibernateException;
 import org.hibernate.SQLQuery;
+import org.springframework.stereotype.Component;
 import uk.ac.ebi.emma.Exception.PersistFailedException;
 import uk.ac.ebi.emma.entity.Biblio;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
 
+@Component
 public class BibliosManager extends AbstractManager {
 
 
@@ -131,49 +133,55 @@ public class BibliosManager extends AbstractManager {
         String journalWhere = "";
         String titleWhere = "";
         String yearWhere = "";
+        String where = "WHERE (1 = 1)\n";
         
-        List<Biblio> targetList = new ArrayList();
-        String queryString = "SELECT b.*, GROUP_CONCAT(bs.str_id_str) AS strain_keys\n"
-                           + "FROM biblios b\n"
-                           + "LEFT OUTER JOIN biblios_strains bs ON bs.bib_id_biblio = b.id_biblio\n"
-                           + "WHERE (1 = 1)\n";     
+        String queryString = "";
+        
         if ((filter.getBiblio_key() != null) && ( ! filter.getBiblio_key().isEmpty())) {
             String biblioIds = Utils.cleanIntArray(filter.getBiblio_key());
             if (Utils.isValidIntArray(biblioIds)) {
                 biblioKeyWhere = "  AND (b.id_biblio IN (" + biblioIds + "))\n";
-                queryString += biblioKeyWhere;
+                where += biblioKeyWhere;
             }
         }
         if ((filter.getStrain_key() != null) && ( ! filter.getStrain_key().isEmpty())) {
             String strainIds = Utils.cleanIntArray(filter.getStrain_key());
             if (Utils.isValidIntArray(strainIds)) {
                 strainKeyWhere = "  AND (bs.str_id_str IN (" + strainIds + "))\n";
-                queryString += strainKeyWhere;
+                where += strainKeyWhere;
             }
         }
         if ((filter.getPubmedId() != null) && ( ! filter.getPubmedId().isEmpty())) {
             pubmedIdWhere = "  AND (b.pubmed_id LIKE :pubmedId)\n";
-            queryString += pubmedIdWhere;
+            where += pubmedIdWhere;
         }
         if ((filter.getBiblioAuthor1() != null) && ( ! filter.getBiblioAuthor1().isEmpty())) {
             author1Where = "  AND (b.author1 LIKE :author1)\n";
-            queryString += author1Where;
+            where += author1Where;
         }
         if ((filter.getBiblioJournal() != null) && ( ! filter.getBiblioJournal().isEmpty())) {
             journalWhere = "  AND (b.journal LIKE :journal)\n";
-            queryString += journalWhere;
+            where += journalWhere;
         }
         if ((filter.getBiblioTitle() != null) && ( ! filter.getBiblioTitle().isEmpty())) {
             titleWhere = "  AND (b.title LIKE :title)\n";
-            queryString += titleWhere;
+            where += titleWhere;
         }
         if ((filter.getBiblioYear() != null) && ( ! filter.getBiblioYear().isEmpty())) {
             yearWhere = "  AND (b.year = :year)\n";
-            queryString += yearWhere;
+            where += yearWhere;
         }
-
-        queryString += "ORDER BY b.id_biblio DESC\n";
         
+        List<Biblio> targetList = new ArrayList();
+        queryString = "SELECT b.* , GROUP_CONCAT(bs.str_id_str) AS strain_keys\n"
+                    + "FROM biblios b\n"
+                    + "LEFT OUTER JOIN biblios_strains bs ON bs.bib_id_biblio = b.id_biblio\n"
+                    + where;   
+
+        queryString += 
+                "GROUP BY b.id_biblio\n"
+              + "ORDER BY b.id_biblio DESC\n";
+        logger.debug("query:\n" + queryString);
         try {
             getCurrentSession().beginTransaction();
             SQLQuery query = getCurrentSession().createSQLQuery(queryString);

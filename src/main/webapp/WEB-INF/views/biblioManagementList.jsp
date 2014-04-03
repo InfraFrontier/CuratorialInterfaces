@@ -127,7 +127,7 @@
 
             function deleteBiblio(id, deleteIcon) {
                 $.ajax({
-                    url: biblioListUrlRoot + "/deleteBiblio"
+                    url: curationUrlRoot + "/biblioManagementList/deleteBiblio"
                     , dataType: "json"
                     , async: false
                     , data: {'biblio_key': id}
@@ -295,7 +295,7 @@
             <input type="hidden" id="filterBiblioTitleNew"     name="filterBiblioTitle"       class="filterComponent" value="${filter.biblioTitle}" />
             <input type="hidden" id="filterBiblioYearNew"      name="filterBiblioYear"        class="filterComponent" value="${filter.biblioYear}" />
             <a href="${pageContext.request.contextPath}/curation/biblioManagementDetail/edit?biblio_key=&amp;filterBiblioKey=&amp;filterStrainKey=&amp;filterPubmedId=&amp;filterBiblioAuthor1=&amp;filterBiblioJournal=&amp;filterBiblioTitle=&amp;filterBiblioYear="
-               style="margin-left: 365px"
+               style="margin-left: 438px"
                target="biblioManagementDetail"
                tabindex="11"
                title="Add new biblio">
@@ -333,17 +333,17 @@
                 <tbody>
                     <tr>
                         <td><form:label path="biblio_key">Biblio ID:</form:label></td>
-                        <td><form:input id="filterBiblioKey" class="filterComponent" path="biblio_key" tabindex="1" /></td>
+                        <td><form:textarea id="filterBiblioKey" class="filterComponent" path="biblio_key" tabindex="1" /></td>
                         
                         <td><form:label path="biblioJournal">Journal:</form:label></td>
-                        <td><form:input id="filterBiblioJournal" class="filterComponent" path="biblioJournal" tabindex="5" /></td>
+                        <td><form:textarea id="filterBiblioJournal" class="filterComponent" path="biblioJournal" tabindex="5" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="strain_key">Strain ID:</form:label></td>
-                        <td><form:input id="filterStrainKey" class="filterComponent" path="strain_key" tabindex="2" /></td>
+                        <td><form:textarea id="filterStrainKey" class="filterComponent" path="strain_key" tabindex="2" /></td>
                         
                         <td><form:label path="biblioTitle">Title:</form:label></td>
-                        <td><form:input id="filterBiblioTitle" class="filterComponent" path="biblioTitle" tabindex="6" /></td>
+                        <td><form:textarea id="filterBiblioTitle" class="filterComponent" path="biblioTitle" tabindex="6" /></td>
                     </tr>
                     <tr>
                         <td><form:label path="pubmedId">Pubmed ID:</form:label></td>
@@ -354,7 +354,7 @@
                     </tr>
                     <tr>
                         <td><form:label path="biblioAuthor1">Author1:</form:label></td>
-                        <td><form:input id="filterBiblioAuthor1" class="filterComponent" path="biblioAuthor1" tabindex="4" /></td>
+                        <td><form:textarea id="filterBiblioAuthor1" class="filterComponent" path="biblioAuthor1" tabindex="4" /></td>
                         
                         <td colspan="2">&nbsp;</td>
                     </tr>

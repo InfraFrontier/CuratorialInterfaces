@@ -48,9 +48,9 @@ public class BiblioManagementListController {
      * 
      * @param filterBiblio_key the biblio key search criterion (may be empty)
      * @param filterStrain_key the strain key search criterion (may be empty)
-     * @param filterPubmedId the pubmed id
-     * @param filterBiblioAuthor1 the biblio author1
-     * @param filterBiblioJournal the biblio journal
+     * @param filterPubmedId the pubmed id search criterion (may be empty)
+     * @param filterBiblioAuthor1 the biblio author1 search criterion (may be empty)
+     * @param filterBiblioJournal the biblio journal search criterion (may be empty)
      * @param filterBiblioTitle the biblio title search criterion (may be empty)
      * @param filterBiblioYear the biblio year search criterion (may be empty)
      * @param model the data model
@@ -119,9 +119,9 @@ public class BiblioManagementListController {
      * biblio management curation, the filter parameter values are optional.
      * @param filterBiblio_key the biblio key search criterion (may be empty)
      * @param filterStrain_key the strain key search criterion (may be empty)
-     * @param filterPubmedId the pubmed id
-     * @param filterBiblioAuthor1 the biblio author1
-     * @param filterBiblioJournal the biblio journal
+     * @param filterPubmedId the pubmed id search criterion (may be empty)
+     * @param filterBiblioAuthor1 the biblio author1 search criterion (may be empty)
+     * @param filterBiblioJournal the biblio journal search criterion (may be empty)
      * @param filterBiblioTitle the biblio title search criterion (may be empty)
      * @param filterBiblioYear the biblio year search criterion (may be empty)
      * @param model the data model
