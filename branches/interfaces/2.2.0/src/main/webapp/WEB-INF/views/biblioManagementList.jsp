@@ -294,7 +294,7 @@
             <input type="hidden" id="filterBiblioJournalNew"   name="filterBiblioJournal"     class="filterComponent" value="${filter.biblioJournal}" />
             <input type="hidden" id="filterBiblioTitleNew"     name="filterBiblioTitle"       class="filterComponent" value="${filter.biblioTitle}" />
             <input type="hidden" id="filterBiblioYearNew"      name="filterBiblioYear"        class="filterComponent" value="${filter.biblioYear}" />
-            <a href="${pageContext.request.contextPath}/curation/biblioManagementDetail/edit?biblio_key=&amp;filterBiblioKey=&amp;filterStrainKey=&amp;filterPubmedId=&amp;filterBiblioAuthor1=&amp;filterBiblioJournal=&amp;filterBiblioTitle=&amp;filterBiblioYear="
+            <a href="${pageContext.request.contextPath}/curation/biblioManagementDetail/edit?biblio_key=${biblio.biblio_key}&amp;filterBiblioKey=${filter.biblio_key}&amp;filterStrainKey=${filter.strain_key}&amp;filterPubmedId=${filter.pubmedId}&amp;filterBiblioAuthor1=${filter.biblioAuthor1}&amp;filterBiblioJournal=${filter.biblioJournal}&amp;filterBiblioTitle=${filter.biblioTitle}&amp;filterBiblioYear=${filter.biblioYear}"
                style="margin-left: 438px"
                target="biblioManagementDetail"
                tabindex="11"
@@ -413,7 +413,7 @@
                                                     <input type="hidden" id="filterBiblioJournalEdit"   name="filterBiblioJournal"      class="filterComponent" value="${filter.biblioJournal}" />
                                                     <input type="hidden" id="filterBiblioTitleEdit"     name="filterBiblioTitle"        class="filterComponent" value="${filter.biblioTitle}" />
                                                     <input type="hidden" id="filterBiblioYearEdit"      name="filterBiblioYear"         class="filterComponent" value="${filter.biblioYear}" />
-                                                    <a href="${pageContext.request.contextPath}/curation/biblioManagementDetail/edit?biblio_key=${biblio.biblio_key}&amp;filterBiblioKey=&amp;filterStrainKey=&amp;filterPubmedId=&amp;filterBiblioAuthor1=&amp;filterBiblioJournal=&amp;filterBiblioTitle=&amp;filterBiblioYear="
+                                                    <a href="${pageContext.request.contextPath}/curation/biblioManagementDetail/edit?biblio_key=${biblio.biblio_key}&amp;filterBiblioKey=${filter.biblio_key}&amp;filterStrainKey=${filter.strain_key}&amp;filterPubmedId=${filter.pubmedId}&amp;filterBiblioAuthor1=${filter.biblioAuthor1}&amp;filterBiblioJournal=${filter.biblioJournal}&amp;filterBiblioTitle=${filter.biblioTitle}&amp;filterBiblioYear=${filter.biblioYear}"
                                                        target="biblioManagementDetail"
                                                        title="Edit bibliography ${biblio.biblio_key}">
                                                         Edit
@@ -424,17 +424,7 @@
                                             <%-- BOUND STRAINS --%>
                                             <c:set var="boundStrainKeys" value="${biblio.strain_keys}" />
                                             <c:set var="boundStrainsCount" value="${fn:length(boundStrainKeys)}" />
-<%--
-                                            <c:set var="boundStrainKeys" value="" />
-                                            <c:forEach var="strain" items="${boundStrains}" varStatus="status">
-                                                <c:if test="${status.index == 0}">
-                                                    <c:set var="boundStrainKeys" value="${strain.strain_key}" scope="page" />
-                                                </c:if>
-                                                <c:if test="${status.index > 0}">
-                                                    <c:set var="boundStrainKeys" value="${boundStrainKeys}, ${strain.strain_key}" />
-                                                </c:if>
-                                            </c:forEach>
---%>
+                                            
                                             <c:choose>
                                                 <c:when test="${boundStrainsCount > 0}">
                                                     <td>
