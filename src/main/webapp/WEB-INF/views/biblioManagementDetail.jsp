@@ -503,7 +503,7 @@
                                         <tr>
                                             <%-- STRAIN --%>
                                             <td>
-                                                <label>Strain:</label>
+                                                <label>Strains:</label>
                                                 <input alt="Click for strain list." type="image" height="15" width="15" title="Click for strain list."
                                                        src="${pageContext.request.contextPath}/images/geneChooser.jpg"
                                                        onclick="showStrainChooser();return false;"
