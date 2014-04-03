@@ -29,7 +29,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import uk.ac.ebi.emma.entity.Biblio;
 import uk.ac.ebi.emma.manager.BibliosManager;
-import uk.ac.ebi.emma.manager.GenesManager;
 import uk.ac.ebi.emma.util.Filter;
 import uk.ac.ebi.emma.util.Utils;
 
@@ -41,7 +40,6 @@ import uk.ac.ebi.emma.util.Utils;
 @RequestMapping("/biblioManagementList")
 public class BiblioManagementListController {
     private final BibliosManager bibliosManager = new BibliosManager();
-    private final GenesManager genesManager = new GenesManager();
     
     /**
      * 'Go' button implementation

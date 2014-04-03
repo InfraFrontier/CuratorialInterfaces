@@ -14,9 +14,17 @@
         </init-param>
         <init-param>
             <param-name>forceEncoding</param-name>
-            <param-value>true</param-value>
+            <param-value>false</param-value>
         </init-param>
     </filter>
+    
+    <!-- This filter mapping applies character encoding on POST operations. Without it we were getting garbled non-latin characters on POSTs.
+         See http://stackoverflow.com/questions/16029269/utf-8-encoding-with-form-post-and-spring-controller
+    -->
+    <filter-mapping>
+        <filter-name>CharacterEncodingFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
     <!-- SPRING SECURITY -->
     <filter>

@@ -105,7 +105,7 @@ public class BiblioManagementDetailController {
     /**
      * Save the form data.
      * 
-     * @param biblio the allele instance
+     * @param biblio the biblio instance
      * @param errors the Errors binding result object
      * 
      * @param biblio_key the biblio primary key
@@ -126,8 +126,8 @@ public class BiblioManagementDetailController {
     public String save(
             @Valid Biblio biblio, Errors errors
           
-          , @RequestParam(value="biblio_key") Integer biblio_key
-          , @RequestParam(value="strain_keys", required = false) String[] strain_keys
+          , @RequestParam(value="biblio_key",          required=true) Integer biblio_key
+          , @RequestParam(value="strain_keys",         required=false) String[] strain_keys
             
           , @RequestParam(value="filterBiblioKey",     required=true) String filterBiblio_key
           , @RequestParam(value="filterStrainKey",     required=true) String filterStrain_key
@@ -163,7 +163,7 @@ public class BiblioManagementDetailController {
         if (errors.hasErrors()) {
             return "biblioManagementDetail";
         }
-        
+    
         try {
             bibliosManager.save(biblio);
         } catch (PersistFailedException pfe) {

@@ -241,7 +241,7 @@
             }
 
             function showStrainChooser() {
-                 window.open(urlCurationlRoot + "/strainChooser", "_blank", "width = 768, height=406");
+                 window.open(urlCurationRoot + "/strainChooser", "_blank", "width = 768, height=406");
 
                  return false;
             }
@@ -422,9 +422,6 @@
                                                 <form:errors path="biblio.pubmed_id" cssClass="error" />
                                             </td>
                                             
-                                            
-                                            </td>   
-                                            
                                             <%-- JOURNAL --%>
                                             <td><form:label for="journal" path="biblio.journal">Journal:</form:label></td>
                                             <td>
@@ -567,6 +564,8 @@
                                 <td>
                                     <div class="buttonAlignment">
                                         <input type="submit" value="Save" class="saveButton"
+                                            <%--   formenctype="multipart/form-data" 
+                                            formenctype="multipart/form-data"--%>
                                                formmethod="POST"
                                                formaction="${pageContext.request.contextPath}/curation/biblioManagementDetail/save"
                                                onclick="validate();" />
