@@ -225,6 +225,9 @@ public class BibliosManager extends AbstractManager {
     public void save(Biblio biblio) throws PersistFailedException {
         biblio.setLast_change(new Date());
         biblio.setUsername(username);
+        // year is an integer in the database. If it is not a valid int value, set it to null.
+        if (Utils.tryParseInt(biblio.getYear()) == null)
+            biblio.setYear(null);
         
         try {
             getCurrentSession().beginTransaction();
