@@ -251,8 +251,6 @@
         <br />
 
         <form>
-            <input type="hidden" name="allele_key"               value="${allele.allele_key}" />
-            
             <input type="hidden" name="filterAlleleKey"          value="${filter.allele_key}" />
             <input type="hidden" name="filterAlleleName"         value="${filter.alleleName}" />
             <input type="hidden" name="filterAlleleSymbol"       value="${filter.alleleSymbol}" />
@@ -260,6 +258,7 @@
             <input type="hidden" name="filterGeneKey"            value="${filter.gene_key}" />
             <input type="hidden" name="filterGeneName"           value="${filter.geneName}" />
             <input type="hidden" name="filterGeneSymbol"         value="${filter.geneSymbol}" />
+            
             <table style="border: none">
                 <tr>
                     <td>
