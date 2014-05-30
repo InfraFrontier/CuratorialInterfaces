@@ -2,6 +2,22 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
   <session-factory>
+      <property name="connection.datasource">java:comp/env/jdbc/sourceEmma</property>
+     <!-- SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQL5Dialect</property>
+
+        <!-- Enable Hibernate's automatic session context management -->
+        <property name="current_session_context_class">thread</property>
+
+        <!-- Disable the second-level cache -->
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+
+        <!-- Echo all executed SQL to stdout and format it nicely -->
+        <property name="show_sql">true</property>
+        <property name="format_sql">true</property>
+        <property name="hibernate.connection.useUnicode">true</property>
+        <property name="hibernate.connection.charSet">utf8</property>
+        <property name="hibernate.connection.characterEncoding">utf8</property>
     <!--
         <property name="format_sql">true</property>
         <property name="hibernate.connection.characterEncoding">utf8</property>
