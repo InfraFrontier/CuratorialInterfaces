@@ -290,5 +290,29 @@
                 <GOOGLEANAL>UA-40422777-1</GOOGLEANAL>
             </properties>
         </profile>
+        
+<profile>
+            <id>production</id>
+            <properties>
+                <DATAFILES>/nfs/web-hx/mouseinformatics/emma/</DATAFILES>
+                <SERVERLOCATION>/prod/</SERVERLOCATION>
+                <BASEURL>https://www.infrafrontier.eu/</BASEURL>
+                <GOOGLEANAL>UA-40422777-3</GOOGLEANAL>
+            </properties>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>tomcat-maven-plugin</artifactId>
+                        <version>1.1</version>
+                        <configuration>
+                            <path>/emma2</path>
+                            <server>ves-ebi-d1.ebi.ac.uk:8100</server>
+                            <url>http://ves-ebi-d1.ebi.ac.uk:8100/manager/html</url>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 </project>
