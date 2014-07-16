@@ -446,8 +446,8 @@
                                     ${mutation.background_key}
                                 </a>
                             </td>
-                            <td style="border: 1px solid black">
-                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?filterAlleleKey=${mutation.allele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterGeneKey="
+                            <td style="border: 1px solid black"><%-- allele_key added to QS to resolve issue reported by Rafaelle where clicking edit allele link causes all alleles to be listed philw 16/07/2014--%>
+                                <a href="${pageContext.request.contextPath}/curation/alleleManagementList/go?allele_key=${mutation.allele_key}&ampfilterAlleleKey=${mutation.allele_key}&amp;filterAlleleName=&amp;filterAlleleSymbol=&amp;filterAlleleMgiReference=&amp;filterGeneMgiReference=&amp;filterGeneKey=&amp;filterGeneName=&amp;filterGeneSymbol=&amp;filterGeneKey="
                                    target="alleleManagementList"
                                    title="Edit allele ${mutation.allele_key}">
                                     ${mutation.allele_key}
