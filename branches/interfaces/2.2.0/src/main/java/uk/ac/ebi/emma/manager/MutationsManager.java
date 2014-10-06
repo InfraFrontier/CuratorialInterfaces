@@ -290,7 +290,7 @@ public class MutationsManager extends AbstractManager {
         if ((filter.getStrain_key() != null) && ( ! filter.getStrain_key().isEmpty())) {
             String strainIds = Utils.cleanIntArray(filter.getStrain_key());
             if (Utils.isValidIntArray(strainIds)) {
-                strainKeyWhere = "  AND (m.str_id_str IN (" + strainIds + "))\n";
+                strainKeyWhere = "  AND (ms.str_id_str IN (" + strainIds + "))\n";/* changed mutations str_id_str to mutations_strains as this is not always populated (legacy) Mike Relac probably not aware philw  JIRA EMMA-673*/
                 queryString += strainKeyWhere;
             }
         }
@@ -351,7 +351,7 @@ public class MutationsManager extends AbstractManager {
             getCurrentSession().getTransaction().rollback();
             throw e;
         }
-        
+        System.out.println("GENERATED SQL is " + queryString);
         return targetList;
     }
     
