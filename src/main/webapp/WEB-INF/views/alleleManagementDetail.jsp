@@ -3,6 +3,12 @@
     Created on : Feb 19, 2014, 9:53:55 AM
     Author     : mrelac
 --%>
+<%
+    response.setHeader("Cache-Control", "no-cache");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", -1);
+    response.setHeader("Cache-Control", "no-store");
+%>
 
 <!DOCTYPE html>
 
