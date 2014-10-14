@@ -3,6 +3,12 @@
     Created on : Nov 18, 2013, 6:19:43 PM
     Author     : mrelac
 --%>
+<%
+    response.setHeader("Cache-Control", "no-cache");
+    response.setHeader("Pragma", "no-cache");
+    response.setDateHeader("Expires", -1);
+    response.setHeader("Cache-Control", "no-store");
+%>
 <!DOCTYPE html>
 <%@ taglib prefix="c"      uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt"    uri="http://java.sun.com/jsp/jstl/fmt"%>
