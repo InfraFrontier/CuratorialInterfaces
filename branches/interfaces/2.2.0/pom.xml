@@ -77,6 +77,13 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
             <version>2.5</version>
+             <exclusions>
+                <!-- Exclude el-api as it's provided by tomcat -->
+                <exclusion>
+                    <groupId>javax.el</groupId>
+                    <artifactId>el-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- HIBERNATE -->
@@ -104,6 +111,12 @@
             <artifactId>jsp-api</artifactId>
             <version>2.0</version>
             <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -188,12 +201,16 @@
         <dependency>
             <groupId>se.jiderhamn</groupId>
             <artifactId>classloader-leak-prevention</artifactId>
-            <version>1.7.0</version>
+            <version>[1.0,2.0)</version>
             <exclusions>
                 <!-- Exclude el-api as it's provided by tomcat -->
                 <exclusion>
                     <groupId>javax.el</groupId>
                     <artifactId>el-api</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -277,7 +294,6 @@
                 <DATAFILES>/nfs/panda/emma/</DATAFILES>
                 <SERVERLOCATION>/localhost/</SERVERLOCATION>
                 <BASEURL>http://localhost:8080/</BASEURL>
-                <GOOGLEANAL>UA-40422777-1</GOOGLEANAL>
             </properties>
         </profile>
         
@@ -287,7 +303,6 @@
                 <DATAFILES>/nfs/web-hx/mouseinformatics/emma/</DATAFILES>
                 <SERVERLOCATION>/dev/</SERVERLOCATION>
                 <BASEURL>https://dev.infrafrontier.eu/</BASEURL>
-                <GOOGLEANAL>UA-40422777-1</GOOGLEANAL>
             </properties>
         </profile>
         
@@ -297,7 +312,6 @@
                 <DATAFILES>/nfs/web-hx/mouseinformatics/emma/</DATAFILES>
                 <SERVERLOCATION>/prod/</SERVERLOCATION>
                 <BASEURL>https://www.infrafrontier.eu/</BASEURL>
-                <GOOGLEANAL>UA-40422777-3</GOOGLEANAL>
             </properties>
         </profile>
     </profiles>
